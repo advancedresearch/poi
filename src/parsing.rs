@@ -28,6 +28,9 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = parse_list(convert, ignored) {
             convert.update(range);
             expr = Some(val);
+        } else if let Ok((range, val)) = parse_if(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("var") {
             convert.update(range);
             expr = Some(Sym(match &**val {
@@ -186,6 +189,36 @@ fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
     let left = left.ok_or(())?;
     let right = right.ok_or(())?;
     Ok((convert.subtract(start), Op(op, Box::new(left), Box::new(right))))
+}
+
+fn parse_if(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "if";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut left: Option<Expr> = None;
+    let mut right: Option<Expr> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = parse_expr("left", convert, ignored) {
+            convert.update(range);
+            left = Some(val);
+        } else if let Ok((range, val)) = parse_expr("right", convert, ignored) {
+            convert.update(range);
+            right = Some(val);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let left = left.ok_or(())?;
+    let right = right.ok_or(())?;
+    Ok((convert.subtract(start), Op(If, Box::new(left), Box::new(right))))
 }
 
 /// Parses a string.
