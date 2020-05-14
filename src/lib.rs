@@ -479,6 +479,10 @@ impl Context {
                 self.vars.clear();
                 false
             }
+            (Sym(Var(_)), Tup(_)) | (Sym(NoConstrVar(_)), Tup(_)) => {
+                self.vars.clear();
+                false
+            }
             (Sym(Var(name)), x) | (Sym(NoConstrVar(name)), x) => {
                 for i in (0..self.vars.len()).rev() {
                     if &self.vars[i].0 == name {
@@ -552,7 +556,10 @@ impl Context {
                 if !all {self.vars.clear()};
                 all
             }
-            _ => false,
+            _ => {
+                self.vars.clear();
+                false
+            }
         }
     }
 
