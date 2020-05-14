@@ -216,8 +216,6 @@
 //! The `List` variant represents lists of expressions, e.g. `[1, 2, 3]`.
 //! This differs from `Tup` by the property that singletons are not "lifted up".
 //!
-//! The `Knowledge` struct represents mathematical knowledge in form of rules:
-//!
 //! #### Representing Knowledge
 //!
 //! In higher dimensions of functional programming, the definition of "normalization"
@@ -230,6 +228,8 @@
 //! Unlike in normal programming, you do not want to always do e.g. evaluation.
 //! Instead, you design different tools for different purposes, using the same
 //! knowledge.
+//!
+//! The `Knowledge` struct represents mathematical knowledge in form of rules:
 //!
 //! ```rust(ignore)
 //! /// Represents knowledge about symbols.
