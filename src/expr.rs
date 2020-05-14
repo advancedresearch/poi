@@ -91,6 +91,7 @@ impl fmt::Display for Expr {
                 }
             }
             Op(Compose, a, b) => write!(w, "{} · {}", a, b)?,
+            Op(If, a, b) => write!(w, "if({}, {})", a, b)?,
             Tup(b) => {
                 write!(w, "(")?;
                 for i in 0..b.len() {
@@ -107,7 +108,7 @@ impl fmt::Display for Expr {
                 }
                 write!(w, "]")?;
             }
-            _ => write!(w, "{:?}", self)?,
+            // _ => write!(w, "{:?}", self)?,
         }
         Ok(())
     }
