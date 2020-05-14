@@ -389,6 +389,8 @@ impl Expr {
     }
 
     /// Inlines all symbols using a knowledge base.
+    ///
+    /// Ignores missing definitions in domain constraints.
     pub fn inline_all(&self, knowledge: &[Knowledge]) -> Result<Expr, Error> {
         match self {
             Sym(a) => {
@@ -403,11 +405,20 @@ impl Expr {
             }
             Ret(_) => Ok(self.clone()),
             Op(op, a, b) => {
-                Ok(Op(
-                    *op,
-                    Box::new(a.inline_all(knowledge)?),
-                    Box::new(b.inline_all(knowledge)?)
-                ))
+                if let Constrain = op {
+                    let a = a.inline_all(knowledge)?;
+                    match b.inline_all(knowledge) {
+                        Err(Error::NoDefinition) => Ok(a),
+                        Err(err) => Err(err),
+                        Ok(b) => Ok(constr(a, b)),
+                    }
+                } else {
+                    Ok(Op(
+                        *op,
+                        Box::new(a.inline_all(knowledge)?),
+                        Box::new(b.inline_all(knowledge)?)
+                    ))
+                }
             }
             Tup(a) => {
                 let mut res = vec![];
