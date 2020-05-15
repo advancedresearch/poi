@@ -170,6 +170,7 @@ impl fmt::Display for Symbol {
             }
             UnopRetVar(x, f) => {
                 match **f {
+                    Neg => write!(w, "-{}", x)?,
                     Len => write!(w, "compute::len({})", x)?,
                     _ => write!(w, "{:?}", self)?,
                 }

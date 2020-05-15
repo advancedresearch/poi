@@ -608,6 +608,12 @@ impl Context {
                     }
                 }
                 match av {
+                    Some(Ret(F64(a))) => {
+                        Ok(match **f {
+                            Neg => Ret(F64(-a)),
+                            _ => return Err(Error::InvalidComputation),
+                        })
+                    }
                     Some(List(a)) => {
                         Ok(match **f {
                             Len => Ret(F64(a.len() as f64)),
