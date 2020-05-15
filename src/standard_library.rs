@@ -145,6 +145,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(app(Mul, 1.0), "x"), "x".into()),
         // `mul(x)(1) => x`
         Red(app(app(Mul, "x"), 1.0), "x".into()),
+        // `mul(0) => 0`
+        Red(app(Mul, 0.0), 0.0.into()),
+        // `mul(_)(0) => 0`
+        Red(app(Mul, Any), 0.0.into()),
 
         // `concat[len] => add`
         Red(path(Concat, Len), Add.into()),
