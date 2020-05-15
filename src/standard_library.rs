@@ -233,6 +233,18 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(app(Add, app(app(Pow, app(Cos, "x")), 2.0)),
                          app(app(Pow, app(Sin, "x")), 2.0)), 1.0.into()),
 
+        // `and(a)(b) <=> and(b)(a)`
+        Eqv(app(app(And, "a"), "b"), app(app(And, "b"), "a")),
+        // `or(a)(b) <=> or(b)(a)`
+        Eqv(app(app(Or, "a"), "b"), app(app(Or, "b"), "a")),
+        // `nand(a)(b) <=> nand(b)(a)`
+        Eqv(app(app(Nand, "a"), "b"), app(app(Nand, "b"), "a")),
+        // `nor(a)(b) <=> nor(b)(a)`
+        Eqv(app(app(Nor, "a"), "b"), app(app(Nor, "b"), "a")),
+        // `xor(a)(b) <=> xor(b)(a)`
+        Eqv(app(app(Xor, "a"), "b"), app(app(Xor, "b"), "a")),
+        // `eq(a)(b) <=> eq(b)(a)`
+        Eqv(app(app(Eq, "a"), "b"), app(app(Eq, "b"), "a")),
         // `add(a)(b) <=> add(b)(a)`
         Eqv(app(app(Add, "a"), "b"), app(app(Add, "b"), "a")),
         // `mul(a)(b) <=> mul(b)(a)`
