@@ -211,6 +211,10 @@ impl fmt::Display for Symbol {
             HeadTail(x, y) => write!(w, "[{}, {}..]", x, y)?,
             BinopRetVar(x, y, f) => {
                 match **f {
+                    Lt => write!(w, "{} < {}", x, y)?,
+                    Le => write!(w, "{} <= {}", x, y)?,
+                    Gt => write!(w, "{} > {}", x, y)?,
+                    Ge => write!(w, "{} >= {}", x, y)?,
                     Add => write!(w, "{} + {}", x, y)?,
                     Sub => write!(w, "{} - {}", x, y)?,
                     Mul => write!(w, "{} * {}", x, y)?,
