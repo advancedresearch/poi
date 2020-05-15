@@ -141,6 +141,9 @@ pub fn std() -> Vec<Knowledge> {
         // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 
+        // `mul[neg] => (neg . mul)`
+        Red(path(Mul, Neg), comp(Neg, Mul)),
+
         // `add(0)(x) => x`
         Red(app(app(Add, 0.0), "x"), "x".into()),
         // `add(x)(0) => x`
