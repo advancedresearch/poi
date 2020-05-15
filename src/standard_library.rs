@@ -234,30 +234,27 @@ pub fn std() -> Vec<Knowledge> {
                          app(app(Pow, app(Sin, "x")), 2.0)), 1.0.into()),
 
         // `and(a)(b) <=> and(b)(a)`
-        Eqv(app(app(And, "a"), "b"), app(app(And, "b"), "a")),
+        commutative(And),
         // `or(a)(b) <=> or(b)(a)`
-        Eqv(app(app(Or, "a"), "b"), app(app(Or, "b"), "a")),
+        commutative(Or),
         // `nand(a)(b) <=> nand(b)(a)`
-        Eqv(app(app(Nand, "a"), "b"), app(app(Nand, "b"), "a")),
+        commutative(Nand),
         // `nor(a)(b) <=> nor(b)(a)`
-        Eqv(app(app(Nor, "a"), "b"), app(app(Nor, "b"), "a")),
+        commutative(Nor),
         // `xor(a)(b) <=> xor(b)(a)`
-        Eqv(app(app(Xor, "a"), "b"), app(app(Xor, "b"), "a")),
+        commutative(Xor),
         // `eq(a)(b) <=> eq(b)(a)`
-        Eqv(app(app(Eq, "a"), "b"), app(app(Eq, "b"), "a")),
+        commutative(Eq),
         // `add(a)(b) <=> add(b)(a)`
-        Eqv(app(app(Add, "a"), "b"), app(app(Add, "b"), "a")),
+        commutative(Add),
         // `mul(a)(b) <=> mul(b)(a)`
-        Eqv(app(app(Mul, "a"), "b"), app(app(Mul, "b"), "a")),
+        commutative(Mul),
         // `add(a)(add(b)(c)) <=> add(add(a)(b))(c)`
-        Eqv(app(app(Add, "a"), app(app(Add, "b"), "c")),
-            app(app(Add, app(app(Add, "a"), "b")), "c")),
+        associative(Add),
         // `mul(a)(mul(b)(c)) <=> mul(mul(a)(b))(c)`
-        Eqv(app(app(Mul, "a"), app(app(Mul, "b"), "c")),
-            app(app(Mul, app(app(Mul, "a"), "b")), "c")),
+        associative(Mul),
         // `mul(a)(add(b)(c)) <=> add(mul(a)(b))(mul(a)(c))`
-        Eqv(app(app(Mul, "a"), app(app(Add, "b"), "c")),
-            app(app(Add, app(app(Mul, "a"), "b")), app(app(Mul, "a"), "c"))),
+        distributive(Mul, Add),
 
         // `f[g][h] <=> f[h . g]`.
         Eqv(path(path("f", "g"), "h"), path("f", comp("h", "g"))),

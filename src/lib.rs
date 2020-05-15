@@ -778,6 +778,35 @@ pub fn no_constr<A: Into<String>>(a: A) -> Expr {
     Sym(NoConstrVar(Arc::new(a.into())))
 }
 
+/// Knowledge about a commuative binary operator.
+pub fn commutative<S: Into<Symbol>>(s: S) -> Knowledge {
+    let s = s.into();
+    let a: Expr = "a".into();
+    let b: Expr = "b".into();
+    Eqv(app(app(s.clone(), a.clone()), b.clone()), app(app(s, b), a))
+}
+
+/// Knowledge about an associative binary operator.
+pub fn associative<S: Into<Symbol>>(s: S) -> Knowledge {
+    let s = s.into();
+    let a: Expr = "a".into();
+    let b: Expr = "b".into();
+    let c: Expr = "c".into();
+    Eqv(app(app(s.clone(), a.clone()), app(app(s.clone(), b.clone()), c.clone())),
+        app(app(s.clone(), app(app(s, a), b)), c))
+}
+
+/// Knowledge about a distributive relationship.
+pub fn distributive<M: Into<Symbol>, A: Into<Symbol>>(mul: M, add: A) -> Knowledge {
+    let mul = mul.into();
+    let add = add.into();
+    let a: Expr = "a".into();
+    let b: Expr = "b".into();
+    let c: Expr = "c".into();
+    Eqv(app(app(mul.clone(), a.clone()), app(app(add.clone(), b.clone()), c.clone())),
+        app(app(add, app(app(mul.clone(), a.clone()), b)), app(app(mul, a), c)))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
