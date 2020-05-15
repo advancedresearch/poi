@@ -1,7 +1,7 @@
 use poi::*;
 
 fn main() {
-    println!("=== Poi Reduce 0.1 ===");
+    println!("=== Poi Reduce 0.2 ===");
     println!("Type `help` for more information.");
     let ref std = std();
 
@@ -24,6 +24,14 @@ fn main() {
         match input.trim() {
             "help" => {
                 print_help();
+                continue;
+            }
+            "help eqv" => {
+                print_help_eqv();
+                continue;
+            }
+            "help asym" => {
+                print_help_asym();
                 continue;
             }
             "inline all" => {
@@ -87,6 +95,26 @@ fn print_help() {
     println!("Special commands:");
     println!("- bye            quits the program");
     println!("- inline all     inlines all definitions from previous expression");
+    println!("- help asym      more help about asymmetric paths");
+    println!("- help eqv       more help about equivalent expressions");
     println!("");
     println!("Type in an expression in path semantics, e.g. `and[not]`");
+}
+
+fn print_help_eqv() {
+    println!("=== Equivalent Expressions ===");
+    println!("");
+    println!("When the expression can not be reduced further,");
+    println!("a list of equivalent expressions are displayed.");
+    println!("");
+    println!("For example, type `(len . concat)(a, b)` and you will get the suggestion");
+    println!("`<=>  add((len · fst)(a)(b), (len · snd)(a)(b))`");
+    println!("Copy-paste this as the new input and it will reduce to `add(len(a))(len(b))`.");
+}
+
+fn print_help_asym() {
+    println!("=== Asymmetric Paths ===");
+    println!("");
+    println!("You can write asymmetric paths, e.g. `not . and[not x id -> id]`.");
+    println!("This will reduce to `and[not ⨯ id → not]`.");
 }

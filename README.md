@@ -2,7 +2,7 @@
 a pragmatic point-free theorem prover assistant
 
 ```text
-=== Poi Reduce 0.1 ===
+=== Poi Reduce 0.2 ===
 Type `help` for more information.
 > and[not]
 and[not]
@@ -19,6 +19,25 @@ Then, to run:
 
 ```text
 poireduce
+```
+
+### Example
+
+When computing the length of two concatenated lists,
+there is a faster way, which is to compute the length of each list and add them together:
+
+```text
+> (len . concat)(a, b)
+(len · concat)(a, b)
+(len · concat)(a)(b)
+(concat[len] · (len · fst, len · snd))(a)(b)
+(add · (len · fst, len · snd))(a)(b)
+<=>  add((len · fst)(a)(b), (len · snd)(a)(b))
+> add((len · fst)(a)(b), (len · snd)(a)(b))
+add((len · fst)(a)(b), (len · snd)(a)(b))
+add((len · fst)(a)(b))((len · snd)(a)(b))
+add(len(a))((len · snd)(a)(b))
+add(len(a))(len(b))
 ```
 
 ### Introduction to Poi and Path Semantics
