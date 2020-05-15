@@ -126,17 +126,19 @@ pub fn std() -> Vec<Knowledge> {
         // `eqb(true) => idb`
         Red(app(Eqb, true), Idb.into()),
 
-        // `add(x)(y) => x + y`
+        // neg(\x) => -x
+        Red(app(Neg, "x"), unop_ret_var("x", Neg)),
+        // `add(\x)(\y) => x + y`
         Red(app(app(Add, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Add)),
-        // `sub(x)(y) => x - y`
+        // `sub(\x)(\y) => x - y`
         Red(app(app(Sub, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Sub)),
-        // `mul(x)(y) => x * y`
+        // `mul(\x)(\y) => x * y`
         Red(app(app(Mul, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Mul)),
-        // `eq(x)(y) => x == y`
+        // `eq(\x)(\y) => x == y`
         Red(app(app(Eq, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Eq)),
         // `concat(x)(y) => x ++ y`
         Red(app(app(Concat, "x"), "y"), binop_ret_var("x", "y", Concat)),
-        // `len(x) => $len(x)`
+        // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 
         // `add(0)(x) => x`
