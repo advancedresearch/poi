@@ -137,6 +137,11 @@ pub fn std() -> Vec<Knowledge> {
         // `len(x) => $len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 
+        // `add(0)(x) => x`
+        Red(app(app(Add, 0.0), "x"), "x".into()),
+        // `add(x)(0) => x`
+        Red(app(app(Add, "x"), 0.0), "x".into()),
+
         // `concat[len] => add`
         Red(path(Concat, Len), Add.into()),
         // `concat[sum] => add`
