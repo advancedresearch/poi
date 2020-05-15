@@ -90,7 +90,15 @@ impl fmt::Display for Expr {
                     write!(w, "{}{{{}}}", a, b)?
                 }
             }
-            Op(Compose, a, b) => write!(w, "{} · {}", a, b)?,
+            Op(Compose, a, b) => {
+                if let Op(Compose, _, _) = **a {
+                    write!(w, "({}) · {}", a, b)?
+                } else if let Op(Compose, _, _) = **b {
+                    write!(w, "{} · ({})", a, b)?
+                } else {
+                    write!(w, "{} · {}", a, b)?
+                }
+            }
             Tup(b) => {
                 write!(w, "(")?;
                 for i in 0..b.len() {
