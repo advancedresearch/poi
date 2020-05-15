@@ -19,6 +19,9 @@ pub fn std() -> Vec<Knowledge> {
         Def(Sndb, _if(_if(true, false), _if(true, false))),
         // `x(y, z) => x(y)(z)`
         Red(app("x", head_tail("y", "z")), app(app("x", "y"), "z")),
+        // `(g, f)(y, z) => (g(y)(z), f(y)(z))`
+        Red(app(("g", "f"), head_tail("y", "z")),
+           (app(app("g", "y"), "z"), app(app("f", "y"), "z")).into()),
         // `if(x, _)(true) => x`
         Red(app(_if("x", Any), true), "x".into()),
         // `if(_, x)(false) => x`
@@ -189,6 +192,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(path("f", (Id, Id, "g")), comp("g", "f")),
         // `not . (not . x) => x`.
         Red(comp(Not, comp(Not, "x")), "x".into()),
+        // `and . (le, ge) => eq`
+        Red(comp(And, (Le, Ge)), Eq.into()),
 
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
@@ -214,10 +219,14 @@ pub fn std() -> Vec<Knowledge> {
         // `eqb => eq`
         Red(Eqb.into(), Eq.into()),
 
-        // `len . concat => concat[len] . (len, len)`
-        Red(comp(Len, Concat), comp(path(Concat, Len), (Len, Len))),
+        // `len . concat => concat[len] . (len . fst, len . snd)`
+        Red(comp(Len, Concat), comp(path(Concat, Len), (comp(Len, Fst), comp(Len, Snd)))),
         // `(f, g)(a, b) => (f(a), g(b))`
         Red(app(app(("f", "g"), "a"), "b"), (app("f", "a"), app("g", "b")).into()),
+        // `(f . fst)(a)(_) => f(a)`
+        Red(app(app(comp("f", Fst), "a"), Any), app("f", "a")),
+        // `(f . snd)(_)(a) => f(a)`
+        Red(app(app(comp("f", Snd), Any), "a"), app("f", "a")),
 
         // `(x, y) . (a, b) => (x . a, y . b)`.
         Red(comp(("x", "y"), ("a", "b")), (comp("x", "a"), comp("y", "b")).into()),
@@ -262,17 +271,18 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(comp("f", comp("g", "h")), comp(comp("f", "g"), "h")),
         // `f[g] <=> f[g -> id][id -> g]`
         Eqv(path("f", "g"), path(path("f", ("g", Id)), (Id, "g"))),
+        // `(f . (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b))`
+        Eqv(app(app(comp("f", ("g0", "g1")), "a"), "b"),
+            app("f", (app(app("g0", "a"), "b"), app(app("g1", "a"), "b")))),
+        // `(f . (g0, g1))(a) <=> f(g0(a))(g1(a))`
+        Eqv(app(comp("f", ("g0", "g1")), "a"), app("f", (app("g0", "a"), app("g1", "a")))),
         // `(f . g)(a)(b) <=> f(g(a)(b))`
         Eqv(app(app(comp("f", "g"), "a"), "b"), app("f", app(app("g", "a"), "b"))),
         // `(f . g)(a) <=> f(g(a))`
         Eqv(app(comp("f", "g"), "a"), app("f", app("g", "a"))),
-        // `(f . (g0, g1))(a)(b) <=> f(g0(a))(g1(b))`
-        Eqv(app(app(comp("f", ("g0", "g1")), "a"), "b"),
-            app(app("f", app("g0", "a")), app("g1", "b"))),
-        // `(g . f)(a)(b) <=> f[g](g(a))(g(b))`
-        Eqv(app(app(comp("g", "f"), "a"), "b"),
-            app(app(path("f", "g"), app("g", "a")), app("g", "b"))),
         // `(g . f)(a) <=> f[g](g(a))`
         Eqv(app(comp("g", "f"), "a"), app(path("f", "g"), app("g", "a"))),
+        // `(g, f)(a) <=> (g(a), f(a))`
+        Eqv(app(("g", "f"), "a"), (app("g", "a"), app("f", "a")).into()),
     ]
 }
