@@ -158,6 +158,7 @@ impl fmt::Display for Symbol {
             BinopRetVar(x, y, f) => {
                 match **f {
                     Add => write!(w, "{} + {}", x, y)?,
+                    Sub => write!(w, "{} - {}", x, y)?,
                     Mul => write!(w, "{} * {}", x, y)?,
                     Eq => write!(w, "{} == {}", x, y)?,
                     Concat => write!(w, "{} ++ {}", x, y)?,

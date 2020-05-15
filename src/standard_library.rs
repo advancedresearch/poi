@@ -126,6 +126,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `add(x)(y) => x + y`
         Red(app(app(Add, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Add)),
+        // `sub(x)(y) => x - y`
+        Red(app(app(Sub, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Sub)),
         // `mul(x)(y) => x * y`
         Red(app(app(Mul, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Mul)),
         // `eq(x)(y) => x == y`

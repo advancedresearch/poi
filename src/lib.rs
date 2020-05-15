@@ -633,6 +633,7 @@ impl Context {
                     (Some(Ret(F64(a))), Some(Ret(F64(b)))) => {
                         Ok(Ret(F64(match **f {
                             Add => a + b,
+                            Sub => a - b,
                             Mul => a * b,
                             _ => return Err(Error::InvalidComputation),
                         })))
