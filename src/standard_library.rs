@@ -134,6 +134,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(app(Sub, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Sub)),
         // `mul(\x)(\y) => x * y`
         Red(app(app(Mul, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Mul)),
+        // `div(\x)(\y) => x / y`
+        Red(app(app(Div, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Div)),
         // `eq(\x)(\y) => x == y`
         Red(app(app(Eq, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Eq)),
         // `concat(x)(y) => x ++ y`

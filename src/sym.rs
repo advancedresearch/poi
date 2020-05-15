@@ -163,6 +163,7 @@ impl fmt::Display for Symbol {
                     Add => write!(w, "{} + {}", x, y)?,
                     Sub => write!(w, "{} - {}", x, y)?,
                     Mul => write!(w, "{} * {}", x, y)?,
+                    Div => write!(w, "{} / {}", x, y)?,
                     Eq => write!(w, "{} == {}", x, y)?,
                     Concat => write!(w, "{} ++ {}", x, y)?,
                     _ => write!(w, "{:?}", self)?,

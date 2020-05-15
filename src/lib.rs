@@ -641,6 +641,11 @@ impl Context {
                             Add => a + b,
                             Sub => a - b,
                             Mul => a * b,
+                            Div => if b == 0.0 {
+                                return Err(Error::InvalidComputation)
+                            } else {
+                                a / b
+                            }
                             _ => return Err(Error::InvalidComputation),
                         })))
                     }
