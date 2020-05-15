@@ -210,6 +210,9 @@ pub fn std() -> Vec<Knowledge> {
         // `h . f[g0 x g1 -> id] => f[g0 x g1 -> h]`.
         Red(comp("h", path("f", ("g0", "g1", Id))), path("f", ("g0", "g1", "h"))),
 
+        // `add(a)(b) <=> add(b)(a)`
+        Eqv(app(app(Add, "a"), "b"), app(app(Add, "b"), "a")),
+
         // `f[g][h] <=> f[h . g]`.
         Eqv(path(path("f", "g"), "h"), path("f", comp("h", "g"))),
         // `f . (g . h) <=> (f . g) . h`.
