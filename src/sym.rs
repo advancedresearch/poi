@@ -164,7 +164,12 @@ impl fmt::Display for Symbol {
                     _ => write!(w, "{:?}", self)?,
                 }
             }
-            UnopRetVar(_, _) => write!(w, "{:?}", self)?,
+            UnopRetVar(x, f) => {
+                match **f {
+                    Len => write!(w, "compute::len({})", x)?,
+                    _ => write!(w, "{:?}", self)?,
+                }
+            }
             // _ => write!(w, "{:?}", self)?,
         }
         Ok(())
