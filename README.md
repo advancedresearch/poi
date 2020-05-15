@@ -205,7 +205,7 @@ This means that point-free transformations on functions sometimes can compute st
 See paper [Higher Order Operator Overloading and Existential Path Equations](https://github.com/advancedresearch/path_semantics/blob/master/papers-wip/higher-order-operator-overloading-and-existential-path-equations.pdf) for more information.
 
 The `Op` variant generalizes binary operators on functions,
-such as `Composition`, `Path` (normal path), `If` (used in Boolean path semantics),
+such as `Composition`, `Path` (normal path),
 `Apply` (call a function) and `Constrain` (partial functions).
 
 The `Tup` variant represents tuples of expressions, where a singleton (a tuple of one element) is

@@ -1,20 +1,19 @@
 _seps: "[](),.·⨯-→{}"
 
-14 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
-13 tup_items_expr = tup_items:"tup"
-12 tup_items = [.s!([.w? "," .w?] expr:"item")]
-11 tup_path_expr = tup_path:"tup"
-10 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
-9 val = [?"\\" {"true":"bool" "false":!"bool" .$_:"num"}]
-8 var = .._seps!:"var"
-7 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
-6 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
-5 comp_right = [.w? {"." "·"} .w? expr]
-4 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
-3 seq = [{
+13 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
+12 tup_items_expr = tup_items:"tup"
+11 tup_items = [.s!([.w? "," .w?] expr:"item")]
+10 tup_path_expr = tup_path:"tup"
+9 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
+8 val = [?"\\" {"true":"bool" "false":!"bool" .$_:"num"}]
+7 var = .._seps!:"var"
+6 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
+5 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
+4 comp_right = [.w? {"." "·"} .w? expr]
+3 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
+2 seq = [{
   ["(" .w? tup_items_expr:"left" .w? ")"]
   var:"left"
 } .r!({path_right:"path" app_right:"app" constr_right:"constr" comp_right:"comp"})]
-2 if = ["if" .w? "(" .w? expr:"left" .w? "," .w? expr:"right" .w? ")"]
-1 expr = {if:"if" seq:"seq" ["(" .w? tup_items_expr .w? ")"] list:"list" val var}
+1 expr = {seq:"seq" ["(" .w? tup_items_expr .w? ")"] list:"list" val var}
 0 doc = [.w? expr:"expr" .w?]

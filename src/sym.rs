@@ -103,6 +103,10 @@ pub enum Symbol {
     Id,
     /// Generic `eq`.
     Eq,
+    /// `if`.
+    ///
+    /// This is used in Boolean functions.
+    If,
 }
 
 impl fmt::Display for Symbol {
@@ -146,6 +150,7 @@ impl fmt::Display for Symbol {
             Snd => write!(w, "snd")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
+            If => write!(w, "if")?,
             Any => write!(w, "_")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,

@@ -207,7 +207,7 @@
 //! See paper [Higher Order Operator Overloading and Existential Path Equations](https://github.com/advancedresearch/path_semantics/blob/master/papers-wip/higher-order-operator-overloading-and-existential-path-equations.pdf) for more information.
 //!
 //! The `Op` variant generalizes binary operators on functions,
-//! such as `Composition`, `Path` (normal path), `If` (used in Boolean path semantics),
+//! such as `Composition`, `Path` (normal path),
 //! `Apply` (call a function) and `Constrain` (partial functions).
 //!
 //! The `Tup` variant represents tuples of expressions, where a singleton (a tuple of one element) is
@@ -684,8 +684,6 @@ pub enum Op {
     Compose,
     /// Path `f[g]`
     Path,
-    /// If condition.
-    If,
     /// Apply function to some argument.
     Apply,
     /// Constrain function input.
@@ -725,9 +723,7 @@ pub fn constr<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
 }
 
 /// An `if` expression.
-pub fn _if<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    Op(If, Box::new(a.into()), Box::new(b.into()))
-}
+pub fn _if<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {app(app(If, a), b)}
 
 /// A head-tail pattern match on a tuple.
 pub fn head_tail<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
