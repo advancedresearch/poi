@@ -166,6 +166,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr(Or, Eqb), Fstb.into()),
         // `eq{eq} => \true`
         Red(constr(Eq, Eq), true.into()),
+        // `sub{eq} => \0`
+        Red(constr(Sub, Eq), 0.0.into()),
         // `\x{eq}(_) => \x`
         Red(app(constr(ret_var("x"), Eq), Any), "x".into()),
         // `f(a)(a) => f{eq}(a)(a)`
