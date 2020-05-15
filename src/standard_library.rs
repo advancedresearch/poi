@@ -17,8 +17,14 @@ pub fn std() -> Vec<Knowledge> {
         Def(Imply, _if(_if(true, false), true)),
         Def(Fstb, _if(true, false)),
         Def(Sndb, _if(_if(true, false), _if(true, false))),
+        // `if(x, _)(true) => x`
         Red(app(_if("x", Any), true), "x".into()),
+        // `if(_, x)(false) => x`
         Red(app(_if(Any, "x"), false), "x".into()),
+        // `if(x, _){_}(true) => x`
+        Red(constr(app(_if("x", Any), Any), true), "x".into()),
+        // `if(_, x){_}(false) => x`
+        Red(constr(app(_if(Any, "x"), Any), false), "x".into()),
         Red(Tup(vec!["x".into()]), "x".into()),
         Red(app(ret_var("x"), Any), "x".into()),
         Red(app("x", Tup(vec![])), "x".into()),
