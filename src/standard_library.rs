@@ -92,10 +92,12 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Add, Exp), Mul.into()),
         // `mul[ln] => add`
         Red(path(Mul, Ln), Add.into()),
-        // `exp . ln`
+        // `exp . ln => id`
         Red(comp(Exp, Ln), Id.into()),
-        // `ln . exp`
+        // `ln . exp => id`
         Red(comp(Ln, Exp), Id.into()),
+        // `neg . neg => id`
+        Red(comp(Neg, Neg), Id.into()),
 
         // `false1(_) => false`
         Red(app(False1, Any), false.into()),
