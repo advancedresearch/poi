@@ -73,6 +73,8 @@ pub enum Symbol {
     Mul,
     /// `div`.
     Div,
+    /// `rem`.
+    Rem,
     /// `pow`.
     Pow,
     /// `sqrt`.
@@ -159,6 +161,7 @@ impl fmt::Display for Symbol {
             Sub => write!(w, "sub")?,
             Mul => write!(w, "mul")?,
             Div => write!(w, "div")?,
+            Rem => write!(w, "rem")?,
             Pow => write!(w, "pow")?,
             Sqrt => write!(w, "sqrt")?,
             Ln => write!(w, "ln")?,
