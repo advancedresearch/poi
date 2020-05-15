@@ -629,6 +629,7 @@ impl Context {
                     }
                 }
                 match (av, bv) {
+                    (Some(Ret(a)), Some(Ret(b))) if **f == Eq => Ok(Ret(Bool(a == b))),
                     (Some(Ret(F64(a))), Some(Ret(F64(b)))) => {
                         Ok(Ret(F64(match **f {
                             Add => a + b,
