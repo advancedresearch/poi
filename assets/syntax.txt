@@ -5,7 +5,7 @@ _seps: "[](),.·⨯-→{}"
 12 tup_items = [.s!([.w? "," .w?] expr:"item")]
 11 tup_path_expr = tup_path:"tup"
 10 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
-9 val = {"true":"bool" "false":!"bool" .$_:"num"}
+9 val = [?"\\" {"true":"bool" "false":!"bool" .$_:"num"}]
 8 var = .._seps!:"var"
 7 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
 6 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
