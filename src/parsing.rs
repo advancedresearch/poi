@@ -59,6 +59,8 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "fst" => Fst,
                 "snd" => Snd,
                 "ln" => Ln,
+                "log2" => Log2,
+                "log10" => Log10,
                 "exp" => Exp,
                 "min2" => Min2,
                 "max2" => Max2,
