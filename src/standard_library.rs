@@ -192,6 +192,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr(Sub, Eq), 0.0.into()),
         // `add{eq}(x, _) => mul(2)(x)`
         Red(app(app(constr(Add, Eq), "x"), Any), app(app(Mul, 2.0), "x")),
+        // `mul{eq}(x, _) => pow(x)(2)`
+        Red(app(app(constr(Mul, Eq), "x"), Any), app(app(Pow, "x"), 2.0)),
         // `\x{eq}(_) => \x`
         Red(app(constr(ret_var("x"), Eq), Any), "x".into()),
         // `f(a)(a) => f{eq}(a)(a)`
@@ -218,6 +220,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp("h", path("f", ("g", Id))), path("f", ("g", "h"))),
         // `h . f[g0 x g1 -> id] => f[g0 x g1 -> h]`.
         Red(comp("h", path("f", ("g0", "g1", Id))), path("f", ("g0", "g1", "h"))),
+
+        // `add(pow(cos(x))(\2))(pow(sin(x))(\2)) <=> 1`
+        Red(app(app(Add, app(app(Pow, app(Cos, "x")), 2.0)),
+                         app(app(Pow, app(Sin, "x")), 2.0)), 1.0.into()),
 
         // `add(a)(b) <=> add(b)(a)`
         Eqv(app(app(Add, "a"), "b"), app(app(Add, "b"), "a")),
