@@ -45,6 +45,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "id" => Id,
                 "mul" => Mul,
                 "div" => Div,
+                "rem" => Rem,
                 "pow" => Pow,
                 "sqrt" => Sqrt,
                 "even" => Even,
