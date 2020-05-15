@@ -17,6 +17,8 @@ pub fn std() -> Vec<Knowledge> {
         Def(Imply, _if(_if(true, false), true)),
         Def(Fstb, _if(true, false)),
         Def(Sndb, _if(_if(true, false), _if(true, false))),
+        // `x(y, z) => x(y)(z)`
+        Red(app("x", head_tail("y", "z")), app(app("x", "y"), "z")),
         // `if(x, _)(true) => x`
         Red(app(_if("x", Any), true), "x".into()),
         // `if(_, x)(false) => x`
@@ -113,6 +115,14 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(app(Fstb, "x"), "y"), "x".into()),
         // `fst(x)(y) => x`
         Red(app(app(Fst, "x"), "y"), "x".into()),
+        // `sndb(x)(y) => y`
+        Red(app(app(Sndb, "x"), "y"), "y".into()),
+        // `snd(x)(y) => y`
+        Red(app(app(Snd, "x"), "y"), "y".into()),
+        // `eqb(false) => not`
+        Red(app(Eqb, false), Not.into()),
+        // `eqb(true) => idb`
+        Red(app(Eqb, true), Idb.into()),
 
         // `add(x)(y) => x + y`
         Red(app(app(Add, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Add)),
@@ -168,8 +178,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Len, Concat), comp(path(Concat, Len), (Len, Len))),
         // `(f, g)(a, b) => (f(a), g(b))`
         Red(app(app(("f", "g"), "a"), "b"), (app("f", "a"), app("g", "b")).into()),
-        // `x(y, z) => x(y)(z)`
-        Red(app("x", head_tail("y", "z")), app(app("x", "y"), "z")),
 
         // `(x, y) . (a, b) => (x . a, y . b)`.
         Red(comp(("x", "y"), ("a", "b")), (comp("x", "a"), comp("y", "b")).into()),
