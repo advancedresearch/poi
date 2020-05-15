@@ -220,6 +220,9 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(a)(mul(b)(c)) <=> mul(mul(a)(b))(c)`
         Eqv(app(app(Mul, "a"), app(app(Mul, "b"), "c")),
             app(app(Mul, app(app(Mul, "a"), "b")), "c")),
+        // `mul(a)(add(b)(c)) <=> add(mul(a)(b))(mul(a)(c))`
+        Eqv(app(app(Mul, "a"), app(app(Add, "b"), "c")),
+            app(app(Add, app(app(Mul, "a"), "b")), app(app(Mul, "a"), "c"))),
 
         // `f[g][h] <=> f[h . g]`.
         Eqv(path(path("f", "g"), "h"), path("f", comp("h", "g"))),
