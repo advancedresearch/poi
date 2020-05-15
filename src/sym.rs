@@ -75,6 +75,10 @@ pub enum Symbol {
     Div,
     /// `ln`.
     Ln,
+    /// `log2`.
+    Log2,
+    /// `log10`.
+    Log10,
     /// `exp`.
     Exp,
     /// `len`.
@@ -152,6 +156,8 @@ impl fmt::Display for Symbol {
             Mul => write!(w, "mul")?,
             Div => write!(w, "div")?,
             Ln => write!(w, "ln")?,
+            Log2 => write!(w, "log2")?,
+            Log10 => write!(w, "log10")?,
             Exp => write!(w, "exp")?,
             Len => write!(w, "len")?,
             Concat => write!(w, "concat")?,
