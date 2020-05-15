@@ -168,6 +168,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr(Eq, Eq), true.into()),
         // `sub{eq} => \0`
         Red(constr(Sub, Eq), 0.0.into()),
+        // `add{eq}(x, _) => mul(2)(x)`
+        Red(app(app(constr(Add, Eq), "x"), Any), app(app(Mul, 2.0), "x")),
         // `\x{eq}(_) => \x`
         Red(app(constr(ret_var("x"), Eq), Any), "x".into()),
         // `f(a)(a) => f{eq}(a)(a)`
