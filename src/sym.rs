@@ -63,6 +63,14 @@ pub enum Symbol {
     Even,
     /// `odd`.
     Odd,
+    /// `lt`.
+    Lt,
+    /// `le`.
+    Le,
+    /// `gt`.
+    Gt,
+    /// `ge`.
+    Ge,
     /// `neg`.
     Neg,
     /// `add`.
@@ -156,6 +164,10 @@ impl fmt::Display for Symbol {
             Sndb => write!(w, "sndb")?,
             Even => write!(w, "even")?,
             Odd => write!(w, "odd")?,
+            Lt => write!(w, "lt")?,
+            Le => write!(w, "le")?,
+            Gt => write!(w, "gt")?,
+            Ge => write!(w, "ge")?,
             Neg => write!(w, "neg")?,
             Add => write!(w, "add")?,
             Sub => write!(w, "sub")?,
