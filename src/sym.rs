@@ -101,6 +101,20 @@ pub enum Symbol {
     Fst,
     /// `snd`.
     Snd,
+    /// `sin`.
+    Sin,
+    /// `asin`.
+    Asin,
+    /// `cos`.
+    Cos,
+    /// `acos`.
+    Acos,
+    /// `tan`.
+    Tan,
+    /// `atan`.
+    Atan,
+    /// `atan2`.
+    Atan2,
     /// Generic `id`.
     Id,
     /// Generic `eq`.
@@ -151,6 +165,13 @@ impl fmt::Display for Symbol {
             Dim => write!(w, "dim")?,
             Fst => write!(w, "fst")?,
             Snd => write!(w, "snd")?,
+            Sin => write!(w, "sin")?,
+            Asin => write!(w, "asin")?,
+            Cos => write!(w, "cos")?,
+            Acos => write!(w, "acos")?,
+            Tan => write!(w, "tan")?,
+            Atan => write!(w, "atan")?,
+            Atan2 => write!(w, "atan2")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
             If => write!(w, "if")?,

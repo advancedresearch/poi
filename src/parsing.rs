@@ -66,6 +66,13 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "max" => Max,
                 "eq" => Eq,
                 "if" => If,
+                "sin" => Sin,
+                "asin" => Asin,
+                "cos" => Cos,
+                "acos" => Acos,
+                "tan" => Tan,
+                "atan" => Atan,
+                "atan2" => Atan2,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
