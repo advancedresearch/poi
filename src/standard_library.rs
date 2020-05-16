@@ -197,8 +197,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
-        // `or{eqb} => fstb`
-        Red(constr(Or, Eqb), Fstb.into()),
+        // `or{eq} => fstb`
+        Red(constr(Or, Eq), Fstb.into()),
         // `eq{eq} => \true`
         Red(constr(Eq, Eq), true.into()),
         // `sub{eq} => \0`
