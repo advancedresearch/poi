@@ -839,6 +839,13 @@ pub fn no_constr<A: Into<String>>(a: A) -> Expr {
 /// A 2D vector.
 pub fn vec2<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {List(vec![a.into(), b.into()])}
 
+/// Knowledge about a component-wise operation on 2D vectors.
+pub fn vec2_op<S: Into<Symbol>>(s: S) -> Knowledge {
+    let s = s.into();
+    Red(app2(s.clone(), vec2("x0", "y0"), vec2("x1", "y1")),
+        vec2(app2(s.clone(), "x0", "x1"), app2(s, "y0", "y1")))
+}
+
 /// Knowledge about a commuative binary operator.
 pub fn commutative<S: Into<Symbol>>(s: S) -> Knowledge {
     let s = s.into();
