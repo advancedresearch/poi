@@ -93,6 +93,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "atan" => Atan,
                 "atan2" => Atan2,
                 "dot" => Dot,
+                "el" => El,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
