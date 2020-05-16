@@ -55,8 +55,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Not, Not), Idb.into()),
         // `not[not] <=> not`
         Red(path(Not, Not), Not.into()),
-        // `idb => id`
-        Red(Idb.into(), Id.into()),
         // `x . id => x`
         Red(comp("x", Id), "x".into()),
         // `id . x` => x
@@ -230,6 +228,14 @@ pub fn std() -> Vec<Knowledge> {
         // `f{true1} => f`
         Red(constr("f", True1), "f".into()),
 
+        // `∃(false1) => not`
+        Red(app(Ex, False1), Not.into()),
+        // `∃(not) => true1`
+        Red(app(Ex, Not), True1.into()),
+        // `∃(idb) => true1`
+        Red(app(Ex, Idb), True1.into()),
+        // `∃(true1) => idb`
+        Red(app(Ex, True1), Idb.into()),
         // `∃(and) => true1`
         Red(app(Ex, And), True1.into()),
         // `∃(or) => true1`
@@ -237,6 +243,8 @@ pub fn std() -> Vec<Knowledge> {
         // `∃(fstb) => true1`
         Red(app(Ex, Fstb), True1.into()),
 
+        // `idb => id`
+        Red(Idb.into(), Id.into()),
         // `fstb => fst`
         Red(Fstb.into(), Fst.into()),
         // `sndb => snd`
