@@ -347,6 +347,33 @@ impl Expr {
                 }
             }
         }
+
+        match self {
+            Sym(_) | Ret(_) => {}
+            Op(op, a, b) => {
+                for (ea, i) in a.equivalences(knowledge).into_iter() {
+                    res.push((Op(*op, Box::new(ea), b.clone()), i));
+                }
+                for (eb, i) in b.equivalences(knowledge).into_iter() {
+                    res.push((Op(*op, a.clone(), Box::new(eb)), i));
+                }
+            }
+            Tup(items) | List(items) => {
+                for i in 0..items.len() {
+                    for (expr, j) in items[i].equivalences(knowledge).into_iter() {
+                        let mut new_items: Vec<Expr> = items[0..i].into();
+                        new_items.push(expr);
+                        new_items.extend(items[i+1..].iter().map(|n| n.clone()));
+                        if let Tup(_) = self {
+                            res.push((Tup(new_items), j));
+                        } else if let List(_) = self {
+                            res.push((List(new_items), j));
+                        }
+                    }
+                }
+            }
+        }
+
         res
     }
 
