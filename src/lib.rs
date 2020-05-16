@@ -698,6 +698,12 @@ impl Context {
                             Add => a + b,
                             Sub => a - b,
                             Mul => a * b,
+                            Pow => a.powf(b),
+                            Rem => if b == 0.0 {
+                                return Err(Error::InvalidComputation)
+                            } else {
+                                a % b
+                            }
                             Div => if b == 0.0 {
                                 return Err(Error::InvalidComputation)
                             } else {
