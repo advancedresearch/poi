@@ -143,6 +143,8 @@ pub enum Symbol {
     Id,
     /// Generic `eq`.
     Eq,
+    /// Generic `neq`.
+    Neq,
     /// `if`.
     ///
     /// This is used in Boolean functions.
@@ -214,6 +216,7 @@ impl fmt::Display for Symbol {
             Atan2 => write!(w, "atan2")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
+            Neq => write!(w, "neq")?,
             If => write!(w, "if")?,
             Any => write!(w, "_")?,
             Ex => write!(w, "∃")?,
