@@ -8,6 +8,7 @@ Special commands:
 - bye            quits the program
 - inline all     inlines all definitions from previous expression
 - ``             prints separator for readability
+- std            lists all rules in standard library
 - help asym      more help about asymmetric paths
 - help eqv       more help about equivalent expressions
 - help dom       more help about domains and partial functions

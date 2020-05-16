@@ -34,6 +34,7 @@ fn main() {
             "help dom" => {print_help_dom(); continue}
             "help triv" => {print_help_triv(); continue}
             "help ex" => {print_help_ex(); continue}
+            "std" => {for k in std {println!("{}", k)}; continue}
             "inline all" => {
                 if let Some(expr) = &prev_expr {
                     prev_expr = Some(match expr.inline_all(std) {
