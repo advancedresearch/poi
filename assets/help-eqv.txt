@@ -1,0 +1,8 @@
+=== Equivalent Expressions ===
+
+When the expression can not be reduced further,
+a list of equivalent expressions are displayed.
+
+For example, type `(len . concat)(a, b)` and you will get the suggestion
+`<=>  add((len · fst)(a)(b), (len · snd)(a)(b))`
+Copy-paste this as the new input and it will reduce to `add(len(a))(len(b))`.

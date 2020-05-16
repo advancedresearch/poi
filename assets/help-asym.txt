@@ -1,0 +1,4 @@
+=== Asymmetric Paths ===
+
+You can write asymmetric paths, e.g. `not . and[not x id -> id]`.
+This will reduce to `and[not ⨯ id → not]`.

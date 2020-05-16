@@ -1,0 +1,14 @@
+=== Poi Reduce Help ===
+Made by Sven Nilsen, 2020
+
+Poi is based on the theory of path semantics:
+https://github.com/advancedresearch/path_semantics
+
+Special commands:
+- bye            quits the program
+- inline all     inlines all definitions from previous expression
+- help asym      more help about asymmetric paths
+- help eqv       more help about equivalent expressions
+- help dom       more help about domains and partial functions
+
+Type in an expression in path semantics, e.g. `and[not]`
