@@ -31,8 +31,8 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = convert.meta_string("var") {
             convert.update(range);
             expr = Some(Sym(match &**val {
-                "triv" | "∀" => Triv,
-                "ex" | "∃" => Ex,
+                "triv" | "∀" | "dom" => Triv,
+                "ex" | "∃" | "codom" => Ex,
                 "false1" => False1,
                 "idb" => Idb,
                 "not" => Not,
