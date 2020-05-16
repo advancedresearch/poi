@@ -31,12 +31,14 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = convert.meta_string("var") {
             convert.update(range);
             expr = Some(Sym(match &**val {
+                "false1" => False1,
+                "idb" => Idb,
+                "not" => Not,
+                "true1" => True1,
                 "and" => And,
                 "or" => Or,
-                "not" => Not,
                 "eqb" => Eqb,
                 "xor" => Xor,
-                "idb" => Idb,
                 "nand" => Nand,
                 "nor" => Nor,
                 "fstb" => Fstb,
