@@ -295,6 +295,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(app(Add, app(app(Pow, app(Cos, "x")), 2.0)),
                          app(app(Pow, app(Sin, "x")), 2.0)), 1.0.into()),
 
+        // `add([x0, y0], [x1, y1]) => [add(x0, x1), add(y0, y1)]`
+        Red(app(app(Add, vec2("x0", "y0")), vec2("x1", "y1")),
+            vec2(app(app(Add, "x0"), "x1"), app(app(Add, "x1"), "y1"))),
+
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
         // `or(a)(b) <=> or(b)(a)`
