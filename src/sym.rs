@@ -147,6 +147,10 @@ pub enum Symbol {
     ///
     /// This is used in Boolean functions.
     If,
+    /// Existential path `∃`.
+    Ex,
+    /// Trivial path `∀`.
+    Triv,
 }
 
 impl fmt::Display for Symbol {
@@ -212,6 +216,8 @@ impl fmt::Display for Symbol {
             Eq => write!(w, "eq")?,
             If => write!(w, "if")?,
             Any => write!(w, "_")?,
+            Ex => write!(w, "∃")?,
+            Triv => write!(w, "∀")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             HeadTail(x, y) => write!(w, "[{}, {}..]", x, y)?,
