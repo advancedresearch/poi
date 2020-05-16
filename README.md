@@ -135,7 +135,7 @@ different approach, which is based on symbols.
 When a symbol is created, the theory "commits" to preserving the "paths"
 from the symbol, which is known in [Homotopy Type Theory](https://homotopytypetheory.org/) to correspond to "proofs".
 Since the symbols themselves encode this relationship to proofs,
-it means that proofs can be arbitrary complex without affecting complexity.
+it means that proofs can be arbitrarily complex without affecting complexity.
 
 This is different from a pure axiomatic system.
 In a pure axiomatic system, the symbols do not have meaning except
@@ -151,7 +151,7 @@ yet can not be proven to be true in any formal language. Someday, a formal
 language might be invented to prove the sentence true, but programmers do not
 wait for this to happen. Instead, they default to pragmatic strategies, such as
 testing extensively.
-For example, the [Goldenbach conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture)
+For example, [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture)
 has been tested up to some limit, so it holds for all natural numbers below that limit.
 A pragmatic strategy is what you do when you can not idealize the problem away.
 
