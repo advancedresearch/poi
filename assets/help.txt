@@ -10,5 +10,6 @@ Special commands:
 - help asym      more help about asymmetric paths
 - help eqv       more help about equivalent expressions
 - help dom       more help about domains and partial functions
+- help triv      more help about trivial paths
 
 Type in an expression in path semantics, e.g. `and[not]`

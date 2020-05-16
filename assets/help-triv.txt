@@ -1,0 +1,23 @@
+=== Trivial Paths ===
+
+Make sure you understand `help dom` before you read this.
+
+A trivial path is a function, returning a boolean, that describes whether
+some input is allowed in the domain constraint or not.
+
+For example, in `and{eqb}`, the trivial path is `eqb`.
+If you type `triv(and{eqb})`, Poi will reduce this to `eqb`.
+Alternative syntaxes are `∀(and{eqb})` or `dom(and{eqb})`.
+
+It is called "trivial" because its sibling "the existential path", is so hard
+to find that it is an undecidable problem in general.
+For all total functions, the trivial path is just `\true`.
+
+The name "trivial path" is to distinguish from other ambiguous uses of
+function domains. For example, a function domain can be described indirectly.
+However, in most cases, you can just think about it as the domain.
+
+If you worry about the name, don't worry.
+You can call it whatever you like, because the standard notation is `∀f`.
+The symbol `∀` is also used as for-all quantifier in first-order logic,
+but here is occurs without a body and can be parsed unambiguously.
