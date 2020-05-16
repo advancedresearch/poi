@@ -89,55 +89,7 @@ fn main() {
     }
 }
 
-fn print_help() {
-    println!("=== Poi Reduce Help ===");
-    println!("Made by Sven Nilsen, 2020");
-    println!("");
-    println!("Poi is based on the theory of path semantics:");
-    println!("https://github.com/advancedresearch/path_semantics");
-    println!("");
-    println!("Special commands:");
-    println!("- bye            quits the program");
-    println!("- inline all     inlines all definitions from previous expression");
-    println!("- help asym      more help about asymmetric paths");
-    println!("- help eqv       more help about equivalent expressions");
-    println!("- help dom       more help about domains and partial functions");
-    println!("");
-    println!("Type in an expression in path semantics, e.g. `and[not]`");
-}
-
-fn print_help_eqv() {
-    println!("=== Equivalent Expressions ===");
-    println!("");
-    println!("When the expression can not be reduced further,");
-    println!("a list of equivalent expressions are displayed.");
-    println!("");
-    println!("For example, type `(len . concat)(a, b)` and you will get the suggestion");
-    println!("`<=>  add((len · fst)(a)(b), (len · snd)(a)(b))`");
-    println!("Copy-paste this as the new input and it will reduce to `add(len(a))(len(b))`.");
-}
-
-fn print_help_asym() {
-    println!("=== Asymmetric Paths ===");
-    println!("");
-    println!("You can write asymmetric paths, e.g. `not . and[not x id -> id]`.");
-    println!("This will reduce to `and[not ⨯ id → not]`.");
-}
-
-fn print_help_dom() {
-    println!("=== Domains and Partial Functions ===");
-    println!("");
-    println!("A partial function is a function where the input is constrained in some way.");
-    println!("According to Path Semantics, this changes the identity of the function.");
-    println!("Therefore, one should think about partial functions as 'different' functions.");
-    println!("");
-    println!("For example: `and(a, a)`. Type it and see what happens.");
-    println!("");
-    println!("In `and(a, a)`, the input of `and` is constrained implicitly.");
-    println!("Poi reduces this first to `and{{eq}}(a)(a)` by adding `eq` as domain constraint.");
-    println!("This turns `and` into a partial function `and{{eqb}}`.");
-    println!("");
-    println!("Now, the identity of the `and` function has changed into another function.");
-    println!("Poi uses the rule `and{{eq}} => fstb` to reduce this expression further.");
-    println!("In the end, the expression `and(a, a)` is reduced to just `a`.");
-}
+fn print_help() {print!("{}", include_str!("../assets/help.txt"))}
+fn print_help_eqv() {print!("{}", include_str!("../assets/help-eqv.txt"))}
+fn print_help_asym() {print!("{}", include_str!("../assets/help-asym.txt"));}
+fn print_help_dom() {print!("{}", include_str!("../assets/help-dom.txt"));}
