@@ -17,6 +17,7 @@ pub fn std() -> Vec<Knowledge> {
         Def(Imply, _if(_if(true, false), true)),
         Def(Fstb, _if(true, false)),
         Def(Sndb, _if(_if(true, false), _if(true, false))),
+
         // `x(y, z) => x(y)(z)`
         Red(app("x", head_tail("y", "z")), app(app("x", "y"), "z")),
         // `(g, f)(y, z) => (g(y)(z), f(y)(z))`
@@ -30,13 +31,21 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr(app(_if("x", Any), Any), true), "x".into()),
         // `if(_, x){_}(false) => x`
         Red(constr(app(_if(Any, "x"), Any), false), "x".into()),
+        // `(x) => x`
         Red(Tup(vec!["x".into()]), "x".into()),
+        // `\x(_) => x`
         Red(app(ret_var("x"), Any), "x".into()),
+        // `x() => x`
         Red(app("x", Tup(vec![])), "x".into()),
         // `f[g -> g] => f[g]`
         Red(path("f", ("g", "g")), path("f", "g")),
         // `f[g x g -> g] => f[g]`
         Red(path("f", ("g", "g", "g")), path("f", "g")),
+        // `∀(f{g}) => g`
+        Red(app(Triv, constr("f", "g")), "g".into()),
+        // `∀(f) => \true`
+        Red(app(Triv, no_constr("f")), true.into()),
+
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
         // `not[not] <=> not`
