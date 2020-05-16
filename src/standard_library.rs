@@ -256,6 +256,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Ex, Fstb), True1.into()),
         // `∃(sndb) => true1`
         Red(app(Ex, Sndb), True1.into()),
+        // `∃(id) => \true`
+        Red(app(Ex, Id), true.into()),
 
         // `idb => id`
         Red(Idb.into(), Id.into()),
