@@ -220,6 +220,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(constr(ret_var("x"), Eq), Any), "x".into()),
         // `f(a)(a) => f{eq}(a)(a)`
         Red(app(app(no_constr("f"), "a"), "a"), app(app(constr("f", Eq), "a"), "a")),
+        // `f{true2} => f`
+        Red(constr("f", True2), "f".into()),
+        // `f{true1} => f`
+        Red(constr("f", True1), "f".into()),
 
         // `fstb => fst`
         Red(Fstb.into(), Fst.into()),
