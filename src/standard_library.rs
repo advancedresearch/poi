@@ -20,6 +20,11 @@ pub fn std() -> Vec<Knowledge> {
 
         // `x(y, z) => x(y)(z)`
         Red(app("x", head_tail("y", "z")), app(app("x", "y"), "z")),
+        // `x{y, z} => x{y}{z}`
+        Red(constr("x", head_tail("y", "z")), constr(constr("x", "y"), "z")),
+        // `x{y}{z}(a)(b) => x{y}(a){z}(b)`
+        Red(app(app(constr(constr("x", "y"), "z"), "a"), "b"),
+            app(constr(app(constr("x", "y"), "a"), "z"), "b")),
         // `(g, f)(y, z) => (g(y)(z), f(y)(z))`
         Red(app(("g", "f"), head_tail("y", "z")),
            (app(app("g", "y"), "z"), app(app("f", "y"), "z")).into()),
