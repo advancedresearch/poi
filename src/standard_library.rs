@@ -251,6 +251,11 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(app(Add, app(app(Pow, app(Cos, "x")), 2.0)),
                          app(app(Pow, app(Sin, "x")), 2.0)), 1.0.into()),
 
+        // `∃(and) => true1`
+        Red(app(Ex, And), True1.into()),
+        // `∃(or) => true1`
+        Red(app(Ex, Or), True1.into()),
+
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
         // `or(a)(b) <=> or(b)(a)`
