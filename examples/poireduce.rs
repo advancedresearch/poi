@@ -34,6 +34,10 @@ fn main() {
                 print_help_asym();
                 continue;
             }
+            "help dom" => {
+                print_help_dom();
+                continue;
+            }
             "inline all" => {
                 if let Some(expr) = &prev_expr {
                     prev_expr = Some(match expr.inline_all(std) {
@@ -97,6 +101,7 @@ fn print_help() {
     println!("- inline all     inlines all definitions from previous expression");
     println!("- help asym      more help about asymmetric paths");
     println!("- help eqv       more help about equivalent expressions");
+    println!("- help dom       more help about domains and partial functions");
     println!("");
     println!("Type in an expression in path semantics, e.g. `and[not]`");
 }
@@ -117,4 +122,22 @@ fn print_help_asym() {
     println!("");
     println!("You can write asymmetric paths, e.g. `not . and[not x id -> id]`.");
     println!("This will reduce to `and[not ⨯ id → not]`.");
+}
+
+fn print_help_dom() {
+    println!("=== Domains and Partial Functions ===");
+    println!("");
+    println!("A partial function is a function where the input is constrained in some way.");
+    println!("According to Path Semantics, this changes the identity of the function.");
+    println!("Therefore, one should think about partial functions as 'different' functions.");
+    println!("");
+    println!("For example: `and(a, a)`. Type it and see what happens.");
+    println!("");
+    println!("In `and(a, a)`, the input of `and` is constrained implicitly.");
+    println!("Poi reduces this first to `and{{eq}}(a)(a)` by adding `eq` as domain constraint.");
+    println!("This turns `and` into a partial function `and{{eqb}}`.");
+    println!("");
+    println!("Now, the identity of the `and` function has changed into another function.");
+    println!("Poi uses the rule `and{{eq}} => fstb` to reduce this expression further.");
+    println!("In the end, the expression `and(a, a)` is reduced to just `a`.");
 }
