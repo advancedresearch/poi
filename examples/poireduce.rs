@@ -53,7 +53,34 @@ fn main() {
                 }
             }
             "bye" => break,
-            _ => {}
+            x => {
+                // Print definitions of symbol.
+                if x.starts_with("def ") {
+                    match parse_str(x[4..].trim()) {
+                        Ok(Expr::Sym(s)) => {
+                            let mut found = false;
+                            for k in std.iter() {
+                                if let Knowledge::Def(a, b) = k {
+                                    if a == &s {
+                                        found = true;
+                                        println!("{}", b);
+                                    };
+                                }
+                            }
+                            if !found {println!("(no definition found)")};
+                            continue;
+                        }
+                        Err(err) => {
+                            println!("ERROR:\n{}", err);
+                            continue;
+                        }
+                        _ => {
+                            println!("ERROR:\nExpected symbol");
+                            continue;
+                        }
+                    }
+                }
+            }
         }
 
         let mut expr = if inlined {prev_expr.unwrap()} else {
