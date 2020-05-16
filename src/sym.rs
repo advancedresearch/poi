@@ -31,14 +31,18 @@ pub enum Symbol {
     UnopRetVar(Arc<String>, Box<Symbol>),
     /// A function without domain constraints.
     NoConstrVar(Arc<String>),
-    /// `\false`.
+    /// `\false` for one argument.
     False1,
     /// `not`.
     Not,
     /// `id` for booleans.
     Idb,
-    /// `\true`.
+    /// `\true` for one argument.
     True1,
+    /// `\false` for two arguments.
+    False2,
+    /// `\true` for two arguments.
+    True2,
     /// `and`.
     And,
     /// `or`.
@@ -154,6 +158,8 @@ impl fmt::Display for Symbol {
             Not => write!(w, "not")?,
             Idb => write!(w, "idb")?,
             True1 => write!(w, "true1")?,
+            False2 => write!(w, "false2")?,
+            True2 => write!(w, "true2")?,
             And => write!(w, "and")?,
             Or => write!(w, "or")?,
             Eqb => write!(w, "eqb")?,

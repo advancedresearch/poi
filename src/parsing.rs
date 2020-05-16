@@ -35,6 +35,8 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "idb" => Idb,
                 "not" => Not,
                 "true1" => True1,
+                "false2" => False2,
+                "true2" => True2,
                 "and" => And,
                 "or" => Or,
                 "eqb" => Eqb,
