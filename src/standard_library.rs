@@ -240,8 +240,22 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Ex, And), True1.into()),
         // `∃(or) => true1`
         Red(app(Ex, Or), True1.into()),
+        // `∃(nand) => true1`
+        Red(app(Ex, Nand), True1.into()),
+        // `∃(nor) => true1`
+        Red(app(Ex, Nor), True1.into()),
+        // `∃(xor) => true1`
+        Red(app(Ex, Xor), True1.into()),
+        // `∃(eqb) => true1`
+        Red(app(Ex, Eqb), True1.into()),
+        // `∃(exc) => true1`
+        Red(app(Ex, Exc), True1.into()),
+        // `∃(imply) => true1`
+        Red(app(Ex, Imply), True1.into()),
         // `∃(fstb) => true1`
         Red(app(Ex, Fstb), True1.into()),
+        // `∃(sndb) => true1`
+        Red(app(Ex, Sndb), True1.into()),
 
         // `idb => id`
         Red(Idb.into(), Id.into()),
