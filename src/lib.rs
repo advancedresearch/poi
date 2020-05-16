@@ -785,9 +785,14 @@ impl Into<Symbol> for &'static str {
     fn into(self) -> Symbol {Var(Arc::new(self.into()))}
 }
 
-/// A function applied to some argument.
+/// A function applied to one argument.
 pub fn app<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     Op(Apply, Box::new(a.into()), Box::new(b.into()))
+}
+
+/// A function applied to two arguments.
+pub fn app2<A: Into<Expr>, B: Into<Expr>, C: Into<Expr>>(a: A, b: B, c: C) -> Expr {
+    app(app(a, b), c)
 }
 
 /// A function composition.
