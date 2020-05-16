@@ -40,6 +40,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(Tup(vec!["x".into()]), "x".into()),
         // `\x(_) => x`
         Red(app(ret_var("x"), Any), "x".into()),
+        // `∃(\x) => eq(x)`
+        Red(app(Ex, ret_var("x")), app(Eq, "x")),
         // `x() => x`
         Red(app("x", Tup(vec![])), "x".into()),
         // `f[g -> g] => f[g]`
