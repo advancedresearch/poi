@@ -274,8 +274,6 @@ pub fn std() -> Vec<Knowledge> {
 
         // `len . concat => concat[len] . (len . fst, len . snd)`
         Red(comp(Len, Concat), comp(path(Concat, Len), (comp(Len, Fst), comp(Len, Snd)))),
-        // `(f, g)(a, b) => (f(a), g(b))`
-        Red(app(app(("f", "g"), "a"), "b"), (app("f", "a"), app("g", "b")).into()),
         // `(f . fst)(a)(_) => f(a)`
         Red(app(app(comp("f", Fst), "a"), Any), app("f", "a")),
         // `(f . snd)(_)(a) => f(a)`
