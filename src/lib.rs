@@ -424,7 +424,7 @@ impl Expr {
                     return Ok((Op(*op, a.clone(), Box::new(b)), i));
                 }
             }
-            Tup(a) => {
+            Tup(a) | List(a) => {
                 let mut res = vec![];
                 for i in 0..a.len() {
                     if let Ok((n, j)) = a[i].reduce(knowledge) {
@@ -432,7 +432,13 @@ impl Expr {
                         if let Some((expr, k)) = me {if k < j {return Ok((expr, k))}};
                         res.push(n);
                         res.extend(a[i+1..].iter().map(|n| n.clone()));
-                        return Ok((Tup(res), j));
+                        if let Tup(_) = self {
+                            return Ok((Tup(res), j));
+                        } else if let List(_) = self {
+                            return Ok((List(res), j));
+                        } else {
+                            unreachable!();
+                        }
                     } else {
                         res.push(a[i].clone());
                     }
@@ -824,6 +830,9 @@ pub fn unop_ret_var<A: Into<String>, F: Into<Symbol>>(a: A, f: F) -> Expr {
 pub fn no_constr<A: Into<String>>(a: A) -> Expr {
     Sym(NoConstrVar(Arc::new(a.into())))
 }
+
+/// A 2D vector.
+pub fn vec2<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {List(vec![a.into(), b.into()])}
 
 /// Knowledge about a commuative binary operator.
 pub fn commutative<S: Into<Symbol>>(s: S) -> Knowledge {
