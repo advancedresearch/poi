@@ -152,8 +152,9 @@
 //! yet can not be proven to be true in any formal language. Someday, a formal
 //! language might be invented to prove the sentence true, but programmers do not
 //! wait for this to happen. Instead, they default to pragmatic strategies, such as
-//! testing extensively. For example, the Goldebach conjecture has been tested up
-//! to some limit, so it holds for all natural numbers below that limit.
+//! testing extensively.
+//! For example, the [Goldenbach conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture)
+//! has been tested up to some limit, so it holds for all natural numbers below that limit.
 //! A pragmatic strategy is what you do when you can not idealize the problem away.
 //!
 //! Poi uses a pragmatic approach in its design because a lot of proofs in
