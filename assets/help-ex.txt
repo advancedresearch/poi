@@ -1,0 +1,23 @@
+=== Existential Paths ===
+
+Make sure you understand `help dom` and `help triv` before you read this.
+
+An existential path is a function, returning a boolean, which tells you whether
+a function outputs some value. Existential paths can also be defined for other
+mathematical languages than functions, but this is irrelevant for using Poi.
+
+In most cases, one can think about the existential path as the function codomain.
+
+If you type `ex(and)`, then Poi will reduce this to `true1`.
+Alternative syntaxes are `∃(and)` or `codom(and)`.
+
+The `true1` function has the type `bool -> bool` and returns `true` for all inputs.
+When you ask it "does `and` return `false`?" it answers `true`.
+When you ask it "does `and` return `true`?" it answers `true`.
+
+Its sibling "the trivial path" changes the function identity, so in order to
+know what a function outputs, one must first define what the input means.
+The Halting Problem (https://en.wikipedia.org/wiki/Halting_problem) is
+undecidable because if you do not define exactly what the input is,
+then it is impossible to say what the function will return.
+Similarly, finding the existential path in general is undecidable.

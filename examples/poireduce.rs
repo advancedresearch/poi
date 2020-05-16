@@ -27,6 +27,7 @@ fn main() {
             "help asym" => {print_help_asym(); continue}
             "help dom" => {print_help_dom(); continue}
             "help triv" => {print_help_triv(); continue}
+            "help ex" => {print_help_ex(); continue}
             "inline all" => {
                 if let Some(expr) = &prev_expr {
                     prev_expr = Some(match expr.inline_all(std) {
@@ -83,3 +84,4 @@ fn print_help_eqv() {print!("{}", include_str!("../assets/help-eqv.txt"))}
 fn print_help_asym() {print!("{}", include_str!("../assets/help-asym.txt"))}
 fn print_help_dom() {print!("{}", include_str!("../assets/help-dom.txt"))}
 fn print_help_triv() {print!("{}", include_str!("../assets/help-triv.txt"))}
+fn print_help_ex() {print!("{}", include_str!("../assets/help-ex.txt"))}
