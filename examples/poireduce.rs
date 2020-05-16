@@ -22,6 +22,12 @@ fn main() {
 
         let mut inlined = false;
         match input.trim() {
+            "" => {
+                // Print separator for readability.
+                print!("\n------------------------------------<o=o");
+                println!("o=o>------------------------------------\n");
+                continue;
+            }
             "help" => {print_help(); continue}
             "help eqv" => {print_help_eqv(); continue}
             "help asym" => {print_help_asym(); continue}
