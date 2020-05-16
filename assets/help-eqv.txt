@@ -6,3 +6,8 @@ a list of equivalent expressions are displayed.
 For example, type `(len . concat)(a, b)` and you will get the suggestion
 `<=>  add((len · fst)(a)(b), (len · snd)(a)(b))`
 Copy-paste this as the new input and it will reduce to `add(len(a))(len(b))`.
+
+Equivalent expressions are used when there is not always clear which
+direction to reduce an expression. This is hard-coded into the knowledge rule.
+The decision of which rules should be reductions or equivalences is based on
+Poi user experience over time. You can help improving the knowledge base!

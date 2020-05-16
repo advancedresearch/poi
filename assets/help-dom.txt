@@ -8,7 +8,7 @@ For example: `and(a, a)`. Type it and see what happens.
 
 In `and(a, a)`, the input of `and` is constrained implicitly.
 Poi reduces this first to `and{eq}(a)(a)` by adding `eq` as domain constraint.
-This turns `and` into a partial function `and{eqb}`.
+This turns `and` into a partial function `and{eq}`.
 
 Now, the identity of the `and` function has changed into another function.
 Poi uses the rule `and{eq} => fstb` to reduce this expression further.
