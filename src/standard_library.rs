@@ -19,15 +19,15 @@ pub fn std() -> Vec<Knowledge> {
         Def(Sndb, _if(_if(true, false), _if(true, false))),
 
         // `x(y, z) => x(y)(z)`
-        Red(app("x", head_tail("y", "z")), app(app("x", "y"), "z")),
+        Red(app("x", head_tail("y", "z")), app2("x", "y", "z")),
         // `x{y, z} => x{y}{z}`
         Red(constr("x", head_tail("y", "z")), constr(constr("x", "y"), "z")),
         // `x{y}{z}(a)(b) => x{y}(a){z}(b)`
-        Red(app(app(constr(constr("x", "y"), "z"), "a"), "b"),
+        Red(app2(constr(constr("x", "y"), "z"), "a", "b"),
             app(constr(app(constr("x", "y"), "a"), "z"), "b")),
         // `(g, f)(y, z) => (g(y)(z), f(y)(z))`
         Red(app(("g", "f"), head_tail("y", "z")),
-           (app(app("g", "y"), "z"), app(app("f", "y"), "z")).into()),
+           (app2("g", "y", "z"), app2("f", "y", "z")).into()),
         // `if(x, _)(true) => x`
         Red(app(_if("x", Any), true), "x".into()),
         // `if(_, x)(false) => x`
@@ -133,40 +133,40 @@ pub fn std() -> Vec<Knowledge> {
         // `or(false) => idb`
         Red(app(Or, false), Idb.into()),
         // `fstb(x)(y) => x`
-        Red(app(app(Fstb, "x"), "y"), "x".into()),
+        Red(app2(Fstb, "x", "y"), "x".into()),
         // `fst(x)(y) => x`
-        Red(app(app(Fst, "x"), "y"), "x".into()),
+        Red(app2(Fst, "x", "y"), "x".into()),
         // `sndb(x)(y) => y`
-        Red(app(app(Sndb, "x"), "y"), "y".into()),
+        Red(app2(Sndb, "x", "y"), "y".into()),
         // `snd(x)(y) => y`
-        Red(app(app(Snd, "x"), "y"), "y".into()),
+        Red(app2(Snd, "x", "y"), "y".into()),
         // `eqb(false) => not`
         Red(app(Eqb, false), Not.into()),
         // `eqb(true) => idb`
         Red(app(Eqb, true), Idb.into()),
 
         // `lt(\x)(\y) => \x < \y`
-        Red(app(app(Lt, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Lt)),
+        Red(app2(Lt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Lt)),
         // `le(\x)(\y) => \x <= \y`
-        Red(app(app(Le, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Le)),
+        Red(app2(Le, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Le)),
         // `gt(\x)(\y) => \x > \y`
-        Red(app(app(Gt, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Gt)),
+        Red(app2(Gt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Gt)),
         // `ge(\x)(\y) => \x >= \y`
-        Red(app(app(Ge, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Ge)),
+        Red(app2(Ge, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Ge)),
         // `neg(\x) => -x`
         Red(app(Neg, ret_var("x")), unop_ret_var("x", Neg)),
         // `add(\x)(\y) => x + y`
-        Red(app(app(Add, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Add)),
+        Red(app2(Add, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Add)),
         // `sub(\x)(\y) => x - y`
-        Red(app(app(Sub, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Sub)),
+        Red(app2(Sub, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Sub)),
         // `mul(\x)(\y) => x * y`
-        Red(app(app(Mul, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Mul)),
+        Red(app2(Mul, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Mul)),
         // `div(\x)(\y) => x / y`
-        Red(app(app(Div, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Div)),
+        Red(app2(Div, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Div)),
         // `eq(\x)(\y) => x == y`
-        Red(app(app(Eq, ret_var("x")), ret_var("y")), binop_ret_var("x", "y", Eq)),
+        Red(app2(Eq, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Eq)),
         // `concat(x)(y) => x ++ y`
-        Red(app(app(Concat, "x"), "y"), binop_ret_var("x", "y", Concat)),
+        Red(app2(Concat, "x", "y"), binop_ret_var("x", "y", Concat)),
         // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 
@@ -174,17 +174,17 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Mul, Neg), comp(Neg, Mul)),
 
         // `add(0)(x) => x`
-        Red(app(app(Add, 0.0), "x"), "x".into()),
+        Red(app2(Add, 0.0, "x"), "x".into()),
         // `add(x)(0) => x`
-        Red(app(app(Add, "x"), 0.0), "x".into()),
+        Red(app2(Add, "x", 0.0), "x".into()),
         // `mul(1)(x) => x`
-        Red(app(app(Mul, 1.0), "x"), "x".into()),
+        Red(app2(Mul, 1.0, "x"), "x".into()),
         // `mul(x)(1) => x`
-        Red(app(app(Mul, "x"), 1.0), "x".into()),
+        Red(app2(Mul, "x", 1.0), "x".into()),
         // `mul(0) => 0`
         Red(app(Mul, 0.0), 0.0.into()),
         // `mul(_)(0) => 0`
-        Red(app(app(Mul, Any), 0.0), 0.0.into()),
+        Red(app2(Mul, Any, 0.0), 0.0.into()),
 
         // `concat[len] => add`
         Red(path(Concat, Len), Add.into()),
@@ -220,13 +220,13 @@ pub fn std() -> Vec<Knowledge> {
         // `sub{eq} => \0`
         Red(constr(Sub, Eq), 0.0.into()),
         // `add{eq}(x, _) => mul(2)(x)`
-        Red(app(app(constr(Add, Eq), "x"), Any), app(app(Mul, 2.0), "x")),
+        Red(app2(constr(Add, Eq), "x", Any), app2(Mul, 2.0, "x")),
         // `mul{eq}(x, _) => pow(x)(2)`
-        Red(app(app(constr(Mul, Eq), "x"), Any), app(app(Pow, "x"), 2.0)),
+        Red(app2(constr(Mul, Eq), "x", Any), app2(Pow, "x", 2.0)),
         // `\x{eq}(_) => \x`
         Red(app(constr(ret_var("x"), Eq), Any), "x".into()),
         // `f(a)(a) => f{eq}(a)(a)`
-        Red(app(app(no_constr("f"), "a"), "a"), app(app(constr("f", Eq), "a"), "a")),
+        Red(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f{true2} => f`
         Red(constr("f", True2), "f".into()),
         // `f{true1} => f`
@@ -275,9 +275,9 @@ pub fn std() -> Vec<Knowledge> {
         // `len . concat => concat[len] . (len . fst, len . snd)`
         Red(comp(Len, Concat), comp(path(Concat, Len), (comp(Len, Fst), comp(Len, Snd)))),
         // `(f . fst)(a)(_) => f(a)`
-        Red(app(app(comp("f", Fst), "a"), Any), app("f", "a")),
+        Red(app2(comp("f", Fst), "a", Any), app("f", "a")),
         // `(f . snd)(_)(a) => f(a)`
-        Red(app(app(comp("f", Snd), Any), "a"), app("f", "a")),
+        Red(app2(comp("f", Snd), Any, "a"), app("f", "a")),
 
         // `(x, y) . (a, b) => (x . a, y . b)`.
         Red(comp(("x", "y"), ("a", "b")), (comp("x", "a"), comp("y", "b")).into()),
@@ -290,12 +290,12 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp("h", path("f", ("g0", "g1", Id))), path("f", ("g0", "g1", "h"))),
 
         // `add(pow(cos(x))(\2))(pow(sin(x))(\2)) <=> 1`
-        Red(app(app(Add, app(app(Pow, app(Cos, "x")), 2.0)),
-                         app(app(Pow, app(Sin, "x")), 2.0)), 1.0.into()),
+        Red(app2(Add, app2(Pow, app(Cos, "x"), 2.0),
+                      app2(Pow, app(Sin, "x"), 2.0)), 1.0.into()),
 
         // `add([x0, y0], [x1, y1]) => [add(x0, x1), add(y0, y1)]`
-        Red(app(app(Add, vec2("x0", "y0")), vec2("x1", "y1")),
-            vec2(app(app(Add, "x0"), "x1"), app(app(Add, "x1"), "y1"))),
+        Red(app2(Add, vec2("x0", "y0"), vec2("x1", "y1")),
+            vec2(app2(Add, "x0", "x1"), app2(Add, "x1", "y1"))),
 
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
@@ -327,12 +327,12 @@ pub fn std() -> Vec<Knowledge> {
         // `f[g] <=> f[g -> id][id -> g]`
         Eqv(path("f", "g"), path(path("f", ("g", Id)), (Id, "g"))),
         // `(f . (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b))`
-        Eqv(app(app(comp("f", ("g0", "g1")), "a"), "b"),
-            app(app("f", app(app("g0", "a"), "b")), app(app("g1", "a"), "b"))),
+        Eqv(app2(comp("f", ("g0", "g1")), "a", "b"),
+            app2("f", app2("g0", "a", "b"), app2("g1", "a", "b"))),
         // `(f . (g0, g1))(a) <=> f(g0(a))(g1(a))`
-        Eqv(app(comp("f", ("g0", "g1")), "a"), app(app("f", app("g0", "a")), app("g1", "a"))),
+        Eqv(app(comp("f", ("g0", "g1")), "a"), app2("f", app("g0", "a"), app("g1", "a"))),
         // `(f . g)(a)(b) <=> f(g(a)(b))`
-        Eqv(app(app(comp("f", "g"), "a"), "b"), app("f", app(app("g", "a"), "b"))),
+        Eqv(app2(comp("f", "g"), "a", "b"), app("f", app2("g", "a", "b"))),
         // `(f . g)(a) <=> f(g(a))`
         Eqv(app(comp("f", "g"), "a"), app("f", app("g", "a"))),
         // `(g . f)(a) <=> f[g](g(a))`
