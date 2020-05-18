@@ -885,8 +885,8 @@ pub fn vec2<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {List(vec![a.into(
 /// Knowledge about a component-wise operation on vectors.
 pub fn vec_op<S: Into<Symbol>>(s: S) -> Knowledge {
     let s = s.into();
-    Red(app2(s.clone(), head_tail_list("x0", "y0"), head_tail_list("x1", "y1")),
-        app2(Concat, app2(s.clone(), "x0", "x1"), app2(s, "y0", "y1")))
+    Red(app(constr(app(constr(s.clone(), app(Rty, VecType)), "x"), app(Rty, VecType)), "y"),
+        app2(app(VecOp, s), "x", "y"))
 }
 
 /// Knowledge about a concrete binary operation `f(x : \, y : \) => f(x)(y) : \`.

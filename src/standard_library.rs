@@ -163,20 +163,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Push, list_var("x"), "y"), binop_ret_var("x", "y", Push)),
         // `push_front([x..], y) => compute::push_front(x, y)`
         Red(app2(PushFront, list_var("x"), "y"), binop_ret_var("x", "y", PushFront)),
-        // `concat(\x)(\y) => [x, y]`
-        Red(app2(Concat, ret_var("x"), ret_var("y")), vec2("x", "y")),
-        // `concat(\x)([y..]) => push_front(y)(x)`
-        Red(app2(Concat, ret_var("x"), list_var("y")), app2(PushFront, "y", "x")),
-        // `concat([x..], \y) => push(x)(y)`
-        Red(app2(Concat, list_var("x"), ret_var("y")), app2(Push, "x", "y")),
-        // `concat([x..])([y..]) => x ++ y`
-        Red(app2(Concat, list_var("x"), list_var("y")), binop_ret_var("x", "y", Concat)),
-        // `concat(x: : \)(y : \) => [x, y]`
-        Red(app2(Concat, ret_type_var("x"), ret_type_var("y")), vec2("x", "y")),
-        // `concat(x : \)([y..]) => push_front(y)(x)`
-        Red(app2(Concat, ret_type_var("x"), list_var("y")), app2(PushFront, "y", "x")),
-        // `concat([x..])(y : \) => push(x)(y)`
-        Red(app2(Concat, list_var("x"), ret_type_var("y")), app2(Push, "x", "y")),
+        // `concat{(: vec)}(x){(: vec)}(y) => x ++ y`
+        Red(app(constr(app(constr(Concat, app(Rty, VecType)), "x"), app(Rty, VecType)),
+                "y"), binop_ret_var("x", "y", Concat)),
         // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 
@@ -334,6 +323,9 @@ pub fn std() -> Vec<Knowledge> {
         // `add(pow(cos(x))(\2))(pow(sin(x))(\2)) <=> 1`
         Red(app2(Add, app2(Pow, app(Cos, "x"), 2.0),
                       app2(Pow, app(Sin, "x"), 2.0)), 1.0.into()),
+
+        // `f([x..]) => f{(: vec)}(x)`
+        Red(app(no_constr("f"), list_var("x")), app(constr("f", app(Rty, VecType)), "x")),
 
         // `not . nand <=> and`.
         Eqv(comp(Not, Nand), And.into()),
