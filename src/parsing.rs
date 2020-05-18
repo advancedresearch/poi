@@ -102,6 +102,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "\\" => RetType,
                 "vec" => VecType,
                 "rty" => Rty,
+                "vec_op" => VecOp,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
