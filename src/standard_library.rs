@@ -290,6 +290,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(comp("f", Fst), "a", Any), app("f", "a")),
         // `(f . snd)(_)(a) => f(a)`
         Red(app2(comp("f", Snd), Any, "a"), app("f", "a")),
+        // `(f . fst){_}(a)(_) => f(a)`
+        Red(app2(constr(comp("f", Fst), Any), "a", Any), app("f", "a")),
+        // `(f . snd){_}(_)(a) => f(a)`
+        Red(app2(constr(comp("f", Snd), Any), Any, "a"), app("f", "a")),
 
         // `(x, y) . (a, b) => (x . a, y . b)`.
         Red(comp(("x", "y"), ("a", "b")), (comp("x", "a"), comp("y", "b")).into()),
@@ -362,5 +366,7 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(("g", "f"), "a"), (app("g", "a"), app("f", "a")).into()),
         // `f . (g0, g1)(a) <=> (f . (g0, g1))(a)`
         Eqv(comp("f", app(("g0", "g1"), "a")), app(comp("f", ("g0", "g1")), "a")),
+        // `(g . f){h} <=> g . f{h}`
+        Eqv(constr(comp("g", "f"), "h"), comp("g", constr("f", "h"))),
     ]
 }
