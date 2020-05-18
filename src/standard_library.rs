@@ -214,6 +214,12 @@ pub fn std() -> Vec<Knowledge> {
         vec_op(Pow),
         vec_op(Rpow),
 
+        // `vec_op(f)([x0, y0..])([x1, y1..]) => concat([f(x0)(x1)])(vec_op(f)(y0)(y1))`
+        Red(app2(app(VecOp, "f"), head_tail_list("x0", "y0"), head_tail_list("x1", "y1")),
+            app2(Concat, List(vec![app2("f", "x0", "x1")]), app2(app(VecOp, "f"), "y0", "y1"))),
+        // `vec_op(f)([x])([y]) => [f(x)(y)]`
+        Red(app2(app(VecOp, "f"), singleton("x"), singleton("y")), List(vec![app2("f", "x", "y")])),
+
         // `dot([x0, y0])([x1, y1]) => add(mul(x0)(x1))(mul(y0)(y1))`
         Red(app2(Dot, vec2("x0", "y0"), vec2("x1", "y1")),
             app2(Add, app2(Mul, "x0", "x1"), app2(Mul, "y0", "y1"))),
