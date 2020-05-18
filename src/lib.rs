@@ -597,15 +597,16 @@ impl Context {
                 if list.len() < 2 {return false};
 
                 let r = self.bind(head, &list[0]);
-                let b: Expr = if list[1..].len() == 1 {
-                    list[1].clone()
-                } else {
-                    if let (Sym(HeadTailTup(_, _)), Tup(_)) = (name, value) {
-                        Tup(list[1..].into())
+                let b: Expr = if let (Sym(HeadTailTup(_, _)), Tup(_)) = (name, value) {
+                    if list[1..].len() == 1 {
+                        list[1].clone()
                     } else {
-                        List(list[1..].into())
+                        Tup(list[1..].into())
                     }
+                } else {
+                    List(list[1..].into())
                 };
+
                 let r = r && self.bind(tail, &b);
                 if !r {self.vars.clear()};
                 r
