@@ -87,7 +87,11 @@ impl fmt::Display for Expr {
                     }
                     write!(w, "}}")?;
                 } else {
-                    write!(w, "{}{{{}}}", a, b)?
+                    if let Op(Compose, _, _) = **a {
+                        write!(w, "({}){{{}}}", a, b)?;
+                    } else {
+                        write!(w, "{}{{{}}}", a, b)?
+                    }
                 }
             }
             Op(Compose, a, b) => {
