@@ -287,6 +287,7 @@ use self::Symbol::*;
 
 pub use val::*;
 pub use expr::*;
+pub use op::Op;
 pub use sym::*;
 pub use standard_library::*;
 pub use parsing::*;
@@ -294,6 +295,7 @@ pub use knowledge::*;
 
 mod val;
 mod expr;
+mod op;
 mod sym;
 mod knowledge;
 mod standard_library;
@@ -786,19 +788,6 @@ pub enum Error {
     NoReductionRule,
     /// Could not find variable.
     CouldNotFind(Arc<String>),
-}
-
-/// Binary operation on functions.
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
-pub enum Op {
-    /// Function composition `f . g`
-    Compose,
-    /// Path `f[g]`
-    Path,
-    /// Apply function to some argument.
-    Apply,
-    /// Constrain function input.
-    Constrain,
 }
 
 impl Into<Expr> for Symbol {
