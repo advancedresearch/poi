@@ -95,7 +95,7 @@ impl fmt::Display for Expr {
                     }
                     write!(w, "}}")?;
                 } else {
-                    write!(w, "({})", b)?;
+                    write!(w, "{{{}}}", b)?;
                 }
             }
             Op(Compose, a, b) => {
