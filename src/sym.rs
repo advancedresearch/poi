@@ -148,6 +148,8 @@ pub enum Symbol {
     Atan2,
     /// `dot`.
     Dot,
+    /// `push`.
+    Push,
     /// `el`.
     El,
     /// Generic `id`.
@@ -226,6 +228,7 @@ impl fmt::Display for Symbol {
             Atan => write!(w, "atan")?,
             Atan2 => write!(w, "atan2")?,
             Dot => write!(w, "dot")?,
+            Push => write!(w, "push")?,
             El => write!(w, "el")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
