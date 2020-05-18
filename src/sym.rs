@@ -172,6 +172,8 @@ pub enum Symbol {
     RetType,
     /// The type of lists.
     VecType,
+    /// The judgement `(: a)(b)`.
+    Rty,
 }
 
 impl fmt::Display for Symbol {
@@ -246,6 +248,7 @@ impl fmt::Display for Symbol {
             Triv => write!(w, "∀")?,
             RetType => write!(w, "\\")?,
             VecType => write!(w, "vec")?,
+            Rty => write!(w, "rty")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
