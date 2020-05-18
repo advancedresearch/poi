@@ -16,6 +16,11 @@ pub enum Symbol {
     /// This requires the tuple to have at least length 2.
     /// It is to avoid cycles between reductions.
     HeadTailTup(Box<Expr>, Box<Expr>),
+    /// A head-tail pattern match on a list.
+    ///
+    /// This requires the list to have at least length 2.
+    /// It is to avoid cycles between reductions.
+    HeadTailList(Box<Expr>, Box<Expr>),
     /// A value variable.
     ///
     /// This requires the expression to be `Ret` variant.
@@ -230,6 +235,7 @@ impl fmt::Display for Symbol {
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             HeadTailTup(x, y) => write!(w, "({}, {}..)", x, y)?,
+            HeadTailList(x, y) => write!(w, "[{}, {}..]", x, y)?,
             BinopRetVar(x, y, f) => {
                 match **f {
                     Lt => write!(w, "{} < {}", x, y)?,
