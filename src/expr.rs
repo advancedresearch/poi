@@ -59,20 +59,26 @@ impl fmt::Display for Expr {
                 }
             }
             Op(Apply, a, b) => {
-                if let Op(Compose, _, _) = **a {
-                    write!(w, "({})", a)?;
-                } else {
-                    write!(w, "{}", a)?;
-                }
-                if let Tup(b) = &**b {
-                    write!(w, "(")?;
-                    for i in 0..b.len() {
-                        if i > 0 {write!(w, ", ")?}
-                        write!(w, "{}", &b[i])?;
+                if let Sym(Rty) = **a {
+                    if let Sym(_) = **b {
+                        write!(w, "(: {})", b)?;
                     }
-                    write!(w, ")")?;
                 } else {
-                    write!(w, "({})", b)?;
+                    if let Op(Compose, _, _) = **a {
+                        write!(w, "({})", a)?;
+                    } else {
+                        write!(w, "{}", a)?;
+                    }
+                    if let Tup(b) = &**b {
+                        write!(w, "(")?;
+                        for i in 0..b.len() {
+                            if i > 0 {write!(w, ", ")?}
+                            write!(w, "{}", &b[i])?;
+                        }
+                        write!(w, ")")?;
+                    } else {
+                        write!(w, "({})", b)?;
+                    }
                 }
             }
             Op(Constrain, a, b) => {
