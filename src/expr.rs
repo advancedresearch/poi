@@ -59,48 +59,50 @@ impl fmt::Display for Expr {
                 }
             }
             Op(Apply, a, b) => {
+                if let Op(Compose, _, _) = **a {
+                    write!(w, "({})", a)?;
+                } else {
+                    write!(w, "{}", a)?;
+                }
                 if let Tup(b) = &**b {
-                    if let Op(Compose, _, _) = **a {
-                        write!(w, "({})(", a)?;
-                    } else {
-                        write!(w, "{}(", a)?;
-                    }
+                    write!(w, "(")?;
                     for i in 0..b.len() {
                         if i > 0 {write!(w, ", ")?}
                         write!(w, "{}", &b[i])?;
                     }
                     write!(w, ")")?;
                 } else {
-                    if let Op(Compose, _, _) = **a {
-                        write!(w, "({})({})", a, b)?;
-                    } else {
-                        write!(w, "{}({})", a, b)?;
-                    }
+                    write!(w, "({})", b)?;
                 }
             }
             Op(Constrain, a, b) => {
+                if let Op(Compose, _, _) = **a {
+                    write!(w, "({})", a)?;
+                } else {
+                    write!(w, "{}", a)?;
+                }
                 if let Tup(b) = &**b {
-                    write!(w, "{}{{", a)?;
+                    write!(w, "{{")?;
                     for i in 0..b.len() {
                         if i > 0 {write!(w, ", ")?}
                         write!(w, "{}", &b[i])?;
                     }
                     write!(w, "}}")?;
                 } else {
-                    if let Op(Compose, _, _) = **a {
-                        write!(w, "({}){{{}}}", a, b)?;
-                    } else {
-                        write!(w, "{}{{{}}}", a, b)?
-                    }
+                    write!(w, "({})", b)?;
                 }
             }
             Op(Compose, a, b) => {
                 if let Op(Compose, _, _) = **a {
-                    write!(w, "({}) · {}", a, b)?
-                } else if let Op(Compose, _, _) = **b {
-                    write!(w, "{} · ({})", a, b)?
+                    write!(w, "({})", a)?;
                 } else {
-                    write!(w, "{} · {}", a, b)?
+                    write!(w, "{}", a)?;
+                }
+                write!(w, " · ")?;
+                if let Op(Compose, _, _) = **b {
+                    write!(w, "({})", b)?;
+                } else {
+                    write!(w, "{}", b)?;
                 }
             }
             Op(Type, a, b) => {
