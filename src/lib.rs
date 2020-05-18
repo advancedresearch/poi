@@ -588,7 +588,7 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
-            (Sym(HeadTail(head, tail)), Tup(list)) => {
+            (Sym(HeadTailTup(head, tail)), Tup(list)) => {
                 if list.len() < 2 {return false};
 
                 let r = self.bind(head, &list[0]);
@@ -821,7 +821,7 @@ pub fn _if<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {app(app(If, a), b)
 
 /// A head-tail pattern match on a tuple.
 pub fn head_tail<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    HeadTail(Box::new(a.into()), Box::new(b.into())).into()
+    HeadTailTup(Box::new(a.into()), Box::new(b.into())).into()
 }
 
 /// A value variable.
