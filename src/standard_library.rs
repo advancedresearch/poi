@@ -171,6 +171,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Concat, list_var("x"), ret_var("y")), app2(Push, "x", "y")),
         // `concat([x..])([y..]) => x ++ y`
         Red(app2(Concat, list_var("x"), list_var("y")), binop_ret_var("x", "y", Concat)),
+        // `concat(x : \)([y..]) => push_front(y)(x)`
+        Red(app2(Concat, ret_type_var("x"), list_var("y")), app2(PushFront, "y", "x")),
+        // `concat([x..])(y : \) => push(x)(y)`
+        Red(app2(Concat, list_var("x"), ret_type_var("y")), app2(Push, "x", "y")),
         // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 
