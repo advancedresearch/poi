@@ -196,23 +196,24 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(_)(0) => 0`
         Red(app2(Mul, Any, 0.0), 0.0.into()),
 
-        // `add(x : \)(y : \) => add(x)(y) : \`
-        Red(app2(Add, ret_type_var("x"), ret_type_var("y")), typ(app2(Add, "x", "y"), RetType)),
+        // `f(x : \)(y : \) => f(x)(y) : \`
+        concrete_op(Add),
+        concrete_op(Sub),
+        concrete_op(Mul),
+        concrete_op(Div),
+        concrete_op(Rem),
+        concrete_op(Pow),
+        concrete_op(Rpow),
 
-        // `add([x0, y0])([x1, y1]) => [add(x0, x1), add(y0, y1)]`
-        vec2_op(Add),
-        // `sub([x0, y0])([x1, y1]) => [sub(x0, x1), add(y0, y1)]`
-        vec2_op(Sub),
-        // `mul([x0, y0])([x1, y1]) => [mul(x0, x1), mul(y0, y1)]`
-        vec2_op(Mul),
-        // `div([x0, y0])([x1, y1]) => [div(x0, x1), div(y0, y1)]`
-        vec2_op(Div),
-        // `rem([x0, y0])([x1, y1]) => [rem(x0, x1), rem(y0, y1)]`
-        vec2_op(Rem),
-        // `pow([x0, y0])([x1, y1]) => [pow(x0, x1), pow(y0, y1)]`
-        vec2_op(Pow),
-        // `rpow([x0, y0])([x1, y1]) => [rpow(x0, x1), rpow(y0, y1)]`
-        vec2_op(Rpow),
+        // Component-wise vector operations.
+        vec_op(Add),
+        vec_op(Sub),
+        vec_op(Mul),
+        vec_op(Div),
+        vec_op(Rem),
+        vec_op(Pow),
+        vec_op(Rpow),
+
         // `dot([x0, y0])([x1, y1]) => add(mul(x0)(x1))(mul(y0)(y1))`
         Red(app2(Dot, vec2("x0", "y0"), vec2("x1", "y1")),
             app2(Add, app2(Mul, "x0", "x1"), app2(Mul, "y0", "y1"))),
