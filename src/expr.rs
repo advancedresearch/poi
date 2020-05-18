@@ -103,6 +103,15 @@ impl fmt::Display for Expr {
                     write!(w, "{} · {}", a, b)?
                 }
             }
+            Op(Type, a, b) => {
+                if let Op(Type, _, _) = **a {
+                    write!(w, "({}) : {}", a, b)?
+                } else if let Op(Type, _, _) = **b {
+                    write!(w, "{} : ({})", a, b)?
+                } else {
+                    write!(w, "{} : {}", a, b)?
+                }
+            }
             Tup(b) => {
                 write!(w, "(")?;
                 for i in 0..b.len() {

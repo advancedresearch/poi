@@ -9,4 +9,6 @@ pub enum Op {
     Apply,
     /// Constrain function input.
     Constrain,
+    /// Type judgement.
+    Type,
 }
