@@ -259,6 +259,7 @@ impl fmt::Display for Symbol {
                     Rem => write!(w, "{} % {}", x, y)?,
                     Eq => write!(w, "{} == {}", x, y)?,
                     Concat => write!(w, "{} ++ {}", x, y)?,
+                    Push => write!(w, "compute::push({}, {})", x, y)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
