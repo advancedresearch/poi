@@ -846,6 +846,11 @@ pub fn list_var<A: Into<String>>(a: A) -> Expr {Sym(ListVar(Arc::new(a.into())))
 /// A value variable.
 pub fn ret_var<A: Into<String>>(a: A) -> Expr {Sym(RetVar(Arc::new(a.into())))}
 
+/// A variable of the type value `a : \`.
+pub fn ret_type_var<A: Into<String>>(a: A) -> Expr {
+    Op(Type, Box::new(Sym(Var(Arc::new(a.into())))), Box::new(Sym(RetType)))
+}
+
 /// Compute a binary function.
 pub fn binop_ret_var<A: Into<String>, B: Into<String>, F: Into<Symbol>>(a: A, b: B, f: F) -> Expr {
     Sym(BinopRetVar(Arc::new(a.into()), Arc::new(b.into()), Box::new(f.into())))
