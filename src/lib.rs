@@ -827,6 +827,11 @@ pub fn constr<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     Op(Constrain, Box::new(a.into()), Box::new(b.into()))
 }
 
+/// A type judgement.
+pub fn typ<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
+    Op(Type, Box::new(a.into()), Box::new(b.into()))
+}
+
 /// An `if` expression.
 pub fn _if<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {app(app(If, a), b)}
 

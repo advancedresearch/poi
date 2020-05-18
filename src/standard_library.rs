@@ -196,6 +196,9 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(_)(0) => 0`
         Red(app2(Mul, Any, 0.0), 0.0.into()),
 
+        // `add(x : \)(y : \) => add(x)(y) : \`
+        Red(app2(Add, ret_type_var("x"), ret_type_var("y")), typ(app2(Add, "x", "y"), RetType)),
+
         // `add([x0, y0])([x1, y1]) => [add(x0, x1), add(y0, y1)]`
         vec2_op(Add),
         // `sub([x0, y0])([x1, y1]) => [sub(x0, x1), add(y0, y1)]`
