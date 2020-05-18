@@ -11,6 +11,8 @@ pub enum Symbol {
     ///
     /// This can be anything.
     Var(Arc<String>),
+    /// A list variable.
+    ListVar(Arc<String>),
     /// A head-tail pattern match on a tuple.
     ///
     /// This requires the tuple to have at least length 2.
@@ -234,6 +236,7 @@ impl fmt::Display for Symbol {
             Triv => write!(w, "∀")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
+            ListVar(x) => write!(w, "[{}..]", x)?,
             HeadTailTup(x, y) => write!(w, "({}, {}..)", x, y)?,
             HeadTailList(x, y) => write!(w, "[{}, {}..]", x, y)?,
             BinopRetVar(x, y, f) => {
