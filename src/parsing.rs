@@ -28,6 +28,9 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = parse_list(convert, ignored) {
             convert.update(range);
             expr = Some(val);
+        } else if let Ok((range, val)) = parse_rapp(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("var") {
             convert.update(range);
             expr = Some(Sym(match &**val {
@@ -164,6 +167,36 @@ fn parse_list(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
     }
 
     Ok((convert.subtract(start), List(items)))
+}
+
+fn parse_rapp(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "rapp";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut sym: Option<Symbol> = None;
+    let mut arg: Option<Expr> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, _)) = convert.meta_bool("rty") {
+            convert.update(range);
+            sym = Some(Rty);
+        } else if let Ok((range, val)) = parse_expr("arg", convert, ignored) {
+            convert.update(range);
+            arg = Some(val);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let sym = sym.ok_or(())?;
+    let arg = arg.ok_or(())?;
+    Ok((convert.subtract(start), app(sym, arg)))
 }
 
 fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {

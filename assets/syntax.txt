@@ -1,5 +1,6 @@
 _seps: "[]():,.·⨯-→{}"
 
+14 rapp = ["(" .w? ":":"rty" .w! expr:"arg" .w? ")"]
 13 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
 12 tup_items_expr = tup_items:"tup"
 11 tup_items = [.s!([.w? "," .w?] expr:"item")]
@@ -22,5 +23,11 @@ _seps: "[]():,.·⨯-→{}"
   comp_right:"comp"
   typ_right:"typ"
 })]
-1 expr = {seq:"seq" ["(" .w? tup_items_expr .w? ")"] list:"list" val var}
+1 expr = {
+  seq:"seq"
+  rapp:"rapp"
+  ["(" .w? tup_items_expr .w? ")"]
+  list:"list"
+  val var
+}
 0 doc = [.w? expr:"expr" .w?]
