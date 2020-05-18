@@ -588,14 +588,19 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
-            (Sym(HeadTailTup(head, tail)), Tup(list)) => {
+            (Sym(HeadTailTup(head, tail)), Tup(list)) |
+            (Sym(HeadTailList(head, tail)), List(list)) => {
                 if list.len() < 2 {return false};
 
                 let r = self.bind(head, &list[0]);
                 let b: Expr = if list[1..].len() == 1 {
                     list[1].clone()
                 } else {
-                    Tup(list[1..].into())
+                    if let (Sym(HeadTailTup(_, _)), Tup(_)) = (name, value) {
+                        Tup(list[1..].into())
+                    } else {
+                        List(list[1..].into())
+                    }
                 };
                 let r = r && self.bind(tail, &b);
                 if !r {self.vars.clear()};
@@ -820,8 +825,13 @@ pub fn constr<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
 pub fn _if<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {app(app(If, a), b)}
 
 /// A head-tail pattern match on a tuple.
-pub fn head_tail<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
+pub fn head_tail_tup<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     HeadTailTup(Box::new(a.into()), Box::new(b.into())).into()
+}
+
+/// A head-tail pattern match on a list.
+pub fn head_tail_list<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
+    HeadTailList(Box::new(a.into()), Box::new(b.into())).into()
 }
 
 /// A value variable.
