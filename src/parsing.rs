@@ -95,6 +95,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "dot" => Dot,
                 "el" => El,
                 "push" => Push,
+                "push_front" => PushFront,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
