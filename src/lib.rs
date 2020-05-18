@@ -588,6 +588,10 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
+            (Sym(Singleton(name)), List(x)) if x.len() == 1 => {
+                self.vars.push((name.clone(), x[0].clone()));
+                true
+            }
             (Sym(ListVar(name)), List(_)) => {
                 self.vars.push((name.clone(), value.clone()));
                 true
@@ -848,6 +852,9 @@ pub fn head_tail_list<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
 
 /// A list variable.
 pub fn list_var<A: Into<String>>(a: A) -> Expr {Sym(ListVar(Arc::new(a.into())))}
+
+/// A list variable of length 1.
+pub fn singleton<A: Into<String>>(a: A) -> Expr {Sym(Singleton(Arc::new(a.into())))}
 
 /// A value variable.
 pub fn ret_var<A: Into<String>>(a: A) -> Expr {Sym(RetVar(Arc::new(a.into())))}
