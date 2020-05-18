@@ -15,7 +15,7 @@ pub enum Symbol {
     ///
     /// This requires the tuple to have at least length 2.
     /// It is to avoid cycles between reductions.
-    HeadTail(Box<Expr>, Box<Expr>),
+    HeadTailTup(Box<Expr>, Box<Expr>),
     /// A value variable.
     ///
     /// This requires the expression to be `Ret` variant.
@@ -229,7 +229,7 @@ impl fmt::Display for Symbol {
             Triv => write!(w, "∀")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
-            HeadTail(x, y) => write!(w, "[{}, {}..]", x, y)?,
+            HeadTailTup(x, y) => write!(w, "({}, {}..)", x, y)?,
             BinopRetVar(x, y, f) => {
                 match **f {
                     Lt => write!(w, "{} < {}", x, y)?,
