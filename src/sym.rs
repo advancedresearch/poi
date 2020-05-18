@@ -168,6 +168,8 @@ pub enum Symbol {
     Ex,
     /// Trivial path `∀`.
     Triv,
+    /// `\`, the type of `\x`.
+    RetType,
 }
 
 impl fmt::Display for Symbol {
@@ -240,6 +242,7 @@ impl fmt::Display for Symbol {
             Any => write!(w, "_")?,
             Ex => write!(w, "∃")?,
             Triv => write!(w, "∀")?,
+            RetType => write!(w, "\\")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
