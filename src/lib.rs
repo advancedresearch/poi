@@ -540,6 +540,15 @@ impl Expr {
             }
         }
     }
+
+    /// Returns `true` if has constraints.
+    pub fn has_constraint(&self) -> bool {
+        match self {
+            Op(Constrain, _, _) => true,
+            Op(Compose, _, b) => b.has_constraint(),
+            _ => false
+        }
+    }
 }
 
 /// Stores variables bound by context.
@@ -552,7 +561,7 @@ impl Context {
     /// Binds patterns of a `name` expression to a `value` expression.
     pub fn bind(&mut self, name: &Expr, value: &Expr) -> bool {
         match (name, value) {
-            (Sym(NoConstrVar(_)), Op(Constrain, _, _)) => {
+            (Sym(NoConstrVar(_)), v) if v.has_constraint() => {
                 self.vars.clear();
                 false
             }
