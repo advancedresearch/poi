@@ -726,6 +726,11 @@ impl Context {
                                 a.push(Ret(b));
                                 List(a)
                             }
+                            PushFront => {
+                                let mut a = a.clone();
+                                a.insert(0, Ret(b));
+                                List(a)
+                            }
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
