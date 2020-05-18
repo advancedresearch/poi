@@ -400,12 +400,14 @@ impl Expr {
     /// Reduces expression one step using a knowledge base.
     pub fn reduce(&self, knowledge: &[Knowledge]) -> Result<(Expr, usize), Error> {
         let mut ctx = Context {vars: vec![]};
-        let mut me: Option<(Expr, usize)> = None;
+        let mut me: Result<(Expr, usize), Error> = Err(Error::NoReductionRule);
         for i in 0..knowledge.len() {
             if let Red(a, b) = &knowledge[i] {
                 if ctx.bind(a, self) {
-                    let expr = ctx.substitute(b)?;
-                    me = Some((expr, i));
+                    me = match ctx.substitute(b) {
+                        Ok(expr) => Ok((expr, i)),
+                        Err(err) => Err(err),
+                    };
                     break;
                 }
             }
@@ -415,12 +417,12 @@ impl Expr {
             Op(op, a, b) => {
                 if let Ok((a, i)) = a.reduce(knowledge) {
                     // Prefer the reduction that matches the first rule.
-                    if let Some((expr, j)) = me {if j < i {return Ok((expr, j))}};
+                    if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
                     return Ok((Op(*op, Box::new(a), b.clone()), i));
                 }
                 if let Ok((b, i)) = b.reduce(knowledge) {
                     // Prefer the reduction that matches the first rule.
-                    if let Some((expr, j)) = me {if j < i {return Ok((expr, j))}};
+                    if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
                     return Ok((Op(*op, a.clone(), Box::new(b)), i));
                 }
             }
@@ -429,7 +431,7 @@ impl Expr {
                 for i in 0..a.len() {
                     if let Ok((n, j)) = a[i].reduce(knowledge) {
                         // Prefer the reduction that matches the first rule.
-                        if let Some((expr, k)) = me {if k < j {return Ok((expr, k))}};
+                        if let Ok((expr, k)) = me {if k < j {return Ok((expr, k))}};
                         res.push(n);
                         res.extend(a[i+1..].iter().map(|n| n.clone()));
                         if let Tup(_) = self {
@@ -447,11 +449,7 @@ impl Expr {
             _ => {}
         }
 
-        if let Some((expr, i)) = me {
-            Ok((expr, i))
-        } else {
-            Err(Error::NoReductionRule)
-        }
+        me
     }
 
     /// Inlines all symbols using a knowledge base.
