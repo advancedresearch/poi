@@ -96,6 +96,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "el" => El,
                 "push" => Push,
                 "push_front" => PushFront,
+                "\\" => RetType,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
@@ -207,6 +208,13 @@ fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
             }
             right = Some(val);
             op = Some(Compose);
+        } else if let Ok((range, val)) = parse_expr("typ", convert, ignored) {
+            convert.update(range);
+            if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
+                left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
+            }
+            right = Some(val);
+            op = Some(Type);
         } else {
             let range = convert.ignore();
             convert.update(range);

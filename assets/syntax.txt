@@ -1,4 +1,4 @@
-_seps: "[](),.·⨯-→{}"
+_seps: "[]():,.·⨯-→{}"
 
 13 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
 12 tup_items_expr = tup_items:"tup"
@@ -10,10 +10,17 @@ _seps: "[](),.·⨯-→{}"
 6 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
 5 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
 4 comp_right = [.w? {"." "·"} .w? expr]
+3 typ_right = [.w? ":" .w? expr]
 3 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
 2 seq = [{
   ["(" .w? tup_items_expr:"left" .w? ")"]
   var:"left"
-} .r!({path_right:"path" app_right:"app" constr_right:"constr" comp_right:"comp"})]
+} .r!({
+  path_right:"path"
+  app_right:"app"
+  constr_right:"constr"
+  comp_right:"comp"
+  typ_right:"typ"
+})]
 1 expr = {seq:"seq" ["(" .w? tup_items_expr .w? ")"] list:"list" val var}
 0 doc = [.w? expr:"expr" .w?]
