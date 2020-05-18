@@ -81,18 +81,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Nor, Not), Nand.into()),
         // `nand[not x not -> id] => and[not]`
         Red(path(Nand, (Not, Not, Id)), path(And, Not)),
-        // `not . nand => and`.
-        Red(comp(Not, Nand), And.into()),
-        // `not . nor => or`.
-        Red(comp(Not, Nor), Or.into()),
-        // `not . and => nand`.
-        Red(comp(Not, And), Nand.into()),
-        // `not . or => nor`.
-        Red(comp(Not, Or), Nor.into()),
-        // `not . eqb => xor`.
-        Red(comp(Not, Eqb), Xor.into()),
-        // `not . xor => eqb`.
-        Red(comp(Not, Xor), Eqb.into()),
 
         // `add[even] => eqb`.
         Red(path(Add, Even), Eqb.into()),
@@ -316,6 +304,19 @@ pub fn std() -> Vec<Knowledge> {
         // `add(pow(cos(x))(\2))(pow(sin(x))(\2)) <=> 1`
         Red(app2(Add, app2(Pow, app(Cos, "x"), 2.0),
                       app2(Pow, app(Sin, "x"), 2.0)), 1.0.into()),
+
+        // `not . nand <=> and`.
+        Eqv(comp(Not, Nand), And.into()),
+        // `not . nor <=> or`.
+        Eqv(comp(Not, Nor), Or.into()),
+        // `not . and <=> nand`.
+        Eqv(comp(Not, And), Nand.into()),
+        // `not . or <=> nor`.
+        Eqv(comp(Not, Or), Nor.into()),
+        // `not . eqb <=> xor`.
+        Eqv(comp(Not, Eqb), Xor.into()),
+        // `not . xor <=> eqb`.
+        Eqv(comp(Not, Xor), Eqb.into()),
 
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
