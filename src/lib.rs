@@ -721,26 +721,26 @@ impl Context {
                             _ => return Err(Error::InvalidComputation),
                         })))
                     }
-                    (Some(List(a)), Some(Ret(b))) => {
-                        Ok(match **f {
-                            Push => {
-                                let mut a = a.clone();
-                                a.push(Ret(b));
-                                List(a)
-                            }
-                            PushFront => {
-                                let mut a = a.clone();
-                                a.insert(0, Ret(b));
-                                List(a)
-                            }
-                            _ => return Err(Error::InvalidComputation),
-                        })
-                    }
                     (Some(List(a)), Some(List(b))) => {
                         Ok(match **f {
                             Concat => {
                                 let mut a = a.clone();
                                 a.extend(b.iter().map(|n| n.clone()));
+                                List(a)
+                            }
+                            _ => return Err(Error::InvalidComputation),
+                        })
+                    }
+                    (Some(List(a)), Some(b)) => {
+                        Ok(match **f {
+                            Push => {
+                                let mut a = a.clone();
+                                a.push(b);
+                                List(a)
+                            }
+                            PushFront => {
+                                let mut a = a.clone();
+                                a.insert(0, b);
                                 List(a)
                             }
                             _ => return Err(Error::InvalidComputation),
