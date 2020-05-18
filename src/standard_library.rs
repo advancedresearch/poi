@@ -159,10 +159,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Rpow, ret_var("x"), ret_var("y")), binop_ret_var("y", "x", Pow)),
         // `eq(\x)(\y) => x == y`
         Red(app2(Eq, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Eq)),
-        // `push([x..], \y) => compute::push(x, y)`
-        Red(app2(Push, list_var("x"), ret_var("y")), binop_ret_var("x", "y", Push)),
-        // `push_front([x..], \y) => compute::push_front(x, y)`
-        Red(app2(PushFront, list_var("x"), ret_var("y")), binop_ret_var("x", "y", PushFront)),
+        // `push([x..], y) => compute::push(x, y)`
+        Red(app2(Push, list_var("x"), "y"), binop_ret_var("x", "y", Push)),
+        // `push_front([x..], y) => compute::push_front(x, y)`
+        Red(app2(PushFront, list_var("x"), "y"), binop_ret_var("x", "y", PushFront)),
         // `concat(\x)(\y) => [x, y]`
         Red(app2(Concat, ret_var("x"), ret_var("y")), vec2("x", "y")),
         // `concat(\x)([y..]) => push_front(y)(x)`
