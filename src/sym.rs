@@ -170,6 +170,8 @@ pub enum Symbol {
     Triv,
     /// `\`, the type of `\x`.
     RetType,
+    /// The type of lists.
+    VecType,
 }
 
 impl fmt::Display for Symbol {
@@ -243,6 +245,7 @@ impl fmt::Display for Symbol {
             Ex => write!(w, "∃")?,
             Triv => write!(w, "∀")?,
             RetType => write!(w, "\\")?,
+            VecType => write!(w, "vec")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
