@@ -174,6 +174,8 @@ pub enum Symbol {
     VecType,
     /// The judgement `(: a)(b)`.
     Rty,
+    /// Applies a function component-wise to lists.
+    VecOp,
 }
 
 impl fmt::Display for Symbol {
@@ -249,6 +251,7 @@ impl fmt::Display for Symbol {
             RetType => write!(w, "\\")?,
             VecType => write!(w, "vec")?,
             Rty => write!(w, "rty")?,
+            VecOp => write!(w, "vec_op")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
