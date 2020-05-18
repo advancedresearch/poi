@@ -19,14 +19,14 @@ pub fn std() -> Vec<Knowledge> {
         Def(Sndb, _if(_if(true, false), _if(true, false))),
 
         // `x(y, z) => x(y)(z)`
-        Red(app("x", head_tail("y", "z")), app2("x", "y", "z")),
+        Red(app("x", head_tail_tup("y", "z")), app2("x", "y", "z")),
         // `x{y, z} => x{y}{z}`
-        Red(constr("x", head_tail("y", "z")), constr(constr("x", "y"), "z")),
+        Red(constr("x", head_tail_tup("y", "z")), constr(constr("x", "y"), "z")),
         // `x{y}{z}(a)(b) => x{y}(a){z}(b)`
         Red(app2(constr(constr("x", "y"), "z"), "a", "b"),
             app(constr(app(constr("x", "y"), "a"), "z"), "b")),
         // `(g, f)(y, z) => (g(y)(z), f(y)(z))`
-        Red(app(("g", "f"), head_tail("y", "z")),
+        Red(app(("g", "f"), head_tail_tup("y", "z")),
            (app2("g", "y", "z"), app2("f", "y", "z")).into()),
         // `if(x, _)(true) => x`
         Red(app(_if("x", Any), true), "x".into()),
@@ -159,8 +159,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Rpow, ret_var("x"), ret_var("y")), binop_ret_var("y", "x", Pow)),
         // `eq(\x)(\y) => x == y`
         Red(app2(Eq, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Eq)),
-        // `concat(x)(y) => x ++ y`
-        Red(app2(Concat, "x", "y"), binop_ret_var("x", "y", Concat)),
+        // `concat(\x)(\y) => [x, y]`
+        Red(app2(Concat, ret_var("x"), ret_var("y")), vec2("x", "y")),
+        // `concat([x..])([y..]) => x ++ y`
+        Red(app2(Concat, list_var("x"), list_var("y")), binop_ret_var("x", "y", Concat)),
         // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
 

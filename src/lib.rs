@@ -586,6 +586,10 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
+            (Sym(ListVar(name)), List(_)) => {
+                self.vars.push((name.clone(), value.clone()));
+                true
+            }
             (Sym(HeadTailTup(head, tail)), Tup(list)) |
             (Sym(HeadTailList(head, tail)), List(list)) => {
                 if list.len() < 2 {return false};
@@ -831,6 +835,9 @@ pub fn head_tail_tup<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
 pub fn head_tail_list<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     HeadTailList(Box::new(a.into()), Box::new(b.into())).into()
 }
+
+/// A list variable.
+pub fn list_var<A: Into<String>>(a: A) -> Expr {Sym(ListVar(Arc::new(a.into())))}
 
 /// A value variable.
 pub fn ret_var<A: Into<String>>(a: A) -> Expr {Sym(RetVar(Arc::new(a.into())))}
