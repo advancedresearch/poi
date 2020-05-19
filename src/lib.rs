@@ -300,6 +300,7 @@ mod sym;
 mod knowledge;
 mod standard_library;
 mod parsing;
+mod arity;
 
 /// Used to global import enum variants.
 pub mod prelude {
@@ -542,10 +543,39 @@ impl Expr {
     }
 
     /// Returns `true` if has constraints.
-    pub fn has_constraint(&self) -> bool {
+    pub fn has_constraint(&self, arity_level: usize) -> bool {
         match self {
-            Op(Constrain, _, _) => true,
-            Op(Compose, _, b) => b.has_constraint(),
+            Op(Constrain, f, a) => {
+                if let Op(Apply, rty, aa) = &**a {
+                    if let (Sym(Rty), Sym(s)) = (&**rty, &**aa) {
+                        if let Some(arity) = s.arity() {
+                            if arity >= arity_level {true}
+                            else {f.has_constraint(arity_level - arity)}
+                        } else {
+                            eprintln!("ERROR Unimplemented arity (0): {:?}", s);
+                            true
+                        }
+                    } else {
+                        eprintln!("ERROR Unimplemented arity (1): {}", aa);
+                        true
+                    }
+                } else if let Sym(s) = &**a {
+                    if let Some(arity) = s.arity() {
+                        if arity >= arity_level {true}
+                        else {f.has_constraint(arity_level - arity)}
+                    } else {
+                        eprintln!("ERROR Unimplemented arity (2): {:?}", s);
+                        true
+                    }
+                } else if let Ret(Bool(_)) = &**a {
+                    true
+                } else {
+                    eprintln!("ERROR Unimplemented arity (3): {}", a);
+                    true
+                }
+            }
+            Op(Compose, _, b) => b.has_constraint(arity_level),
+            Op(Apply, f, _) => f.has_constraint(arity_level + 1),
             _ => false
         }
     }
@@ -561,7 +591,7 @@ impl Context {
     /// Binds patterns of a `name` expression to a `value` expression.
     pub fn bind(&mut self, name: &Expr, value: &Expr) -> bool {
         match (name, value) {
-            (Sym(NoConstrVar(_)), v) if v.has_constraint() => {
+            (Sym(NoConstrVar(_)), v) if v.has_constraint(1) => {
                 self.vars.clear();
                 false
             }
