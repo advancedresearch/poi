@@ -381,6 +381,9 @@ pub fn std() -> Vec<Knowledge> {
             app("f", app(constr(app(constr("g", "x"), "a"), "y"), "b"))),
         // `(f . g)(a) <=> f(g(a))`
         Eqv(app(comp("f", "g"), "a"), app("f", app("g", "a"))),
+        // `(f . g){x}(a){y}(b) <=> (f . g{x}{y})(a)(b)`
+        Eqv(app(constr(app(constr(comp("f", "g"), "x"), "a"), "y"), "b"),
+            app2(comp("f", constr(constr("g", "x"), "y")), "a", "b")),
         // `(f . g){x}(a) <=> f(g{x}(a))`
         Eqv(app(constr(comp("f", "g"), "x"), "a"), app("f", app(constr("g", "x"), "a"))),
         // `(g . f)(a) <=> f[g](g(a))`
