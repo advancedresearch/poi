@@ -32,6 +32,8 @@ pub enum Symbol {
     /// This requires the expression to be `Ret` variant.
     /// It is used in special rules such as `(\k)(x) => \k`.
     RetVar(Arc<String>),
+    /// A variable that is not a value variable.
+    NotRetVar(Arc<String>),
     /// Compute a binary function.
     ///
     /// This is used when the right side of the rule computes something from two left side expressions.
@@ -258,6 +260,7 @@ impl fmt::Display for Symbol {
             VecOp => write!(w, "vec_op")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
+            NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
             Singleton(x) => write!(w, "[{}]", x)?,
             HeadTailTup(x, y) => write!(w, "({}, {}..)", x, y)?,
