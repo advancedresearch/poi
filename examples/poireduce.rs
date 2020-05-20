@@ -29,6 +29,7 @@ fn main() {
                 continue;
             }
             "help" => {print_help(); continue}
+            "help norm" => {print_help_norm(); continue}
             "help eqv" => {print_help_eqv(); continue}
             "help asym" => {print_help_asym(); continue}
             "help dom" => {print_help_dom(); continue}
@@ -114,6 +115,7 @@ fn main() {
 }
 
 fn print_help() {print!("{}", include_str!("../assets/help.txt"))}
+fn print_help_norm() {print!("{}", include_str!("../assets/help-norm.txt"))}
 fn print_help_eqv() {print!("{}", include_str!("../assets/help-eqv.txt"))}
 fn print_help_asym() {print!("{}", include_str!("../assets/help-asym.txt"))}
 fn print_help_dom() {print!("{}", include_str!("../assets/help-dom.txt"))}
