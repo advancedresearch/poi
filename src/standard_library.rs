@@ -303,8 +303,14 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Len, Concat), comp(path(Concat, Len), (comp(Len, Fst), comp(Len, Snd)))),
         // `sum . concat => concat[sum] . (sum . fst, sum . snd)`
         Red(comp(Sum, Concat), comp(path(Concat, Sum), (comp(Sum, Fst), comp(Sum, Snd)))),
+        // `(f . fst){x}(a){_}(_) => f{x}(a)`
+        Red(app(constr(app(constr(comp("f", Fst), "x"), "a"), Any), Any),
+            app(constr("f", "x"), "a")),
         // `(f . fst)(a)(_) => f(a)`
         Red(app2(comp("f", Fst), "a", Any), app("f", "a")),
+        // `(f . snd){_}(_){x}(a) => f{x}(a)`
+        Red(app(constr(app(constr(comp("f", Snd), Any), Any), "x"), "a"),
+            app(constr("f", "x"), "a")),
         // `(f . snd)(_)(a) => f(a)`
         Red(app2(comp("f", Snd), Any, "a"), app("f", "a")),
         // `(f . fst){_}(a)(_) => f(a)`
@@ -371,6 +377,10 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(comp("f", comp("g", "h")), comp(comp("f", "g"), "h")),
         // `f[g] <=> f[g -> id][id -> g]`
         Eqv(path("f", "g"), path(path("f", ("g", Id)), (Id, "g"))),
+        // `(f . (g0, g1)){x}(a){y}(b) <=> f(g0{x}(a){y}(b))(g1{x}(a){y}(b))`
+        Eqv(app(constr(app(constr(comp("f", ("g0", "g1")), "x"), "a"), "y"), "b"),
+            app2("f", app(constr(app(constr("g0", "x"), "a"), "y"), "b"),
+                      app(constr(app(constr("g1", "x"), "a"), "y"), "b"))),
         // `(f . (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b))`
         Eqv(app2(comp("f", ("g0", "g1")), "a", "b"),
             app2("f", app2("g0", "a", "b"), app2("g1", "a", "b"))),
