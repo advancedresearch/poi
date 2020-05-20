@@ -270,6 +270,9 @@ pub fn std() -> Vec<Knowledge> {
         // `d(x)(sin(mul(\k)(x))) => mul(k)(cos(mul(k)(x)))`
         Red(app2(D, "x", app(Sin, app2(Mul, ret_var("k"), "x"))),
             app2(Mul, "k", app(Cos, app2(Mul, "k", "x")))),
+        // `d(x)(cos(mul(\k)(x))) => mul(neg(k))(sin(mul(k)(x)))`
+        Red(app2(D, "x", app(Cos, app2(Mul, ret_var("k"), "x"))),
+            app2(Mul, app(Neg, "k"), app(Sin, app2(Mul, "k", "x")))),
 
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
