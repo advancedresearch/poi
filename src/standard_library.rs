@@ -412,6 +412,7 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(constr(comp("g", "f"), Any), "a"), app(path("f", "g"), app("g", "a"))),
         // `(g . f)(a)(b) <=> f[g](g(a))(g(b))`
         Eqv(app(app(comp("g", "f"), "a"), "b"), app2(path("f", "g"), app("g", "a"), app("g", "b"))),
+        // `g . f <=> f[g] . (g . fst, g . snd)`
         Eqv(comp("g", "f"), comp(path("f", "g"), (comp("g", Fst), comp("g", Snd)))),
         // `(g . f)(a) <=> f[g](g(a))`
         Eqv(app(comp("g", "f"), "a"), app(path("f", "g"), app("g", "a"))),
