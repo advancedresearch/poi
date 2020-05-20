@@ -1,0 +1,25 @@
+=== Symmetric Paths ===
+
+A symmetric path is a convenient short hand notation, e.g.:
+
+  and[not]
+
+This is equal to the same expression as an asymmetric path:
+
+  and[not x not -> not]
+
+The benefit of symmetric paths is that the number of arguments do not matter.
+
+Composition rules of symmetric paths is the same as for normal composition:
+
+  f[g][h] <=> f[h . g]
+
+Most of generic path semantics is first defined for symmetric paths,
+because the more general case of asymmetric paths is a simple modification.
+
+Many useful laws in mathematics are expressible as symmetric paths:
+
+  and[not] <=> or       or[not] <=> and       DeMorgan's laws
+  add[exp] <=> mul      mul[ln] <=> add       Exponentiation and logarithm
+  mul_mat[det] <=> mul                        Matrices and determinants
+  concat[len] <=> add                         Lists and lengths
