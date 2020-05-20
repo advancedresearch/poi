@@ -166,6 +166,8 @@ pub enum Symbol {
     Eq,
     /// Generic `neq`.
     Neq,
+    /// Derivative.
+    D,
     /// `if`.
     ///
     /// This is used in Boolean functions.
@@ -258,6 +260,7 @@ impl fmt::Display for Symbol {
             VecType => write!(w, "vec")?,
             Rty => write!(w, "rty")?,
             VecOp => write!(w, "vec_op")?,
+            D => write!(w, "d")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
