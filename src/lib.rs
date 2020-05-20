@@ -613,6 +613,24 @@ impl Context {
                 self.vars.push((name.clone(), x.clone()));
                 true
             }
+            (Sym(NotRetVar(_)), Ret(_)) | (Sym(NotRetVar(_)), Tup(_)) => {
+                self.vars.clear();
+                false
+            }
+            (Sym(NotRetVar(name)), _) => {
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == name {
+                        if &self.vars[i].1 == value {
+                            break
+                        } else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    }
+                }
+                self.vars.push((name.clone(), value.clone()));
+                true
+            }
             (Sym(RetVar(name)), Ret(_)) => {
                 for i in (0..self.vars.len()).rev() {
                     if &self.vars[i].0 == name {
@@ -897,6 +915,9 @@ pub fn singleton<A: Into<String>>(a: A) -> Expr {Sym(Singleton(Arc::new(a.into()
 
 /// A value variable.
 pub fn ret_var<A: Into<String>>(a: A) -> Expr {Sym(RetVar(Arc::new(a.into())))}
+
+/// A variable that is not a value variable.
+pub fn not_ret_var<A: Into<String>>(a: A) -> Expr {Sym(NotRetVar(Arc::new(a.into())))}
 
 /// A variable of the type value `a : \`.
 pub fn ret_type_var<A: Into<String>>(a: A) -> Expr {
