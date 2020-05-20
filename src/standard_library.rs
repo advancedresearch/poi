@@ -322,6 +322,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(constr(comp("f", Fst), Any), "a", Any), app("f", "a")),
         // `(f . snd){_}(_)(a) => f(a)`
         Red(app2(constr(comp("f", Snd), Any), Any, "a"), app("f", "a")),
+        // `(f . fst) . (x, _) <=> f . x`
+        Red(comp(comp("f", Fst), ("x", Any)), comp("f", "x")),
+        // `(f . snd) . (_, x) <=> f . x`
+        Red(comp(comp("f", Snd), (Any, "x")), comp("f", "x")),
 
         // `(x, y) . (a, b) => (x . (a, b), y . (a, b))`.
         Red(comp(("x", "y"), ("a", "b")), (comp("x", ("a", "b")), comp("y", ("a", "b"))).into()),
