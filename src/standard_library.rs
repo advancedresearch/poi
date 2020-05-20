@@ -193,6 +193,9 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(_)(0) => 0`
         Red(app2(Mul, Any, 0.0), 0.0.into()),
 
+        // `add(x)(neg(y)) => sub(x)(y)`
+        Red(app2(Add, "x", app(Neg, "y")), app2(Sub, "x", "y")),
+
         // `f(x : \)(y : \) => f(x)(y) : \`
         concrete_op(Add),
         concrete_op(Sub),
