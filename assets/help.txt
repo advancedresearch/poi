@@ -10,6 +10,7 @@ Special commands:
 - ``             prints separator for readability
 - def <symbol>   lists definitions of symbol
 - std            lists all rules in standard library
+- help norm      more help about normal paths
 - help asym      more help about asymmetric paths
 - help eqv       more help about equivalent expressions
 - help dom       more help about domains and partial functions

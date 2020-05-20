@@ -1,0 +1,40 @@
+=== Normal Paths ===
+
+A normal path is the secret sauce of path semantics.
+
+A normal path is basically everything one can predict about a function.
+If a function is sufficiently complex, then it is impossible to predict it.
+
+The properties `g0` of `g1` of the input of `f` predicts the property `g2`:
+
+  f[g0 x g1 -> g2]
+
+Normal paths asks this question and the answer is either "no" or a function.
+This function, often written `h`, computes the prediction.
+
+In the language of Homotopy Theory, a normal path is how paths between paths
+looks from "inside" the paths. The function `f` is contracted into `h`,
+meaning that `h` is equivalent to `f`, but seen from another perspective.
+When `h` is smaller than `f`, the maps `g0, g1, g2` contracts information.
+
+This works because mathematics is used in a physical world, where functions
+are transformed continuously from one state to another. Some people claim
+that path semantics is obscurity, but it is quite the opposite: Path semantics
+removes the illusion of knowing what functions are, and reveals what they
+actually are. There is nothing magical about it.
+
+Normal paths are precisely defined and always have been,
+as precise it is possible to express it in logic:
+
+   g2(f(a, b)) = h(g0(a), g1(a))
+
+However, since it was not obvious what minimum requirements there are for
+"bootstrapping" into normal paths, a core axiom was developed for path semantics.
+This core axiom defines the primitive logical relations that are required for
+constructing functions and associating functions with each other.
+The bootstrapping process has been proven to be sound for Boolean algebra.
+This means, every well-defined program for computers using bits are covered.
+
+There is no reason to believe that normal paths themselves as ideas are unsound,
+but the difficulty has been to express correct inference rules covering edge cases,
+since path semantics is much more expressive than many formal languages.
