@@ -1,6 +1,9 @@
 === Normal Paths ===
 
-A normal path is the secret sauce of path semantics.
+A normal path is the secret sauce of path semantics. There are two kinds:
+
+  - symmetric paths e.g. `f[g]`
+  - asymmetric paths e.g. `f[g0 x g1 -> g2]`
 
 A normal path is basically everything one can predict about a function.
 If a function is sufficiently complex, then it is impossible to predict it.
