@@ -249,6 +249,9 @@ pub fn std() -> Vec<Knowledge> {
         // `and . (le, ge) => eq`
         Red(comp(And, (Le, Ge)), Eq.into()),
 
+        // `d(x)(x) => 1`
+        Red(app2(D, "x", "x"), 1.0.into()),
+
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
         // `or{eq} => fstb`
