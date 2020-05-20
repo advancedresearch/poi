@@ -344,6 +344,9 @@ pub fn std() -> Vec<Knowledge> {
         // `f([x..]) => f{(: vec)}(x)`
         Red(app(no_constr("f"), list_var("x")), app(constr("f", app(Rty, VecType)), "x")),
 
+        // `add(!\a)(\b) => add(b)(a)`
+        Red(app2(Add, not_ret_var("a"), ret_var("b")), app2(Add, "b", "a")),
+
         // `not . nand <=> and`.
         Eqv(comp(Not, Nand), And.into()),
         // `not . nor <=> or`.
