@@ -349,6 +349,9 @@ pub fn std() -> Vec<Knowledge> {
 
         // `add(!\a)(\b) => add(b)(a)`
         Red(app2(Add, not_ret_var("a"), ret_var("b")), app2(Add, "b", "a")),
+        // `add(!\a)(add(\b)(c)) => add(b)(add(a)(c))`
+        Red(app2(Add, not_ret_var("a"), app2(Add, ret_var("b"), "c")),
+            app2(Add, "b", app2(Add, "a", "c"))),
 
         // `not . nand <=> and`.
         Eqv(comp(Not, Nand), And.into()),
