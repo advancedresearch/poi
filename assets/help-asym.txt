@@ -2,3 +2,40 @@
 
 You can write asymmetric paths, e.g. `not . and[not x id -> id]`.
 This will reduce to `and[not ⨯ id → not]`.
+
+An asymmetric path consists of two parts:
+
+- The functions that are used to transform the input, e.g. `not x id`
+- The function that is used to transform the output, e.g. `id`
+
+The arrow `->` is used to distinguish between the two parts.
+
+When only `id` is used to transform the inputs, one gets function composition:
+
+  f[id x id -> g] <=> g . f
+
+The most difficult thing to understand about asymmetric paths is when some
+function, that is not `id`, is used to transform the input.
+This means that some information is removed or added to the input.
+
+When some information is added, it happens inside the path:
+
+  f[g(a) -> id]
+
+When there are no arguments inside the path and the function is not `id`,
+it means that some information is removed.
+If the normal path exists when mapping to `id`, then it is a proof that there
+was some information in the input was not needed to compute the output.
+
+The only way one can have a normal path that uses all the input information,
+is by mapping to some function that is not `id`:
+
+  f[g0 -> g1]
+
+This contracts `f` along the path such that:
+
+  f[g0 -> g1] . g0 <=> g1 . f
+
+Notice that `f[g0 -> g1]` does not need to be solved in order to be sound.
+It is like complex roots of polynomials, they are always defined.
+In order to convert it into a real program, one must find the solution.
