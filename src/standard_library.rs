@@ -253,6 +253,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(D, "x", "x"), 1.0.into()),
         // `d(x)(mul(\k)(y)) => mul(k)(d(x)(y))`
         Red(app2(D, "x", app2(Mul, ret_var("k"), "y")), app2(Mul, "k", app2(D, "x", "y"))),
+        // `d(x)(pow(x)(\k)) => mul(k)(pow(x)(sub(k)(1)))`
+        Red(app2(D, "x", app2(Pow, "x", ret_var("k"))),
+            app2(Mul, "k", app2(Pow, "x", app2(Sub, "k", 1.0)))),
 
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
