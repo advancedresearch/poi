@@ -256,24 +256,24 @@ pub fn std() -> Vec<Knowledge> {
         // `and . (le, ge) => eq`
         Red(comp(And, (Le, Ge)), Eq.into()),
 
-        // `d(x)(x) => 1`
-        Red(app2(D, "x", "x"), 1.0.into()),
+        // `d(!\x)(x) => 1`
+        Red(app2(D, not_ret_var("x"), "x"), 1.0.into()),
         // `d(!\x)(\y) => 0`
         Red(app2(D, not_ret_var("x"), ret_var("y")), 0.0.into()),
-        // `d(x)(mul(\k)(y)) => mul(k)(d(x)(y))`
-        Red(app2(D, "x", app2(Mul, ret_var("k"), "y")), app2(Mul, "k", app2(D, "x", "y"))),
-        // `d(x)(pow(x)(\k)) => mul(k)(pow(x)(sub(k)(1)))`
-        Red(app2(D, "x", app2(Pow, "x", ret_var("k"))),
+        // `d(!\x)(mul(\k)(y)) => mul(k)(d(x)(y))`
+        Red(app2(D, not_ret_var("x"), app2(Mul, ret_var("k"), "y")), app2(Mul, "k", app2(D, "x", "y"))),
+        // `d(!\x)(pow(x)(\k)) => mul(k)(pow(x)(sub(k)(1)))`
+        Red(app2(D, not_ret_var("x"), app2(Pow, "x", ret_var("k"))),
             app2(Mul, "k", app2(Pow, "x", app2(Sub, "k", 1.0)))),
-        // `d(x)(sin(x)) => cos(x)`
-        Red(app2(D, "x", app(Sin, "x")), app(Cos, "x")),
-        // `d(x)(cos(x)) => neg(sin(x))`
-        Red(app2(D, "x", app(Cos, "x")), app(Neg, app(Sin, "x"))),
-        // `d(x)(sin(mul(\k)(x))) => mul(k)(cos(mul(k)(x)))`
-        Red(app2(D, "x", app(Sin, app2(Mul, ret_var("k"), "x"))),
+        // `d(!\x)(sin(x)) => cos(x)`
+        Red(app2(D, not_ret_var("x"), app(Sin, "x")), app(Cos, "x")),
+        // `d(!\x)(cos(x)) => neg(sin(x))`
+        Red(app2(D, not_ret_var("x"), app(Cos, "x")), app(Neg, app(Sin, "x"))),
+        // `d(!\x)(sin(mul(\k)(x))) => mul(k)(cos(mul(k)(x)))`
+        Red(app2(D, not_ret_var("x"), app(Sin, app2(Mul, ret_var("k"), "x"))),
             app2(Mul, "k", app(Cos, app2(Mul, "k", "x")))),
-        // `d(x)(cos(mul(\k)(x))) => mul(neg(k))(sin(mul(k)(x)))`
-        Red(app2(D, "x", app(Cos, app2(Mul, ret_var("k"), "x"))),
+        // `d(!\x)(cos(mul(\k)(x))) => mul(neg(k))(sin(mul(k)(x)))`
+        Red(app2(D, not_ret_var("x"), app(Cos, app2(Mul, ret_var("k"), "x"))),
             app2(Mul, app(Neg, "k"), app(Sin, app2(Mul, "k", "x")))),
 
         // `and{eq} => fstb`
