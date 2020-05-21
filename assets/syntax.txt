@@ -4,6 +4,7 @@ _seps: "[]():,.·⨯-→{}"
   ":":"rty"
   "<=":"rle"
   "<":"rlt"
+  ">":"rgt"
 } .w! expr:"arg" .w? ")"]
 13 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
 12 tup_items_expr = tup_items:"tup"
