@@ -297,6 +297,8 @@ pub fn std() -> Vec<Knowledge> {
         // `and . ((< \x), (< \y)) => (< min2(x)(y))`
         Red(comp(And, (app(Rlt, ret_var("x")), app(Rlt, ret_var("y")))),
             app(Rlt, app2(Min2, "x", "y"))),
+        // `or . ((< x), eq(x)) => (<= x)`
+        Red(comp(Or, (app(Rlt, "x"), app(Eq, "x"))), app(Rle, "x")),
 
         // `d(!\x)(x) => 1`
         Red(app2(D, not_ret_var("x"), "x"), 1.0.into()),
