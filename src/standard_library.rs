@@ -85,6 +85,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Not, app(Rge, "x")), app(Rlt, "x")),
         // `not . (> x) => (<= x)`
         Red(comp(Not, app(Rgt, "x")), app(Rle, "x")),
+        // `not . (<= x) => (> x)`
+        Red(comp(Not, app(Rle, "x")), app(Rgt, "x")),
 
         // `add[even] => eqb`.
         Red(path(Add, Even), Eqb.into()),
