@@ -259,6 +259,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(And, (app(Rge, "x"), app(Rge, "x"))), app(Rge, "x")),
         // `and . ((> x), (> x)) => (> x)`
         Red(comp(And, (app(Rgt, "x"), app(Rgt, "x"))), app(Rgt, "x")),
+        // `and . ((<= x), (<= x)) => (<= x)`
+        Red(comp(And, (app(Rle, "x"), app(Rle, "x"))), app(Rle, "x")),
 
         // `d(!\x)(x) => 1`
         Red(app2(D, not_ret_var("x"), "x"), 1.0.into()),
