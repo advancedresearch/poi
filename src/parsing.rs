@@ -55,6 +55,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "neqb" => Xor,
                 "id" => Id,
                 "lt" => Lt,
+                "rlt" => Rlt,
                 "le" => Le,
                 "rle" => Rle,
                 "gt" => Gt,

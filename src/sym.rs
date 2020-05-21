@@ -82,6 +82,8 @@ pub enum Symbol {
     Odd,
     /// `lt`.
     Lt,
+    /// `(< _)(_)`.
+    Rlt,
     /// `le`.
     Le,
     /// `(<= _)(_)`.
@@ -216,6 +218,7 @@ impl fmt::Display for Symbol {
             Even => write!(w, "even")?,
             Odd => write!(w, "odd")?,
             Lt => write!(w, "lt")?,
+            Rlt => write!(w, "rlt")?,
             Le => write!(w, "le")?,
             Rle => write!(w, "rle")?,
             Gt => write!(w, "gt")?,
