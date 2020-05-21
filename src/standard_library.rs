@@ -456,6 +456,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Rgt, "x"), app(Lt, "x")),
         // `(<= x) <=> ge(x)`
         Eqv(app(Rle, "x"), app(Ge, "x")),
+        // `(< x) <=> gt(x)`
+        Eqv(app(Rlt, "x"), app(Gt, "x")),
 
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
