@@ -190,6 +190,9 @@ fn parse_rapp(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
         } else if let Ok((range, _)) = convert.meta_bool("rty") {
             convert.update(range);
             sym = Some(Rty);
+        } else if let Ok((range, _)) = convert.meta_bool("rlt") {
+            convert.update(range);
+            sym = Some(Rlt);
         } else if let Ok((range, val)) = parse_expr("arg", convert, ignored) {
             convert.update(range);
             arg = Some(val);
