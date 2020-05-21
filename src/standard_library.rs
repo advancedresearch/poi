@@ -452,6 +452,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(comp(Not, Xor), Eqb.into()),
         // `(>= x) <=> le(x)`
         Eqv(app(Rge, "x"), app(Le, "x")),
+        // `(> x) <=> lt(x)`
+        Eqv(app(Rgt, "x"), app(Lt, "x")),
 
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
