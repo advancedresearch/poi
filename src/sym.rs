@@ -296,6 +296,8 @@ impl fmt::Display for Symbol {
                     Concat => write!(w, "{} ++ {}", x, y)?,
                     Push => write!(w, "compute::push({}, {})", x, y)?,
                     PushFront => write!(w, "compute::push_front({}, {})", x, y)?,
+                    Max2 => write!(w, "compute::max2({}, {})", x, y)?,
+                    Min2 => write!(w, "compute::min2({}, {})", x, y)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
