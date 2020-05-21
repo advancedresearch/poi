@@ -337,6 +337,9 @@ pub fn std() -> Vec<Knowledge> {
         // `∃(add{(<= x)}{(<= y)}) => (<= add(x)(y))`
         Red(app(Ex, constr(constr(Add, app(Rle, "x")), app(Rle, "y"))),
             app(Rle, app2(Add, "x", "y"))),
+        // `∃(add{(< x)}{(< y)}) => (< add(x)(y))`
+        Red(app(Ex, constr(constr(Add, app(Rlt, "x")), app(Rlt, "y"))),
+            app(Rlt, app2(Add, "x", "y"))),
 
         // `idb => id`
         Red(Idb.into(), Id.into()),
