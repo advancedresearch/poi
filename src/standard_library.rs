@@ -181,6 +181,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(constr(Sum, app(Rty, VecType)), singleton("x")), "x".into()),
         // `max2(\x)(\y) => compute::max2(x, y)`
         Red(app2(Max2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Max2)),
+        // `min2(\x)(\y) => compute::min2(x, y)`
+        Red(app2(Min2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Min2)),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
