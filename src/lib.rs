@@ -780,6 +780,7 @@ impl Context {
                             } else {
                                 a / b
                             }
+                            Max2 => if a >= b {a} else {b},
                             _ => return Err(Error::InvalidComputation),
                         })))
                     }
