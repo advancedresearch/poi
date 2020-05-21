@@ -15,6 +15,11 @@ fn main() {
             }
         };
 
+        match input.trim() {
+            "bye" => break,
+            _ => {}
+        }
+
         let expr = match parse_str(&input) {
             Ok(expr) => expr,
             Err(err) => {
