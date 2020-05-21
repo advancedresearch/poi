@@ -81,6 +81,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Nor, Not), Nand.into()),
         // `nand[not x not -> id] => and[not]`
         Red(path(Nand, (Not, Not, Id)), path(And, Not)),
+        // `not . (>= x) => (< x)`
+        Red(comp(Not, app(Rge, "x")), app(Rlt, "x")),
 
         // `add[even] => eqb`.
         Red(path(Add, Even), Eqb.into()),
