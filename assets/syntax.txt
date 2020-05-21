@@ -1,6 +1,10 @@
 _seps: "[]():,.·⨯-→{}"
 
-14 rapp = ["(" .w? {":":"rty" "<":"rlt"} .w! expr:"arg" .w? ")"]
+14 rapp = ["(" .w? {
+  ":":"rty"
+  "<=":"rle"
+  "<":"rlt"
+} .w! expr:"arg" .w? ")"]
 13 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
 12 tup_items_expr = tup_items:"tup"
 11 tup_items = [.s!([.w? "," .w?] expr:"item")]
