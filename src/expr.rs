@@ -65,6 +65,8 @@ impl fmt::Display for Expr {
                     }
                 } else if let Sym(Rlt) = **a {
                     write!(w, "(< {})", b)?;
+                } else if let Sym(Rle) = **a {
+                    write!(w, "(<= {})", b)?;
                 } else {
                     if let Op(Compose, _, _) = **a {
                         write!(w, "({})", a)?;
