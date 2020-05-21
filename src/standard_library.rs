@@ -179,6 +179,16 @@ pub fn std() -> Vec<Knowledge> {
             app2(Add, "x", app(constr(Sum, app(Rty, VecType)), "y"))),
         // `sum{(: vec)}([x]) => x`
         Red(app(constr(Sum, app(Rty, VecType)), singleton("x")), "x".into()),
+        // `max{(: vec)}([x, y..]) => max2(x)(max{(: vec)}(y))`
+        Red(app(constr(Max, app(Rty, VecType)), head_tail_list("x", "y")),
+            app2(Max2, "x", app(constr(Max, app(Rty, VecType)), "y"))),
+        // `max{(: vec)}([x]) => x`
+        Red(app(constr(Max, app(Rty, VecType)), singleton("x")), "x".into()),
+        // `min{(: vec)}([x, y..]) => min2(x)(min{(: vec)}(y))`
+        Red(app(constr(Min, app(Rty, VecType)), head_tail_list("x", "y")),
+            app2(Min2, "x", app(constr(Min, app(Rty, VecType)), "y"))),
+        // `min{(: vec)}([x]) => x`
+        Red(app(constr(Min, app(Rty, VecType)), singleton("x")), "x".into()),
         // `max2(\x)(\y) => compute::max2(x, y)`
         Red(app2(Max2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Max2)),
         // `min2(\x)(\y) => compute::min2(x, y)`
