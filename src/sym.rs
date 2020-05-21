@@ -88,7 +88,7 @@ pub enum Symbol {
     Gt,
     /// `ge`.
     Ge,
-    /// `(> _)(_)`.
+    /// `(>= _)(_)`.
     Rge,
     /// `neg`.
     Neg,
