@@ -89,6 +89,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "max2" => Max2,
                 "min" => Min,
                 "max" => Max,
+                "range" => Range,
                 "eq" => Eq,
                 "neq" => Neq,
                 "if" => If,
