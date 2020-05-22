@@ -297,6 +297,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(And, (app(Rgt, "x"), app(Rlt, "x"))), comp(And, (app(Rlt, "x"), app(Rgt, "x")))),
         // `and . ((<= x), (>= x)) => eq(x)`
         Red(comp(And, (app(Rle, "x"), app(Rge, "x"))), app(Eq, "x")),
+        // `and . ((>= x), (<= y)) => and . ((<= y), (>= x))`
+        Red(comp(And, (app(Rge, "x"), app(Rle, "y"))), comp(And, (app(Rle, "y"), app(Rge, "x")))),
         // `or . ((< x), eq(x)) => (<= x)`
         Red(comp(Or, (app(Rlt, "x"), app(Eq, "x"))), app(Rle, "x")),
         // `or . (eq(x), (> x)) => (>= x)`
