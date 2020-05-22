@@ -668,9 +668,28 @@ impl Context {
                     List(list[1..].into())
                 };
 
-                let r = r && self.bind(tail, &b);
-                if !r {self.vars.clear()};
-                r
+                if r {
+                    if let Sym(Var(tail)) = &**tail {
+                        for i in (0..self.vars.len()).rev() {
+                            if &self.vars[i].0 == tail {
+                                if &self.vars[i].1 == &b {
+                                    break
+                                } else {
+                                    self.vars.clear();
+                                    return false;
+                                }
+                            }
+                        }
+                        self.vars.push((tail.clone(), b));
+                        true
+                    } else {
+                        self.vars.clear();
+                        false
+                    }
+                } else {
+                    self.vars.clear();
+                    false
+                }
             }
             (Sym(Any), _) => true,
             (Sym(a), Sym(b)) if a == b => true,
