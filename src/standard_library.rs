@@ -293,8 +293,8 @@ pub fn std() -> Vec<Knowledge> {
             app(Rlt, app2(Min2, "x", "y"))),
         // `and . ((< x), (> x)) => \false`
         Red(comp(And, (app(Rlt, "x"), app(Rgt, "x"))), false.into()),
-        // `and . ((> x), (< x)) => and . ((< x), (> x))`
-        Red(comp(And, (app(Rgt, "x"), app(Rlt, "x"))), comp(And, (app(Rlt, "x"), app(Rgt, "x")))),
+        // `and . ((> x), (< y)) => and . ((< y), (> x))`
+        Red(comp(And, (app(Rgt, "x"), app(Rlt, "y"))), comp(And, (app(Rlt, "y"), app(Rgt, "x")))),
         // `and . ((<= x), (>= x)) => eq(x)`
         Red(comp(And, (app(Rle, "x"), app(Rge, "x"))), app(Eq, "x")),
         // `and . ((>= x), (<= y)) => and . ((<= y), (>= x))`
