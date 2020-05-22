@@ -38,6 +38,10 @@ pub enum Symbol {
     ///
     /// This is used when the right side of the rule computes something from two left side expressions.
     BinopRetVar(Arc<String>, Arc<String>, Box<Symbol>),
+    /// Compute a ternary function.
+    ///
+    /// This is used when the right side of the rule computes something from three left side expressions.
+    TernopRetVar(Arc<String>, Arc<String>, Arc<String>, Box<Symbol>),
     /// Compute a unary function.
     ///
     /// This is used when the right side of the rule computes something from a left side expression.
@@ -320,7 +324,7 @@ impl fmt::Display for Symbol {
                     _ => write!(w, "{:?}", self)?,
                 }
             }
-            // _ => write!(w, "{:?}", self)?,
+            _ => write!(w, "{:?}", self)?,
         }
         Ok(())
     }
