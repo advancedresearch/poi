@@ -136,6 +136,8 @@ pub enum Symbol {
     Min,
     /// `max`.
     Max,
+    /// `range` [a, b].
+    Range,
     /// `mul_mat`.
     MulMat,
     /// `det`.
@@ -245,6 +247,7 @@ impl fmt::Display for Symbol {
             Max2 => write!(w, "max2")?,
             Min => write!(w, "min")?,
             Max => write!(w, "max")?,
+            Range => write!(w, "range")?,
             MulMat => write!(w, "mul_mat")?,
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
