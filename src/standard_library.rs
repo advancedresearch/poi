@@ -18,9 +18,9 @@ pub fn std() -> Vec<Knowledge> {
         Def(Fstb, _if(true, false)),
         Def(Sndb, _if(_if(true, false), _if(true, false))),
 
-        // `x(y, z) => x(y)(z)`
+        // `x((y, z..)) => x(y)(z)`
         Red(app("x", head_tail_tup("y", "z")), app2("x", "y", "z")),
-        // `x{y, z} => x{y}{z}`
+        // `x{(y, z..)} => x{y}{z}`
         Red(constr("x", head_tail_tup("y", "z")), constr(constr("x", "y"), "z")),
         // `x{y}{z}(a)(b) => x{y}(a){z}(b)`
         Red(app2(constr(constr("x", "y"), "z"), "a", "b"),
