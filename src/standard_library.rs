@@ -277,14 +277,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Not, comp(Not, "x")), "x".into()),
         // `and . (le, ge) => eq`
         Red(comp(And, (Le, Ge)), Eq.into()),
-        // `and . ((>= x), (>= x)) => (>= x)`
-        Red(comp(And, (app(Rge, "x"), app(Rge, "x"))), app(Rge, "x")),
-        // `and . ((> x), (> x)) => (> x)`
-        Red(comp(And, (app(Rgt, "x"), app(Rgt, "x"))), app(Rgt, "x")),
-        // `and . ((<= x), (<= x)) => (<= x)`
-        Red(comp(And, (app(Rle, "x"), app(Rle, "x"))), app(Rle, "x")),
-        // `and . ((< x), (< x)) => (< x)`
-        Red(comp(And, (app(Rlt, "x"), app(Rlt, "x"))), app(Rlt, "x")),
+        // `and . (f, f) => f`
+        Red(comp(And, ("f", "f")), "f".into()),
         // `and . ((>= \x), (>= \y)) => (>= max2(x)(y))`
         Red(comp(And, (app(Rge, ret_var("x")), app(Rge, ret_var("y")))),
             app(Rge, app2(Max2, "x", "y"))),
