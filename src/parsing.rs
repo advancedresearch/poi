@@ -92,6 +92,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "range" => Range,
                 "rangel" => Rangel,
                 "ranger" => Ranger,
+                "rangem" => Rangem,
                 "eq" => Eq,
                 "neq" => Neq,
                 "if" => If,
