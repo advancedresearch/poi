@@ -838,6 +838,40 @@ impl Context {
                     }
                 }
             }
+            Sym(TernopRetVar(a, b, c, f)) => {
+                let mut av: Option<Expr> = None;
+                let mut bv: Option<Expr> = None;
+                let mut cv: Option<Expr> = None;
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == a {
+                        av = Some(self.vars[i].1.clone());
+                    }
+                    if &self.vars[i].0 == b {
+                        bv = Some(self.vars[i].1.clone());
+                    }
+                    if &self.vars[i].0 == c {
+                        cv = Some(self.vars[i].1.clone());
+                    }
+                }
+                match (av, bv, cv) {
+                    (Some(Ret(F64(a))), Some(Ret(F64(b))), Some(Ret(F64(c)))) => {
+                        Ok(match **f {
+                            Range => if c >= a && c <= b {Ret(Bool(true))}
+                                     else {Ret(Bool(false))},
+                            _ => return Err(Error::InvalidComputation)
+                        })
+                    }
+                    (av, bv, _) => {
+                        if av.is_none() {
+                            Err(Error::CouldNotFind(a.clone()))
+                        } else if bv.is_none() {
+                            Err(Error::CouldNotFind(b.clone()))
+                        } else {
+                            Err(Error::CouldNotFind(c.clone()))
+                        }
+                    }
+                }
+            }
             Sym(_) | Ret(_) => Ok(x.clone()),
             Op(op, a, b) => {
                 Ok(Op(*op, Box::new(self.substitute(a)?), Box::new(self.substitute(b)?)))
@@ -895,6 +929,13 @@ pub fn app2<A: Into<Expr>, B: Into<Expr>, C: Into<Expr>>(a: A, b: B, c: C) -> Ex
     app(app(a, b), c)
 }
 
+/// A function applied to three arguments.
+pub fn app3<A: Into<Expr>, B: Into<Expr>, C: Into<Expr>, D: Into<Expr>>(
+    a: A, b: B, c: C, d: D
+) -> Expr {
+    app2(app(a, b), c, d)
+}
+
 /// A function composition.
 pub fn comp<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     Op(Compose, Box::new(a.into()), Box::new(b.into()))
@@ -948,6 +989,13 @@ pub fn ret_type_var<A: Into<String>>(a: A) -> Expr {
 /// Compute a binary function.
 pub fn binop_ret_var<A: Into<String>, B: Into<String>, F: Into<Symbol>>(a: A, b: B, f: F) -> Expr {
     Sym(BinopRetVar(Arc::new(a.into()), Arc::new(b.into()), Box::new(f.into())))
+}
+
+/// Compute a ternary function.
+pub fn ternop_ret_var<A: Into<String>, B: Into<String>, C: Into<String>, F: Into<Symbol>>(
+    a: A, b: B, c: C, f: F
+) -> Expr {
+    Sym(TernopRetVar(Arc::new(a.into()), Arc::new(b.into()), Arc::new(c.into()), Box::new(f.into())))
 }
 
 /// Compute a unary function.
