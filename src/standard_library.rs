@@ -204,6 +204,9 @@ pub fn std() -> Vec<Knowledge> {
         // `range(\x)(\y)(\z) => compute::range(x, y, z)`
         Red(app3(Range, ret_var("x"), ret_var("y"), ret_var("z")),
             ternop_ret_var("x", "y", "z", Range)),
+        // `rangel(\x)(\y)(\z) => compute::rangel(x, y, z)`
+        Red(app3(Rangel, ret_var("x"), ret_var("y"), ret_var("z")),
+            ternop_ret_var("x", "y", "z", Rangel)),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),

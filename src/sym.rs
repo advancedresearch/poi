@@ -320,6 +320,7 @@ impl fmt::Display for Symbol {
             TernopRetVar(x, y, z, f) => {
                 match **f {
                     Range => write!(w, "compute::range({}, {}, {})", x, y, z)?,
+                    Rangel => write!(w, "compute::rangel({}, {}, {})", x, y, z)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }

@@ -858,6 +858,8 @@ impl Context {
                         Ok(match **f {
                             Range => if c >= a && c <= b {Ret(Bool(true))}
                                      else {Ret(Bool(false))},
+                            Rangel => if c >= a && c < b {Ret(Bool(true))}
+                                      else {Ret(Bool(false))},
                             _ => return Err(Error::InvalidComputation)
                         })
                     }
