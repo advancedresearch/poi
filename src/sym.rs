@@ -192,6 +192,8 @@ pub enum Symbol {
     El,
     /// `re`.
     Re,
+    /// `im`.
+    Im,
     /// Generic `id`.
     Id,
     /// Generic `eq`.
@@ -297,6 +299,7 @@ impl fmt::Display for Symbol {
             Item => write!(w, "item")?,
             El => write!(w, "el")?,
             Re => write!(w, "re")?,
+            Im => write!(w, "im")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
             Neq => write!(w, "neq")?,
