@@ -229,6 +229,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Re, "x"), app2(Item, 0.0, "x")),
         // `im(x) => item(1)(x)`
         Red(app(Im, "x"), app2(Item, 1.0, "x")),
+        // `mulc([x0, y0], [x1, y1]) => [sub(mul(x0)(x1))(mul(y0)(y1)), add(mul(x0)(y1))(mul(x1)(y0))]`
+        Red(app2(Mulc, vec2("x0", "y0"), vec2("x1", "y1")),
+            vec2(app2(Sub, app2(Mul, "x0", "x1"), app2(Mul, "y0", "y1")),
+                 app2(Add, app2(Mul, "x0", "y1"), app2(Mul, "x1", "y0")))),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
