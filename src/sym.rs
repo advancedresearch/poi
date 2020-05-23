@@ -152,6 +152,8 @@ pub enum Symbol {
     Prob,
     /// `probl` [0, 1).
     Probl,
+    /// `probr` (0, 1].
+    Probr,
     /// `mul_mat`.
     MulMat,
     /// `det`.
@@ -267,6 +269,7 @@ impl fmt::Display for Symbol {
             Rangem => write!(w, "rangem")?,
             Prob => write!(w, "prob")?,
             Probl => write!(w, "probl")?,
+            Probr => write!(w, "probr")?,
             MulMat => write!(w, "mul_mat")?,
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
