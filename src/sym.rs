@@ -321,6 +321,7 @@ impl fmt::Display for Symbol {
                 match **f {
                     Range => write!(w, "compute::range({}, {}, {})", x, y, z)?,
                     Rangel => write!(w, "compute::rangel({}, {}, {})", x, y, z)?,
+                    Ranger => write!(w, "compute::ranger({}, {}, {})", x, y, z)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
