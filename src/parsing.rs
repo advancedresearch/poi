@@ -63,6 +63,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "ge" => Ge,
                 "rge" => Rge,
                 "mul" => Mul,
+                "mulc" => Mulc,
                 "div" => Div,
                 "rem" => Rem,
                 "pow" => Pow,
