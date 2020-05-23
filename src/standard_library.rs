@@ -392,6 +392,9 @@ pub fn std() -> Vec<Knowledge> {
         // `or . ((< \x), (<= \y)) => if((<= y), (< x))(le(x)(y))`
         Red(comp(Or, (app(Rlt, ret_var("x")), app(Rle, ret_var("y")))),
             app(_if(app(Rle, "y"), app(Rlt, "x")), app2(Le, "x", "y"))),
+        // `or . ((> \x), (>= \y)) => if((>= y), (> x))(ge(x)(y))`
+        Red(comp(Or, (app(Rgt, ret_var("x")), app(Rge, ret_var("y")))),
+            app(_if(app(Rge, "y"), app(Gt, "x")), app2(Ge, "x", "y"))),
         // `or . (f, f) => f`
         Red(comp(Or, ("f", "f")), "f".into()),
 
