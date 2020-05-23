@@ -148,6 +148,8 @@ pub enum Symbol {
     Ranger,
     /// `rangem` (a, b).
     Rangem,
+    /// `prob` [0, 1].
+    Prob,
     /// `mul_mat`.
     MulMat,
     /// `det`.
@@ -261,6 +263,7 @@ impl fmt::Display for Symbol {
             Rangel => write!(w, "rangel")?,
             Ranger => write!(w, "ranger")?,
             Rangem => write!(w, "rangem")?,
+            Prob => write!(w, "prob")?,
             MulMat => write!(w, "mul_mat")?,
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
