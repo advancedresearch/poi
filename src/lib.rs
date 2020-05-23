@@ -860,6 +860,8 @@ impl Context {
                                      else {Ret(Bool(false))},
                             Rangel => if c >= a && c < b {Ret(Bool(true))}
                                       else {Ret(Bool(false))},
+                            Ranger => if c > a && c <= b {Ret(Bool(true))}
+                                      else {Ret(Bool(false))},
                             _ => return Err(Error::InvalidComputation)
                         })
                     }
