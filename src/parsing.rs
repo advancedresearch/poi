@@ -96,6 +96,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "prob" => Prob,
                 "probl" => Probl,
                 "probr" => Probr,
+                "probm" => Probm,
                 "eq" => Eq,
                 "neq" => Neq,
                 "if" => If,
