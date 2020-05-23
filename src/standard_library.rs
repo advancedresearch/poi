@@ -201,6 +201,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Max2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Max2)),
         // `min2(\x)(\y) => compute::min2(x, y)`
         Red(app2(Min2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Min2)),
+        // `range(\x)(\y)(\z) => compute::range(x, y, z)`
+        Red(app3(Range, ret_var("x"), ret_var("y"), ret_var("z")),
+            ternop_ret_var("x", "y", "z", Range)),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),

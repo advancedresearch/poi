@@ -317,6 +317,12 @@ impl fmt::Display for Symbol {
                     _ => write!(w, "{:?}", self)?,
                 }
             }
+            TernopRetVar(x, y, z, f) => {
+                match **f {
+                    Range => write!(w, "compute::range({}, {}, {})", x, y, z)?,
+                    _ => write!(w, "{:?}", self)?,
+                }
+            }
             UnopRetVar(x, f) => {
                 match **f {
                     Neg => write!(w, "-{}", x)?,
@@ -324,7 +330,7 @@ impl fmt::Display for Symbol {
                     _ => write!(w, "{:?}", self)?,
                 }
             }
-            _ => write!(w, "{:?}", self)?,
+            // _ => write!(w, "{:?}", self)?,
         }
         Ok(())
     }
