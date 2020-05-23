@@ -808,6 +808,13 @@ impl Context {
                             _ => return Err(Error::InvalidComputation),
                         })))
                     }
+                    (Some(Ret(F64(a))), Some(List(b))) => {
+                        Ok(match **f {
+                            Item if a >= 0.0 && a < b.len() as f64 =>
+                                b[a as usize].clone(),
+                            _ => return Err(Error::InvalidComputation),
+                        })
+                    }
                     (Some(List(a)), Some(List(b))) => {
                         Ok(match **f {
                             Concat => {
