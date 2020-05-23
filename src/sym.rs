@@ -186,6 +186,8 @@ pub enum Symbol {
     Push,
     /// `push_front`.
     PushFront,
+    /// `item` (index, list).
+    Item,
     /// `el`.
     El,
     /// Generic `id`.
@@ -290,6 +292,7 @@ impl fmt::Display for Symbol {
             Dot => write!(w, "dot")?,
             Push => write!(w, "push")?,
             PushFront => write!(w, "push_front")?,
+            Item => write!(w, "item")?,
             El => write!(w, "el")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
