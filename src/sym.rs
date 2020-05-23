@@ -102,6 +102,8 @@ pub enum Symbol {
     Rge,
     /// `neg`.
     Neg,
+    /// `conj` (complex conjugate).
+    Conj,
     /// `add`.
     Add,
     /// `sub`.
@@ -256,6 +258,7 @@ impl fmt::Display for Symbol {
             Ge => write!(w, "ge")?,
             Rge => write!(w, "rge")?,
             Neg => write!(w, "neg")?,
+            Conj => write!(w, "conj")?,
             Add => write!(w, "add")?,
             Sub => write!(w, "sub")?,
             Mul => write!(w, "mul")?,

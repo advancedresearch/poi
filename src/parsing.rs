@@ -72,6 +72,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "even" => Even,
                 "odd" => Odd,
                 "neg" => Neg,
+                "conj" => Conj,
                 "add" => Add,
                 "sub" => Sub,
                 "len" => Len,
