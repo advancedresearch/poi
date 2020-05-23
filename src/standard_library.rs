@@ -219,6 +219,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Probl, ret_var("x")), unop_ret_var("x", Probl)),
         // `probr(\x) => compute::probr(x)`
         Red(app(Probr, ret_var("x")), unop_ret_var("x", Probr)),
+        // `probm(\x) => compute::probm(x)`
+        Red(app(Probm, ret_var("x")), unop_ret_var("x", Probm)),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
