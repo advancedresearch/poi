@@ -344,6 +344,7 @@ impl fmt::Display for Symbol {
                     Len => write!(w, "compute::len({})", x)?,
                     Prob => write!(w, "compute::prob({})", x)?,
                     Probl => write!(w, "compute::probl({})", x)?,
+                    Probr => write!(w, "compute::probr({})", x)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
