@@ -225,6 +225,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Item, ret_var("x"), list_var("y")), binop_ret_var("x", "y", Item)),
         // `el(x, y, z) => item(y, item(x, z))`
         Red(app3(El, "x", "y", "z"), app2(Item, "y", app2(Item, "x", "z"))),
+        // `re(x) => item(0, x)`
+        Red(app(Re, "x"), app2(Item, 0.0, "x")),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
