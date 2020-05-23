@@ -108,6 +108,8 @@ pub enum Symbol {
     Sub,
     /// `mul`.
     Mul,
+    /// `mulc` (complex multiplication).
+    Mulc,
     /// `div`.
     Div,
     /// `rem`.
@@ -257,6 +259,7 @@ impl fmt::Display for Symbol {
             Add => write!(w, "add")?,
             Sub => write!(w, "sub")?,
             Mul => write!(w, "mul")?,
+            Mulc => write!(w, "mulc")?,
             Div => write!(w, "div")?,
             Rem => write!(w, "rem")?,
             Pow => write!(w, "pow")?,
