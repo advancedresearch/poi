@@ -115,6 +115,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Neg, Neg), Id.into()),
         // `conj . conj => id`
         Red(comp(Conj, Conj), Id.into()),
+        // `sqrt . sqnorm => norm`
+        Red(comp(Sqrt, Sqnorm), Norm.into()),
 
         // `false1(_) => false`
         Red(app(False1, Any), false.into()),
