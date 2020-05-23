@@ -332,6 +332,7 @@ impl fmt::Display for Symbol {
                     PushFront => write!(w, "compute::push_front({}, {})", x, y)?,
                     Max2 => write!(w, "compute::max2({}, {})", x, y)?,
                     Min2 => write!(w, "compute::min2({}, {})", x, y)?,
+                    Item => write!(w, "{}[{}]", y, x)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
