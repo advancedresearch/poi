@@ -213,6 +213,8 @@ pub fn std() -> Vec<Knowledge> {
         // `rangem(\x)(\y)(\z) => compute::rangem(x, y, z)`
         Red(app3(Rangem, ret_var("x"), ret_var("y"), ret_var("z")),
             ternop_ret_var("x", "y", "z", Rangem)),
+        // `prob(\x) => compute::prob(x)`
+        Red(app(Prob, ret_var("x")), unop_ret_var("x", Prob)),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),

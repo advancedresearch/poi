@@ -342,6 +342,7 @@ impl fmt::Display for Symbol {
                 match **f {
                     Neg => write!(w, "-{}", x)?,
                     Len => write!(w, "compute::len({})", x)?,
+                    Prob => write!(w, "compute::prob({})", x)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
