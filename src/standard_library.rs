@@ -120,6 +120,10 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(False1, Any), false.into()),
         // `true1(_) => true`
         Red(app(True1, Any), true.into()),
+        // `not(\false) => \true`
+        Red(app(Not, false), true.into()),
+        // `not(\true) => \false`
+        Red(app(Not, true), false.into()),
         // `id(x) => x`
         Red(app(Id, "x"), "x".into()),
         // `and(true) => idb`
