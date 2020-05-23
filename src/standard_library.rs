@@ -531,6 +531,9 @@ pub fn std() -> Vec<Knowledge> {
         // `(< x) <=> gt(x)`
         Eqv(app(Rlt, "x"), app(Gt, "x")),
 
+        // `range(0)(1) <=> prob`
+        Eqv(app2(Range, 0.0, 1.0), Prob.into()),
+
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
         // `or(a)(b) <=> or(b)(a)`
