@@ -755,6 +755,7 @@ impl Context {
                         Ok(match **f {
                             Neg => Ret(F64(-a)),
                             Prob => Ret(Bool(a >= 0.0 && a <= 1.0)),
+                            Probl => Ret(Bool(a >= 0.0 && a < 1.0)),
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
