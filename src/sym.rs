@@ -104,6 +104,8 @@ pub enum Symbol {
     Neg,
     /// `conj` (complex conjugate).
     Conj,
+    /// `norm` (vector norm).
+    Norm,
     /// `add`.
     Add,
     /// `sub`.
@@ -259,6 +261,7 @@ impl fmt::Display for Symbol {
             Rge => write!(w, "rge")?,
             Neg => write!(w, "neg")?,
             Conj => write!(w, "conj")?,
+            Norm => write!(w, "norm")?,
             Add => write!(w, "add")?,
             Sub => write!(w, "sub")?,
             Mul => write!(w, "mul")?,
