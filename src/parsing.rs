@@ -115,6 +115,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "vec" => VecType,
                 "rty" => Rty,
                 "vec_op" => VecOp,
+                "vec_uop" => VecUop,
                 "d" => D,
                 _ => Var(val),
             }));
