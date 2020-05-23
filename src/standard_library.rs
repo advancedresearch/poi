@@ -233,6 +233,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Mulc, vec2("x0", "y0"), vec2("x1", "y1")),
             vec2(app2(Sub, app2(Mul, "x0", "x1"), app2(Mul, "y0", "y1")),
                  app2(Add, app2(Mul, "x0", "y1"), app2(Mul, "x1", "y0")))),
+        // `conj([x, y]) => [x, neg(y)]`
+        Red(app(Conj, vec2("x", "y")), vec2("x", app(Neg, "y"))),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
