@@ -243,6 +243,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Conj, vec2("x", "y")), vec2("x", app(Neg, "y"))),
         // `sqnorm(x) => sum(vec_op(mul)(x)(x))`
         Red(app(Sqnorm, "x"), app(Sum, app3(VecOp, Mul, "x", "x"))),
+        // `norm(x) => sqrt(sqnorm(x))`
+        Red(app(Norm, "x"), app(Sqrt, app(Sqnorm, "x"))),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
