@@ -241,6 +241,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Add, 0.0, "x"), "x".into()),
         // `add(x)(0) => x`
         Red(app2(Add, "x", 0.0), "x".into()),
+        // `sub(0)(x) => neg(x)`
+        Red(app2(Sub, 0.0, "x"), app(Neg, "x")),
         // `mul(1)(x) => x`
         Red(app2(Mul, 1.0, "x"), "x".into()),
         // `mul(x)(1) => x`
