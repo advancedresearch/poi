@@ -190,6 +190,8 @@ pub enum Symbol {
     Item,
     /// `el`.
     El,
+    /// `re`.
+    Re,
     /// Generic `id`.
     Id,
     /// Generic `eq`.
@@ -294,6 +296,7 @@ impl fmt::Display for Symbol {
             PushFront => write!(w, "push_front")?,
             Item => write!(w, "item")?,
             El => write!(w, "el")?,
+            Re => write!(w, "re")?,
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
             Neq => write!(w, "neq")?,

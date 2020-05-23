@@ -110,6 +110,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "dot" => Dot,
                 "item" => Item,
                 "el" => El,
+                "re" => Re,
                 "push" => Push,
                 "push_front" => PushFront,
                 "\\" => RetType,
