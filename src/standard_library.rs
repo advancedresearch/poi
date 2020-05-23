@@ -535,6 +535,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app2(Range, 0.0, 1.0), Prob.into()),
         // `rangel(0)(1) <=> probl`
         Eqv(app2(Rangel, 0.0, 1.0), Probl.into()),
+        // `ranger(0)(1) <=> probr`
+        Eqv(app2(Ranger, 0.0, 1.0), Probr.into()),
 
         // `and(a)(b) <=> and(b)(a)`
         commutative(And),
