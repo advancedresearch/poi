@@ -106,6 +106,8 @@ pub enum Symbol {
     Conj,
     /// `norm` (vector norm).
     Norm,
+    /// `sqnorm` (vector square norm).
+    Sqnorm,
     /// `add`.
     Add,
     /// `sub`.
@@ -262,6 +264,7 @@ impl fmt::Display for Symbol {
             Neg => write!(w, "neg")?,
             Conj => write!(w, "conj")?,
             Norm => write!(w, "norm")?,
+            Sqnorm => write!(w, "sqnorm")?,
             Add => write!(w, "add")?,
             Sub => write!(w, "sub")?,
             Mul => write!(w, "mul")?,
