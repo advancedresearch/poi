@@ -756,6 +756,7 @@ impl Context {
                             Neg => Ret(F64(-a)),
                             Prob => Ret(Bool(a >= 0.0 && a <= 1.0)),
                             Probl => Ret(Bool(a >= 0.0 && a < 1.0)),
+                            Probr => Ret(Bool(a > 0.0 && a <= 1.0)),
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
