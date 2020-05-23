@@ -322,6 +322,7 @@ impl fmt::Display for Symbol {
                     Range => write!(w, "compute::range({}, {}, {})", x, y, z)?,
                     Rangel => write!(w, "compute::rangel({}, {}, {})", x, y, z)?,
                     Ranger => write!(w, "compute::ranger({}, {}, {})", x, y, z)?,
+                    Rangem => write!(w, "compute::rangem({}, {}, {})", x, y, z)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
