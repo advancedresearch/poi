@@ -298,8 +298,8 @@ pub fn std() -> Vec<Knowledge> {
         // `vec_uop(f)([x]) => [f(x)]`
         Red(app2(VecUop, "f", singleton("x")), List(vec![app("f", "x")])),
 
-        // `dot([x0, y0])([x1, y1]) => add(mul(x0)(x1))(mul(y0)(y1))`
-        Red(app2(Dot, vec2("x0", "y0"), vec2("x1", "y1")),
+        // `dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => add(mul(x0)(x1))(mul(y0)(y1))`
+        Red(app(constr(app(constr(Dot, app(Rty, VecType)), vec2("x0", "y0")), app(Rty, VecType)), vec2("x1", "y1")),
             app2(Add, app2(Mul, "x0", "x1"), app2(Mul, "y0", "y1"))),
 
         // `concat[len] => add`
