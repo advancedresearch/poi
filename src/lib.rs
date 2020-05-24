@@ -861,6 +861,11 @@ impl Context {
                             }
                             Max2 => if a >= b {a} else {b},
                             Min2 => if a <= b {a} else {b},
+                            Base if b >= 0.0 && b < a => {
+                                let mut r = vec![Ret(F64(0.0)); a as usize];
+                                r[b as usize] = Ret(F64(1.0));
+                                return Ok(List(r))
+                            }
                             _ => return Err(Error::InvalidComputation),
                         })))
                     }
