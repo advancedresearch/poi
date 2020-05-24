@@ -673,8 +673,8 @@ pub fn std() -> Vec<Knowledge> {
             comp("f", comp(("g0", "g1"), ("h0", "h1")))),
         // `f . (g . h) <=> (f . g) . h`.
         Eqv(comp("f", comp("g", "h")), comp(comp("f", "g"), "h")),
-        // `f:[arity]1[g] <=> f[g -> id][id -> g]`
-        Eqv(path(arity_var("f", 1), "g"), path(path("f", ("g", Id)), (Id, "g"))),
+        // `f:[arity]1[g] <=> f:[arity]1[g -> id][id -> g]`
+        Eqv(path(arity_var("f", 1), "g"), path(path(arity_var("f", 1), ("g", Id)), (Id, "g"))),
         // `(f . (g0, g1)){x}(a){y}(b) <=> f(g0{x}(a){y}(b))(g1{x}(a){y}(b))`
         Eqv(app(constr(app(constr(comp("f", ("g0", "g1")), "x"), "a"), "y"), "b"),
             app2("f", app(constr(app(constr("g0", "x"), "a"), "y"), "b"),
