@@ -369,6 +369,7 @@ impl fmt::Display for Symbol {
             UnopRetVar(x, f) => {
                 match **f {
                     Neg => write!(w, "-{}", x)?,
+                    Abs => write!(w, "compute::abs({})", x)?,
                     Len => write!(w, "compute::len({})", x)?,
                     Prob => write!(w, "compute::prob({})", x)?,
                     Probl => write!(w, "compute::probl({})", x)?,

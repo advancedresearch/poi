@@ -770,6 +770,7 @@ impl Context {
                     Some(Ret(F64(a))) => {
                         Ok(match **f {
                             Neg => Ret(F64(-a)),
+                            Abs => Ret(F64(a.abs())),
                             Prob => Ret(Bool(a >= 0.0 && a <= 1.0)),
                             Probl => Ret(Bool(a >= 0.0 && a < 1.0)),
                             Probr => Ret(Bool(a > 0.0 && a <= 1.0)),
