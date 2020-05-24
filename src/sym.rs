@@ -235,8 +235,12 @@ pub enum Symbol {
     VecType,
     /// The judgement `(: a)(b)`.
     Rty,
+    /// `vec_op`.
+    ///
     /// Applies a binary function component-wise to lists.
     VecOp,
+    /// `vec_uop`.
+    ///
     /// Applies a unary function component-wise to lists.
     VecUop,
 }
