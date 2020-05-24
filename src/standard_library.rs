@@ -158,6 +158,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `sin(mul(\x:int)(tau)) => sin(tau)`
         Red(app(Sin, app2(Mul, ret_int_var("x"), Tau)), app(Sin, Tau)),
+        // `cos(mul(\x:int)(tau)) => cos(tau)`
+        Red(app(Cos, app2(Mul, ret_int_var("x"), Tau)), app(Cos, Tau)),
         // `lt(\x)(\y) => \x < \y`
         Red(app2(Lt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Lt)),
         // `le(\x)(\y) => \x <= \y`
