@@ -366,6 +366,7 @@ impl fmt::Display for Symbol {
                     Max2 => write!(w, "compute::max2({}, {})", x, y)?,
                     Min2 => write!(w, "compute::min2({}, {})", x, y)?,
                     Item => write!(w, "{}[{}]", y, x)?,
+                    Base => write!(w, "compute::base({}, {})", x, y)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
