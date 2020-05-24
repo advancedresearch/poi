@@ -34,12 +34,11 @@
 //! (len · concat)(a)(b)
 //! (concat[len] · (len · fst, len · snd))(a)(b)
 //! (add · (len · fst, len · snd))(a)(b)
-//! <=>  add((len · fst)(a)(b), (len · snd)(a)(b))
-//! > add((len · fst)(a)(b), (len · snd)(a)(b))
-//! add((len · fst)(a)(b), (len · snd)(a)(b))
-//! add((len · fst)(a)(b))((len · snd)(a)(b))
-//! add(len(a))((len · snd)(a)(b))
-//! add(len(a))(len(b))
+//! <=>  ((len · fst)(a)(b) + (len · snd)(a)(b))
+//! > ((len · fst)(a)(b) + (len · snd)(a)(b))
+//! ((len · fst)(a)(b) + (len · snd)(a)(b))
+//! (len(a) + (len · snd)(a)(b))
+//! (len(a) + len(b))
 //! ```
 //!
 //! ### Introduction to Poi and Path Semantics
@@ -153,7 +152,7 @@
 //! language might be invented to prove the sentence true, but programmers do not
 //! wait for this to happen. Instead, they default to pragmatic strategies, such as
 //! testing extensively.
-//! For example, the [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture)
+//! For example, [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture)
 //! has been tested up to some limit, so it holds for all natural numbers below that limit.
 //! A pragmatic strategy is what you do when you can not idealize the problem away.
 //!
