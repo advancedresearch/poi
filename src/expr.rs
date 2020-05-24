@@ -86,6 +86,12 @@ impl fmt::Display for Expr {
                             return Ok(())
                         }
                     }
+                    if let (Op(Apply, f, a), Sym(Eps)) = (&**a, &**b) {
+                        if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
+                            write!(w, "{}ε", a)?;
+                            return Ok(())
+                        }
+                    }
                     if let Op(Apply, f, a) = &**a {
                         match **f {
                             Sym(Add) => {
