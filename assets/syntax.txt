@@ -30,6 +30,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|πτ"
 3 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
 2 seq = [{
   ["(" .w? tup_items_expr:"left" .w? ")"]
+  alg:"alg"
   var:"left"
 } .r!({
   path_right:"path"
@@ -39,10 +40,10 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|πτ"
   typ_right:"typ"
 })]
 1 expr = {
-  alg:"alg"
   seq:"seq"
   rapp:"rapp"
   ["(" .w? tup_items_expr .w? ")"]
+  alg:"alg"
   list:"list"
   val var
 }
