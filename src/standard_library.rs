@@ -94,6 +94,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Add, Even), Eqb.into()),
         // `add[odd] => xor`.
         Red(path(Add, Odd), Xor.into()),
+        // `add[sqrt] => sqrt . add . (rpow(2) . fst, rpow(2) . fst)`
+        Red(path(Add, Sqrt),
+            comp(Sqrt, comp(Add, (comp(app(Rpow, 2.0), Fst), comp(app(Rpow, 2.0), Snd))))),
         // `mul[even] => or`.
         Red(path(Mul, Even), Or.into()),
         // `mul[odd] => and`.
