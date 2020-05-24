@@ -602,6 +602,8 @@ pub fn std() -> Vec<Knowledge> {
         // `add(!\a)(add(\b)(c)) => add(b)(add(a)(c))`
         Red(app2(Add, not_ret_var("a"), app2(Add, ret_var("b"), "c")),
             app2(Add, "b", app2(Add, "a", "c"))),
+        // `mul(!\a)(\b) => mul(b)(a)`
+        Red(app2(Mul, not_ret_var("a"), ret_var("b")), app2(Mul, "b", "a")),
 
         // `sin(\x) <=> compute::sin(x)`
         Eqv(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
