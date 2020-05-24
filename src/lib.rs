@@ -340,11 +340,27 @@ impl Expr {
         for i in 0..knowledge.len() {
             if let Eqv(a, b) = &knowledge[i] {
                 if ctx.bind(a, self) {
-                    let expr = ctx.substitute(b).unwrap();
+                    let expr = match ctx.substitute(b) {
+                        Ok(expr) => expr,
+                        Err(_) => {
+                            // Silence errors since the equivalence might not be relevant.
+                            // This should probably be handled better.
+                            ctx.vars.clear();
+                            continue;
+                        }
+                    };
                     res.push((expr, i));
                     ctx.vars.clear();
                 } else if ctx.bind(b, self) {
-                    let expr = ctx.substitute(a).unwrap();
+                    let expr = match ctx.substitute(a) {
+                        Ok(expr) => expr,
+                        Err(_) => {
+                            // Silence errors since not all variables can be bound.
+                            // This should probably be handled better.
+                            ctx.vars.clear();
+                            continue;
+                        }
+                    };
                     res.push((expr, i));
                     ctx.vars.clear();
                 }
