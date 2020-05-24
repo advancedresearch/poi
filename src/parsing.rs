@@ -138,6 +138,9 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = convert.meta_f64("num") {
             convert.update(range);
             expr = Some(val.into());
+        } else if let Ok((range, val)) = convert.meta_f64("num_pi") {
+            convert.update(range);
+            expr = Some(app2(Mul, val, Pi));
         } else {
             let range = convert.ignore();
             convert.update(range);
