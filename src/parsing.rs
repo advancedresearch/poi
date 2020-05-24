@@ -85,6 +85,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "det" => Det,
                 "dim" => Dim,
                 "is_square_mat" => IsSquareMat,
+                "base" => Base,
                 "fst" => Fst,
                 "snd" => Snd,
                 "ln" => Ln,
