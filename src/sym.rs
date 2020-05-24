@@ -176,6 +176,11 @@ pub enum Symbol {
     Dim,
     /// `is_square_mat`,
     IsSquareMat,
+    /// `base` (len, index).
+    ///
+    /// Constructs a list with zeroes of specified length,
+    /// but with `1` at the index.
+    Base,
     /// `fst`.
     Fst,
     /// `snd`.
@@ -304,6 +309,7 @@ impl fmt::Display for Symbol {
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
             IsSquareMat => write!(w, "is_square_mat")?,
+            Base => write!(w, "base")?,
             Fst => write!(w, "fst")?,
             Snd => write!(w, "snd")?,
             Sin => write!(w, "sin")?,
