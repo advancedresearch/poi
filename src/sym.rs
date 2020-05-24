@@ -347,7 +347,7 @@ impl fmt::Display for Symbol {
             Arity => write!(w, "arity")?,
             D => write!(w, "d")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
-            ArityVar(x, n) => write!(w, "{}:[arity]{}", x, n)?,
+            ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
