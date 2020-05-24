@@ -256,6 +256,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(constr(Sqnorm, app(Rty, VecType)), "x"), app(Sum, app3(VecOp, Mul, "x", "x"))),
         // `norm(x) => sqrt(sqnorm(x))`
         Red(app(Norm, "x"), app(Sqrt, app(Sqnorm, "x"))),
+        // `is_square_mat{(: vec)}(x) => compute::is_square_mat(x)`
+        Red(app(constr(IsSquareMat, app(Rty, VecType)), "x"), unop_ret_var("x", IsSquareMat)),
 
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),

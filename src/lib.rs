@@ -802,6 +802,22 @@ impl Context {
                     Some(List(a)) => {
                         Ok(match **f {
                             Len => Ret(F64(a.len() as f64)),
+                            IsSquareMat => {
+                                let n = a.len();
+                                let mut sq = true;
+                                for i in 0..n {
+                                    if let List(b) = &a[i] {
+                                        if b.len() != n {
+                                            sq = false;
+                                            break;
+                                        }
+                                    } else {
+                                        sq = false;
+                                        break;
+                                    }
+                                }
+                                Ret(Bool(sq))
+                            }
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
