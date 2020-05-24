@@ -458,6 +458,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(D, not_ret_var("x"), ret_var("y")), 0.0.into()),
         // `d(!\x)(mul(\k)(y)) => mul(k)(d(x)(y))`
         Red(app2(D, not_ret_var("x"), app2(Mul, ret_var("k"), "y")), app2(Mul, "k", app2(D, "x", "y"))),
+        // `d(!\x)(mul(pi)(y)) => mul(pi)(d(x)(y))`
+        Red(app2(D, not_ret_var("x"), app2(Mul, Pi, "y")), app2(Mul, Pi, app2(D, "x", "y"))),
         // `d(!\x)(pow(x)(\k)) => mul(k)(pow(x)(sub(k)(1)))`
         Red(app2(D, not_ret_var("x"), app2(Pow, "x", ret_var("k"))),
             app2(Mul, "k", app2(Pow, "x", app2(Sub, "k", 1.0)))),
