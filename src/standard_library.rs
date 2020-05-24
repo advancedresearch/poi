@@ -122,6 +122,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Sqrt, Sqnorm), Norm.into()),
         // `rpow(\2) . norm => sqnorm`
         Red(comp(app(Rpow, 2.0), Norm), Sqnorm.into()),
+        // `sqrt . rpow(2) => abs`
+        Red(comp(Sqrt, app(Rpow, 2.0)), Abs.into()),
 
         // `false1(_) => false`
         Red(app(False1, Any), false.into()),
