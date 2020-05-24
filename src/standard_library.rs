@@ -105,6 +105,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Not, Even), Odd.into()),
         // `not . odd => even`
         Red(comp(Not, Odd), Even.into()),
+        // `mul[(^ _)] => mul`
+        Red(path(Mul, app(Rpow, Any)), Mul.into()),
 
         // `add[exp] => mul`
         Red(path(Add, Exp), Mul.into()),
