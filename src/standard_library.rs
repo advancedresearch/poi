@@ -286,6 +286,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Pow, "x", 1.0), "x".into()),
         // `pow(x)(0) => 1`
         Red(app2(Pow, "x", 0.0), 1.0.into()),
+        // `sin(tau) => 0`
+        Red(app(Sin, Tau), 0.0.into()),
 
         // `add(x)(neg(y)) => sub(x)(y)`
         Red(app2(Add, "x", app(Neg, "y")), app2(Sub, "x", "y")),
