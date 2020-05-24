@@ -156,7 +156,7 @@ pub fn std() -> Vec<Knowledge> {
         // `eqb(true) => idb`
         Red(app(Eqb, true), Idb.into()),
 
-        // `sin(mul(\x:int)(tau)) => sin(y)`
+        // `sin(mul(\x:int)(tau)) => sin(tau)`
         Red(app(Sin, app2(Mul, ret_int_var("x"), Tau)), app(Sin, Tau)),
         // `lt(\x)(\y) => \x < \y`
         Red(app2(Lt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Lt)),
