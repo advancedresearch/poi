@@ -32,6 +32,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|πτ"
 2 seq = [{
   ["(" .w? tup_items_expr:"left" .w? ")"]
   alg:"alg"
+  val:"left"
   var:"left"
 } .r!({
   path_right:"path"
@@ -46,6 +47,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|πτ"
   ["(" .w? tup_items_expr .w? ")"]
   alg:"alg"
   list:"list"
-  val var
+  val
+  var
 }
 0 doc = [.w? expr:"expr" .w?]
