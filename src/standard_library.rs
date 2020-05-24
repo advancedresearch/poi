@@ -704,8 +704,8 @@ pub fn std() -> Vec<Knowledge> {
         // `((a + b)^2) <=> (a^2 + 2 * a * b + b^2)`
         Eqv(app2(Pow, app2(Add, "a", "b"), 2.0), app2(Add, app2(Add, app2(Pow, "a", 2.0),
             app2(Mul, app2(Mul, 2.0, "a"), "b")), app2(Pow, "b", 2.0))),
-        // `((a * b)^2) <=> (a^2 * b^2)`
-        Eqv(app2(Pow, app2(Mul, "a", "b"), 2.0), app2(Mul, app2(Pow, "a", 2.0), app2(Pow, "b", 2.0))),
+        // `((a * b)^c) <=> (a^c * b^c)`
+        Eqv(app2(Pow, app2(Mul, "a", "b"), "c"), app2(Mul, app2(Pow, "a", "c"), app2(Pow, "b", "c"))),
 
         // `f(a)(a) <=> f{eq}(a)(a)`
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
