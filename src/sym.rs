@@ -251,6 +251,8 @@ pub enum Symbol {
     Pi,
     /// `tau` or `τ`.
     Tau,
+    /// `eps` or `ε`.
+    Eps,
 }
 
 impl fmt::Display for Symbol {
@@ -354,6 +356,7 @@ impl fmt::Display for Symbol {
             D => write!(w, "d")?,
             Pi => write!(w, "π")?,
             Tau => write!(w, "τ")?,
+            Eps => write!(w, "ε")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
