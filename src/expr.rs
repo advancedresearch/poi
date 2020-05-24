@@ -74,6 +74,18 @@ impl fmt::Display for Expr {
                 } else if let Sym(Rpow) = **a {
                     write!(w, "(pow {})", b)?;
                 } else {
+                    if let (Op(Apply, f, a), Sym(Pi)) = (&**a, &**b) {
+                        if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
+                            write!(w, "{}π", a)?;
+                            return Ok(())
+                        }
+                    }
+                    if let (Op(Apply, f, a), Sym(Tau)) = (&**a, &**b) {
+                        if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
+                            write!(w, "{}τ", a)?;
+                            return Ok(())
+                        }
+                    }
                     if let Op(Compose, _, _) = **a {
                         write!(w, "({})", a)?;
                     } else {
