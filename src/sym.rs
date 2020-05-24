@@ -380,6 +380,7 @@ impl fmt::Display for Symbol {
                     Min2 => write!(w, "compute::min2({}, {})", x, y)?,
                     Item => write!(w, "compute::item({}, {})", x, y)?,
                     Base => write!(w, "compute::base({}, {})", x, y)?,
+                    Atan2 => write!(w, "compute::atan2({}, {})", x, y)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
