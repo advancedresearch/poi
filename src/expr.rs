@@ -86,6 +86,43 @@ impl fmt::Display for Expr {
                             return Ok(())
                         }
                     }
+                    if let Op(Apply, f, a) = &**a {
+                        match **f {
+                            Sym(Add) => {
+                                write!(w, "({} + {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Sub) => {
+                                write!(w, "({} - {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Mul) => {
+                                write!(w, "({} * {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Div) => {
+                                write!(w, "({} / {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Rem) => {
+                                write!(w, "({} % {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Pow) => {
+                                write!(w, "({} ^ {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(And) => {
+                                write!(w, "({} & {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Or) => {
+                                write!(w, "({} | {})", a, b)?;
+                                return Ok(())
+                            }
+                            _ => {}
+                        }
+                    }
                     if let Op(Compose, _, _) = **a {
                         write!(w, "({})", a)?;
                     } else {
