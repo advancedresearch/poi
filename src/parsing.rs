@@ -180,6 +180,9 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         } else if let Ok((range, _)) = convert.meta_bool("+") {
             convert.update(range);
             op = Some(Add);
+        } else if let Ok((range, _)) = convert.meta_bool("-") {
+            convert.update(range);
+            op = Some(Sub);
         } else {
             let range = convert.ignore();
             convert.update(range);
