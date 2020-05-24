@@ -120,6 +120,10 @@ impl fmt::Display for Expr {
                                 write!(w, "({} | {})", a, b)?;
                                 return Ok(())
                             }
+                            Sym(Concat) => {
+                                write!(w, "({} ++ {})", a, b)?;
+                                return Ok(())
+                            }
                             _ => {}
                         }
                     }
