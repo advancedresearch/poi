@@ -8,7 +8,10 @@
 //! Type `help` for more information.
 //! > and[not]
 //! and[not]
-//! or			( and[not] => or )
+//! or
+//! ∵ and[not] => or
+//! <=>  not · nor
+//! ∵ not · nor <=> or
 //! ```
 //!
 //! To run Poi Reduce from your Terminal, type:
