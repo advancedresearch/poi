@@ -685,6 +685,20 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
+            (Sym(RetIntVar(name)), Ret(F64(x))) if x % 1.0 == 0.0 => {
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == name {
+                        if &self.vars[i].1 == value {
+                            break
+                        } else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    }
+                }
+                self.vars.push((name.clone(), value.clone()));
+                true
+            }
             (Sym(Singleton(name)), List(x)) if x.len() == 1 => {
                 self.vars.push((name.clone(), x[0].clone()));
                 true
@@ -1075,6 +1089,9 @@ pub fn singleton<A: Into<String>>(a: A) -> Expr {Sym(Singleton(Arc::new(a.into()
 
 /// A value variable.
 pub fn ret_var<A: Into<String>>(a: A) -> Expr {Sym(RetVar(Arc::new(a.into())))}
+
+/// A value variable that is an integer.
+pub fn ret_int_var<A: Into<String>>(a: A) -> Expr {Sym(RetIntVar(Arc::new(a.into())))}
 
 /// A variable that is not a value variable.
 pub fn not_ret_var<A: Into<String>>(a: A) -> Expr {Sym(NotRetVar(Arc::new(a.into())))}
