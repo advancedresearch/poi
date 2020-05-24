@@ -802,6 +802,7 @@ impl Context {
                             Asin => Ret(F64(a.asin())),
                             Cos => Ret(F64(a.cos())),
                             Acos => Ret(F64(a.acos())),
+                            Tan => Ret(F64(a.tan())),
                             Atan => Ret(F64(a.atan())),
                             _ => return Err(Error::InvalidComputation),
                         })

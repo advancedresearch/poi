@@ -406,6 +406,7 @@ impl fmt::Display for Symbol {
                     Asin => write!(w, "compute::asin({})", x)?,
                     Cos => write!(w, "compute::cos({})", x)?,
                     Acos => write!(w, "compute::acos({})", x)?,
+                    Tan => write!(w, "compute::tan({})", x)?,
                     Atan => write!(w, "compute::atan({})", x)?,
                     IsSquareMat => write!(w, "compute::is_square_mat({})", x)?,
                     Arity => write!(w, "compute::arity({})", x)?,

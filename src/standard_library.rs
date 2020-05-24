@@ -615,6 +615,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Cos, ret_var("x")), unop_ret_var("x", Cos)),
         // `acos(\x) <=> compute::acos(x)`
         Eqv(app(Acos, ret_var("x")), unop_ret_var("x", Acos)),
+        // `tan(\x) <=> compute::tan(x)`
+        Eqv(app(Tan, ret_var("x")), unop_ret_var("x", Tan)),
         // `atan(\x) <=> compute::atan(x)`
         Eqv(app(Atan, ret_var("x")), unop_ret_var("x", Atan)),
         // `atan2(\x)(\y) <=> compute::atan2(x, y)`
