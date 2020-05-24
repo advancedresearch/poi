@@ -34,6 +34,8 @@ pub enum Symbol {
     /// This requires the expression to be `Ret` variant.
     /// It is used in special rules such as `(\k)(x) => \k`.
     RetVar(Arc<String>),
+    /// A value variable that is an integer.
+    RetIntVar(Arc<String>),
     /// A variable that is not a value variable.
     NotRetVar(Arc<String>),
     /// Compute a binary function.
@@ -355,6 +357,7 @@ impl fmt::Display for Symbol {
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
+            RetIntVar(x) => write!(w, "\\{}:int", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
             Singleton(x) => write!(w, "[{}]", x)?,
