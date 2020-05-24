@@ -174,6 +174,8 @@ pub enum Symbol {
     Det,
     /// `dim`.
     Dim,
+    /// `is_square_mat`,
+    IsSquareMat,
     /// `fst`.
     Fst,
     /// `snd`.
@@ -301,6 +303,7 @@ impl fmt::Display for Symbol {
             MulMat => write!(w, "mul_mat")?,
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
+            IsSquareMat => write!(w, "is_square_mat")?,
             Fst => write!(w, "fst")?,
             Snd => write!(w, "snd")?,
             Sin => write!(w, "sin")?,
