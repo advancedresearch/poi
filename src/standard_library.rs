@@ -162,6 +162,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Cos, app2(Mul, ret_int_var("x"), Tau)), app(Cos, Tau)),
         // `tan(mul(\x:int)(tau) => tan(tau))`
         Red(app(Tan, app2(Mul, ret_int_var("x"), Tau)), app(Tan, Tau)),
+        // `pow(eps)(\2) => \0`
+        Red(app2(Pow, Eps, 2.0), 0.0.into()),
         // `lt(\x)(\y) => \x < \y`
         Red(app2(Lt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Lt)),
         // `le(\x)(\y) => \x <= \y`
