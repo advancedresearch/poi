@@ -798,6 +798,7 @@ impl Context {
                             Sin => Ret(F64(a.sin())),
                             Asin => Ret(F64(a.asin())),
                             Cos => Ret(F64(a.cos())),
+                            Acos => Ret(F64(a.acos())),
                             _ => return Err(Error::InvalidComputation),
                         })
                     }

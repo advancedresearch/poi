@@ -615,6 +615,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Asin, ret_var("x")), unop_ret_var("x", Asin)),
         // `cos(\x) <=> compute::cos(x)`
         Eqv(app(Cos, ret_var("x")), unop_ret_var("x", Cos)),
+        // `acos(\x) <=> compute::acos(x)`
+        Eqv(app(Acos, ret_var("x")), unop_ret_var("x", Acos)),
         // `mul(\2, pi) <=> tau`
         Eqv(app2(Mul, 2.0, Pi), Tau.into()),
         // `pi <=> \3.141592653589793`
