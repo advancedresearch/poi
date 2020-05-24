@@ -294,6 +294,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Sin, Tau), 0.0.into()),
         // `cos(tau) => 1`
         Red(app(Cos, Tau), 1.0.into()),
+        // `tan(tau) => 0`
+        Red(app(Tan, Tau), 0.0.into()),
 
         // `add(x)(neg(y)) => sub(x)(y)`
         Red(app2(Add, "x", app(Neg, "y")), app2(Sub, "x", "y")),
