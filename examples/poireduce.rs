@@ -111,7 +111,7 @@ fn main() {
             if let Ok((nexpr, i)) = expr.reduce(std) {
                 if nexpr == expr {break};
                 expr = nexpr;
-                println!("{}\t\t\t( {} )", expr, std[i]);
+                println!("{}\n∵ {}", expr, std[i]);
             } else {
                 break;
             }
@@ -120,7 +120,7 @@ fn main() {
         let equivalences = expr.equivalences(std);
         for i in 0..equivalences.len() {
             let j = equivalences[i].1;
-            println!("<=>  {}\t\t( {} )", equivalences[i].0, std[j]);
+            println!("<=>  {}\n∵ {}", equivalences[i].0, std[j]);
         }
 
         prev_expr = Some(expr);
