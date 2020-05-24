@@ -539,6 +539,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Max, Concat), comp(path(Concat, Max), (comp(Max, Fst), comp(Max, Snd)))),
         // `min . concat => concat[min] . (min . fst, min . snd)`
         Red(comp(Min, Concat), comp(path(Concat, Min), (comp(Min, Fst), comp(Min, Snd)))),
+        // `sqnorm . concat => concat[sqnorm] . (sqnorm . fst, sqnorm . snd)`
+        Red(comp(Sqnorm, Concat),
+            comp(path(Concat, Sqnorm), (comp(Sqnorm, Fst), comp(Sqnorm, Snd)))),
         // `(f . fst){x}(a){_}(_) => f{x}(a)`
         Red(app(constr(app(constr(comp("f", Fst), "x"), "a"), Any), Any),
             app(constr("f", "x"), "a")),
