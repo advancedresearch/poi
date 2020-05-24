@@ -11,7 +11,8 @@
 //! or
 //! ∵ and[not] => or
 //! <=>  not · nor
-//! ∵ not · nor <=> or
+//!      ∵ not · nor <=> or
+//! ∴ or
 //! ```
 //!
 //! To run Poi Reduce from your Terminal, type:
