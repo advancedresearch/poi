@@ -129,6 +129,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "arity" => Arity,
                 "d" => D,
                 "pi" | "π" => Pi,
+                "tau" | "τ" => Tau,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
