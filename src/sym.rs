@@ -243,6 +243,8 @@ pub enum Symbol {
     ///
     /// Applies a unary function component-wise to lists.
     VecUop,
+    /// `arity`.
+    Arity,
 }
 
 impl fmt::Display for Symbol {
@@ -342,6 +344,7 @@ impl fmt::Display for Symbol {
             Rty => write!(w, "rty")?,
             VecOp => write!(w, "vec_op")?,
             VecUop => write!(w, "vec_uop")?,
+            Arity => write!(w, "arity")?,
             D => write!(w, "d")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, n) => write!(w, "{}:[arity]{}", x, n)?,
