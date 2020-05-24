@@ -699,8 +699,9 @@ pub fn std() -> Vec<Knowledge> {
         // `(g . f:[arity]2){_}(a){_}(b) <=> f[g](g(a))(g(b))`
         Eqv(app(constr(app(constr(comp("g", arity_var("f", 2)), Any), "a"), Any), "b"),
             app(app(path("f", "g"), app("g", "a")), app("g", "b"))),
-        // `(g . f:[arity]1){_}(a) <=> f[g](g(a))`
-        Eqv(app(constr(comp("g", arity_var("f", 1)), Any), "a"), app(path("f", "g"), app("g", "a"))),
+        // `(g . f:[arity]1){_}(a) <=> f:[arity]1[g](g(a))`
+        Eqv(app(constr(comp("g", arity_var("f", 1)), Any), "a"),
+            app(path(arity_var("f", 1), "g"), app("g", "a"))),
         // `(g . f:[arity]2)(a)(b) <=> f[g](g(a))(g(b))`
         Eqv(app(app(comp("g", arity_var("f", 2)), "a"), "b"), app2(path("f", "g"), app("g", "a"), app("g", "b"))),
         // `g . f:[arity]2 <=> f[g] . (g . fst, g . snd)`
