@@ -823,6 +823,15 @@ impl Context {
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
+                    Some(Sym(a)) => {
+                        Ok(match **f {
+                            Arity => {
+                                if let Some(n) = a.arity() {Ret(F64(n as f64))}
+                                else {return Err(Error::InvalidComputation)}
+                            }
+                            _ => return Err(Error::InvalidComputation),
+                        })
+                    }
                     _ => Err(Error::CouldNotFind(a.clone())),
                 }
             }

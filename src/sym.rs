@@ -398,6 +398,7 @@ impl fmt::Display for Symbol {
                     Sin => write!(w, "compute::sin({})", x)?,
                     Cos => write!(w, "compute::cos({})", x)?,
                     IsSquareMat => write!(w, "compute::is_square_mat({})", x)?,
+                    Arity => write!(w, "compute::arity({})", x)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
