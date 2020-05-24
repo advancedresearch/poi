@@ -490,8 +490,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(constr(Mul, Eq), "x", Any), app2(Pow, "x", 2.0)),
         // `\x{eq}(_) => \x`
         Red(app(constr(ret_var("x"), Eq), Any), "x".into()),
-        // `f(a)(a) => f{eq}(a)(a)`
-        Red(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f{true2} => f`
         Red(constr("f", True2), "f".into()),
         // `f{true1} => f`
@@ -684,6 +682,8 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(a)(add(b)(c)) <=> add(mul(a)(b))(mul(a)(c))`
         distributive(Mul, Add),
 
+        // `f(a)(a) <=> f{eq}(a)(a)`
+        Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f[g][h] <=> f[h . g]`.
         Eqv(path(path("f", "g"), "h"), path("f", comp("h", "g"))),
         // `f . (g . (h0, h1)) <=> (f . g) . (h0, h1)`
