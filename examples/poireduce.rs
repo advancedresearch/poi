@@ -81,6 +81,18 @@ fn main() {
                             continue;
                         }
                     }
+                } else if x.starts_with("echo ") {
+                    match parse_str(x[5..].trim()) {
+                        Ok(x) => {
+                            println!("{}", x);
+                            println!("{:?}", x);
+                            continue;
+                        }
+                        Err(err) => {
+                            println!("ERROR:\n{}", err);
+                            continue;
+                        }
+                    }
                 }
             }
         }
