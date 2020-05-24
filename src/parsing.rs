@@ -177,12 +177,28 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
             } else {
                 left = Some(val);
             }
+        } else if let Ok((range, val)) = parse_alg(convert, ignored) {
+            convert.update(range);
+            if let (Some(expr), Some(op)) = (left, op.clone()) {
+                left = Some(app2(op, expr, val));
+            } else {
+                left = Some(val);
+            }
         } else if let Ok((range, _)) = convert.meta_bool("+") {
             convert.update(range);
             op = Some(Add);
         } else if let Ok((range, _)) = convert.meta_bool("-") {
             convert.update(range);
             op = Some(Sub);
+        } else if let Ok((range, _)) = convert.meta_bool("*") {
+            convert.update(range);
+            op = Some(Mul);
+        } else if let Ok((range, _)) = convert.meta_bool("/") {
+            convert.update(range);
+            op = Some(Div);
+        } else if let Ok((range, _)) = convert.meta_bool("%") {
+            convert.update(range);
+            op = Some(Rem);
         } else {
             let range = convert.ignore();
             convert.update(range);
