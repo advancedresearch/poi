@@ -706,6 +706,8 @@ pub fn std() -> Vec<Knowledge> {
             app2(Mul, app2(Mul, 2.0, "a"), "b")), app2(Pow, "b", 2.0))),
         // `((a * b)^c) <=> (a^c * b^c)`
         Eqv(app2(Pow, app2(Mul, "a", "b"), "c"), app2(Mul, app2(Pow, "a", "c"), app2(Pow, "b", "c"))),
+        // `(^ a)(b) <=> (a ^ b)`
+        Eqv(app2(Rpow, "a", "b"), app2(Pow, "b", "a")),
 
         // `f(a)(a) <=> f{eq}(a)(a)`
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
