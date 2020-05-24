@@ -16,6 +16,7 @@ _seps: "[]():,.·⨯-→{}<>=!"
   ["true":"bool" !.$]
   ["false":!"bool" !.$]
   [.$_:"num_pi" .w? "pi"]
+  [.$_:"num_tau" .w? "tau"]
   .$_:"num"
 }]
 7 var = [!.$ .._seps!:"var"]
