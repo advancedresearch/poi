@@ -32,12 +32,11 @@ there is a faster way, which is to compute the length of each list and add them 
 (len · concat)(a)(b)
 (concat[len] · (len · fst, len · snd))(a)(b)
 (add · (len · fst, len · snd))(a)(b)
-<=>  add((len · fst)(a)(b), (len · snd)(a)(b))
-> add((len · fst)(a)(b), (len · snd)(a)(b))
-add((len · fst)(a)(b), (len · snd)(a)(b))
-add((len · fst)(a)(b))((len · snd)(a)(b))
-add(len(a))((len · snd)(a)(b))
-add(len(a))(len(b))
+<=>  ((len · fst)(a)(b) + (len · snd)(a)(b))
+> ((len · fst)(a)(b) + (len · snd)(a)(b))
+((len · fst)(a)(b) + (len · snd)(a)(b))
+(len(a) + (len · snd)(a)(b))
+(len(a) + len(b))
 ```
 
 ### Introduction to Poi and Path Semantics
