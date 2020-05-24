@@ -245,8 +245,10 @@ pub enum Symbol {
     VecUop,
     /// `arity`.
     Arity,
-    /// `pi`.
+    /// `pi` or `π`.
     Pi,
+    /// `tau` or `τ`.
+    Tau,
 }
 
 impl fmt::Display for Symbol {
@@ -349,6 +351,7 @@ impl fmt::Display for Symbol {
             Arity => write!(w, "arity")?,
             D => write!(w, "d")?,
             Pi => write!(w, "π")?,
+            Tau => write!(w, "τ")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
