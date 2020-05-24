@@ -575,6 +575,8 @@ impl Expr {
                         eprintln!("ERROR Unimplemented arity (1): {}", aa);
                         true
                     }
+                } else if let Sym(Var(_)) = &**a {
+                    true
                 } else if let Sym(s) = &**a {
                     if let Some(arity) = s.arity() {
                         if arity >= arity_level {true}
