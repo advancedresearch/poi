@@ -8,6 +8,7 @@ Special commands:
 - bye            quits the program
 - inline all     inlines all definitions from previous expression
 - ``             prints separator for readability
+- echo <expr>    prints out debug format of expression
 - def <symbol>   lists definitions of symbol
 - std            lists all rules in standard library
 - help norm      more help about normal paths
