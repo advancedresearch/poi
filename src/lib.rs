@@ -877,6 +877,7 @@ impl Context {
                                 r[b as usize] = Ret(F64(1.0));
                                 return Ok(List(r))
                             }
+                            Atan2 => return Ok(Ret(F64(a.atan2(b)))),
                             _ => return Err(Error::InvalidComputation),
                         })))
                     }
