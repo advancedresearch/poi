@@ -318,6 +318,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Concat, Min), Min2.into()),
         // `concat[max] => max2`
         Red(path(Concat, Max), Max2.into()),
+        // `concat[sqnorm] => add`
+        Red(path(Concat, Sqnorm), Add.into()),
 
         // `mul_mat[det] => mul`
         Red(path(MulMat, Det), Mul.into()),
