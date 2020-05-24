@@ -12,6 +12,9 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
             break;
+        } else if let Ok((range, val)) = parse_alg(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = parse_seq(convert, ignored) {
             convert.update(range);
             expr = Some(val);
@@ -153,6 +156,39 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
 
     let expr = expr.ok_or(())?;
     Ok((convert.subtract(start), expr))
+}
+
+fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "alg";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut op: Option<Symbol> = None;
+    let mut left: Option<Expr> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = parse_expr("alg_item", convert, ignored) {
+            convert.update(range);
+            if let (Some(expr), Some(op)) = (left, op.clone()) {
+                left = Some(app2(op, expr, val));
+            } else {
+                left = Some(val);
+            }
+        } else if let Ok((range, _)) = convert.meta_bool("+") {
+            convert.update(range);
+            op = Some(Add);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let left = left.ok_or(())?;
+    Ok((convert.subtract(start), left))
 }
 
 fn parse_tup(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
