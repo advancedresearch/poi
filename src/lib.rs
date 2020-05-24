@@ -629,6 +629,25 @@ impl Context {
                 self.vars.push((name.clone(), x.clone()));
                 true
             }
+            (Sym(ArityVar(name, n)), Sym(x)) if x.arity() == Some(*n) => {
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == name {
+                        if let Sym(y) = &self.vars[i].1 {
+                            if y == x {
+                                break
+                            } else {
+                                self.vars.clear();
+                                return false;
+                            }
+                        } else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    }
+                }
+                self.vars.push((name.clone(), Sym(x.clone())));
+                true
+            }
             (Sym(NotRetVar(_)), Ret(_)) | (Sym(NotRetVar(_)), Tup(_)) => {
                 self.vars.clear();
                 false
@@ -1002,6 +1021,9 @@ pub fn head_tail_tup<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
 pub fn head_tail_list<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     HeadTailList(Box::new(a.into()), Box::new(b.into())).into()
 }
+
+/// A function variable with arity (number of arguments).
+pub fn arity_var<A: Into<String>>(a: A, n: usize) -> Expr {Sym(ArityVar(Arc::new(a.into()), n))}
 
 /// A list variable.
 pub fn list_var<A: Into<String>>(a: A) -> Expr {Sym(ListVar(Arc::new(a.into())))}

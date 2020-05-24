@@ -11,6 +11,8 @@ pub enum Symbol {
     ///
     /// This can be anything.
     Var(Arc<String>),
+    /// A function variable with specified arity (number of arguments).
+    ArityVar(Arc<String>, usize),
     /// A list variable.
     ListVar(Arc<String>),
     /// A list variable of length 1.
@@ -329,6 +331,7 @@ impl fmt::Display for Symbol {
             VecUop => write!(w, "vec_uop")?,
             D => write!(w, "d")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
+            ArityVar(x, n) => write!(w, "{}:[arity]{}", x, n)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
