@@ -797,6 +797,7 @@ impl Context {
                             Probr => Ret(Bool(a > 0.0 && a <= 1.0)),
                             Probm => Ret(Bool(a > 0.0 && a < 1.0)),
                             Sin => Ret(F64(a.sin())),
+                            Cos => Ret(F64(a.cos())),
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
