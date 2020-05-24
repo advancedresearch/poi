@@ -599,6 +599,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `sin(\x) <=> compute::sin(x)`
         Eqv(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
+        // `cos(\x) <=> compute::cos(x)`
+        Eqv(app(Cos, ret_var("x")), unop_ret_var("x", Cos)),
 
         // `not . nand <=> and`.
         Eqv(comp(Not, Nand), And.into()),
