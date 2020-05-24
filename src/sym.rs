@@ -381,6 +381,7 @@ impl fmt::Display for Symbol {
                     Probl => write!(w, "compute::probl({})", x)?,
                     Probr => write!(w, "compute::probr({})", x)?,
                     Probm => write!(w, "compute::probm({})", x)?,
+                    IsSquareMat => write!(w, "compute::is_square_mat({})", x)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }
