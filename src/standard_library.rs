@@ -613,6 +613,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app2(Mul, 2.0, Pi), Tau.into()),
         // `pi <=> \3.141592653589793`
         Eqv(Pi.into(), 3.141592653589793.into()),
+        // `tau <=> \6.283185307179586`
+        Eqv(Tau.into(), 6.283185307179586.into()),
 
         // `not . nand <=> and`.
         Eqv(comp(Not, Nand), And.into()),
