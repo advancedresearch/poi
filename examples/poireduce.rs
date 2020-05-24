@@ -120,8 +120,10 @@ fn main() {
         let equivalences = expr.equivalences(std);
         for i in 0..equivalences.len() {
             let j = equivalences[i].1;
-            println!("<=>  {}\n∵ {}", equivalences[i].0, std[j]);
+            println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
         }
+        
+        println!("∴ {}", expr);
 
         prev_expr = Some(expr);
     }
