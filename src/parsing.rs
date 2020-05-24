@@ -335,6 +335,9 @@ fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         } else if let Ok((range, val)) = parse_expr("left", convert, ignored) {
             convert.update(range);
             left = Some(val);
+        } else if let Ok((range, val)) = parse_rapp(convert, ignored) {
+            convert.update(range);
+            left = Some(val);
         } else if let Ok((range, val)) = parse_alg(convert, ignored) {
             convert.update(range);
             left = Some(val);

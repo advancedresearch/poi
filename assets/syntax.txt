@@ -32,6 +32,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
 3 typ_right = [.w? ":" .w? expr]
 3 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
 2 seq = [{
+  rapp:"rapp"
   ["(" .w? tup_items_expr:"left" .w? ")"]
   alg:"alg"
   val:"left"
