@@ -105,8 +105,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Not, Even), Odd.into()),
         // `not . odd => even`
         Red(comp(Not, Odd), Even.into()),
-        // `mul[(^ _)] => mul`
-        Red(path(Mul, app(Rpow, Any)), Mul.into()),
+        // `mul{(>= 0)}{(>= 0)}[rpow{(>= 0)}(_)] => mul`
+        Red(path(constr(constr(Mul, app(Rge, 0.0)), app(Rge, 0.0)),
+            app(constr(Rpow, app(Rge, 0.0)), Any)), Mul.into()),
 
         // `add[exp] => mul`
         Red(path(Add, Exp), Mul.into()),
@@ -706,8 +707,8 @@ pub fn std() -> Vec<Knowledge> {
         // `((a + b)^2) <=> (a^2 + 2 * a * b + b^2)`
         Eqv(app2(Pow, app2(Add, "a", "b"), 2.0), app2(Add, app2(Add, app2(Pow, "a", 2.0),
             app2(Mul, app2(Mul, 2.0, "a"), "b")), app2(Pow, "b", 2.0))),
-        // `((a * b)^c) <=> (a^c * b^c)`
-        Eqv(app2(Pow, app2(Mul, "a", "b"), "c"), app2(Mul, app2(Pow, "a", "c"), app2(Pow, "b", "c"))),
+        // `((a * b)^2) <=> (a^2 * b^2)`
+        Eqv(app2(Pow, app2(Mul, "a", "b"), 2.0), app2(Mul, app2(Pow, "a", 2.0), app2(Pow, "b", 2.0))),
         // `(^ a)(b) <=> (a ^ b)`
         Eqv(app2(Rpow, "a", "b"), app2(Pow, "b", "a")),
 
