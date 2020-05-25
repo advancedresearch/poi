@@ -23,7 +23,7 @@ impl fmt::Display for Expr {
     fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
         match self {
             Sym(s) => write!(w, "{}", s)?,
-            Ret(v) => write!(w, "\\{}", v)?,
+            Ret(v) => write!(w, "{}", v)?,
             Op(Path, a, b) => {
                 if let Sym(b) = &**b {
                     if let Op(Compose, _, _) = **a {
@@ -136,6 +136,9 @@ impl fmt::Display for Expr {
                     if let Op(Compose, _, _) = **a {
                         write!(w, "({})", a)?;
                     } else {
+                        if let Ret(_) = **a {
+                            write!(w, "\\")?;
+                        }
                         write!(w, "{}", a)?;
                     }
                     if let Tup(b) = &**b {
@@ -154,6 +157,9 @@ impl fmt::Display for Expr {
                 if let Op(Compose, _, _) = **a {
                     write!(w, "({})", a)?;
                 } else {
+                    if let Ret(_) = **a {
+                        write!(w, "\\")?;
+                    }
                     write!(w, "{}", a)?;
                 }
                 if let Tup(b) = &**b {
