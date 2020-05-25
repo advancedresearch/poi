@@ -50,6 +50,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(path("f", ("g", "g")), path("f", "g")),
         // `f[g x g -> g] => f[g]`
         Red(path("f", ("g", "g", "g")), path("f", "g")),
+        // `∀(f:[arity]2{g0}{g1}) => (g0, g1)`
+        Red(app(Triv, constr2(arity_var("f", 2), "g0", "g1")), ("g0", "g1").into()),
         // `∀(f:[arity]1{g}) => g`
         Red(app(Triv, constr(arity_var("f", 1), "g")), "g".into()),
         // `∀(f) => \true`
