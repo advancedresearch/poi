@@ -562,6 +562,8 @@ impl Expr {
     }
 
     /// Returns `true` if has constraints.
+    ///
+    /// Unfinished: This function requires analysis and unit testing.
     pub fn has_constraint(&self, arity_level: usize) -> bool {
         match self {
             Op(Constrain, f, a) => {
@@ -574,6 +576,10 @@ impl Expr {
                             eprintln!("ERROR Unimplemented arity (0): {:?}", s);
                             true
                         }
+                    } else if let (Sym(Rge), Ret(F64(_))) = (&**rty, &**aa) {
+                        // E.g. f{(>= 0)}
+                        // Just silence the error for now.
+                        true
                     } else {
                         eprintln!("ERROR Unimplemented arity (1): {}", aa);
                         true
