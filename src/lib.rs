@@ -1066,6 +1066,11 @@ pub fn constr<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     Op(Constrain, Box::new(a.into()), Box::new(b.into()))
 }
 
+/// A function domain constraint with two arguments.
+pub fn constr2<A: Into<Expr>, B: Into<Expr>, C: Into<Expr>>(a: A, b: B, c: C) -> Expr {
+    constr(constr(a, b), c)
+}
+
 /// A type judgement.
 pub fn typ<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
     Op(Type, Box::new(a.into()), Box::new(b.into()))
