@@ -574,6 +574,13 @@ impl Expr {
     /// By introducing a new constraint that refers incorrectly to its argument,
     /// it leads to unsoundness.
     ///
+    /// A function has none constraints if it is applied enough times to cover existing constraints.
+    /// This means the total arity of constraints is less or equal than the total arity of arguments.
+    ///
+    /// To avoid unsoundness under uncertain edge cases, this function should return `true`.
+    /// This is because the `no_constr` check fails to pattern match, which is safe,
+    /// since inactive rules do not introduce unsoundness.
+    ///
     /// Unfinished: This function requires analysis and unit testing.
     pub fn has_constraint(&self, arity_level: usize) -> bool {
         match self {
