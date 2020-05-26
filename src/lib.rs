@@ -1257,5 +1257,8 @@ mod tests {
         // `sum{(: vec)}`
         let f: Expr = constr(Sum, app(Rty, VecType));
         assert_eq!(f.has_constraint(1), true);
+        // `add{(>= 0)}`
+        let f: Expr = constr(Add, app(Rge, 0.0));
+        assert_eq!(f.has_constraint(1), true);
     }
 }

@@ -40,10 +40,10 @@ impl Expr {
         match self {
             Sym(s) => s.arity(),
             Op(Apply, x, y) => {
-                if let (Sym(Rty), Sym(VecType)) = (&**x, &**y) {
-                    Some(1)
-                } else {
-                    None
+                match (&**x, &**y) {
+                    (Sym(Rty), Sym(VecType)) => Some(1),
+                    (Sym(Rge), Ret(F64(_))) => Some(1),
+                    _ => None
                 }
             }
             _ => None,
