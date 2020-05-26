@@ -1254,5 +1254,8 @@ mod tests {
         assert_eq!(f.has_constraint(1), true);
         let f: Expr = app(And, false);
         assert_eq!(f.has_constraint(1), false);
+        // `sum{(: vec)}`
+        let f: Expr = constr(Sum, app(Rty, VecType));
+        assert_eq!(f.has_constraint(1), true);
     }
 }
