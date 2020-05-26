@@ -42,7 +42,14 @@ impl Expr {
             Op(Apply, x, y) => {
                 match (&**x, &**y) {
                     (Sym(Rty), Sym(VecType)) => Some(1),
-                    (Sym(Rge), Ret(F64(_))) => Some(1),
+                    (Sym(s), Ret(_)) => {
+                        if let Some(arity) = s.arity() {
+                            if arity >= 1 {Some(arity - 1)}
+                            else {Some(0)}
+                        } else {
+                            None
+                        }
+                    }
                     _ => None
                 }
             }
