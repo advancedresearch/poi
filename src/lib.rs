@@ -1241,4 +1241,24 @@ mod tests {
         let a = a.reduce(std).unwrap().0;
         assert_eq!(a, true.into());
     }
+
+    #[test]
+    fn constraints() {
+        let f: Expr = "f".into();
+        assert_eq!(f.has_constraint(1), false);
+        let f: Expr = app(Not, false);
+        assert_eq!(f.has_constraint(1), false);
+        let f: Expr = constr(Not, true);
+        assert_eq!(f.has_constraint(1), true);
+        let f: Expr = And.into();
+        assert_eq!(f.has_constraint(1), false);
+        let f: Expr = constr(And, Eqb);
+        assert_eq!(f.has_constraint(1), true);
+        let f: Expr = constr(And, Not);
+        assert_eq!(f.has_constraint(1), true);
+        let f: Expr = app(constr(And, Not), "x");
+        assert_eq!(f.has_constraint(1), false);
+        let f: Expr = app(constr(And, Eqb), "x");
+        assert_eq!(f.has_constraint(1), true);
+    }
 }
