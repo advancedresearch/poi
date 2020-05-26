@@ -614,7 +614,8 @@ impl Expr {
             }
             Op(Compose, _, b) => b.has_constraint(arity_level),
             Op(Apply, f, _) => f.has_constraint(arity_level + 1),
-            _ => false
+            Sym(_) => false,
+            _ => true
         }
     }
 }
@@ -1271,5 +1272,7 @@ mod tests {
         assert_eq!(f.has_constraint(1), false);
         let f: Expr = app(constr(And, Eqb), "x");
         assert_eq!(f.has_constraint(1), true);
+        let f: Expr = app(And, false);
+        assert_eq!(f.has_constraint(1), false);
     }
 }
