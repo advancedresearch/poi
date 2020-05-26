@@ -869,7 +869,7 @@ impl Context {
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
-                    Some(Sym(a)) => {
+                    Some(a) => {
                         Ok(match **f {
                             Arity => {
                                 if let Some(n) = a.arity() {Ret(F64(n as f64))}
