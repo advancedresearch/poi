@@ -585,37 +585,10 @@ impl Expr {
     pub fn has_constraint(&self, arity_level: usize) -> bool {
         match self {
             Op(Constrain, f, a) => {
-                if let Op(Apply, rty, aa) = &**a {
-                    if let (Sym(Rty), Sym(s)) = (&**rty, &**aa) {
-                        if let Some(arity) = s.arity() {
-                            if arity >= arity_level {true}
-                            else {f.has_constraint(arity_level - arity)}
-                        } else {
-                            eprintln!("ERROR Unimplemented arity (0): {:?}", s);
-                            true
-                        }
-                    } else if let (Sym(Rge), Ret(F64(_))) = (&**rty, &**aa) {
-                        // E.g. f{(>= 0)}
-                        // Just silence the error for now.
-                        true
-                    } else {
-                        eprintln!("ERROR Unimplemented arity (1): {}", aa);
-                        true
-                    }
-                } else if let Sym(Var(_)) = &**a {
-                    true
-                } else if let Sym(s) = &**a {
-                    if let Some(arity) = s.arity() {
-                        if arity >= arity_level {true}
-                        else {f.has_constraint(arity_level - arity)}
-                    } else {
-                        eprintln!("ERROR Unimplemented arity (2): {:?}", s);
-                        true
-                    }
-                } else if let Ret(Bool(_)) = &**a {
-                    true
+                if let Some(arity) = a.arity() {
+                    if arity >= arity_level {true}
+                    else {f.has_constraint(arity_level - arity)}
                 } else {
-                    eprintln!("ERROR Unimplemented arity (3): {}", a);
                     true
                 }
             }
