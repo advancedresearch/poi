@@ -31,3 +31,22 @@ impl Symbol {
         }
     }
 }
+
+impl Expr {
+    /// Returns the arity of an expression.
+    ///
+    /// Unfinished: This function requires analysis and unit testing.
+    pub fn arity(&self) -> Option<usize> {
+        match self {
+            Sym(s) => s.arity(),
+            Op(Apply, x, y) => {
+                if let (Sym(Rty), Sym(VecType)) = (&**x, &**y) {
+                    Some(1)
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+}
