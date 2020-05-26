@@ -54,7 +54,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Triv, constr2(arity_var("f", 2), "g0", "g1")), ("g0", "g1").into()),
         // `∀(f:[arity]1{g}) => g`
         Red(app(Triv, constr(arity_var("f", 1), "g")), "g".into()),
-        // `∀(f) => \true`
+        // `∀(f:!{}) => \true`
         Red(app(Triv, no_constr("f")), true.into()),
 
         // `not . not <=> idb`
@@ -615,7 +615,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Add, app2(Pow, app(Cos, "x"), 2.0),
                       app2(Pow, app(Sin, "x"), 2.0)), 1.0.into()),
 
-        // `f([x..]) => f{(: vec)}(x)`
+        // `f:!{}([x..]) => f{(: vec)}(x)`
         Red(app(no_constr("f"), list_var("x")), app(constr("f", app(Rty, VecType)), "x")),
 
         // `add(!\a)(\b) => add(b)(a)`
@@ -714,7 +714,7 @@ pub fn std() -> Vec<Knowledge> {
         // `(^ a)(b) <=> (a ^ b)`
         Eqv(app2(Rpow, "a", "b"), app2(Pow, "b", "a")),
 
-        // `f(a)(a) <=> f{eq}(a)(a)`
+        // `f:!{}(a)(a) <=> f{eq}(a)(a)`
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f[g][h] <=> f[h . g]`.
         Eqv(path(path("f", "g"), "h"), path("f", comp("h", "g"))),
