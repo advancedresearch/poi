@@ -1,6 +1,6 @@
 [package]
 name = "poi"
-version = "0.7.2"
+version = "0.8.0"
 authors = ["Sven Nilsen <bvssvni@gmail.com>"]
 edition = "2018"
 keywords = ["advancedresearch", "theorem", "proving", "assistant", "point-free"]

@@ -1,7 +1,7 @@
 use poi::*;
 
 fn main() {
-    println!("=== Poi Reduce 0.7 ===");
+    println!("=== Poi Reduce 0.8 ===");
     println!("Type `help` for more information.");
     let ref std = std();
 
@@ -122,7 +122,7 @@ fn main() {
             let j = equivalences[i].1;
             println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
         }
-        
+
         println!("∴ {}", expr);
 
         prev_expr = Some(expr);
