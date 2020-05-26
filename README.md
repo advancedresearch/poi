@@ -2,7 +2,7 @@
 a pragmatic point-free theorem prover assistant
 
 ```text
-=== Poi Reduce 0.7 ===
+=== Poi Reduce 0.8 ===
 Type `help` for more information.
 > and[not]
 and[not]
