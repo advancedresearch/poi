@@ -561,7 +561,18 @@ impl Expr {
         }
     }
 
-    /// Returns `true` if has constraints.
+    /// Returns `true` if a function has any constraints, `false` if there are none constraints.
+    ///
+    /// This is used in the following rules in the standard library, using `no_constr`:
+    ///
+    /// - `∀(f:!{}) => \true`
+    /// - `f:!{}([x..]) => f{(: vec)}(x)`
+    /// - `f:!{}(a)(a) <=> f{eq}(a)(a)`
+    ///
+    /// For example, to detect whether it is safe to insert a new constraint.
+    /// This check is important because a constraint refers to one or more arguments.
+    /// By introducing a new constraint that refers incorrectly to its argument,
+    /// it leads to unsoundness.
     ///
     /// Unfinished: This function requires analysis and unit testing.
     pub fn has_constraint(&self, arity_level: usize) -> bool {
