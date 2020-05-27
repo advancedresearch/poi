@@ -592,7 +592,7 @@ impl Expr {
                     true
                 }
             }
-            Op(Compose, _, b) => b.has_constraint(arity_level),
+            Op(Compose, a, b) => b.has_constraint(arity_level) || a.has_constraint(1),
             Op(Apply, f, _) => f.has_constraint(arity_level + 1),
             Sym(_) => false,
             _ => true
@@ -1267,7 +1267,7 @@ mod tests {
         assert_eq!(f.has_constraint(1), true);
         // `not{not} . not`
         let f: Expr = comp(constr(Not, Not), Not);
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(1), true);
         // `not . not{not}`
         let f: Expr = comp(Not, constr(Not, Not));
         assert_eq!(f.has_constraint(1), true);
