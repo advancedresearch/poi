@@ -1260,5 +1260,9 @@ mod tests {
         // `add{(>= 0)}`
         let f: Expr = constr(Add, app(Rge, 0.0));
         assert_eq!(f.has_constraint(1), true);
+        let f: Expr = comp(Not, Not);
+        assert_eq!(f.has_constraint(1), false);
+        let f: Expr = constr(comp(Not, Not), true);
+        assert_eq!(f.has_constraint(1), true);
     }
 }
