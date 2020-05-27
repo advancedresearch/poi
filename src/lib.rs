@@ -582,18 +582,18 @@ impl Expr {
     /// since inactive rules do not introduce unsoundness.
     ///
     /// Unfinished: This function requires analysis and unit testing.
-    pub fn has_constraint(&self, arity_level: usize) -> bool {
+    pub fn has_constraint(&self, arity_args: usize) -> bool {
         match self {
             Op(Constrain, f, a) => {
                 if let Some(arity) = a.arity() {
-                    if arity >= arity_level {true}
-                    else {f.has_constraint(arity_level - arity)}
+                    if arity > arity_args {true}
+                    else {f.has_constraint(arity_args - arity)}
                 } else {
                     true
                 }
             }
-            Op(Compose, a, b) => b.has_constraint(arity_level) || a.has_constraint(1),
-            Op(Apply, f, _) => f.has_constraint(arity_level + 1),
+            Op(Compose, a, b) => b.has_constraint(arity_args) || a.has_constraint(0),
+            Op(Apply, f, _) => f.has_constraint(arity_args + 1),
             Sym(_) => false,
             _ => true
         }
@@ -610,7 +610,7 @@ impl Context {
     /// Binds patterns of a `name` expression to a `value` expression.
     pub fn bind(&mut self, name: &Expr, value: &Expr) -> bool {
         match (name, value) {
-            (Sym(NoConstrVar(_)), v) if v.has_constraint(1) => {
+            (Sym(NoConstrVar(_)), v) if v.has_constraint(0) => {
                 self.vars.clear();
                 false
             }
@@ -1237,39 +1237,39 @@ mod tests {
     #[test]
     fn constraints() {
         let f: Expr = "f".into();
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(0), false);
         let f: Expr = app(Not, false);
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(0), false);
         let f: Expr = constr(Not, true);
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         let f: Expr = And.into();
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(0), false);
         let f: Expr = constr(And, Eqb);
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         let f: Expr = constr(And, Not);
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         let f: Expr = app(constr(And, Not), "x");
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(0), false);
         let f: Expr = app(constr(And, Eqb), "x");
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         let f: Expr = app(And, false);
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(0), false);
         // `sum{(: vec)}`
         let f: Expr = constr(Sum, app(Rty, VecType));
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         // `add{(>= 0)}`
         let f: Expr = constr(Add, app(Rge, 0.0));
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         let f: Expr = comp(Not, Not);
-        assert_eq!(f.has_constraint(1), false);
+        assert_eq!(f.has_constraint(0), false);
         // `(not . not){not}`
         let f: Expr = constr(comp(Not, Not), true);
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         // `not{not} . not`
         let f: Expr = comp(constr(Not, Not), Not);
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
         // `not . not{not}`
         let f: Expr = comp(Not, constr(Not, Not));
-        assert_eq!(f.has_constraint(1), true);
+        assert_eq!(f.has_constraint(0), true);
     }
 }
