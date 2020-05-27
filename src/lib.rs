@@ -1262,7 +1262,14 @@ mod tests {
         assert_eq!(f.has_constraint(1), true);
         let f: Expr = comp(Not, Not);
         assert_eq!(f.has_constraint(1), false);
+        // `(not . not){not}`
         let f: Expr = constr(comp(Not, Not), true);
+        assert_eq!(f.has_constraint(1), true);
+        // `not{not} . not`
+        let f: Expr = comp(constr(Not, Not), Not);
+        assert_eq!(f.has_constraint(1), false);
+        // `not . not{not}`
+        let f: Expr = comp(Not, constr(Not, Not));
         assert_eq!(f.has_constraint(1), true);
     }
 }
