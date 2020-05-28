@@ -814,6 +814,7 @@ impl Context {
                             Probm => Ret(Bool(a > 0.0 && a < 1.0)),
                             Sqrt => Ret(F64(a.sqrt())),
                             Ln => Ret(F64(a.ln())),
+                            Log2 => Ret(F64(a.log2())),
                             Sin => Ret(F64(a.sin())),
                             Asin => Ret(F64(a.asin())),
                             Cos => Ret(F64(a.cos())),
