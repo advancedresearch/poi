@@ -365,7 +365,7 @@ impl fmt::Display for Symbol {
             Pi => write!(w, "π")?,
             Tau => write!(w, "τ")?,
             Eps => write!(w, "ε")?,
-            Imag => write!(w, "imag")?,
+            Imag => write!(w, "𝐢")?,
             TypeOf => write!(w, "type_of")?,
             BoolType => write!(w, "bool")?,
             F64Type => write!(w, "f64")?,
