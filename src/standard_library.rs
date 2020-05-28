@@ -287,6 +287,10 @@ pub fn std() -> Vec<Knowledge> {
         // `\a * (\b + \c * x) => (\a * \b) + (\a * \c) * x`
         Red(app2(Mul, ret_var("a"), app2(Add, ret_var("b"), app2(Mul, ret_var("c"), "x"))),
             app2(Add, app2(Mul, "a", "b"), app2(Mul, app2(Mul, "a", "c"), "x"))),
+        // `(\a * x) * (\b + \c * x) => (b + (a * c) * x^2)`
+        Red(app2(Mul, app2(Mul, ret_var("a"), "x"), app2(Add, ret_var("b"),
+                 app2(Mul, ret_var("c"), "x"))),
+            app2(Add, "b", app2(Mul, app2(Mul, "a", "c"), app2(Pow, "x", 2.0)))),
         // `(\a + \b * x) * (\c + \d * x) => a * c + b * d * x^2 + (a * d + b * c) * x`
         Red(app2(Mul, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x")),
                       app2(Add, ret_var("c"), app2(Mul, ret_var("d"), "x"))),
