@@ -130,6 +130,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `len[type_of](vec) => f64`
         Red(app(path(Len, TypeOf), VecType), F64Type.into()),
+        // `concat[type_of](vec)(vec) => vec`
+        Red(app2(path(Concat, TypeOf), VecType, VecType), VecType.into()),
 
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
