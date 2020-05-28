@@ -418,6 +418,7 @@ impl fmt::Display for Symbol {
                     Probr => write!(w, "compute::probr({})", x)?,
                     Probm => write!(w, "compute::probm({})", x)?,
                     Sqrt => write!(w, "compute::sqrt({})", x)?,
+                    Ln => write!(w, "compute::ln({})", x)?,
                     Sin => write!(w, "compute::sin({})", x)?,
                     Asin => write!(w, "compute::asin({})", x)?,
                     Cos => write!(w, "compute::cos({})", x)?,
