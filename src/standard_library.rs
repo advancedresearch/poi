@@ -70,6 +70,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(path(Eqb, TypeOf), BoolType, BoolType), BoolType.into()),
         // `xor[type_of](bool)(bool) => bool`
         Red(app2(path(Xor, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `nand[type_of](bool)(bool) => bool`
+        Red(app2(path(Nand, TypeOf), BoolType, BoolType), BoolType.into()),
 
         // `eq[type_of](bool)(bool) => bool`
         Red(app2(path(Eq, TypeOf), BoolType, BoolType), BoolType.into()),
