@@ -128,6 +128,9 @@ pub fn std() -> Vec<Knowledge> {
         // `rpow[type_of](f64)(f64) => f64`
         Red(app2(path(Rpow, TypeOf), F64Type, F64Type), F64Type.into()),
 
+        // `len[type_of](vec) => f64`
+        Red(app(path(Len, TypeOf), VecType), F64Type.into()),
+
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
         // `not[not] <=> not`
