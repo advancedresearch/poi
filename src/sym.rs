@@ -257,6 +257,8 @@ pub enum Symbol {
     TypeOf,
     /// `bool`.
     BoolType,
+    /// `f64`.
+    F64Type,
 }
 
 impl fmt::Display for Symbol {
@@ -363,6 +365,7 @@ impl fmt::Display for Symbol {
             Eps => write!(w, "ε")?,
             TypeOf => write!(w, "type_of")?,
             BoolType => write!(w, "bool")?,
+            F64Type => write!(w, "f64")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
