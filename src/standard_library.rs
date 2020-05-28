@@ -63,6 +63,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(TypeOf, false), BoolType.into()),
         // `type_of(\x) => compute::type_of(x)`
         Red(app(TypeOf, ret_var("x")), unop_ret_var("x", TypeOf)),
+        // `type_of([x..]) => vec`
+        Red(app(TypeOf, list_var("x")), VecType.into()),
 
         // `false1[type_of](bool) => bool`
         Red(app(path(False1, TypeOf), BoolType), BoolType.into()),
