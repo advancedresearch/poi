@@ -815,6 +815,7 @@ impl Context {
                             Sqrt => Ret(F64(a.sqrt())),
                             Ln => Ret(F64(a.ln())),
                             Log2 => Ret(F64(a.log2())),
+                            Log10 => Ret(F64(a.log10())),
                             Sin => Ret(F64(a.sin())),
                             Asin => Ret(F64(a.asin())),
                             Cos => Ret(F64(a.cos())),

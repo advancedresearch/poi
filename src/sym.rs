@@ -420,6 +420,7 @@ impl fmt::Display for Symbol {
                     Sqrt => write!(w, "compute::sqrt({})", x)?,
                     Ln => write!(w, "compute::ln({})", x)?,
                     Log2 => write!(w, "compute::log2({})", x)?,
+                    Log10 => write!(w, "compute::log10({})", x)?,
                     Sin => write!(w, "compute::sin({})", x)?,
                     Asin => write!(w, "compute::asin({})", x)?,
                     Cos => write!(w, "compute::cos({})", x)?,
