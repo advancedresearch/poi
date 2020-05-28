@@ -425,6 +425,7 @@ impl fmt::Display for Symbol {
                     Atan => write!(w, "compute::atan({})", x)?,
                     IsSquareMat => write!(w, "compute::is_square_mat({})", x)?,
                     Arity => write!(w, "compute::arity({})", x)?,
+                    TypeOf => write!(w, "compute::type_of({})", x)?,
                     _ => write!(w, "{:?}", self)?,
                 }
             }

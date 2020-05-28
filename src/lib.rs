@@ -818,6 +818,7 @@ impl Context {
                             Acos => Ret(F64(a.acos())),
                             Tan => Ret(F64(a.tan())),
                             Atan => Ret(F64(a.atan())),
+                            TypeOf => Sym(F64Type),
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
