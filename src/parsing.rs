@@ -134,6 +134,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "pi" | "π" => Pi,
                 "tau" | "τ" => Tau,
                 "eps" | "ε" => Eps,
+                "type_of" => TypeOf,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
