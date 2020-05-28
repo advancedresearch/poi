@@ -73,6 +73,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `false2[type_of](bool)(bool) => bool`
         Red(app2(path(False2, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `true2[type_of](bool)(bool) => bool`
+        Red(app2(path(True2, TypeOf), BoolType, BoolType), BoolType.into()),
         // `and[type_of](bool)(bool) => bool`
         Red(app2(path(And, TypeOf), BoolType, BoolType), BoolType.into()),
         // `or[type_of](bool)(bool) => bool`
