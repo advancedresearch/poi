@@ -253,6 +253,8 @@ pub enum Symbol {
     Tau,
     /// `eps` or `ε`.
     Eps,
+    /// `imag` (complex imaginary base).
+    Imag,
     /// `type_of`.
     TypeOf,
     /// `bool`.
@@ -363,6 +365,7 @@ impl fmt::Display for Symbol {
             Pi => write!(w, "π")?,
             Tau => write!(w, "τ")?,
             Eps => write!(w, "ε")?,
+            Imag => write!(w, "imag")?,
             TypeOf => write!(w, "type_of")?,
             BoolType => write!(w, "bool")?,
             F64Type => write!(w, "f64")?,
