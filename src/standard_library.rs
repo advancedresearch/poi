@@ -110,6 +110,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(path(Div, TypeOf), F64Type, F64Type), F64Type.into()),
         // `rem[type_of](f64)(f64) => f64`
         Red(app2(path(Rem, TypeOf), F64Type, F64Type), F64Type.into()),
+        // `pow[type_of](f64)(f64) => f64`
+        Red(app2(path(Pow, TypeOf), F64Type, F64Type), F64Type.into()),
 
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
