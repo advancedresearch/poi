@@ -62,12 +62,39 @@ pub fn std() -> Vec<Knowledge> {
         // `type_of(false) => bool`
         Red(app(TypeOf, false), BoolType.into()),
 
+        // `false1[type_of](bool) => bool`
+        Red(app(path(False1, TypeOf), BoolType), BoolType.into()),
+        // `not[type_of](bool) => bool`
+        Red(app(path(Not, TypeOf), BoolType), BoolType.into()),
+        // `idb[type_of](bool) => bool`
+        Red(app(path(Idb, TypeOf), BoolType), BoolType.into()),
+        // `true1[type_of](bool) => bool`
+        Red(app(path(True1, TypeOf), BoolType), BoolType.into()),
+
+        // `false2[type_of](bool)(bool) => bool`
+        Red(app2(path(False2, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `true2[type_of](bool)(bool) => bool`
+        Red(app2(path(True2, TypeOf), BoolType, BoolType), BoolType.into()),
         // `and[type_of](bool)(bool) => bool`
         Red(app2(path(And, TypeOf), BoolType, BoolType), BoolType.into()),
         // `or[type_of](bool)(bool) => bool`
         Red(app2(path(Or, TypeOf), BoolType, BoolType), BoolType.into()),
         // `eqb[type_of](bool)(bool) => bool`
         Red(app2(path(Eqb, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `xor[type_of](bool)(bool) => bool`
+        Red(app2(path(Xor, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `nand[type_of](bool)(bool) => bool`
+        Red(app2(path(Nand, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `nor[type_of](bool)(bool) => bool`
+        Red(app2(path(Nor, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `exc[type_of](bool)(bool) => bool`
+        Red(app2(path(Exc, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `imply[type_of](bool)(bool) => bool`
+        Red(app2(path(Imply, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `fstb[type_of](bool)(bool) => bool`
+        Red(app2(path(Fstb, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `sndb[type_of](bool)(bool) => bool`
+        Red(app2(path(Sndb, TypeOf), BoolType, BoolType), BoolType.into()),
 
         // `eq[type_of](bool)(bool) => bool`
         Red(app2(path(Eq, TypeOf), BoolType, BoolType), BoolType.into()),
