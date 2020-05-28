@@ -1,7 +1,7 @@
 use poi::*;
 
 fn main() {
-    println!("=== Poi Reduce 0.8 ===");
+    println!("=== Poi Reduce 0.9 ===");
     println!("Type `help` for more information.");
     let ref std = std();
 
