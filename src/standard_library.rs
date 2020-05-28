@@ -106,6 +106,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(path(Log2, TypeOf), F64Type), F64Type.into()),
         // `log10[type_of](f64) => f64`
         Red(app(path(Log10, TypeOf), F64Type), F64Type.into()),
+        // `exp[type_of](f64) => f64`
+        Red(app(path(Exp, TypeOf), F64Type), F64Type.into()),
 
         // `eq[type_of](bool)(bool) => bool`
         Red(app2(path(Eq, TypeOf), BoolType, BoolType), BoolType.into()),
