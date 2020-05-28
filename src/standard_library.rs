@@ -57,6 +57,11 @@ pub fn std() -> Vec<Knowledge> {
         // `∀(f:!{}) => \true`
         Red(app(Triv, no_constr("f")), true.into()),
 
+        // `type_of(true) => bool`
+        Red(app(TypeOf, true), BoolType.into()),
+        // `type_of(false) => bool`
+        Red(app(TypeOf, false), BoolType.into()),
+
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
         // `not[not] <=> not`
