@@ -66,6 +66,11 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(path(And, TypeOf), BoolType, BoolType), BoolType.into()),
         // `or[type_of](bool)(bool) => bool`
         Red(app2(path(Or, TypeOf), BoolType, BoolType), BoolType.into()),
+        // `eqb[type_of](bool)(bool) => bool`
+        Red(app2(path(Eqb, TypeOf), BoolType, BoolType), BoolType.into()),
+
+        // `eq[type_of](bool)(bool) => bool`
+        Red(app2(path(Eq, TypeOf), BoolType, BoolType), BoolType.into()),
 
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
