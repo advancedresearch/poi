@@ -255,6 +255,8 @@ pub enum Symbol {
     Eps,
     /// `type_of`.
     TypeOf,
+    /// `bool`.
+    BoolType,
 }
 
 impl fmt::Display for Symbol {
@@ -360,6 +362,7 @@ impl fmt::Display for Symbol {
             Tau => write!(w, "τ")?,
             Eps => write!(w, "ε")?,
             TypeOf => write!(w, "type_of")?,
+            BoolType => write!(w, "bool")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
