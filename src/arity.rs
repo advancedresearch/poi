@@ -11,7 +11,7 @@ impl Symbol {
             Norm | Sqnorm | Sqrt | Ln | Log2 | Log10 | Exp | Len |
             Sum | Min | Max | Prob | Probl | Probr | Probm | Det |
             Dim | IsSquareMat | Sin | Asin | Cos | Acos | Tan | Atan |
-            Re | Im | Ex | Triv => Some(1),
+            Re | Im | Ex | Triv | TypeOf => Some(1),
 
             Eq | Eqb | And | Or | Nand | Nor | Xor | Exc |
             Add | Mul | Div | Sub | Rem | False2 | True2 |
