@@ -136,6 +136,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "eps" | "ε" => Eps,
                 "type_of" => TypeOf,
                 "bool" => BoolType,
+                "f64" => F64Type,
                 _ => Var(val),
             }));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
