@@ -278,7 +278,7 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(\x)(mul(\y)(z)) => mul(x * y)(z)`
         Red(app2(Mul, ret_var("x"), app2(Mul, ret_var("y"), "z")),
             app2(Mul, binop_ret_var("x", "y", Mul), "z")),
-        // `mul(add(\a)(mul(\b)(x)))(add(\c)(mul(\d)(x))) => a * c + b * d * x^2 + (a * d + b * c) * x`
+        // `(\a + \b * x) * (\c + \d * x) => a * c + b * d * x^2 + (a * d + b * c) * x`
         Red(app2(Mul, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x")),
                       app2(Add, ret_var("c"), app2(Mul, ret_var("d"), "x"))),
             app2(Add, app2(Add, app2(Mul, "a", "c"), app2(Mul, app2(Mul, "b", "d"), app2(Pow, "x", 2.0))),
