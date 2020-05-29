@@ -499,11 +499,24 @@ impl Expr {
                         Ok(b) => Ok(constr(a, b)),
                     }
                 } else {
-                    Ok(Op(
-                        *op,
-                        Box::new(a.inline_all(knowledge)?),
-                        Box::new(b.inline_all(knowledge)?)
-                    ))
+                    match (a.inline_all(knowledge), b.inline_all(knowledge)) {
+                        (Ok(a), Ok(b)) => Ok(Op(
+                            *op,
+                            Box::new(a),
+                            Box::new(b)
+                        )),
+                        (Ok(a), Err(_)) => Ok(Op(
+                            *op,
+                            Box::new(a),
+                            b.clone()
+                        )),
+                        (Err(_), Ok(b)) => Ok(Op(
+                            *op,
+                            a.clone(),
+                            Box::new(b)
+                        )),
+                        (err, _) => err,
+                    }
                 }
             }
             Tup(a) => {
@@ -1322,5 +1335,17 @@ mod tests {
         assert_eq!(f.has_constraint(0), true);
         let f: Expr = true.into();
         assert_eq!(f.has_constraint(0), false);
+    }
+
+    #[test]
+    fn eval_var() {
+        let def = &[Def("x".into(), 0.0.into())];
+        let f: Expr = "x".into();
+        assert_eq!(f.eval(def).unwrap(), Ret(F64(0.0)));
+
+        let mut def = std();
+        def.push(Def("x".into(), 2.0.into()));
+        let f: Expr = app2(Add, 1.0, "x");
+        assert_eq!(f.eval(&def).unwrap(), Ret(F64(3.0)));
     }
 }
