@@ -4,7 +4,7 @@
 //! a pragmatic point-free theorem prover assistant
 //!
 //! ```text
-//! === Poi Reduce 0.9 ===
+//! === Poi Reduce 0.10 ===
 //! Type `help` for more information.
 //! > and[not]
 //! and[not]
