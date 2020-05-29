@@ -323,7 +323,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Push, list_var("x"), "y"), binop_ret_var("x", "y", Push)),
         // `push_front([x..], y) => compute::push_front(x, y)`
         Red(app2(PushFront, list_var("x"), "y"), binop_ret_var("x", "y", PushFront)),
-        // `concat{(: vec)}(x){(: vec)}(y) => x ++ y`
+        // `concat{(: vec)}(x){(: vec)}(y) => compute::concat(x, y)`
         Red(app(constr(app(constr(Concat, app(Rty, VecType)), "x"), app(Rty, VecType)),
                 "y"), binop_ret_var("x", "y", Concat)),
         // `len(x) => compute::len(x)`
