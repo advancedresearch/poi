@@ -270,7 +270,7 @@ pub fn std() -> Vec<Knowledge> {
         // `(\a - \b * x) => (a + neg(b) * x)`
         Red(app2(Sub, ret_var("a"), app2(Mul, ret_var("b"), "x")),
             app2(Add, "a", app2(Mul, app(Neg, "b"), "x"))),
-        // `add(add(\a)(mul(\b)(x)))(mul(\c)(x)) => add(a)(mul(add(\b)(\c))(x))`
+        // `(\a + \b * x) + (\c * x) => a + (b + c) * x`
         Red(app2(Add, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x")),
                  app2(Mul, ret_var("c"), "x")),
             app2(Add, "a", app2(Mul, app2(Add, "b", "c"), "x"))),
