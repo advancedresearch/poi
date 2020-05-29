@@ -255,7 +255,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Gt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Gt)),
         // `ge(\x)(\y) => \x >= \y`
         Red(app2(Ge, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Ge)),
-        // `neg(\x) => -x`
+        // `neg(\x) => compute::neg(x)`
         Red(app(Neg, ret_var("x")), unop_ret_var("x", Neg)),
         // `neg((\a + \b * x)) => (neg(a) + neg(b) * x)`
         Red(app(Neg, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x"))),
