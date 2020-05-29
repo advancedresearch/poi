@@ -317,7 +317,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Pow, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Pow)),
         // `rpow(\x)(\y) => compute::pow(y, x)`
         Red(app2(Rpow, ret_var("x"), ret_var("y")), binop_ret_var("y", "x", Pow)),
-        // `eq(\x)(\y) => x == y`
+        // `eq(\x)(\y) => compute::eq(x, y)`
         Red(app2(Eq, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Eq)),
         // `push([x..], y) => compute::push(x, y)`
         Red(app2(Push, list_var("x"), "y"), binop_ret_var("x", "y", Push)),
