@@ -247,7 +247,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Pow, Eps, 2.0), 0.0.into()),
         // `pow(imag)(\2) => \-1`
         Red(app2(Pow, Imag, 2.0), (-1.0).into()),
-        // `lt(\x)(\y) => \x < \y`
+        // `lt(\x)(\y) => compute::lt(x, y)`
         Red(app2(Lt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Lt)),
         // `le(\x)(\y) => compute::le(x, y)`
         Red(app2(Le, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Le)),
