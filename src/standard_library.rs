@@ -318,6 +318,11 @@ pub fn std() -> Vec<Knowledge> {
             app2(Mul, app2(Mul, "a", "b"), app2(Pow, "x", 2.0))),
         // `div(\x)(\y) => compute::div(x, y)`
         Red(app2(Div, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Div)),
+        // `div((\a + \b * eps))((\c + \d * eps)) => (a / c) + ((b * c - a * d) / c^2) * eps`
+        Red(app2(Div, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), Eps)),
+                      app2(Add, ret_var("c"), app2(Mul, ret_var("d"), Eps))),
+            app2(Add, app2(Div, "a", "c"), app2(Mul, app2(Div, app2(Sub, app2(Mul, "b", "c"),
+                      app2(Mul, "a", "d")), app2(Pow, "c", 2.0)), Eps))),
         // `div(x)((\a + \b * imag)) => mul(x)(reci(a + b * imag))`
         Red(app2(Div, "x", app2(Add, ret_var("a"), app2(Mul, ret_var("b"), Imag))),
             app2(Mul, "x", app(Reci, app2(Add, "a", app2(Mul, "b", Imag))))),
