@@ -262,6 +262,11 @@ pub fn std() -> Vec<Knowledge> {
             app2(Add, app(Neg, "a"), app2(Mul, app(Neg, "b"), "x"))),
         // `reci(\x) => compute::reci(x)`
         Red(app(Reci, ret_var("x")), unop_ret_var("x", Reci)),
+        // `reci((\x + \y * imag)) => x / (x^2 + y^2) + (neg(y) / (x^2 + y^2)) * imag`
+        Red(app(Reci, app2(Add, ret_var("x"), app2(Mul, ret_var("y"), Imag))),
+            app2(Add, app2(Div, "x", app2(Add, app2(Pow, "x", 2.0), app2(Pow, "y", 2.0))),
+                      app2(Mul, app2(Div, app(Neg, "y"), app2(Add, app2(Pow, "x", 2.0),
+                                app2(Pow, "y", 2.0))), Imag))),
         // `abs(\x) => compute::abs(x)`
         Red(app(Abs, ret_var("x")), unop_ret_var("x", Abs)),
         // `add(\x)(\y) => compute::add(x, y)`
