@@ -807,6 +807,11 @@ impl Context {
                     Some(Ret(F64(a))) => {
                         Ok(match **f {
                             Neg => Ret(F64(-a)),
+                            Reci => if a == 0.0 {
+                                return Err(Error::InvalidComputation)
+                            } else {
+                                Ret(F64(a.recip()))
+                            },
                             Abs => Ret(F64(a.abs())),
                             Prob => Ret(Bool(a >= 0.0 && a <= 1.0)),
                             Probl => Ret(Bool(a >= 0.0 && a < 1.0)),
