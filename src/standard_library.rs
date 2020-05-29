@@ -309,7 +309,7 @@ pub fn std() -> Vec<Knowledge> {
         // `(\a * x) * (\b * x) => (a * b) * x^2`
         Red(app2(Mul, app2(Mul, ret_var("a"), "x"), app2(Mul, ret_var("b"), "x")),
             app2(Mul, app2(Mul, "a", "b"), app2(Pow, "x", 2.0))),
-        // `div(\x)(\y) => x / y`
+        // `div(\x)(\y) => compute::div(x, y)`
         Red(app2(Div, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Div)),
         // `rem(\x)(\y) => x % y`
         Red(app2(Rem, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Rem)),
