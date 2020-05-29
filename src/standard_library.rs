@@ -313,7 +313,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Div, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Div)),
         // `rem(\x)(\y) => compute::rem(x, y)`
         Red(app2(Rem, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Rem)),
-        // `pow(\x)(\y) => x ^ y`
+        // `pow(\x)(\y) => compute::pow(x, y)`
         Red(app2(Pow, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Pow)),
         // `rpow(\x)(\y) => x ^ y`
         Red(app2(Rpow, ret_var("x"), ret_var("y")), binop_ret_var("y", "x", Pow)),
