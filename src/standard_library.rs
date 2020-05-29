@@ -247,24 +247,24 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Pow, Eps, 2.0), 0.0.into()),
         // `pow(imag)(\2) => \-1`
         Red(app2(Pow, Imag, 2.0), (-1.0).into()),
-        // `lt(\x)(\y) => \x < \y`
+        // `lt(\x)(\y) => compute::lt(x, y)`
         Red(app2(Lt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Lt)),
-        // `le(\x)(\y) => \x <= \y`
+        // `le(\x)(\y) => compute::le(x, y)`
         Red(app2(Le, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Le)),
-        // `gt(\x)(\y) => \x > \y`
+        // `gt(\x)(\y) => compute::gt(x, y)`
         Red(app2(Gt, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Gt)),
-        // `ge(\x)(\y) => \x >= \y`
+        // `ge(\x)(\y) => compute::ge(x, y)`
         Red(app2(Ge, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Ge)),
-        // `neg(\x) => -x`
+        // `neg(\x) => compute::neg(x)`
         Red(app(Neg, ret_var("x")), unop_ret_var("x", Neg)),
         // `neg((\a + \b * x)) => (neg(a) + neg(b) * x)`
         Red(app(Neg, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x"))),
             app2(Add, app(Neg, "a"), app2(Mul, app(Neg, "b"), "x"))),
         // `abs(\x) => compute::abs(x)`
         Red(app(Abs, ret_var("x")), unop_ret_var("x", Abs)),
-        // `add(\x)(\y) => x + y`
+        // `add(\x)(\y) => compute::add(x, y)`
         Red(app2(Add, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Add)),
-        // `add(\x)(add(\y)(z)) => add(x + y)(z)`
+        // `add(\x)(add(\y)(z)) => add(compute::add(x, y))(z)`
         Red(app2(Add, ret_var("x"), app2(Add, ret_var("y"), "z")),
             app2(Add, binop_ret_var("x", "y", Add), "z")),
         // `(\a - \b * x) => (a + neg(b) * x)`
