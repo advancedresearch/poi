@@ -437,6 +437,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Pow, "x", 1.0), "x".into()),
         // `pow(x)(0) => 1`
         Red(app2(Pow, "x", 0.0), 1.0.into()),
+        // `pow(sqrt(x), 2) => x`
+        Red(app2(Pow, app(Sqrt, "x"), 2.0), "x".into()),
         // `sin(tau) => 0`
         Red(app(Sin, Tau), 0.0.into()),
         // `cos(tau) => 1`
