@@ -274,7 +274,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Add, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x")),
                  app2(Mul, ret_var("c"), "x")),
             app2(Add, "a", app2(Mul, app2(Add, "b", "c"), "x"))),
-        // `add(mul(\a)(x))(mul(\b)(x)) => mul(add(a)(b))(x)`
+        // `(\a * x) + (\b * x) => (a + b) * x`
         Red(app2(Add, app2(Mul, ret_var("a"), "x"), app2(Mul, ret_var("b"), "x")),
             app2(Mul, app2(Add, "a", "b"), "x")),
         // `sub(\x)(\y) => x - y`
