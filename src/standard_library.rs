@@ -309,21 +309,21 @@ pub fn std() -> Vec<Knowledge> {
         // `(\a * x) * (\b * x) => (a * b) * x^2`
         Red(app2(Mul, app2(Mul, ret_var("a"), "x"), app2(Mul, ret_var("b"), "x")),
             app2(Mul, app2(Mul, "a", "b"), app2(Pow, "x", 2.0))),
-        // `div(\x)(\y) => x / y`
+        // `div(\x)(\y) => compute::div(x, y)`
         Red(app2(Div, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Div)),
-        // `rem(\x)(\y) => x % y`
+        // `rem(\x)(\y) => compute::rem(x, y)`
         Red(app2(Rem, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Rem)),
-        // `pow(\x)(\y) => x ^ y`
+        // `pow(\x)(\y) => compute::pow(x, y)`
         Red(app2(Pow, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Pow)),
-        // `rpow(\x)(\y) => x ^ y`
+        // `rpow(\x)(\y) => compute::pow(y, x)`
         Red(app2(Rpow, ret_var("x"), ret_var("y")), binop_ret_var("y", "x", Pow)),
-        // `eq(\x)(\y) => x == y`
+        // `eq(\x)(\y) => compute::eq(x, y)`
         Red(app2(Eq, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Eq)),
         // `push([x..], y) => compute::push(x, y)`
         Red(app2(Push, list_var("x"), "y"), binop_ret_var("x", "y", Push)),
         // `push_front([x..], y) => compute::push_front(x, y)`
         Red(app2(PushFront, list_var("x"), "y"), binop_ret_var("x", "y", PushFront)),
-        // `concat{(: vec)}(x){(: vec)}(y) => x ++ y`
+        // `concat{(: vec)}(x){(: vec)}(y) => compute::concat(x, y)`
         Red(app(constr(app(constr(Concat, app(Rty, VecType)), "x"), app(Rty, VecType)),
                 "y"), binop_ret_var("x", "y", Concat)),
         // `len(x) => compute::len(x)`
