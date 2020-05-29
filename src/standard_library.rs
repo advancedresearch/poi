@@ -260,6 +260,8 @@ pub fn std() -> Vec<Knowledge> {
         // `neg((\a + \b * x)) => (neg(a) + neg(b) * x)`
         Red(app(Neg, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x"))),
             app2(Add, app(Neg, "a"), app2(Mul, app(Neg, "b"), "x"))),
+        // `reci(\x) => compute::reci(x)`
+        Red(app(Reci, ret_var("x")), unop_ret_var("x", Reci)),
         // `abs(\x) => compute::abs(x)`
         Red(app(Abs, ret_var("x")), unop_ret_var("x", Abs)),
         // `add(\x)(\y) => compute::add(x, y)`
