@@ -6,7 +6,7 @@ impl Symbol {
         match self {
             VecType | RetType | Pi | Tau | Eps | Imag | BoolType | F64Type => Some(0),
 
-            Not | Idb | Id | Neg | Arity |
+            Not | Idb | Id | Neg | Reci | Arity |
             False1 | True1 | Even | Odd | Abs | Conj |
             Norm | Sqnorm | Sqrt | Ln | Log2 | Log10 | Exp | Len |
             Sum | Min | Max | Prob | Probl | Probr | Probm | Det |
