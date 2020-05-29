@@ -698,6 +698,20 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
+            (Sym(RetPosVar(name)), Ret(F64(x))) if *x >= 0.0 => {
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == name {
+                        if &self.vars[i].1 == value {
+                            break
+                        } else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    }
+                }
+                self.vars.push((name.clone(), value.clone()));
+                true
+            }
             (Sym(Singleton(name)), List(x)) if x.len() == 1 => {
                 self.vars.push((name.clone(), x[0].clone()));
                 true

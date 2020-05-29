@@ -36,6 +36,8 @@ pub enum Symbol {
     RetVar(Arc<String>),
     /// A value variable that is an integer.
     RetIntVar(Arc<String>),
+    /// A value variable that is positive or zero.
+    RetPosVar(Arc<String>),
     /// A variable that is not a value variable.
     NotRetVar(Arc<String>),
     /// Compute a binary function.
@@ -376,6 +378,7 @@ impl fmt::Display for Symbol {
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             RetIntVar(x) => write!(w, "\\{}:int", x)?,
+            RetPosVar(x) => write!(w, "\\{}:(>= 0)", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
             Singleton(x) => write!(w, "[{}]", x)?,

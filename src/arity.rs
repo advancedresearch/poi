@@ -24,7 +24,7 @@ impl Symbol {
 
             Any | Var(_) | ArityVar(_, _) | ListVar(_) |
             Singleton(_) | HeadTailTup(_, _) | HeadTailList(_, _) |
-            RetVar(_) | RetIntVar(_) | NotRetVar(_) | BinopRetVar(_, _, _) |
+            RetVar(_) | RetIntVar(_) | RetPosVar(_) | NotRetVar(_) | BinopRetVar(_, _, _) |
             TernopRetVar(_, _, _, _) | UnopRetVar(_, _) | NoConstrVar(_) => None,
 
             // _ => None
