@@ -1139,6 +1139,11 @@ pub fn ret_int_var<A: Into<String>>(a: A) -> Expr {Sym(RetIntVar(Arc::new(a.into
 /// A value variable that is positive or zero.
 pub fn ret_pos_var<A: Into<String>>(a: A) -> Expr {Sym(RetPosVar(Arc::new(a.into())))}
 
+/// A value variable that is negative and non-zero.
+///
+/// Binds to its positive value.
+pub fn ret_neg_var<A: Into<String>>(a: A) -> Expr {Sym(RetNegVar(Arc::new(a.into())))}
+
 /// A variable that is not a value variable.
 pub fn not_ret_var<A: Into<String>>(a: A) -> Expr {Sym(NotRetVar(Arc::new(a.into())))}
 
