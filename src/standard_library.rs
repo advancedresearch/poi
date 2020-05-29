@@ -262,7 +262,7 @@ pub fn std() -> Vec<Knowledge> {
             app2(Add, app(Neg, "a"), app2(Mul, app(Neg, "b"), "x"))),
         // `abs(\x) => compute::abs(x)`
         Red(app(Abs, ret_var("x")), unop_ret_var("x", Abs)),
-        // `add(\x)(\y) => x + y`
+        // `add(\x)(\y) => compute::add(x, y)`
         Red(app2(Add, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Add)),
         // `add(\x)(add(\y)(z)) => add(x + y)(z)`
         Red(app2(Add, ret_var("x"), app2(Add, ret_var("y"), "z")),
