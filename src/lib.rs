@@ -341,7 +341,7 @@ impl Expr {
         let mut ctx = Context {vars: vec![]};
         let mut res = vec![];
         for i in 0..knowledge.len() {
-            if let Eqv(a, b) = &knowledge[i] {
+            if let Eqv(a, b) | EqvEval(a, b) = &knowledge[i] {
                 if ctx.bind(a, self) {
                     let expr = match ctx.substitute(b) {
                         Ok(expr) => expr,
