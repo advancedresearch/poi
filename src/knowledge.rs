@@ -10,6 +10,8 @@ pub enum Knowledge {
     Red(Expr, Expr),
     /// Two expressions that are equivalent but neither normalizes the other.
     Eqv(Expr, Expr),
+    /// Two expressions that are equivalent but evaluates from left to right.
+    EqvEval(Expr, Expr),
 }
 
 impl fmt::Display for Knowledge {
@@ -20,6 +22,7 @@ impl fmt::Display for Knowledge {
             Def(a, b) => write!(w, "{} := {}", a, b)?,
             Red(a, b) => write!(w, "{} => {}", a, b)?,
             Eqv(a, b) => write!(w, "{} <=> {}", a, b)?,
+            EqvEval(a, b) => write!(w, "{} <=> {}", a, b)?,
         }
         Ok(())
     }
