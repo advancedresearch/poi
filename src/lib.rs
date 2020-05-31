@@ -421,16 +421,35 @@ impl Expr {
 
     /// Reduces expression one step using a knowledge base.
     pub fn reduce(&self, knowledge: &[Knowledge]) -> Result<(Expr, usize), Error> {
+        self.reduce_eval(knowledge, false)
+    }
+
+    /// Reduces expression one step using a knowledge base.
+    ///
+    /// When `eval` is set to `true`, the `EqvEval` variants are reduced.
+    pub fn reduce_eval(&self, knowledge: &[Knowledge], eval: bool) -> Result<(Expr, usize), Error> {
         let mut ctx = Context {vars: vec![]};
         let mut me: Result<(Expr, usize), Error> = Err(Error::NoReductionRule);
         for i in 0..knowledge.len() {
-            if let Red(a, b) = &knowledge[i] {
-                if ctx.bind(a, self) {
-                    me = match ctx.substitute(b) {
-                        Ok(expr) => Ok((expr, i)),
-                        Err(err) => Err(err),
-                    };
-                    break;
+            if eval {
+                if let Red(a, b) | EqvEval(a, b) = &knowledge[i] {
+                    if ctx.bind(a, self) {
+                        me = match ctx.substitute(b) {
+                            Ok(expr) => Ok((expr, i)),
+                            Err(err) => Err(err),
+                        };
+                        break;
+                    }
+                }
+            } else {
+                if let Red(a, b) = &knowledge[i] {
+                    if ctx.bind(a, self) {
+                        me = match ctx.substitute(b) {
+                            Ok(expr) => Ok((expr, i)),
+                            Err(err) => Err(err),
+                        };
+                        break;
+                    }
                 }
             }
         }
