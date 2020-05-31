@@ -1,0 +1,20 @@
+=== Epsilon ===
+
+In physics and machine learning, it is very convenient to use a constant that is
+a very small positive number, written in Poi as `eps` or `ε`.
+
+This number has the following property (for all practical purposes):
+
+  ε^2 = 0
+
+In the form `(a + b * eps)`, this forms the theory of dual numbers.
+
+Dual numbers are very useful because it lets you "cheat" in ways that seems
+unreasonably rewarding and efficient at advanced problem solving.
+
+For example, in matrix algebra, if you have an equation of the form `f(X) = 0`
+where `f` is a function of a matrix `X`, you can transform with `det(f(X)) = 0`,
+insert dual numbers for coefficients of `X` and tease out matrix solutions.
+
+Poi understands e.g. `(2 + 3 eps)` or `(2 + 3ε)` as `(2 + 3 * ε)`.
+Remember to use space in `3 eps` because of `e` in scientific notation.
