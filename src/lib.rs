@@ -405,7 +405,7 @@ impl Expr {
     pub fn eval(&self, knowledge: &[Knowledge]) -> Result<Expr, Error> {
         let mut me = self.clone();
         loop {
-            let expr = me.reduce_all(knowledge).inline_all(knowledge)?;
+            let expr = me.reduce_eval_all(knowledge, true).inline_all(knowledge)?;
             if expr == me {break};
             me = expr;
         }
@@ -414,23 +414,47 @@ impl Expr {
 
     /// Reduces an expression using a knowledge base, until it can not be reduces further.
     pub fn reduce_all(&self, knowledge: &[Knowledge]) -> Expr {
+        self.reduce_eval_all(knowledge, false)
+    }
+
+    /// Reduces an expression using a knowledge base, until it can not be reduces further.
+    pub fn reduce_eval_all(&self, knowledge: &[Knowledge], eval: bool) -> Expr {
         let mut me = self.clone();
-        while let Ok((expr, _)) = me.reduce(knowledge) {me = expr}
+        while let Ok((expr, _)) = me.reduce_eval(knowledge, eval) {me = expr}
         me
     }
 
     /// Reduces expression one step using a knowledge base.
     pub fn reduce(&self, knowledge: &[Knowledge]) -> Result<(Expr, usize), Error> {
+        self.reduce_eval(knowledge, false)
+    }
+
+    /// Reduces expression one step using a knowledge base.
+    ///
+    /// When `eval` is set to `true`, the `EqvEval` variants are reduced.
+    pub fn reduce_eval(&self, knowledge: &[Knowledge], eval: bool) -> Result<(Expr, usize), Error> {
         let mut ctx = Context {vars: vec![]};
         let mut me: Result<(Expr, usize), Error> = Err(Error::NoReductionRule);
         for i in 0..knowledge.len() {
-            if let Red(a, b) = &knowledge[i] {
-                if ctx.bind(a, self) {
-                    me = match ctx.substitute(b) {
-                        Ok(expr) => Ok((expr, i)),
-                        Err(err) => Err(err),
-                    };
-                    break;
+            if eval {
+                if let Red(a, b) | EqvEval(a, b) = &knowledge[i] {
+                    if ctx.bind(a, self) {
+                        me = match ctx.substitute(b) {
+                            Ok(expr) => Ok((expr, i)),
+                            Err(err) => Err(err),
+                        };
+                        break;
+                    }
+                }
+            } else {
+                if let Red(a, b) = &knowledge[i] {
+                    if ctx.bind(a, self) {
+                        me = match ctx.substitute(b) {
+                            Ok(expr) => Ok((expr, i)),
+                            Err(err) => Err(err),
+                        };
+                        break;
+                    }
                 }
             }
         }
@@ -1347,5 +1371,10 @@ mod tests {
         def.push(Def("x".into(), 2.0.into()));
         let f: Expr = app2(Add, 1.0, "x");
         assert_eq!(f.eval(&def).unwrap(), Ret(F64(3.0)));
+
+        let mut def = std();
+        def.push(Def("x".into(), 0.0.into()));
+        let f: Expr = app(Sin, "x");
+        assert_eq!(f.eval(&def).unwrap(), Ret(F64(0.0)));
     }
 }

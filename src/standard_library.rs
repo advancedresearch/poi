@@ -767,37 +767,37 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Mul, not_ret_var("a"), ret_var("b")), app2(Mul, "b", "a")),
 
         // `sqrt(\x:(>= 0)) <=> compute::sqrt(x)`
-        Eqv(app(Sqrt, ret_pos_var("x")), unop_ret_var("x", Sqrt)),
+        EqvEval(app(Sqrt, ret_pos_var("x")), unop_ret_var("x", Sqrt)),
         // `sqrt(\x:(< 0)) <=> mul(sqrt(x))(imag)`
-        Eqv(app(Sqrt, ret_neg_var("x")), app2(Mul, app(Sqrt, "x"), Imag)),
+        EqvEval(app(Sqrt, ret_neg_var("x")), app2(Mul, app(Sqrt, "x"), Imag)),
         // `ln(\x) <=> compute::ln(x)`
-        Eqv(app(Ln, ret_var("x")), unop_ret_var("x", Ln)),
+        EqvEval(app(Ln, ret_var("x")), unop_ret_var("x", Ln)),
         // `log2(\x) <=> compute::log2(x)`
-        Eqv(app(Log2, ret_var("x")), unop_ret_var("x", Log2)),
+        EqvEval(app(Log2, ret_var("x")), unop_ret_var("x", Log2)),
         // `log10(\x) <=> compute::log10(x)`
-        Eqv(app(Log10, ret_var("x")), unop_ret_var("x", Log10)),
+        EqvEval(app(Log10, ret_var("x")), unop_ret_var("x", Log10)),
         // `exp(\x) <=> compute::exp(x)`
-        Eqv(app(Exp, ret_var("x")), unop_ret_var("x", Exp)),
+        EqvEval(app(Exp, ret_var("x")), unop_ret_var("x", Exp)),
         // `sin(\x) <=> compute::sin(x)`
-        Eqv(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
+        EqvEval(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
         // `asin(\x) <=> compute::asin(x)`
-        Eqv(app(Asin, ret_var("x")), unop_ret_var("x", Asin)),
+        EqvEval(app(Asin, ret_var("x")), unop_ret_var("x", Asin)),
         // `cos(\x) <=> compute::cos(x)`
-        Eqv(app(Cos, ret_var("x")), unop_ret_var("x", Cos)),
+        EqvEval(app(Cos, ret_var("x")), unop_ret_var("x", Cos)),
         // `acos(\x) <=> compute::acos(x)`
-        Eqv(app(Acos, ret_var("x")), unop_ret_var("x", Acos)),
+        EqvEval(app(Acos, ret_var("x")), unop_ret_var("x", Acos)),
         // `tan(\x) <=> compute::tan(x)`
-        Eqv(app(Tan, ret_var("x")), unop_ret_var("x", Tan)),
+        EqvEval(app(Tan, ret_var("x")), unop_ret_var("x", Tan)),
         // `atan(\x) <=> compute::atan(x)`
-        Eqv(app(Atan, ret_var("x")), unop_ret_var("x", Atan)),
+        EqvEval(app(Atan, ret_var("x")), unop_ret_var("x", Atan)),
         // `atan2(\x)(\y) <=> compute::atan2(x, y)`
-        Eqv(app2(Atan2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Atan2)),
+        EqvEval(app2(Atan2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Atan2)),
         // `mul(\2, pi) <=> tau`
         Eqv(app2(Mul, 2.0, Pi), Tau.into()),
         // `pi <=> \3.141592653589793`
-        Eqv(Pi.into(), 3.141592653589793.into()),
+        EqvEval(Pi.into(), 3.141592653589793.into()),
         // `tau <=> \6.283185307179586`
-        Eqv(Tau.into(), 6.283185307179586.into()),
+        EqvEval(Tau.into(), 6.283185307179586.into()),
 
         // `pow(x)(\2) <=> mul(x)(x)`
         Eqv(app2(Pow, "x", 2.0), app2(Mul, "x", "x")),
