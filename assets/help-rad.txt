@@ -1,0 +1,16 @@
+=== Radians ===
+
+In mathematics, it is common to use radians to describe angles.
+This is because radians give the arc length of a given angle on a unit circle.
+If the angle is `a`, then the arc length on a circle of radius `r` is `(a * r)`.
+
+The radians of a full circle with radius `r` is `(2 * pi * r)`.
+Many mathematicians use `(2 * pi)` to describe a full circle.
+However, it is more convenient to use `tau` or `τ` instead.
+
+For example, `0.25tau` or `(tau / 4)` is a quarter of a circle.
+You can also think about it as the circle circumference of a quarter radius.
+
+Poi understand expressions like `0.25tau` or `0.25τ`.
+
+This way, one can work with radians as the range `0τ` to `1τ` for a unit circle.

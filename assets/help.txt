@@ -18,5 +18,6 @@ Special commands:
 - help dom       more help about domains and partial functions
 - help triv      more help about trivial paths
 - help ex        more help about existential paths
+- help rad       more help about radians (trigonometry)
 
 Type in an expression in path semantics, e.g. `and[not]`
