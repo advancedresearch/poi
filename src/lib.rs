@@ -414,8 +414,13 @@ impl Expr {
 
     /// Reduces an expression using a knowledge base, until it can not be reduces further.
     pub fn reduce_all(&self, knowledge: &[Knowledge]) -> Expr {
+        self.reduce_eval_all(knowledge, false)
+    }
+
+    /// Reduces an expression using a knowledge base, until it can not be reduces further.
+    pub fn reduce_eval_all(&self, knowledge: &[Knowledge], eval: bool) -> Expr {
         let mut me = self.clone();
-        while let Ok((expr, _)) = me.reduce(knowledge) {me = expr}
+        while let Ok((expr, _)) = me.reduce_eval(knowledge, eval) {me = expr}
         me
     }
 
