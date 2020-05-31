@@ -269,6 +269,8 @@ pub enum Symbol {
     BoolType,
     /// `f64`.
     F64Type,
+    /// `inf` (infinity).
+    Inf,
 }
 
 impl fmt::Display for Symbol {
@@ -378,6 +380,7 @@ impl fmt::Display for Symbol {
             TypeOf => write!(w, "type_of")?,
             BoolType => write!(w, "bool")?,
             F64Type => write!(w, "f64")?,
+            Inf => write!(w, "∞")?,
             Var(x) | NoConstrVar(x) => write!(w, "{}", x)?,
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
