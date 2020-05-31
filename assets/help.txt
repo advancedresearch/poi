@@ -20,5 +20,6 @@ Special commands:
 - help ex        more help about existential paths
 - help rad       more help about radians (trigonometry)
 - help imag      more help about imaginary number (complex numbers)
+- help eps       more help about epsilon (dual numbers)
 
 Type in an expression in path semantics, e.g. `and[not]`
