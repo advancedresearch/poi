@@ -789,7 +789,7 @@ pub fn std() -> Vec<Knowledge> {
         // `tan(\x) <=> compute::tan(x)`
         EqvEval(app(Tan, ret_var("x")), unop_ret_var("x", Tan)),
         // `atan(\x) <=> compute::atan(x)`
-        Eqv(app(Atan, ret_var("x")), unop_ret_var("x", Atan)),
+        EqvEval(app(Atan, ret_var("x")), unop_ret_var("x", Atan)),
         // `atan2(\x)(\y) <=> compute::atan2(x, y)`
         Eqv(app2(Atan2, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Atan2)),
         // `mul(\2, pi) <=> tau`
