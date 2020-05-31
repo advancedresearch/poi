@@ -37,6 +37,7 @@ fn main() {
             "help triv" => {print_help_triv(); continue}
             "help ex" => {print_help_ex(); continue}
             "help rad" => {print_help_rad(); continue}
+            "help imag" => {print_help_imag(); continue}
             "std" => {for k in std {println!("{}", k)}; continue}
             "inline all" => {
                 if let Some(expr) = &prev_expr {
@@ -139,3 +140,4 @@ fn print_help_dom() {print!("{}", include_str!("../assets/help-dom.txt"))}
 fn print_help_triv() {print!("{}", include_str!("../assets/help-triv.txt"))}
 fn print_help_ex() {print!("{}", include_str!("../assets/help-ex.txt"))}
 fn print_help_rad() {print!("{}", include_str!("../assets/help-rad.txt"))}
+fn print_help_imag() {print!("{}", include_str!("../assets/help-imag.txt"))}

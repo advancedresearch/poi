@@ -1,0 +1,18 @@
+=== Imaginary Number ===
+
+The imaginary number `sqrt(-1)` is written in Poi as `imag` or `𝐢`.
+In the form `(a + b * imag)` one gets the theory of complex numbers.
+
+In mathematics, complex numbers usually refers the form `(a + b * imag)`,
+but in general there are other bases and algebras, such as dual numbers.
+
+Complex numbers are very useful because they naturally represent circle-like
+operations and provides solutions to equations when there are no real solutions.
+One can use vectors and matrices instead of complex numbers, which is common,
+so it is a good idea to learn how to translate math between the two forms.
+
+When you multiply two complex numbers in vector form, you use the formula
+`mulc([a0, b0], [a1, b1])`, but in the form `(a + b * imag)` you can use
+normal multiplication `((a0 + b0 * imag) * (a1 + b1 * imag))`.
+
+Poi understands e.g. `(2 + 3imag)` or `(2 + 3𝐢)` as `(2 + 3 * imag)`.
