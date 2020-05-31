@@ -795,7 +795,7 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(\2, pi) <=> tau`
         Eqv(app2(Mul, 2.0, Pi), Tau.into()),
         // `pi <=> \3.141592653589793`
-        Eqv(Pi.into(), 3.141592653589793.into()),
+        EqvEval(Pi.into(), 3.141592653589793.into()),
         // `tau <=> \6.283185307179586`
         Eqv(Tau.into(), 6.283185307179586.into()),
 
