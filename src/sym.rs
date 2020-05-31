@@ -231,6 +231,8 @@ pub enum Symbol {
     Neq,
     /// Derivative.
     D,
+    /// Integral.
+    Integ,
     /// `if`.
     ///
     /// This is used in Boolean functions.
@@ -373,6 +375,7 @@ impl fmt::Display for Symbol {
             VecUop => write!(w, "vec_uop")?,
             Arity => write!(w, "arity")?,
             D => write!(w, "d")?,
+            Integ => write!(w, "∫")?,
             Pi => write!(w, "π")?,
             Tau => write!(w, "τ")?,
             Eps => write!(w, "ε")?,

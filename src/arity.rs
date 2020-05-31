@@ -20,7 +20,7 @@ impl Symbol {
             MulMat | Base | Fst | Snd | Atan2 | Dot | Push | PushFront |
             Item | Neq | D | Rty | VecUop => Some(2),
 
-            Range | Rangel | Ranger | Rangem | El | If | VecOp => Some(3),
+            Range | Rangel | Ranger | Rangem | El | If | VecOp | Integ => Some(3),
 
             Any | Var(_) | ArityVar(_, _) | ListVar(_) |
             Singleton(_) | HeadTailTup(_, _) | HeadTailList(_, _) |

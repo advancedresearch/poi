@@ -132,6 +132,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "vec_uop" => VecUop,
                 "arity" => Arity,
                 "d" => D,
+                "integ" | "∫" => Integ,
                 "pi" | "π" => Pi,
                 "tau" | "τ" => Tau,
                 "eps" | "ε" => Eps,
