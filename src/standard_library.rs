@@ -769,7 +769,7 @@ pub fn std() -> Vec<Knowledge> {
         // `sqrt(\x:(>= 0)) <=> compute::sqrt(x)`
         EqvEval(app(Sqrt, ret_pos_var("x")), unop_ret_var("x", Sqrt)),
         // `sqrt(\x:(< 0)) <=> mul(sqrt(x))(imag)`
-        Eqv(app(Sqrt, ret_neg_var("x")), app2(Mul, app(Sqrt, "x"), Imag)),
+        EqvEval(app(Sqrt, ret_neg_var("x")), app2(Mul, app(Sqrt, "x"), Imag)),
         // `ln(\x) <=> compute::ln(x)`
         EqvEval(app(Ln, ret_var("x")), unop_ret_var("x", Ln)),
         // `log2(\x) <=> compute::log2(x)`
