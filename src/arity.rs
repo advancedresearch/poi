@@ -4,7 +4,7 @@ impl Symbol {
     /// Returns the arity of a symbol.
     pub fn arity(&self) -> Option<usize> {
         match self {
-            VecType | RetType | Pi | Tau | Eps | Imag | BoolType | F64Type => Some(0),
+            VecType | RetType | Pi | Tau | Eps | Imag | BoolType | F64Type | Inf => Some(0),
 
             Not | Idb | Id | Neg | Reci | Arity |
             False1 | True1 | Even | Odd | Abs | Conj |
