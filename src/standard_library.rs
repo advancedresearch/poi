@@ -781,7 +781,7 @@ pub fn std() -> Vec<Knowledge> {
         // `sin(\x) <=> compute::sin(x)`
         EqvEval(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
         // `asin(\x) <=> compute::asin(x)`
-        Eqv(app(Asin, ret_var("x")), unop_ret_var("x", Asin)),
+        EqvEval(app(Asin, ret_var("x")), unop_ret_var("x", Asin)),
         // `cos(\x) <=> compute::cos(x)`
         Eqv(app(Cos, ret_var("x")), unop_ret_var("x", Cos)),
         // `acos(\x) <=> compute::acos(x)`
