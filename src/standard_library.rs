@@ -779,7 +779,7 @@ pub fn std() -> Vec<Knowledge> {
         // `exp(\x) <=> compute::exp(x)`
         Eqv(app(Exp, ret_var("x")), unop_ret_var("x", Exp)),
         // `sin(\x) <=> compute::sin(x)`
-        Eqv(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
+        EqvEval(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
         // `asin(\x) <=> compute::asin(x)`
         Eqv(app(Asin, ret_var("x")), unop_ret_var("x", Asin)),
         // `cos(\x) <=> compute::cos(x)`
