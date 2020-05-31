@@ -1371,5 +1371,10 @@ mod tests {
         def.push(Def("x".into(), 2.0.into()));
         let f: Expr = app2(Add, 1.0, "x");
         assert_eq!(f.eval(&def).unwrap(), Ret(F64(3.0)));
+
+        let mut def = std();
+        def.push(Def("x".into(), 0.0.into()));
+        let f: Expr = app(Sin, "x");
+        assert_eq!(f.eval(&def).unwrap(), Ret(F64(0.0)));
     }
 }
