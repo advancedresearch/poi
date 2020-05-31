@@ -768,6 +768,9 @@ pub fn std() -> Vec<Knowledge> {
         // `add(!\a)(add(\b)(c)) => add(b)(add(a)(c))`
         Red(app2(Add, not_ret_var("a"), app2(Add, ret_var("b"), "c")),
             app2(Add, "b", app2(Add, "a", "c"))),
+        // `sub(add(\a)(!\b))(!\c) => add(a)(sub(b)(c))`
+        Red(app2(Sub, app2(Add, ret_var("a"), not_ret_var("b")), not_ret_var("c")),
+            app2(Add, "a", app2(Sub, "b", "c"))),
         // `mul(!\a)(\b) => mul(b)(a)`
         Red(app2(Mul, not_ret_var("a"), ret_var("b")), app2(Mul, "b", "a")),
 
