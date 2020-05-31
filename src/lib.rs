@@ -263,6 +263,8 @@
 //!     Red(Expr, Expr),
 //!     /// Two expressions that are equivalent but neither normalizes the other.
 //!     Eqv(Expr, Expr),
+//!     /// Two expressions that are equivalent but evaluates from left to right.
+//!     EqvEval(Expr, Expr),
 //! }
 //! ```
 //!
@@ -279,6 +281,11 @@
 //! This is used when it is not clear which direction one should go.
 //! This rule is bi-directional, which means one can treat it as a reduction both ways.
 //!
+//! The `EqvEval` variant is similar to `Eqv`, but when evaluating an expression, it
+//! reduces from left to right. This is used on e.g. `sin(τ / 8)`.
+//! You usually want the readability of `sin(τ / 8)` when doing theorem proving.
+//! For example, in Poi Reduce, the value of `sin(τ / 8)` is presented as a choice (equivalence).
+//! When evaluating an expression it is desirable to just replace it with the computed value.
 
 use std::sync::Arc;
 
