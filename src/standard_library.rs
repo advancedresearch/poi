@@ -777,7 +777,7 @@ pub fn std() -> Vec<Knowledge> {
         // `log10(\x) <=> compute::log10(x)`
         Eqv(app(Log10, ret_var("x")), unop_ret_var("x", Log10)),
         // `exp(\x) <=> compute::exp(x)`
-        Eqv(app(Exp, ret_var("x")), unop_ret_var("x", Exp)),
+        EqvEval(app(Exp, ret_var("x")), unop_ret_var("x", Exp)),
         // `sin(\x) <=> compute::sin(x)`
         EqvEval(app(Sin, ret_var("x")), unop_ret_var("x", Sin)),
         // `asin(\x) <=> compute::asin(x)`
