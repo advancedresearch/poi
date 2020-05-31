@@ -405,7 +405,7 @@ impl Expr {
     pub fn eval(&self, knowledge: &[Knowledge]) -> Result<Expr, Error> {
         let mut me = self.clone();
         loop {
-            let expr = me.reduce_all(knowledge).inline_all(knowledge)?;
+            let expr = me.reduce_eval_all(knowledge, true).inline_all(knowledge)?;
             if expr == me {break};
             me = expr;
         }
