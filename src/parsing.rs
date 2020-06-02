@@ -320,6 +320,9 @@ fn parse_rapp(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
         } else if let Ok((range, _)) = convert.meta_bool("rle") {
             convert.update(range);
             sym = Some(Rle);
+        } else if let Ok((range, _)) = convert.meta_bool("eq") {
+            convert.update(range);
+            sym = Some(Eq);
         } else if let Ok((range, _)) = convert.meta_bool("rgt") {
             convert.update(range);
             sym = Some(Rgt);
