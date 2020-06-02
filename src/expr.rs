@@ -67,6 +67,8 @@ impl fmt::Display for Expr {
                     write!(w, "(< {})", b)?;
                 } else if let Sym(Rle) = **a {
                     write!(w, "(<= {})", b)?;
+                } else if let Sym(Eq) = **a {
+                    write!(w, "(= {})", b)?;
                 } else if let Sym(Rgt) = **a {
                     write!(w, "(> {})", b)?;
                 } else if let Sym(Rge) = **a {
