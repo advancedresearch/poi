@@ -136,6 +136,26 @@ impl fmt::Display for Expr {
                                 write!(w, "({} ++ {})", a, b)?;
                                 return Ok(())
                             }
+                            Sym(Lt) => {
+                                write!(w, "({} < {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Le) => {
+                                write!(w, "({} <= {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Eq) => {
+                                write!(w, "({} = {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Gt) => {
+                                write!(w, "({} > {})", a, b)?;
+                                return Ok(())
+                            }
+                            Sym(Ge) => {
+                                write!(w, "({} >= {})", a, b)?;
+                                return Ok(())
+                            }
                             _ => {}
                         }
                     }
