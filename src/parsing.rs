@@ -227,10 +227,10 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
             op = Some(Concat);
         } else if let Ok((range, _)) = convert.meta_bool("<") {
             convert.update(range);
-            op = Some(Gt);
+            op = Some(Lt);
         } else if let Ok((range, _)) = convert.meta_bool("<=") {
             convert.update(range);
-            op = Some(Ge);
+            op = Some(Le);
         } else if let Ok((range, _)) = convert.meta_bool("=") {
             convert.update(range);
             op = Some(Eq);
