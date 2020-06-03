@@ -145,8 +145,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(path("x", Id), "x".into()),
         // `id[x] => id`
         Red(path(Id, "x"), Id.into()),
-        // `(id, id) => id`
-        Red((Id, Id).into(), Id.into()),
+        // `(fst, snd) => id`
+        Red((Fst, Snd).into(), Id.into()),
         // `and[not] => or`.
         Red(path(And, Not), Or.into()),
         // `or[not] => and`.
