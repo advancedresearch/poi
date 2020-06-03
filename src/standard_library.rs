@@ -247,6 +247,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Pow, Eps, 2.0), 0.0.into()),
         // `mul(imag)(imag) => pow(imag)(\2)`
         Red(app2(Mul, Imag, Imag), app2(Pow, Imag, 2.0)),
+        // `mul(eps)(eps) => pow(eps)(\2)`
+        Red(app2(Mul, Eps, Eps), app2(Pow, Eps, 2.0)),
         // `pow(imag)(\2) => \-1`
         Red(app2(Pow, Imag, 2.0), (-1.0).into()),
         // `lt(\x)(\y) => compute::lt(x, y)`
