@@ -437,6 +437,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Mul, "x", 1.0), "x".into()),
         // `mul(0) => 0`
         Red(app(Mul, 0.0), 0.0.into()),
+        // `mul(-1) => neg`
+        Red(app(Mul, -1.0), Neg.into()),
         // `mul(_)(0) => 0`
         Red(app2(Mul, Any, 0.0), 0.0.into()),
         // `div(\x)(inf) => 0`
