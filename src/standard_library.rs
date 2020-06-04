@@ -427,6 +427,9 @@ pub fn std() -> Vec<Knowledge> {
         // `mul(x) . mul . (g, mul(y) . snd) => mul(x) . mul(y) . mul . (g, snd)`
         Red(comp(app(Mul, "x"), comp(Mul, ("g", comp(app(Mul, "y"), Snd)))),
             comp(app(Mul, "x"), comp(app(Mul, "y"), comp(Mul, ("g", Snd))))),
+        // `mul(x) . mul . (mul(y) . fst, g) => mul(x) . mul(y) . mul . (fst, g)`
+        Red(comp(app(Mul, "x"), comp(Mul, (comp(app(Mul, "y"), Fst), "g"))),
+            comp(app(Mul, "x"), comp(app(Mul, "y"), comp(Mul, (Fst, "g"))))),
         // `mul(x) . (mul(y) . z) => (mul(x) . mul(y)) . z`
         Red(comp(app(Mul, "x"), comp(app(Mul, "y"), "z")),
             comp(comp(app(Mul, "x"), app(Mul, "y")), "z")),
