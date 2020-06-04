@@ -59,6 +59,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `imag2 => imag2 : quat`
         Red(Imag2.into(), typ(Imag2, QuatType)),
+        // `imag3 => imag3 : quat`
+        Red(Imag3.into(), typ(Imag3, QuatType)),
 
         // `type_of(true) => bool`
         Red(app(TypeOf, true), BoolType.into()),
