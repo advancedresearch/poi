@@ -272,6 +272,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Mul, typ(Imag2, QuatType), typ(Imag, QuatType)), typ(app(Neg, Imag3), QuatType)),
         // `mul(imag2 : quat)(imag3 : quat) => imag`
         Red(app2(Mul, typ(Imag2, QuatType), typ(Imag3, QuatType)), Imag.into()),
+        // `mul(imag3 : quat)(imag2 : quat) => neg(imag)`
+        Red(app2(Mul, typ(Imag3, QuatType), typ(Imag2, QuatType)), app(Neg, Imag)),
         // `mul(eps)(eps) => pow(eps)(\2)`
         Red(app2(Mul, Eps, Eps), app2(Pow, Eps, 2.0)),
         // `pow(imag)(\2) => \-1`
