@@ -162,6 +162,9 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = convert.meta_f64("num_imag") {
             convert.update(range);
             expr = Some(app2(Mul, val, Imag));
+        } else if let Ok((range, val)) = convert.meta_f64("num_imag2") {
+            convert.update(range);
+            expr = Some(app2(Mul, val, Imag2));
         } else {
             let range = convert.ignore();
             convert.update(range);
