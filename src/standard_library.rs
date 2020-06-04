@@ -61,6 +61,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(Imag2.into(), typ(Imag2, QuatType)),
         // `imag3 => imag3 : quat`
         Red(Imag3.into(), typ(Imag3, QuatType)),
+        // `(x * (y : quat)) => (x * y) : quat`
+        Red(app2(Mul, "x", typ("y", QuatType)), typ(app2(Mul, "x", "y"), QuatType)),
 
         // `type_of(true) => bool`
         Red(app(TypeOf, true), BoolType.into()),
