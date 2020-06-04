@@ -108,6 +108,12 @@ impl fmt::Display for Expr {
                             return Ok(())
                         }
                     }
+                    if let (Op(Apply, f, a), Sym(Imag3)) = (&**a, &**b) {
+                        if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
+                            write!(w, "{}𝐢₃", a)?;
+                            return Ok(())
+                        }
+                    }
                     if let Op(Apply, f, a) = &**a {
                         match **f {
                             Sym(Add) => {
