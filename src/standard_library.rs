@@ -61,6 +61,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(Imag2.into(), typ(Imag2, QuatType)),
         // `imag3 => imag3 : quat`
         Red(Imag3.into(), typ(Imag3, QuatType)),
+        // `(neg(x) * (y : quat)) => neg((x * (y : quat)))`
+        Red(app2(Mul, app(Neg, "x"), typ("y", QuatType)),
+            app(Neg, app2(Mul, "x", typ("y", QuatType)))),
         // `(imag * (x : quat)) => ((imag : quat) * (x : quat))`
         Red(app2(Mul, Imag, typ("x", QuatType)), app2(Mul, typ(Imag, QuatType), typ("x", QuatType))),
         // `((x : quat) * imag) => ((x : quat) * (imag : quat))`
