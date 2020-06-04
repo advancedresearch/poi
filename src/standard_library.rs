@@ -287,6 +287,8 @@ pub fn std() -> Vec<Knowledge> {
         // `neg((\a + \b * x)) => (neg(a) + neg(b) * x)`
         Red(app(Neg, app2(Add, ret_var("a"), app2(Mul, ret_var("b"), "x"))),
             app2(Add, app(Neg, "a"), app2(Mul, app(Neg, "b"), "x"))),
+        // `neg(x : quat) => neg(x) : quat`
+        Red(app(Neg, typ("x", QuatType)), typ(app(Neg, "x"), QuatType)),
         // `reci(\x) => compute::reci(x)`
         Red(app(Reci, ret_var("x")), unop_ret_var("x", Reci)),
         // `reci((\x + \y * imag)) => x / (x^2 + y^2) + (neg(y) / (x^2 + y^2)) * imag`
