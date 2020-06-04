@@ -137,6 +137,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "tau" | "τ" => Tau,
                 "eps" | "ε" => Eps,
                 "imag" | "𝐢" => Imag,
+                "imag2" | "𝐢₂" => Imag2,
                 "type_of" => TypeOf,
                 "bool" => BoolType,
                 "f64" => F64Type,
