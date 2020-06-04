@@ -471,6 +471,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(app(Mul, "x"), comp(app(Mul, "y"), "z")),
             comp(comp(app(Mul, "x"), app(Mul, "y")), "z")),
 
+        // `neg(neg(x)) => x`
+        Red(app(Neg, app(Neg, "x")), "x".into()),
         // `add(0)(x) => x`
         Red(app2(Add, 0.0, "x"), "x".into()),
         // `add(x)(0) => x`
