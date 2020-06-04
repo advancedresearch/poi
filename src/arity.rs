@@ -5,7 +5,7 @@ impl Symbol {
     pub fn arity(&self) -> Option<usize> {
         match self {
             VecType | RetType | Pi | Tau | Eps | Imag | Imag2 | Imag3 | BoolType | F64Type |
-            Inf => Some(0),
+            QuatType | Inf => Some(0),
 
             Not | Idb | Id | Neg | Reci | Arity |
             False1 | True1 | Even | Odd | Abs | Conj |
