@@ -267,6 +267,8 @@ pub enum Symbol {
     Imag,
     /// `imag2` (second complex imaginary base for quaternions).
     Imag2,
+    /// `imag3` (third complex imaginary base for quaternions).
+    Imag3,
     /// `type_of`.
     TypeOf,
     /// `bool`.
@@ -383,6 +385,7 @@ impl fmt::Display for Symbol {
             Eps => write!(w, "ε")?,
             Imag => write!(w, "𝐢")?,
             Imag2 => write!(w, "𝐢₂")?,
+            Imag3 => write!(w, "𝐢₃")?,
             TypeOf => write!(w, "type_of")?,
             BoolType => write!(w, "bool")?,
             F64Type => write!(w, "f64")?,
