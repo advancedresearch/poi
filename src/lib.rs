@@ -467,6 +467,17 @@ impl Expr {
         }
 
         match self {
+            // Do not reduce sub-expressions containing type judgements in the parent,
+            // to avoid infinite expansion in rules introducing type judgements.
+            //
+            // For example, `imag2 => imag2 : quat`
+            //
+            // Applying the same rule twice would lead to `(imag2 : quat) : quat` and so on.
+            //
+            // Type judgements might still be used in pattern matching and binding of variables.
+            //
+            // For example, `a : T => ...` is still valid.
+            Op(Type, _, _) => {}
             Op(op, a, b) => {
                 if let Ok((a, i)) = a.reduce(knowledge) {
                     // Prefer the reduction that matches the first rule.
