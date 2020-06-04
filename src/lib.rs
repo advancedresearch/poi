@@ -643,6 +643,14 @@ impl Expr {
             _ => true
         }
     }
+
+    /// Returns `true` if expression has type judgement.
+    pub fn has_type_judgement(&self) -> bool {
+        match self {
+            Op(Type, _, _) => true,
+            _ => false
+        }
+    }
 }
 
 /// Stores variables bound by context.
@@ -660,6 +668,12 @@ impl Context {
                 false
             }
             (Sym(Var(_)), Tup(_)) | (Sym(NoConstrVar(_)), Tup(_)) => {
+                self.vars.clear();
+                false
+            }
+            // Do not pattern match variables to type judgements,
+            // since the type judgements might imply exceptions to default rules.
+            (Sym(Var(_)), v) if v.has_type_judgement() => {
                 self.vars.clear();
                 false
             }
