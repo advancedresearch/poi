@@ -479,12 +479,12 @@ impl Expr {
             // For example, `a : T => ...` is still valid.
             Op(Type, _, _) => {}
             Op(op, a, b) => {
-                if let Ok((a, i)) = a.reduce(knowledge) {
+                if let Ok((a, i)) = a.reduce_eval(knowledge, eval) {
                     // Prefer the reduction that matches the first rule.
                     if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
                     return Ok((Op(*op, Box::new(a), b.clone()), i));
                 }
-                if let Ok((b, i)) = b.reduce(knowledge) {
+                if let Ok((b, i)) = b.reduce_eval(knowledge, eval) {
                     // Prefer the reduction that matches the first rule.
                     if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
                     return Ok((Op(*op, a.clone(), Box::new(b)), i));
@@ -493,7 +493,7 @@ impl Expr {
             Tup(a) | List(a) => {
                 let mut res = vec![];
                 for i in 0..a.len() {
-                    if let Ok((n, j)) = a[i].reduce(knowledge) {
+                    if let Ok((n, j)) = a[i].reduce_eval(knowledge, eval) {
                         // Prefer the reduction that matches the first rule.
                         if let Ok((expr, k)) = me {if k < j {return Ok((expr, k))}};
                         res.push(n);
