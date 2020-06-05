@@ -96,6 +96,25 @@ fn main() {
                             continue;
                         }
                     }
+                } else if x.starts_with("eval ") {
+                    match parse_str(x[5..].trim()) {
+                        Ok(x) => {
+                            match x.eval(&std) {
+                                Ok(x) => {
+                                    println!("{}", x);
+                                    continue;
+                                }
+                                Err(err) => {
+                                    println!("ERROR:\n{:?}", err);
+                                    continue;
+                                }
+                            }
+                        }
+                        Err(err) => {
+                            println!("ERROR:\n{}", err);
+                            continue;
+                        }
+                    }
                 }
             }
         }
