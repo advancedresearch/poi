@@ -406,12 +406,23 @@ impl Expr {
         res
     }
 
+    /// Returns `true` if expressions contains NaN (not a number).
+    pub fn contains_nan(&self) -> bool {
+        match self {
+            Sym(_) => false,
+            Ret(F64(v)) => v.is_nan(),
+            Ret(_) => false,
+            Op(_, a, b) => a.contains_nan() || b.contains_nan(),
+            Tup(items) | List(items) => items.iter().any(|n| n.contains_nan()),
+        }
+    }
+
     /// Evaluate an expression using a knowledge base.
     ///
     /// This combines reductions and inlining of all symbols.
     pub fn eval(&self, knowledge: &[Knowledge]) -> Result<Expr, Error> {
         let mut me = self.clone();
-        loop {
+        while !me.contains_nan() {
             let expr = me.reduce_eval_all(knowledge, true).inline_all(knowledge)?;
             if expr == me {break};
             me = expr;
