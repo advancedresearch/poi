@@ -313,6 +313,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Tan, app2(Mul, ret_int_var("x"), Tau)), app(Tan, Tau)),
         // `pow(eps)(\2) => \0`
         Red(app2(Pow, Eps, 2.0), 0.0.into()),
+        // `add(imag)(imag) => mul(\2)(imag)`
+        Red(app2(Add, Imag, Imag), app2(Mul, 2.0, Imag)),
         // `mul(imag)(imag) => pow(imag)(\2)`
         Red(app2(Mul, Imag, Imag), app2(Pow, Imag, 2.0)),
         // `mul(imag2 : quat)(imag2 : quat) => pow(imag2)(\2)`
