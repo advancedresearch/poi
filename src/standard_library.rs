@@ -321,6 +321,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Add, Imag, Imag), app2(Mul, 2.0, Imag)),
         // `((x * imag) + imag) => (x + 1) * imag`
         Red(app2(Add, app2(Mul, "x", Imag), Imag), app2(Mul, app2(Add, "x", 1.0), Imag)),
+        // `(imag + (x * imag)) => (1 + x) * imag`
+        Red(app2(Add, Imag, app2(Mul, "x", Imag)), app2(Mul, app2(Add, 1.0, "x"), Imag)),
         // `mul(imag)(imag) => pow(imag)(\2)`
         Red(app2(Mul, Imag, Imag), app2(Pow, Imag, 2.0)),
         // `mul(imag2 : quat)(imag2 : quat) => pow(imag2)(\2)`
