@@ -1,4 +1,5 @@
 use std::fmt;
+use std::ops::{Add, Sub, Mul};
 
 use super::*;
 
@@ -17,6 +18,21 @@ pub enum Expr {
     Tup(Vec<Expr>),
     /// A list.
     List(Vec<Expr>),
+}
+
+impl Add for Expr {
+    type Output = Expr;
+    fn add(self, other: Expr) -> Expr {app2(Add, self, other)}
+}
+
+impl Sub for Expr {
+    type Output = Expr;
+    fn sub(self, other: Expr) -> Expr {app2(Sub, self, other)}
+}
+
+impl Mul for Expr {
+    type Output = Expr;
+    fn mul(self, other: Expr) -> Expr {app2(Mul, self, other)}
 }
 
 impl fmt::Display for Expr {
