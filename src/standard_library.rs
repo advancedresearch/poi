@@ -102,6 +102,38 @@ pub fn std() -> Vec<Knowledge> {
                  app2(Add, "z0", "z1"), app2(Add, "w0", "w1"))),
         // `((x : quat) * (y : quat)) => (x * y) : quat`
         Red(app2(Mul, typ("x", QuatType), typ("y", QuatType)), typ(app2(Mul, "x", "y"), QuatType)),
+        // `([x0, y0, z0, w0] * [x1, y1, z1, w1]) : quat => [
+        //      x0*x1-y0*y1-z0*z1-w0*w1,
+        //      x0*y1+y0*x1+z0*w1-w0*z1,
+        //      x0*z1+z0*x1-y0*w1+w0*y1,
+        //      x0*w1+w0*x1+y0*z1-z0*y1,
+        // ] : quat`
+        Red(typ(app2(Mul, vec4("x0", "y0", "z0", "w0"), vec4("x1", "y1", "z1", "w1")), QuatType),
+            {
+                let x0: Expr = "x0".into();
+                let y0: Expr = "y0".into();
+                let z0: Expr = "z0".into();
+                let w0: Expr = "w0".into();
+                let x1: Expr = "x1".into();
+                let y1: Expr = "y1".into();
+                let z1: Expr = "z1".into();
+                let w1: Expr = "w1".into();
+                quat(
+                    x0.clone() * x1.clone() -
+                        y0.clone() * y1.clone() -
+                        z0.clone() * z1.clone() -
+                        w0.clone() * w1.clone(),
+                    x0.clone() * y1.clone() +
+                        y0.clone() * x1.clone() +
+                        z0.clone() * w1.clone() -
+                        w0.clone() * z1.clone(),
+                    x0.clone() * z1.clone() +
+                        z0.clone() * x1.clone() -
+                        y0.clone() * w1.clone() +
+                        w0.clone() * y1.clone(),
+                    x0 * w1 + w0 * x1 + y0 * z1 - z0 * y1,
+                )
+            }),
         // `(x * imag3 + imag) : quat => (imag + x * imag3) : quat`
         Red(typ(app2(Add, app2(Mul, "x", Imag3), Imag), QuatType),
             typ(app2(Add, Imag, app2(Mul, "x", Imag3)), QuatType)),
