@@ -1258,6 +1258,13 @@ pub fn no_constr<A: Into<String>>(a: A) -> Expr {
 /// A 2D vector.
 pub fn vec2<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {List(vec![a.into(), b.into()])}
 
+/// A 4D vector.
+pub fn vec4<X: Into<Expr>, Y: Into<Expr>, Z: Into<Expr>, W: Into<Expr>>(
+    x: X, y: Y, z: Z, w: W
+) -> Expr {
+    List(vec![x.into(), y.into(), z.into(), w.into()])
+}
+
 /// A quaternion.
 pub fn quat<X: Into<Expr>, Y: Into<Expr>, Z: Into<Expr>, W: Into<Expr>>(
     x: X, y: Y, z: Z, w: W
