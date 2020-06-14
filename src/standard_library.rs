@@ -64,7 +64,7 @@ pub fn std() -> Vec<Knowledge> {
         // `(x * imag2) => [0, 0, x, 0] : quat`
         // `(imag * (x : quat)) => ([0, 1, 0, 0] * x) : quat`
         Red(app2(Mul, Imag, typ("x", QuatType)),
-            typ(app2(Mul, quat(0.0, 1.0, 0.0, 0.0), "x"), QuatType)),
+            typ(app2(Mul, vec4(0.0, 1.0, 0.0, 0.0), "x"), QuatType)),
         // `(x * imag3) => [0, 0, 0, x] : quat`
         Red(app2(Mul, "x", Imag3), quat(0.0, 0.0, 0.0, "x")),
 
