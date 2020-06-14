@@ -81,6 +81,9 @@ pub fn std() -> Vec<Knowledge> {
         // `(imag + (x : quat)) => ([0, 1, 0, 0] + x) : quat`
         Red(app2(Add, Imag, typ("x", QuatType)),
             typ(app2(Add, vec4(0.0, 1.0, 0.0, 0.0), "x"), QuatType)),
+        // `((x : quat) + imag) => (x + [0, 1, 0, 0]) : quat`
+        Red(app2(Add, typ("x", QuatType), Imag),
+            typ(app2(Add, "x", vec4(0.0, 1.0, 0.0, 0.0)), QuatType)),
         // `s + ([x, y, z, w] : quat) => [s + x, s + y, s + z, s + w] : quat`
         Red(app2(Add, "s", quat("x", "y", "z", "w")),
             quat(app2(Add, "s", "x"), app2(Add, "s", "y"),
@@ -89,9 +92,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Mul, "s", quat("x", "y", "z", "w")),
             quat(app2(Mul, "s", "x"), app2(Mul, "s", "y"),
                  app2(Mul, "s", "z"), app2(Mul, "s", "w"))),
-        // `((x : quat) + imag) => (x + [0, 1, 0, 0]) : quat`
-        Red(app2(Add, typ("x", QuatType), Imag),
-            typ(app2(Add, "x", vec4(0.0, 1.0, 0.0, 0.0)), QuatType)),
         // `((x : quat) + (y * imag)) => (x + [0, y, 0, 0]) : quat`
         Red(app2(Add, typ("x", QuatType), app2(Mul, "y", Imag)),
             typ(app2(Add, "x", vec4(0.0, "y", 0.0, 0.0)), QuatType)),
