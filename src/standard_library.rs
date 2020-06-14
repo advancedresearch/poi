@@ -71,9 +71,6 @@ pub fn std() -> Vec<Knowledge> {
         // `neg([x, y, z, w]) : quat => [neg(x), neg(y), neg(z), neg(w)] : quat`
         Red(typ(app(Neg, vec4("x", "y", "z", "w")), QuatType),
             quat(app(Neg, "x"), app(Neg, "y"), app(Neg, "z"), app(Neg, "w"))),
-        // `(neg(x) * (y : quat)) => neg((x * (y : quat)))`
-        Red(app2(Mul, app(Neg, "x"), typ("y", QuatType)),
-            app(Neg, app2(Mul, "x", typ("y", QuatType)))),
         // `((x : quat) * neg(y)) => neg(((x : quat) * y))`
         Red(app2(Mul, typ("x", QuatType), app(Neg, "y")),
             app(Neg, app2(Mul, typ("x", QuatType), "y"))),
