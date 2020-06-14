@@ -57,6 +57,8 @@ pub fn std() -> Vec<Knowledge> {
         // `∀(f:!{}) => \true`
         Red(app(Triv, no_constr("f")), true.into()),
 
+        // `imag2 => [0, 0, 1, 0] : quat`
+        Red(Imag2.into(), typ(List(vec![0.0.into(), 0.0.into(), 1.0.into(), 0.0.into()]), QuatType)),
         // `imag2 => imag2 : quat`
         Red(Imag2.into(), typ(Imag2, QuatType)),
         // `imag3 => imag3 : quat`
