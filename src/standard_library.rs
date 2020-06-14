@@ -134,9 +134,6 @@ pub fn std() -> Vec<Knowledge> {
                     x0 * w1 + w0 * x1 + y0 * z1 - z0 * y1,
                 )
             }),
-        // `(x * imag3 + imag) : quat => (imag + x * imag3) : quat`
-        Red(typ(app2(Add, app2(Mul, "x", Imag3), Imag), QuatType),
-            typ(app2(Add, Imag, app2(Mul, "x", Imag3)), QuatType)),
         // `(imag3 + x * imag) : quat => (x * imag + imag3) : quat`
         Red(typ(app2(Add, Imag3, app2(Mul, "x", Imag)), QuatType),
             typ(app2(Add, app2(Mul, "x", Imag), Imag3), QuatType)),
