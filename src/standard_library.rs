@@ -97,12 +97,6 @@ pub fn std() -> Vec<Knowledge> {
         // `(x * imag + (y : quat)) => ([0, x, 0, 0] + y) : quat`
         Red(app2(Add, app2(Mul, "x", Imag), typ("y", QuatType)),
             typ(app2(Add, quat(0.0, "x", 0.0, 0.0), "y"), QuatType)),
-        // `((x : quat) + (y : quat)) => (x + y) : quat`
-        Red(app2(Add, typ("x", QuatType), typ("y", QuatType)), typ(app2(Add, "x", "y"), QuatType)),
-        // `([x0, y0, z0, w0] + [x1, y1, z1, w1]) : quat => [x0+x1, y0+y1, z0+z1, w0+w1] : quat`
-        Red(typ(app2(Add, vec4("x0", "y0", "z0", "w0"), vec4("x1", "y1", "z1", "w1")), QuatType),
-            quat(app2(Add, "x0", "x1"), app2(Add, "y0", "y1"),
-                 app2(Add, "z0", "z1"), app2(Add, "w0", "w1"))),
         // `((x : quat) * (y : quat)) => (x * y) : quat`
         Red(app2(Mul, typ("x", QuatType), typ("y", QuatType)), typ(app2(Mul, "x", "y"), QuatType)),
         // `([x0, y0, z0, w0] * [x1, y1, z1, w1]) : quat => [
@@ -137,6 +131,12 @@ pub fn std() -> Vec<Knowledge> {
                     x0 * w1 + w0 * x1 + y0 * z1 - z0 * y1,
                 )
             }),
+        // `((x : quat) + (y : quat)) => (x + y) : quat`
+        Red(app2(Add, typ("x", QuatType), typ("y", QuatType)), typ(app2(Add, "x", "y"), QuatType)),
+        // `([x0, y0, z0, w0] + [x1, y1, z1, w1]) : quat => [x0+x1, y0+y1, z0+z1, w0+w1] : quat`
+        Red(typ(app2(Add, vec4("x0", "y0", "z0", "w0"), vec4("x1", "y1", "z1", "w1")), QuatType),
+            quat(app2(Add, "x0", "x1"), app2(Add, "y0", "y1"),
+                 app2(Add, "z0", "z1"), app2(Add, "w0", "w1"))),
         // `(x + (y : quat)) => (x + y) : quat`
         Red(app2(Add, "x", typ("y", QuatType)), typ(app2(Add, "x", "y"), QuatType)),
 
