@@ -478,18 +478,18 @@ impl Expr {
         }
 
         match self {
-            // Do not reduce sub-expressions containing type judgements in the parent,
-            // to avoid infinite expansion in rules introducing type judgements.
-            //
-            // For example, `imag2 => imag2 : quat`
-            //
-            // Applying the same rule twice would lead to `(imag2 : quat) : quat` and so on.
-            //
-            // Type judgements might still be used in pattern matching and binding of variables.
-            //
-            // For example, `a : T => ...` is still valid.
-            Op(Type, _, _) => {}
             Op(op, a, b) => {
+                // Do not reduce sub-expressions containing type judgements in the parent,
+                // to avoid infinite expansion in rules introducing type judgements.
+                //
+                // Type judgements might still be used in pattern matching and binding of variables.
+                //
+                // For example, `a : T => ...` is still valid.
+                if let Type = op {
+                    // Make an exception for lists, in order to evaluate items of the list.
+                    if let List(_) = **a {} else {return me}
+                }
+
                 if let Ok((a, i)) = a.reduce_eval(knowledge, eval) {
                     // Prefer the reduction that matches the first rule.
                     if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
@@ -1257,6 +1257,20 @@ pub fn no_constr<A: Into<String>>(a: A) -> Expr {
 
 /// A 2D vector.
 pub fn vec2<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {List(vec![a.into(), b.into()])}
+
+/// A 4D vector.
+pub fn vec4<X: Into<Expr>, Y: Into<Expr>, Z: Into<Expr>, W: Into<Expr>>(
+    x: X, y: Y, z: Z, w: W
+) -> Expr {
+    List(vec![x.into(), y.into(), z.into(), w.into()])
+}
+
+/// A quaternion.
+pub fn quat<X: Into<Expr>, Y: Into<Expr>, Z: Into<Expr>, W: Into<Expr>>(
+    x: X, y: Y, z: Z, w: W
+) -> Expr {
+    typ(List(vec![x.into(), y.into(), z.into(), w.into()]), QuatType)
+}
 
 /// Knowledge about a component-wise operation on vectors.
 pub fn vec_op<S: Into<Symbol>>(s: S) -> Knowledge {
