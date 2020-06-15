@@ -41,6 +41,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
   rapp:"rapp"
   ["(" .w? tup_items_expr:"left" .w? ")"]
   alg:"alg"
+  list:"list"
   val:"left"
   var:"left"
 } .r!({
