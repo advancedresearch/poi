@@ -342,8 +342,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Mul, Eps, Eps), app2(Pow, Eps, 2.0)),
         // `pow(imag)(\2) => \-1`
         Red(app2(Pow, Imag, 2.0), (-1.0).into()),
-        // `pow(imag2 : quat)(\2) => \-1`
-        Red(app2(Pow, typ(Imag2, QuatType), 2.0), (-1.0).into()),
         // `pow(imag3 : quat)(\2) => \-1`
         Red(app2(Pow, typ(Imag3, QuatType), 2.0), (-1.0).into()),
         // `lt(\x)(\y) => compute::lt(x, y)`
