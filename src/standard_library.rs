@@ -531,6 +531,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Neg, app(Neg, "x")), "x".into()),
         // `sqrt(1) => 1`
         Red(app(Sqrt, 1.0), 1.0.into()),
+        // `sqrt(-1) => imag`
+        Red(app(Sqrt, -1.0), Imag.into()),
         // `add(0)(x) => x`
         Red(app2(Add, 0.0, "x"), "x".into()),
         // `add(x)(0) => x`
