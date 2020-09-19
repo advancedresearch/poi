@@ -982,6 +982,8 @@ pub fn std() -> Vec<Knowledge> {
         commutative(Mul),
         // `add(a)(add(b)(c)) <=> add(add(a)(b))(c)`
         associative(Add),
+        // `sub(a)(sub(b)(c)) <=> add(sub(a)(b))(c)`
+        Eqv(app2(Sub, "a", app2(Sub, "b", "c")), app2(Add, app2(Sub, "a", "b"), "c")),
         // `mul(a)(mul(b)(c)) <=> mul(mul(a)(b))(c)`
         associative(Mul),
         // `mul(a)(add(b)(c)) <=> add(mul(a)(b))(mul(a)(c))`
