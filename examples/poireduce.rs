@@ -166,72 +166,84 @@ fn main() {
                     }
                 }
             };
-        println!("{}", expr);
-        loop {
-            if let Ok((nexpr, i)) = expr.reduce(std) {
-                if nexpr == expr {break};
-                expr = nexpr;
-                println!("{}\n∵ {}", expr, std[i]);
-            } else {
-                break;
-            }
-        }
 
-        let goal_reached = if let Some(g) = &goal {
-            if &expr == g {
-                goal = None;
-                true
-            } else {false}
-        } else {false};
-
-        if !goal_reached {
-            let mut found_any = false;
-            let equivalences = expr.equivalences(std);
+        'process_expr: loop {
+            println!("{}", expr);
             loop {
-                let mut line = false;
-                for i in 0..equivalences.len() {
-                    let j = equivalences[i].1;
-                    let display = if let Some(g) = &goal {
-                        let eqv_expr = equivalences[i].0.reduce_all(std);
-                        let mut history = vec![expr.clone(), eqv_expr.clone()];
-                        if let Some(d) = find_goal(g, &eqv_expr, std, goal_depth, &mut history) {
-                            found_any = true;
-                            if line {println!("")};
-                            print!("depth: {} ", d);
-                            true
+                if let Ok((nexpr, i)) = expr.reduce(std) {
+                    if nexpr == expr {break};
+                    expr = nexpr;
+                    println!("{}\n∵ {}", expr, std[i]);
+                } else {
+                    break;
+                }
+            }
+
+            let goal_reached = if let Some(g) = &goal {
+                if &expr == g {
+                    goal = None;
+                    true
+                } else {false}
+            } else {false};
+
+            if !goal_reached {
+                let mut found_count = 0;
+                let equivalences = expr.equivalences(std);
+                loop {
+                    let mut line = false;
+                    for i in 0..equivalences.len() {
+                        let j = equivalences[i].1;
+                        let display = if let Some(g) = &goal {
+                            let eqv_expr = equivalences[i].0.reduce_all(std);
+                            let mut history = vec![expr.clone(), eqv_expr.clone()];
+                            if let Some(d) = find_goal(g, &eqv_expr, std, goal_depth, &mut history) {
+                                found_count += 1;
+                                if line {println!("")};
+                                print!("depth: {} ", d);
+                                if d == 0 {
+                                    println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
+                                    expr = equivalences[i].0.clone();
+                                    continue 'process_expr;
+                                }
+                                true
+                            } else {
+                                false
+                            }
+                        } else {true};
+                        if display {
+                            println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
                         } else {
-                            false
+                            line = true;
+                            print!(".");
+                            io::stdout().flush().unwrap();
                         }
-                    } else {true};
-                    if display {
-                        println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
+                    }
+                    if line {println!("")};
+
+                    if found_count == 1 && goal.is_some() {
+                        expr = equivalences[0].0.clone();
+                        continue 'process_expr;
+                    } else if found_count > 0 || goal.is_none() {
+                        break;
                     } else {
-                        line = true;
-                        print!(".");
-                        io::stdout().flush().unwrap();
+                        println!("Poi: Could not find goal in {} steps (Tip: Use `inc depth`).", goal_depth);
+                        break;
                     }
                 }
-                if line {println!("")};
 
-                if found_any || goal.is_none() {
-                    break;
-                } else {
-                    println!("Poi: Could not find goal in {} steps (Tip: Use `inc depth`).", goal_depth);
-                    break;
+                if found_count == 0 && goal.is_some() {
+                    for i in 0..equivalences.len() {
+                        let j = equivalences[i].1;
+                        println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
+                    }
                 }
             }
 
-            if !found_any && goal.is_some() {
-                for i in 0..equivalences.len() {
-                    let j = equivalences[i].1;
-                    println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
-                }
+            println!("∴ {}", expr);
+            if goal_reached {
+                println!("Q.E.D.");
             }
-        }
-
-        println!("∴ {}", expr);
-        if goal_reached {
-            println!("Q.E.D.");
+            break;
         }
 
         prev_expr = Some(expr);
