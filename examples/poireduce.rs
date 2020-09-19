@@ -192,8 +192,9 @@ fn main() {
                 for i in 0..equivalences.len() {
                     let j = equivalences[i].1;
                     let display = if let Some(g) = &goal {
-                        let mut history = vec![expr.clone()];
-                        if let Some(d) = find_goal(g, &equivalences[i].0, std, goal_depth, &mut history) {
+                        let eqv_expr = equivalences[i].0.reduce_all(std);
+                        let mut history = vec![expr.clone(), eqv_expr.clone()];
+                        if let Some(d) = find_goal(g, &eqv_expr, std, goal_depth, &mut history) {
                             found_any = true;
                             if line {println!("")};
                             print!("depth: {} ", d);
@@ -201,7 +202,7 @@ fn main() {
                         } else {
                             false
                         }
-                    } else {false};
+                    } else {true};
                     if display {
                         println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
                     } else {
@@ -244,29 +245,26 @@ fn find_goal(
     depth: u64,
     history: &mut Vec<Expr>
 ) -> Option<u64> {
-    // Reduce expression.
-    let mut expr = expr.clone();
-    loop {
-        if let Ok((nexpr, _)) = expr.reduce(std) {
-            if nexpr == expr {break};
-            expr = nexpr;
-        } else {
-            break;
-        }
-    }
-
-    for i in 0..history.len() {
-        if &history[i] == &expr {return None};
-    }
-    history.push(expr.clone());
-
-    if goal == &expr {return Some(0)};
+    if goal == expr {return Some(0)};
 
     if depth > 0 {
         let equivalences = expr.equivalences(std);
+        let n = history.len();
+        // Use breath-first search.
         for i in 0..equivalences.len() {
+            let expr = equivalences[i].0.reduce_all(std);
+
+            for i in 0..history.len() {
+                if &history[i] == &expr {continue};
+            }
+
+            if goal == &expr {return Some(1)};
+            history.push(expr);
+        }
+        for i in n..history.len() {
             // Add depth to the output.
-            if let Some(d) = find_goal(goal, &equivalences[i].0, std, depth - 1, history) {
+            let expr = history[i].clone();
+            if let Some(d) = find_goal(goal, &expr, std, depth - 1, history) {
                 return Some(d+1);
             }
         }
