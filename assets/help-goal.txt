@@ -17,4 +17,7 @@ z+y+z
 The equivalence `depth: 2 <=>  (x + (z + y))` shows that the goal is found.
 It takes 3 more steps to complete the proof, where `depth: 0` is the last step.
 
+- `min depth` sets automated minimum depth toward goal
+- `pick depth` sets user chooses equivalence toward goal
+
 Use `reset goal` to go back to default mode of theorem proving.

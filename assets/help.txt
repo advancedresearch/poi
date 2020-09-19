@@ -14,6 +14,8 @@ Special commands:
 - reset goal     reset goal
 - inc depth      increase search depth for goal
 - reset depth    reset search depth
+- min depth      automated minimum depth toward goal
+- pick depth     user chooses equivalence toward goal
 - def <symbol>   lists definitions of symbol
 - std            lists all rules in standard library
 - help goal      more help about goal oriented theorem proving
