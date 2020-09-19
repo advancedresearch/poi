@@ -10,6 +10,7 @@ fn main() {
     let mut prev_expr: Option<Expr> = None;
     let mut goal: Option<Expr> = None;
     let mut goal_depth: u64 = DEFAULT_GOAL_DEPTH;
+    let mut use_min_depth = true;
     loop {
         use std::io::{self, Write};
 
@@ -72,6 +73,16 @@ fn main() {
             "inc depth" => {
                 goal_depth += 1;
                 println!("Poi: Goal depth is set to {}.", goal_depth);
+                continue;
+            }
+            "min depth" => {
+                use_min_depth = true;
+                println!("Poi: Automated minimum depth toward goal.");
+                continue;
+            }
+            "pick depth" => {
+                use_min_depth = false;
+                println!("Poi: User chooses equivalence toward goal.");
                 continue;
             }
             x => {
@@ -189,6 +200,7 @@ fn main() {
             if !goal_reached {
                 let mut found_count = 0;
                 let mut first_found: Option<usize> = None;
+                let mut min_found: Option<(usize, u64)> = None;
                 let equivalences = expr.equivalences(std);
                 loop {
                     let mut line = false;
@@ -201,6 +213,9 @@ fn main() {
                                 found_count += 1;
                                 if first_found.is_none() {
                                     first_found = Some(i);
+                                }
+                                if min_found.is_none() || min_found.unwrap().1 > d {
+                                    min_found = Some((i, d));
                                 }
                                 if line {println!("")};
                                 print!("depth: {} ", d);
@@ -224,7 +239,10 @@ fn main() {
                     }
                     if line {println!("")};
 
-                    if found_count == 1 && goal.is_some() {
+                    if use_min_depth && min_found.is_some() {
+                        expr = equivalences[min_found.unwrap().0].0.clone();
+                        continue 'process_expr;
+                    } else if found_count == 1 && goal.is_some() {
                         expr = equivalences[first_found.unwrap()].0.clone();
                         continue 'process_expr;
                     } else if found_count > 0 || goal.is_none() {
