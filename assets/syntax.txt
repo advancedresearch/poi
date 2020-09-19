@@ -18,7 +18,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
 } .w! expr:"arg" .w? ")"]
 15 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
 14 tup_items_expr = tup_items:"tup"
-13 tup_items = [.s!([.w? "," .w?] expr:"item")]
+13 tup_items = [.s!([.w? "," .w?] {raw_expr:"item" expr:"item"})]
 12 tup_path_expr = tup_path:"tup"
 11 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
 10 val = [?"\\" {
