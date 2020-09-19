@@ -114,6 +114,8 @@ pub enum Symbol {
     Rge,
     /// `neg`.
     Neg,
+    /// `inc`.
+    Inc,
     /// `reci` (reciprocal).
     Reci,
     /// `conj` (complex conjugate).
@@ -314,6 +316,7 @@ impl fmt::Display for Symbol {
             Ge => write!(w, "ge")?,
             Rge => write!(w, "rge")?,
             Neg => write!(w, "neg")?,
+            Inc => write!(w, "inc")?,
             Reci => write!(w, "reci")?,
             Conj => write!(w, "conj")?,
             Norm => write!(w, "norm")?,
@@ -440,6 +443,7 @@ impl fmt::Display for Symbol {
             UnopRetVar(x, f) => {
                 match **f {
                     Neg => write!(w, "compute::neg({})", x)?,
+                    Inc => write!(w, "compute::inc({})", x)?,
                     Reci => write!(w, "compute::reci({})", x)?,
                     Abs => write!(w, "compute::abs({})", x)?,
                     Len => write!(w, "compute::len({})", x)?,
