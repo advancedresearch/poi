@@ -779,7 +779,7 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr("f", True2), "f".into()),
         // `f{true1} => f`
         Red(constr("f", True1), "f".into()),
-        // `(x^\k * x) <=> x^(\k + 1)`
+        // `(x^\k * x) => x^(\k + 1)`
         Red(app2(Mul, app2(Pow, "x", ret_var("k")), "x"),
             app2(Pow, "x", unop_ret_var("k", Inc))),
 
