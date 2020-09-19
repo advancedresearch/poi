@@ -990,6 +990,8 @@ pub fn std() -> Vec<Knowledge> {
         associative(Mul),
         // `mul(a)(add(b)(c)) <=> add(mul(a)(b))(mul(a)(c))`
         distributive(Mul, Add),
+        // `mul(a)(sub(b)(c)) <=> sub(mul(a)(b))(mul(a)(c))`
+        distributive(Mul, Sub),
 
         // `((a + b)^2) <=> (a^2 + 2 * a * b + b^2)`
         Eqv(app2(Pow, app2(Add, "a", "b"), 2.0), app2(Add, app2(Add, app2(Pow, "a", 2.0),
