@@ -1007,6 +1007,9 @@ pub fn std() -> Vec<Knowledge> {
         // `((a - b)^2) <=> (a^2 - 2 * a * b + b^2)`
         Eqv(app2(Pow, app2(Sub, "a", "b"), 2.0), app2(Add, app2(Sub, app2(Pow, "a", 2.0),
             app2(Mul, app2(Mul, 2.0, "a"), "b")), app2(Pow, "b", 2.0))),
+        // `((a + b) * (a - b)) <=> (a^2 - b^2)`
+        Eqv(app2(Mul, app2(Add, "a", "b"), app2(Sub, "a", "b")),
+            app2(Sub, app2(Pow, "a", 2.0), app2(Pow, "b", 2.0))),
         // `((a * b)^2) <=> (a^2 * b^2)`
         Eqv(app2(Pow, app2(Mul, "a", "b"), 2.0), app2(Mul, app2(Pow, "a", 2.0), app2(Pow, "b", 2.0))),
         // `(^ a)(b) <=> (a ^ b)`
