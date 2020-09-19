@@ -999,6 +999,9 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f[g][h] <=> f[h . g]`.
         Eqv(path(path("f", "g"), "h"), path("f", comp("h", "g"))),
+        // `f[g0 x g1 -> g2][h0 x h1 -> h2] <=> f[(h0 . g0) x (h1 . g1) -> (h2 . g2)]`
+        Eqv(path(path("f", ("g0", "g1", "g2")), ("h0", "h1", "h2")),
+            path("f", (comp("h0", "g0"), comp("h1", "g1"), comp("h2", "g2")))),
         // `f . (g . (h0, h1)) <=> (f . g) . (h0, h1)`
         Eqv(comp("f", comp("g", ("h0", "h1"))), comp(comp("f", "g"), ("h0", "h1"))),
         // `(f . (g0, g1)) . (h0, h1) <=> f . ((g0, g1) . (h0, h1))`
