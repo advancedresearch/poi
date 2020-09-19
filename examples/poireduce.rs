@@ -33,6 +33,7 @@ fn main() {
                 continue;
             }
             "help" => {print_help(); continue}
+            "help goal" => {print_help_goal(); continue}
             "help norm" => {print_help_norm(); continue}
             "help eqv" => {print_help_eqv(); continue}
             "help sym" => {print_help_sym(); continue}
@@ -275,6 +276,7 @@ fn find_goal(
 }
 
 fn print_help() {print!("{}", include_str!("../assets/help.txt"))}
+fn print_help_goal() {print!("{}", include_str!("../assets/help-goal.txt"))}
 fn print_help_norm() {print!("{}", include_str!("../assets/help-norm.txt"))}
 fn print_help_eqv() {print!("{}", include_str!("../assets/help-eqv.txt"))}
 fn print_help_sym() {print!("{}", include_str!("../assets/help-sym.txt"))}

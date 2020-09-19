@@ -16,6 +16,7 @@ Special commands:
 - reset depth    reset search depth
 - def <symbol>   lists definitions of symbol
 - std            lists all rules in standard library
+- help goal      more help about goal oriented theorem proving
 - help norm      more help about normal paths
 - help sym       more help about symmetric paths
 - help asym      more help about asymmetric paths

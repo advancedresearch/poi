@@ -1,0 +1,20 @@
+=== Goal Oriented Theorem Proving ===
+
+A goal is an expression you would like to find.
+
+For example, to prove that `1 + 1 = 2`, type `goal 2` and then `1+1`.
+You can also type `goal 1+1` and then `2`.
+
+When the goal is not found by reduction,
+it is searched for among equivalent expressions up to some depth.
+You can control the depth using `reset depth` and `inc depth`.
+
+For example:
+
+goal x+y+z
+z+y+z
+
+The equivalence `depth: 2 <=>  (x + (z + y))` shows that the goal is found.
+It takes 3 more steps to complete the proof, where `depth: 0` is the last step.
+
+Use `reset goal` to go back to default mode of theorem proving.
