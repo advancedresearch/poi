@@ -7,9 +7,10 @@ A normal path is the secret sauce of path semantics. There are two kinds:
 
 A normal path is basically everything one can predict about a function.
 
-The properties `g0` and `g1` of the input of `f` predicts the property `g2`:
+The properties `g0` and `g1` of the input of `f` predicts the property `g2`
+using the function `h`:
 
-  f[g0 x g1 -> g2]
+  f[g0 x g1 -> g2] <=> h
 
 In equational form:
 
