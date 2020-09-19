@@ -188,6 +188,7 @@ fn main() {
 
             if !goal_reached {
                 let mut found_count = 0;
+                let mut first_found: Option<usize> = None;
                 let equivalences = expr.equivalences(std);
                 loop {
                     let mut line = false;
@@ -198,6 +199,9 @@ fn main() {
                             let mut history = vec![expr.clone(), eqv_expr.clone()];
                             if let Some(d) = find_goal(g, &eqv_expr, std, goal_depth, &mut history) {
                                 found_count += 1;
+                                if first_found.is_none() {
+                                    first_found = Some(i);
+                                }
                                 if line {println!("")};
                                 print!("depth: {} ", d);
                                 if d == 0 {
@@ -221,7 +225,7 @@ fn main() {
                     if line {println!("")};
 
                     if found_count == 1 && goal.is_some() {
-                        expr = equivalences[0].0.clone();
+                        expr = equivalences[first_found.unwrap()].0.clone();
                         continue 'process_expr;
                     } else if found_count > 0 || goal.is_none() {
                         break;
