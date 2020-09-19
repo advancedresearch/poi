@@ -10,6 +10,10 @@ Special commands:
 - ``             prints separator for readability
 - eval <expr>    evaluates expression
 - echo <expr>    prints out debug format of expression
+- goal <expr>    set expression as new goal
+- reset goal     reset goal
+- inc depth      increase search depth for goal
+- reset depth    reset search depth
 - def <symbol>   lists definitions of symbol
 - std            lists all rules in standard library
 - help norm      more help about normal paths
