@@ -4,7 +4,7 @@
 //! a pragmatic point-free theorem prover assistant
 //!
 //! ```text
-//! === Poi Reduce 0.14 ===
+//! === Poi Reduce 0.15 ===
 //! Type `help` for more information.
 //! > and[not]
 //! and[not]
@@ -27,23 +27,41 @@
 //! poireduce
 //! ```
 //!
-//! ### Example
+//! ### Example: Length of concatenated lists
 //!
-//! When computing the length of two concatenated lists,
+//! Poi lets you specify a goal and automatically prove it.
+//!
+//! For example, when computing the length of two concatenated lists,
 //! there is a faster way, which is to compute the length of each list and add them together:
 //!
 //! ```text
-//! > (len . concat)(a, b)
-//! (len · concat)(a, b)
+//! > goal len(a)+len(b)
+//! new goal: (len(a) + len(b))
+//! > len(a++b)
+//! len((a ++ b))
+//! depth: 1 <=>  (len · concat)(a)(b)
+//!      ∵ (f · g)(a)(b) <=> f(g(a)(b))
+//! .
 //! (len · concat)(a)(b)
 //! (concat[len] · (len · fst, len · snd))(a)(b)
+//! ∵ len · concat => concat[len] · (len · fst, len · snd)
 //! (add · (len · fst, len · snd))(a)(b)
-//! <=>  ((len · fst)(a)(b) + (len · snd)(a)(b))
-//! > ((len · fst)(a)(b) + (len · snd)(a)(b))
+//! ∵ concat[len] => add
+//! depth: 0 <=>  ((len · fst)(a)(b) + (len · snd)(a)(b))
+//!      ∵ (f · (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b))
 //! ((len · fst)(a)(b) + (len · snd)(a)(b))
 //! (len(a) + (len · snd)(a)(b))
+//! ∵ (f · fst)(a)(_) => f(a)
 //! (len(a) + len(b))
+//! ∵ (f · snd)(_)(a) => f(a)
+//! ∴ (len(a) + len(b))
+//! Q.E.D.
 //! ```
+//!
+//! The notation `concat[len]` is a "normal path",
+//! which lets you transform into a more efficient program.
+//! Normal paths are composable and point-free,
+//! unlike their equational representations.
 //!
 //! ### Introduction to Poi and Path Semantics
 //!
@@ -86,12 +104,16 @@
 //! ```text
 //!          not x not
 //!       o ---------> o           o -------> path-space
-//!       |            |           |
-//!   and |            | or        |
-//!       V            V           |
-//!       o ---------> o           V
+//!       |            |           |  x
+//!   and |            | or        |     x
+//!       V            V           |   x
+//!       o ---------> o           V        x - Sets are points
 //!            not            computation
 //! ```
+//!
+//! Computation and paths is like complex numbers
+//! where the "real" part is computation and
+//! the "imaginary" part is the path.
 //!
 //! This is written in asymmetric path notation:
 //!
