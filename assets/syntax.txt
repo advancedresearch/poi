@@ -1,11 +1,12 @@
 _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
 
-18 alg3 = .s!([.w? "^":"^" .w?] expr:"alg_item")
-17 alg2 = .s!([.w? {"*":"*" "/":"/" "%":"%" "&":"&" "∧":"&"} .w?] alg3:"alg")
-16 alg1 = .s!([.w? {"++":"++" "+":"+" "-":"-" "|":"|" "∨":"|"} .w?] alg2:"alg")
-15 alg = ["(" .w? .s!([.w? {"<=":"<=" "<":"<" "==":"=" "=":"=" ">=":">="
-          ">":">"} .w?] alg1:"alg") .w? ")"]
-14 rapp = ["(" .w? {
+21 alg3 = .s!([.w? "^":"^" .w?] expr:"alg_item")
+20 alg2 = .s!([.w? {"*":"*" "/":"/" "%":"%" "&":"&" "∧":"&"} .w?] alg3:"alg")
+19 alg1 = .s!([.w? {"++":"++" "+":"+" "-":"-" "|":"|" "∨":"|"} .w?] alg2:"alg")
+18 alg = ["(" .w? alg_inner .w? ")"]
+17 alg_inner = .s!([.w? {"<=":"<=" "<":"<" "==":"=" "=":"=" ">=":">="
+          ">":">"} .w?] alg1:"alg")
+16 rapp = ["(" .w? {
   ":":"rty"
   "<=":"rle"
   "<":"rlt"
@@ -15,12 +16,12 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
   "*":"mul"
   "^":"rpow"
 } .w! expr:"arg" .w? ")"]
-13 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
-12 tup_items_expr = tup_items:"tup"
-11 tup_items = [.s!([.w? "," .w?] expr:"item")]
-10 tup_path_expr = tup_path:"tup"
-9 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
-8 val = [?"\\" {
+15 list = ["[" .w? .s?([.w? "," .w?] expr:"item") .w? "]"]
+14 tup_items_expr = tup_items:"tup"
+13 tup_items = [.s!([.w? "," .w?] expr:"item")]
+12 tup_path_expr = tup_path:"tup"
+11 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
+10 val = [?"\\" {
   ["true":"bool" !.$]
   ["false":!"bool" !.$]
   [.$_:"num_pi" .w? {"pi" "π"}]
@@ -31,13 +32,13 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
   [.$_:"num_imag" {[.w? "imag"] [.w? "𝐢"]}]
   .$_:"num"
 }]
-7 var = [!.$ .._seps!:"var"]
-6 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
-5 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
-4 comp_right = [.w? {"." "·"} .w? expr]
-3 typ_right = [.w? ":" .w? expr]
-3 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
-2 seq = [{
+9 var = [!.$ .._seps!:"var"]
+8 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
+7 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
+6 comp_right = [.w? {"." "·"} .w? expr]
+5 typ_right = [.w? ":" .w? expr]
+4 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
+3 seq = [{
   rapp:"rapp"
   ["(" .w? tup_items_expr:"left" .w? ")"]
   alg:"alg"
@@ -51,7 +52,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
   comp_right:"comp"
   typ_right:"typ"
 })]
-1 expr = {
+2 expr = {
   seq:"seq"
   rapp:"rapp"
   ["(" .w? tup_items_expr .w? ")"]
@@ -60,4 +61,5 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
   val
   var
 }
-0 doc = [.w? expr:"expr" .w?]
+1 raw_expr = alg_inner:"alg"
+0 doc = {[.w? raw_expr:"expr" .w?] [.w? expr:"expr" .w?]}
