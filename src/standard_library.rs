@@ -500,6 +500,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(constr(Im, app(Rty, VecType)), "x"), app2(Item, 1.0, "x")),
         // `im(_ + a * imag) => a`
         Red(app(Im, app2(Add, Any, app2(Mul, "a", Imag))), "a".into()),
+        // `(a * imag) * imag => a * (imag * imag)`
+        Red(app2(Mul, app2(Mul, "a", Imag), Imag), app2(Mul, "a", app2(Mul, Imag, Imag))),
         // `mulc([x0, y0], [x1, y1]) => [sub(mul(x0)(x1))(mul(y0)(y1)), add(mul(x0)(y1))(mul(x1)(y0))]`
         Red(app2(Mulc, vec2("x0", "y0"), vec2("x1", "y1")),
             vec2(app2(Sub, app2(Mul, "x0", "x1"), app2(Mul, "y0", "y1")),
