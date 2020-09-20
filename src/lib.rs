@@ -938,6 +938,7 @@ impl Context {
                     Some(Ret(F64(a))) => {
                         Ok(match **f {
                             Even => Ret(Bool(a.round() % 2.0 == 0.0)),
+                            Odd => Ret(Bool(a.round() % 2.0 == 1.0)),
                             Neg => Ret(F64(-a)),
                             Inc => Ret(F64(a + 1.0)),
                             Reci => if a == 0.0 {
