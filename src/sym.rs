@@ -442,6 +442,7 @@ impl fmt::Display for Symbol {
             }
             UnopRetVar(x, f) => {
                 match **f {
+                    Even => write!(w, "compute::even({})", x)?,
                     Neg => write!(w, "compute::neg({})", x)?,
                     Inc => write!(w, "compute::inc({})", x)?,
                     Reci => write!(w, "compute::reci({})", x)?,
