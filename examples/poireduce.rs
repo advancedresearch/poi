@@ -223,7 +223,7 @@ fn main() {
                                 if min_found.is_none() || min_found.unwrap().1 > d {
                                     min_found = Some((i, d));
                                 }
-                                if line {println!("")};
+                                if line {line = false; println!("")};
                                 print!("depth: {} ", d);
                                 if d == 0 {
                                     expr = equivalences[i].0.clone();
