@@ -643,8 +643,6 @@ pub fn std() -> Vec<Knowledge> {
 
         // `if(a, b)[not -> id] => if(b, a)`.
         Red(path(_if("a", "b"), (Not, Id)), _if("b", "a")),
-        // `f[id -> g] => g . f`.
-        Red(path("f", (Id, "g")), comp("g", "f")),
         // `f[id x id -> g] => g . f`
         Red(path("f", (Id, Id, "g")), comp("g", "f")),
         // `not . (not . x) => x`.
