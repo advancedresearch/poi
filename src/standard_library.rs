@@ -233,6 +233,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(app(Inv, "f"), "f"), Id.into()),
         // `f . inv(f) => id`
         Red(comp("f", app(Inv, "f")), Id.into()),
+        // `inv(inv(f)) => f`
+        Red(app(Inv, app(Inv, "f")), "f".into()),
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
         // `not[not] <=> not`
