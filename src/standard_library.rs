@@ -406,6 +406,8 @@ pub fn std() -> Vec<Knowledge> {
         // `(\a * x) + (\b * x) => (a + b) * x`
         Red(app2(Add, app2(Mul, ret_var("a"), "x"), app2(Mul, ret_var("b"), "x")),
             app2(Mul, app2(Add, "a", "b"), "x")),
+        // `(\a * x) + x => (a + 1) * x`
+        Red(app2(Add, app2(Mul, ret_var("a"), "x"), "x"), app2(Mul, app2(Add, "a", 1.0), "x")),
         // `sub(\x)(\y) => compute::sub(x, y)`
         Red(app2(Sub, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Sub)),
         // `mul(\x)(\y) => compute::mul(x, y)`
