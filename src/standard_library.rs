@@ -1055,9 +1055,9 @@ pub fn std() -> Vec<Knowledge> {
         // `((f . g) = h) <=> ((inv(f) . f) . g)) = (inv(f) . h))`
         Eqv(app2(Eq, comp("f", "g"), "h"),
             app2(Eq, comp(comp(app(Inv, "f"), "f"), "g"), comp(app(Inv, "f"), "h"))),
-        // `((f . g) = h) <=> (((f . g) . inv(g)) = (h . inv(g)))`
+        // `((f . g) = h) <=> ((f . (g . inv(g))) = (h . inv(g)))`
         Eqv(app2(Eq, comp("f", "g"), "h"),
-            app2(Eq, comp(comp("f", "g"), app(Inv, "g")), comp("h", app(Inv, "g")))),
+            app2(Eq, comp("f", comp("g", app(Inv, "g"))), comp("h", app(Inv, "g")))),
         // `(f[g1 -> id] = h[id -> inv(g2)]) <=> (f[g1 -> g2] = h)`
         Eqv(app2(Eq, path("f", ("g1", Id)), path("h", (Id, app(Inv, "g2")))),
             app2(Eq, path("f", ("g1", "g2")), "h")),
