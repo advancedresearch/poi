@@ -897,8 +897,6 @@ pub fn std() -> Vec<Knowledge> {
         // `(x, y, z) . (a, b, c) => (x . a, y . b, z . c)`.
         Red(comp(("x", "y", "z"), ("a", "b", "c")),
             (comp("x", "a"), comp("y", "b"), comp("z", "c")).into()),
-        // `h . f[g -> id] => f[g -> h]`.
-        Red(comp("h", path("f", ("g", Id))), path("f", ("g", "h"))),
         // `h . f[g0 x g1 -> id] => f[g0 x g1 -> h]`.
         Red(comp("h", path("f", ("g0", "g1", Id))), path("f", ("g0", "g1", "h"))),
 
@@ -1061,6 +1059,8 @@ pub fn std() -> Vec<Knowledge> {
             app2(Eq, path("f", ("g1", "g2")), "h")),
         // `h . f[g -> id] <=> f[g -> h]`.
         Eqv(comp("h", path("f", ("g", Id))), path("f", ("g", "h"))),
+        // `f[id -> g] <=> g . f`.
+        Eqv(path("f", (Id, "g")), comp("g", "f")),
         // `f:!{}(a)(a) <=> f{eq}(a)(a)`
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f[g][h] <=> f[h . g]`.
