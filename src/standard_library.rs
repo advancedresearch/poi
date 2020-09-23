@@ -1042,6 +1042,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `inv(f) <=> id[f -> id]`
         Eqv(app(Inv, "f"), path(Id, ("f", Id))),
+        // `inv(f . g) <=> inv(g) . inv(f)`
+        Eqv(app(Inv, comp("f", "g")), comp(app(Inv, "g"), app(Inv, "f"))),
         // `f:!{}(a)(a) <=> f{eq}(a)(a)`
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f[g][h] <=> f[h . g]`.
