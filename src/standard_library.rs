@@ -229,6 +229,8 @@ pub fn std() -> Vec<Knowledge> {
         // `concat[type_of](vec)(vec) => vec`
         Red(app2(path(Concat, TypeOf), VecType, VecType), VecType.into()),
 
+        // `inv(f) . f => id`
+        Red(comp(app(Inv, "f"), "f"), Id.into()),
         // `not . not <=> idb`
         Red(comp(Not, Not), Idb.into()),
         // `not[not] <=> not`
