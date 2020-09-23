@@ -1052,6 +1052,9 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Inv, comp("f", "g")), comp(app(Inv, "g"), app(Inv, "f"))),
         // `id[(f . g) -> id] <=> id[f -> id[g -> id]]`
         Eqv(path(Id, (comp("f", "g"), Id)), path(Id, ("f", path(Id, ("g", Id))))),
+        // `((g2 . f . g1) = h) <=> (f = (inv(g2) . h . inv(g1)))`
+        Eqv(app2(Eq, comp("g2", comp("f", "g1")), "h"),
+            app2(Eq, "f", comp(app(Inv, "g2"), comp("h", app(Inv, "g1"))))),
         // `((f . g) = h) <=> ((inv(f) . f) . g)) = (inv(f) . h))`
         Eqv(app2(Eq, comp("f", "g"), "h"),
             app2(Eq, comp(comp(app(Inv, "f"), "f"), "g"), comp(app(Inv, "f"), "h"))),
