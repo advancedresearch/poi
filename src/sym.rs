@@ -231,6 +231,8 @@ pub enum Symbol {
     Eq,
     /// Generic `neq`.
     Neq,
+    /// Function inverse `inv`.
+    Inv,
     /// Derivative.
     D,
     /// Integral.
@@ -373,6 +375,7 @@ impl fmt::Display for Symbol {
             Id => write!(w, "id")?,
             Eq => write!(w, "eq")?,
             Neq => write!(w, "neq")?,
+            Inv => write!(w, "inv")?,
             If => write!(w, "if")?,
             Any => write!(w, "_")?,
             Ex => write!(w, "∃")?,

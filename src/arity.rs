@@ -7,7 +7,7 @@ impl Symbol {
             VecType | RetType | Pi | Tau | Eps | Imag | Imag2 | Imag3 | BoolType | F64Type |
             QuatType | Inf => Some(0),
 
-            Not | Idb | Id | Neg | Inc | Reci | Arity |
+            Not | Idb | Id | Inv | Neg | Inc | Reci | Arity |
             False1 | True1 | Even | Odd | Abs | Conj |
             Norm | Sqnorm | Sqrt | Ln | Log2 | Log10 | Exp | Len |
             Sum | Min | Max | Prob | Probl | Probr | Probm | Det |
