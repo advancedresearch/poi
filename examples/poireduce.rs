@@ -178,6 +178,9 @@ fn main() {
                 }
             };
 
+        // Keeps track of goal depth to reduce search space
+        // when getting closer to the goal using minimum depth selection.
+        let mut min: Option<u64> = None;
         'process_expr: loop {
             println!("{}", expr);
             loop {
@@ -205,11 +208,14 @@ fn main() {
                 loop {
                     let mut line = false;
                     for i in 0..equivalences.len() {
+                        let mut cont = false;
+                        let mut br = false;
                         let j = equivalences[i].1;
                         let display = if let Some(g) = &goal {
                             let eqv_expr = equivalences[i].0.reduce_all(std);
                             let mut history = vec![expr.clone(), eqv_expr.clone()];
-                            if let Some(d) = find_goal(g, &eqv_expr, std, goal_depth, &mut history) {
+                            let depth = min.unwrap_or(goal_depth);
+                            if let Some(d) = find_goal(g, &eqv_expr, std, depth, &mut history) {
                                 found_count += 1;
                                 if first_found.is_none() {
                                     first_found = Some(i);
@@ -220,9 +226,10 @@ fn main() {
                                 if line {println!("")};
                                 print!("depth: {} ", d);
                                 if d == 0 {
-                                    println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
                                     expr = equivalences[i].0.clone();
-                                    continue 'process_expr;
+                                    cont = true;
+                                } else if min == Some(d) {
+                                    br = true;
                                 }
                                 true
                             } else {
@@ -236,11 +243,14 @@ fn main() {
                             print!(".");
                             io::stdout().flush().unwrap();
                         }
+                        if cont {continue 'process_expr};
+                        if br {break};
                     }
                     if line {println!("")};
 
                     if use_min_depth && min_found.is_some() {
                         expr = equivalences[min_found.unwrap().0].0.clone();
+                        min = Some(min_found.unwrap().1 - 1);
                         continue 'process_expr;
                     } else if found_count == 1 && goal.is_some() {
                         expr = equivalences[first_found.unwrap()].0.clone();
