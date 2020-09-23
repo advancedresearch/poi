@@ -3,7 +3,7 @@ use poi::*;
 const DEFAULT_GOAL_DEPTH: u64 = 2;
 
 fn main() {
-    println!("=== Poi Reduce 0.15 ===");
+    println!("=== Poi Reduce 0.16 ===");
     println!("Type `help` for more information.");
     let ref std = std();
 
