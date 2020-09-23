@@ -1047,6 +1047,10 @@ pub fn std() -> Vec<Knowledge> {
         // `inv(not) <=> not`
         Eqv(app(Inv, Not), Not.into()),
 
+        // `(a + b = c) <=> ((-a + a) + b = -a + c)`
+        Eqv(app2(Eq, app2(Add, "a", "b"), "c"),
+            app2(Eq, app2(Add, app2(Add, app(Neg, "a"), "a"), "b"), "c")),
+
         // `(f . g) <=> f[inv(g) -> id]`
         Eqv(comp("f", "g"), path("f", (app(Inv, "g"), Id))),
         // `(f . inv(g)) <=> f[g -> id]`
