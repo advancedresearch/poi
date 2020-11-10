@@ -1077,6 +1077,8 @@ pub fn std() -> Vec<Knowledge> {
                      app2(Mul, "c", app2(Div, "b", "b")))),
         // `(- y)(x) <=> (x - y)`
         Eqv(app2(Rsub, "y", "x"), app2(Sub, "x", "y")),
+        // `(/ y)(x) <=> (x / y)`
+        Eqv(app2(Rdiv, "y", "x"), app2(Div, "x", "y")),
 
         // `(f . g) <=> f[inv(g) -> id]`
         Eqv(comp("f", "g"), path("f", (app(Inv, "g"), Id))),
