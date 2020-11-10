@@ -825,6 +825,9 @@ pub fn std() -> Vec<Knowledge> {
         // `integ(x, c, \k^x) => (c + (k^x / ln(k)))`
         Red(app3(Integ, not_ret_var("x"), "c", app2(Pow, ret_var("k"), "x")),
             app2(Add, "c", app2(Div, app2(Pow, "k", "x"), app(Ln, "k")))),
+        // `integ(x, c, ln(x)) => (c + neg(x) + x * ln(x))`
+        Red(app3(Integ, not_ret_var("x"), "c", app(Ln, "x")),
+            app2(Add, "c", app2(Add, app(Neg, "x"), app2(Mul, "x", app(Ln, "x"))))),
         // `(\k * ((c / \k) + y)) => c + k * y`
         Red(app2(Mul, ret_var("k"), app2(Add, app2(Div, "c", ret_var("k")), "y")),
             app2(Add, "c", app2(Mul, "k", "y"))),
