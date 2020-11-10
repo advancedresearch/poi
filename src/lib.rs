@@ -814,6 +814,20 @@ impl Context {
                 self.vars.push((name.clone(), value.clone()));
                 true
             }
+            (Sym(RetStrictPosVar(name)), Ret(F64(x))) if *x > 0.0 => {
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == name {
+                        if &self.vars[i].1 == value {
+                            break
+                        } else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    }
+                }
+                self.vars.push((name.clone(), value.clone()));
+                true
+            }
             (Sym(RetNegVar(name)), Ret(F64(x))) if *x < 0.0 => {
                 for i in (0..self.vars.len()).rev() {
                     if &self.vars[i].0 == name {
@@ -1244,6 +1258,9 @@ pub fn ret_int_var<A: Into<String>>(a: A) -> Expr {Sym(RetIntVar(Arc::new(a.into
 
 /// A value variable that is positive or zero.
 pub fn ret_pos_var<A: Into<String>>(a: A) -> Expr {Sym(RetPosVar(Arc::new(a.into())))}
+
+/// A value variable that is strictly positive (non-zero).
+pub fn ret_strict_pos_var<A: Into<String>>(a: A) -> Expr {Sym(RetStrictPosVar(Arc::new(a.into())))}
 
 /// A value variable that is negative and non-zero.
 ///
