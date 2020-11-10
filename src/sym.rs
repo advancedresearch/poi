@@ -38,6 +38,8 @@ pub enum Symbol {
     RetIntVar(Arc<String>),
     /// A value variable that is positive or zero.
     RetPosVar(Arc<String>),
+    /// A value that is strictly positive (non-zero).
+    RetStrictPosVar(Arc<String>),
     /// A value variable that is negative and non-zero.
     ///
     /// Binds to its positive value.
@@ -410,6 +412,7 @@ impl fmt::Display for Symbol {
             RetVar(x) => write!(w, "\\{}", x)?,
             RetIntVar(x) => write!(w, "\\{}:int", x)?,
             RetPosVar(x) => write!(w, "\\{}:(>= 0)", x)?,
+            RetStrictPosVar(x) => write!(w, "\\{}:(> 0)", x)?,
             RetNegVar(x) => write!(w, "\\{}:(< 0)", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
