@@ -1049,6 +1049,8 @@ pub fn std() -> Vec<Knowledge> {
         // `inv(not) <=> not`
         Eqv(app(Inv, Not), Not.into()),
 
+        // `inc(x) <=> 1 + x`
+        Eqv(app(Inc, "x"), app2(Add, 1.0, "x")),
         // `(a + b = c) <=> ((-a + a) + b = -a + c)`
         Eqv(app2(Eq, app2(Add, "a", "b"), "c"),
             app2(Eq, app2(Add, app2(Add, app(Neg, "a"), "a"), "b"), app2(Add, app(Neg, "a"), "c"))),
