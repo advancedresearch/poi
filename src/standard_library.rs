@@ -295,6 +295,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(path(Mul, Ln), Add.into()),
         // `mul[log2] => add`
         Red(path(Mul, Log2), Add.into()),
+        // `mul[log10] => add`
+        Red(path(Mul, Log10), Add.into()),
         // `exp . ln => id`
         Red(comp(Exp, Ln), Id.into()),
         // `ln . exp => id`
