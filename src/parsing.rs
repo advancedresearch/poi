@@ -191,6 +191,16 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
 
     let mut op: Option<Symbol> = None;
     let mut left: Option<Expr> = None;
+    let mut unop: Option<Symbol> = None;
+    let un = |expr: Expr, unop: &mut Option<Symbol>| {
+        if let Some(f) = unop {
+            let f = f.clone();
+            *unop = None;
+            app(f, expr)
+        } else {
+            expr
+        }
+    };
     loop {
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
@@ -198,16 +208,16 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         } else if let Ok((range, val)) = parse_expr("alg_item", convert, ignored) {
             convert.update(range);
             if let (Some(expr), Some(op)) = (left, op.clone()) {
-                left = Some(app2(op, expr, val));
+                left = Some(un(app2(op, expr, val), &mut unop));
             } else {
-                left = Some(val);
+                left = Some(un(val, &mut unop));
             }
         } else if let Ok((range, val)) = parse_alg(convert, ignored) {
             convert.update(range);
             if let (Some(expr), Some(op)) = (left, op.clone()) {
-                left = Some(app2(op, expr, val));
+                left = Some(un(app2(op, expr, val), &mut unop));
             } else {
-                left = Some(val);
+                left = Some(un(val, &mut unop));
             }
         } else if let Ok((range, _)) = convert.meta_bool("+") {
             convert.update(range);
@@ -251,6 +261,9 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         } else if let Ok((range, _)) = convert.meta_bool(">") {
             convert.update(range);
             op = Some(Gt);
+        } else if let Ok((range, _)) = convert.meta_bool("neg") {
+            convert.update(range);
+            unop = Some(Neg);
         } else {
             let range = convert.ignore();
             convert.update(range);
