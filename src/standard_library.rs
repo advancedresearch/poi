@@ -1128,6 +1128,9 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app2(Eq, app2(Div, "a", "b"), app2(Div, "c", "b")),
             app2(Eq, app2(Mul, "a", app2(Div, "b", "b")),
                      app2(Mul, "c", app2(Div, "b", "b")))),
+        // `(a / c + b / c) <=> ((a + b) / c)`
+        Eqv(app2(Add, app2(Div, "a", "c"), app2(Div, "b", "c")),
+            app2(Div, app2(Add, "a", "b"), "c")),
         // `(- y)(x) <=> (x - y)`
         Eqv(app2(Rsub, "y", "x"), app2(Sub, "x", "y")),
         // `(/ y)(x) <=> (x / y)`
