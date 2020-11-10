@@ -371,6 +371,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app2(Ge, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Ge)),
         // `even(\x) => compute::even(x)`
         Red(app(Even, ret_var("x")), unop_ret_var("x", Even)),
+        // `inc(\x) => compute::inc(x)`
+        Red(app(Inc, ret_var("x")), unop_ret_var("x", Inc)),
         // `odd(\x) => compute::odd(x)`
         Red(app(Odd, ret_var("x")), unop_ret_var("x", Odd)),
         // `neg(\x) => compute::neg(x)`
