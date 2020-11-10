@@ -12,7 +12,7 @@ You can control the depth using `reset depth` and `inc depth`.
 For example:
 
 goal x+y+z
-z+y+z
+z+y+x
 
 The equivalence `depth: 2 <=>  (x + (z + y))` shows that the goal is found.
 It takes 3 more steps to complete the proof, where `depth: 0` is the last step.
