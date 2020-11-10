@@ -1078,6 +1078,9 @@ pub fn std() -> Vec<Knowledge> {
 
         // `(f . g) <=> f[inv(g) -> id]`
         Eqv(comp("f", "g"), path("f", (app(Inv, "g"), Id))),
+        // `(f . (g0 . fst, g1 . snd)) <=> f[inv(g0) x inv(g1) -> id]`
+        Eqv(comp("f", (comp("g0", Fst), comp("g1", Snd))),
+            path("f", (app(Inv, "g0"), app(Inv, "g1"), Id))),
         // `(f . inv(g)) <=> f[g -> id]`
         Eqv(comp("f", app(Inv, "g")), path("f", ("g", Id))),
         // `f[id -> g2] . inv(g1) <=> f[g1 -> g2]`
