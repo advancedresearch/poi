@@ -95,6 +95,8 @@ impl fmt::Display for Expr {
                     write!(w, "(+ {})", b)?;
                 } else if let Sym(Rsub) = **a {
                     write!(w, "(- {})", b)?;
+                } else if let Sym(Rdiv) = **a {
+                    write!(w, "(/ {})", b)?;
                 } else if let Sym(Rpow) = **a {
                     write!(w, "(^ {})", b)?;
                 } else {

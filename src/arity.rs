@@ -15,7 +15,7 @@ impl Symbol {
             Re | Im | Ex | Triv | TypeOf => Some(1),
 
             Eq | Eqb | And | Or | Nand | Nor | Xor | Exc |
-            Add | Mul | Div | Sub | Rsub | Rem | False2 | True2 |
+            Add | Mul | Div | Rdiv | Sub | Rsub | Rem | False2 | True2 |
             Imply | Fstb | Sndb | Lt | Rlt | Le | Rle | Gt | Rgt |
             Ge | Rge | Mulc | Pow | Rpow | Concat | Min2 | Max2 |
             MulMat | Base | Fst | Snd | Atan2 | Dot | Push | PushFront |

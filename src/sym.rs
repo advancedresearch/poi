@@ -136,6 +136,8 @@ pub enum Symbol {
     Mulc,
     /// `div`.
     Div,
+    /// `(/ _)(_)`
+    Rdiv,
     /// `rem`.
     Rem,
     /// `pow`.
@@ -331,6 +333,7 @@ impl fmt::Display for Symbol {
             Mul => write!(w, "mul")?,
             Mulc => write!(w, "mulc")?,
             Div => write!(w, "div")?,
+            Rdiv => write!(w, "rdiv")?,
             Rem => write!(w, "rem")?,
             Pow => write!(w, "pow")?,
             Rpow => write!(w, "rpow")?,
