@@ -794,6 +794,9 @@ pub fn std() -> Vec<Knowledge> {
         // `integ(!\x)(c)(x) => (c + 0.5 * x^2)`
         Red(app3(Integ, not_ret_var("x"), "c", "x"),
             app2(Add, "c", app2(Mul, 0.5, app2(Pow, "x", 2.0)))),
+        // `integ(!\x)(c)(\k * y) => (k * integ(x)(c)(y))`
+        Red(app3(Integ, not_ret_var("x"), "c", app2(Mul, ret_var("k"), "y")),
+            app2(Mul, "k", app3(Integ, "x", "c", "y"))),
 
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
