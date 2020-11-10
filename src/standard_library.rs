@@ -791,6 +791,9 @@ pub fn std() -> Vec<Knowledge> {
             app2(Mul, app(Neg, "k"), app(Sin, app2(Mul, "k", "x")))),
         // `d(!\x)(exp(x)) => exp(x)`
         Red(app2(D, not_ret_var("x"), app(Exp, "x")), app(Exp, "x")),
+        // `d(!\x)(exp(\k * x)) => k * exp(k * x)`
+        Red(app2(D, not_ret_var("x"), app(Exp, app2(Mul, ret_var("k"), "x"))),
+            app2(Mul, "k", app(Exp, app2(Mul, "k", "x")))),
         // `integ(!\x)(c)(x) => (c + 0.5 * x^2)`
         Red(app3(Integ, not_ret_var("x"), "c", "x"),
             app2(Add, "c", app2(Mul, 0.5, app2(Pow, "x", 2.0)))),
