@@ -128,6 +128,8 @@ pub enum Symbol {
     Add,
     /// `sub`.
     Sub,
+    /// `(- _)(_)`
+    Rsub,
     /// `mul`.
     Mul,
     /// `mulc` (complex multiplication).
@@ -325,6 +327,7 @@ impl fmt::Display for Symbol {
             Sqnorm => write!(w, "sqnorm")?,
             Add => write!(w, "add")?,
             Sub => write!(w, "sub")?,
+            Rsub => write!(w, "rsub")?,
             Mul => write!(w, "mul")?,
             Mulc => write!(w, "mulc")?,
             Div => write!(w, "div")?,
