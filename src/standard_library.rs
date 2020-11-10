@@ -1192,5 +1192,7 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(path("f", ("g", "g", "g")), path("f", "g")),
         // `(f(x) = g(x)) <=> (f = g)`
         Eqv(app2(Eq, app("f", "x"), app("g", "x")), app2(Eq, "f", "g")),
+        // `g2 . f[g0 x g1 -> id] <=> (g2 . f)[g0 x g1 -> id]`
+        Eqv(comp("g2", path("f", ("g0", "g1", Id))), path(comp("g2", "f"), ("g0", "g1", Id))),
     ]
 }
