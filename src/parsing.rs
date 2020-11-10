@@ -264,6 +264,9 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         } else if let Ok((range, _)) = convert.meta_bool("neg") {
             convert.update(range);
             unop = Some(Neg);
+        } else if let Ok((range, _)) = convert.meta_bool("not") {
+            convert.update(range);
+            unop = Some(Not);
         } else {
             let range = convert.ignore();
             convert.update(range);
