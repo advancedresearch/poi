@@ -903,8 +903,6 @@ pub fn std() -> Vec<Knowledge> {
         // `(x, y, z) . (a, b, c) => (x . a, y . b, z . c)`.
         Red(comp(("x", "y", "z"), ("a", "b", "c")),
             (comp("x", "a"), comp("y", "b"), comp("z", "c")).into()),
-        // `h . f[g0 x g1 -> id] => f[g0 x g1 -> h]`.
-        Red(comp("h", path("f", ("g0", "g1", Id))), path("f", ("g0", "g1", "h"))),
 
         // `add(pow(cos(x))(\2))(pow(sin(x))(\2)) <=> 1`
         Red(app2(Add, app2(Pow, app(Cos, "x"), 2.0),
@@ -1194,5 +1192,7 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app2(Eq, app("f", "x"), app("g", "x")), app2(Eq, "f", "g")),
         // `g2 . f[g0 x g1 -> id] <=> (g2 . f)[g0 x g1 -> id]`
         Eqv(comp("g2", path("f", ("g0", "g1", Id))), path(comp("g2", "f"), ("g0", "g1", Id))),
+        // `h . f[g0 x g1 -> id] => f[g0 x g1 -> h]`
+        Eqv(comp("h", path("f", ("g0", "g1", Id))), path("f", ("g0", "g1", "h"))),
     ]
 }
