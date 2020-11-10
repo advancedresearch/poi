@@ -540,6 +540,8 @@ pub fn std() -> Vec<Knowledge> {
         // `arity(x) => compute::arity(x)`
         Red(app(Arity, "x"), unop_ret_var("x", Arity)),
 
+        // `add[neg] => add`
+        Red(path(Add, Neg), Add.into()),
         // `mul[neg] => (neg . mul)`
         Red(path(Mul, Neg), comp(Neg, Mul)),
         // `mul(x) . mul(y) => mul(mul(x)(y))`
