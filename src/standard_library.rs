@@ -465,6 +465,11 @@ pub fn std() -> Vec<Knowledge> {
                 "y"), binop_ret_var("x", "y", Concat)),
         // `len(x) => compute::len(x)`
         Red(app(Len, "x"), unop_ret_var("x", Len)),
+        // `not{(: vec)}([x]) => [not(x)]`
+        Red(app(constr(Not, app(Rty, VecType)), List(vec!["x".into()])), List(vec![app(Not, "x")])),
+        // `not{(: vec)}([x, y..]) => [not(x)] ++ neg{(: vec)}(y)`
+        Red(app(constr(Not, app(Rty, VecType)), head_tail_list("x", "y")),
+            app2(Concat, List(vec![app(Not, "x")]), app(constr(Not, app(Rty, VecType)), "y"))),
         // `neg{(: vec)}([x]) => [neg(x)]`
         Red(app(constr(Neg, app(Rty, VecType)), List(vec!["x".into()])), List(vec![app(Neg, "x")])),
         // `neg{(: vec)}([x, y..]) => [neg(x)] ++ neg{(: vec)}(y)`
