@@ -1,0 +1,11 @@
+=== Integral ===
+
+The integral of a function is the signed area bounded by its graph.
+
+For example:
+
+  integ(x, c, 2 * x)
+
+The first argument `x` is the input variable of the function.
+The second argument `c` is a constant added to the solution.
+The third argument `2 * x` is the function.

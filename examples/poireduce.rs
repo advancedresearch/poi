@@ -46,6 +46,7 @@ fn main() {
             "help imag" => {print_help_imag(); continue}
             "help eps" => {print_help_eps(); continue}
             "help d" => {print_help_d(); continue}
+            "help integ" => {print_help_integ(); continue}
             "std" => {for k in std {println!("{}", k)}; continue}
             "inline all" => {
                 if let Some(expr) = &prev_expr {
@@ -331,3 +332,4 @@ fn print_help_rad() {print!("{}", include_str!("../assets/help-rad.txt"))}
 fn print_help_imag() {print!("{}", include_str!("../assets/help-imag.txt"))}
 fn print_help_eps() {print!("{}", include_str!("../assets/help-eps.txt"))}
 fn print_help_d() {print!("{}", include_str!("../assets/help-d.txt"))}
+fn print_help_integ() {print!("{}", include_str!("../assets/help-integ.txt"))}

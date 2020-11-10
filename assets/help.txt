@@ -30,5 +30,6 @@ Special commands:
 - help imag      more help about imaginary number (complex numbers)
 - help eps       more help about epsilon (dual numbers)
 - help d         more help about derivative
+- help integ     more help about integral
 
 Type in an expression in path semantics, e.g. `and[not]`
