@@ -1134,6 +1134,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app2(Rdiv, "y", "x"), app2(Div, "x", "y")),
         // `log10(x) <=> ln(x) / ln(10)`
         Eqv(app(Log10, "x"), app2(Div, app(Ln, "x"), app(Ln, 10.0))),
+        // `log2(x) <=> ln(x) / ln(2)`
+        Eqv(app(Log2, "x"), app2(Div, app(Ln, "x"), app(Ln, 2.0))),
 
         // `(f . g) <=> f[inv(g) -> id]`
         Eqv(comp("f", "g"), path("f", (app(Inv, "g"), Id))),
