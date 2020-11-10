@@ -802,6 +802,9 @@ pub fn std() -> Vec<Knowledge> {
         // `integ(!\x)(c)(cos(x)) => (c + sin(x))`
         Red(app3(Integ, not_ret_var("x"), "c", app(Cos, "x")),
             app2(Add, "c", app(Sin, "x"))),
+        // `integ(!\x)(c)(sin(x)) => (c + neg(cos(x)))`
+        Red(app3(Integ, not_ret_var("x"), "c", app(Sin, "x")),
+            app2(Add, "c", app(Neg, app(Cos, "x")))),
 
         // `and{eq} => fstb`
         Red(constr(And, Eq), Fstb.into()),
