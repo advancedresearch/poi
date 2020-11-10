@@ -1149,6 +1149,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Log10, app2(Mul, "x", "y")), app2(Add, app(Log10, "x"), app(Log10, "y"))),
         // `log2(x * y) <=> log2(x) + log2(y)`
         Eqv(app(Log2, app2(Mul, "x", "y")), app2(Add, app(Log2, "x"), app(Log2, "y"))),
+        // `exp(x + y) <=> exp(x) * exp(y)`
+        Eqv(app(Exp, app2(Add, "x", "y")), app2(Mul, app(Exp, "x"), app(Exp, "y"))),
 
         // `(f . g) <=> f[inv(g) -> id]`
         Eqv(comp("f", "g"), path("f", (app(Inv, "g"), Id))),
