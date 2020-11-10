@@ -1055,6 +1055,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Inc, "x"), app2(Add, 1.0, "x")),
         // `neg(x + y) <=> neg(x) + neg(y)`
         Eqv(app(Neg, app2(Add, "x", "y")), app2(Add, app(Neg, "x"), app(Neg, "y"))),
+        // `neg(x + y) <=> neg(x) - y`
+        Eqv(app(Neg, app2(Add, "x", "y")), app2(Sub, app(Neg, "x"), "y")),
         // `(a + b = c) <=> ((-a + a) + b = -a + c)`
         Eqv(app2(Eq, app2(Add, "a", "b"), "c"),
             app2(Eq, app2(Add, app2(Add, app(Neg, "a"), "a"), "b"), app2(Add, app(Neg, "a"), "c"))),
