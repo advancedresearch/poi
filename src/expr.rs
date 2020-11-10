@@ -91,6 +91,8 @@ impl fmt::Display for Expr {
                     write!(w, "(>= {})", b)?;
                 } else if let Sym(Mul) = **a {
                     write!(w, "(* {})", b)?;
+                } else if let Sym(Add) = **a {
+                    write!(w, "(+ {})", b)?;
                 } else if let Sym(Rpow) = **a {
                     write!(w, "(^ {})", b)?;
                 } else {
