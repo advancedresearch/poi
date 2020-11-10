@@ -1143,6 +1143,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Log10, "x"), app2(Div, app(Ln, "x"), app(Ln, 10.0))),
         // `log2(x) <=> ln(x) / ln(2)`
         Eqv(app(Log2, "x"), app2(Div, app(Ln, "x"), app(Ln, 2.0))),
+        // `ln(y ^ x) <=> x * ln(y)`
+        Eqv(app(Ln, app2(Pow, "y", "x")), app2(Mul, "x", app(Ln, "y"))),
         // `ln(x * y) <=> ln(x) + ln(y)`
         Eqv(app(Ln, app2(Mul, "x", "y")), app2(Add, app(Ln, "x"), app(Ln, "y"))),
         // `log10(x * y) <=> log10(x) + log10(y)`
