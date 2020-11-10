@@ -48,8 +48,6 @@ pub fn std() -> Vec<Knowledge> {
         Red(app("x", Tup(vec![])), "x".into()),
         // `f[g -> g] => f[g]`
         Red(path("f", ("g", "g")), path("f", "g")),
-        // `f[g x g -> g] => f[g]`
-        Red(path("f", ("g", "g", "g")), path("f", "g")),
         // `∀(f:[arity]2{g0}{g1}) => (g0, g1)`
         Red(app(Triv, constr2(arity_var("f", 2), "g0", "g1")), ("g0", "g1").into()),
         // `∀(f:[arity]1{g}) => g`
@@ -1190,5 +1188,7 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(comp(path("f", (Id, "g0", "g1")), (Fst, comp("g0", Snd))), comp("g1", "f")),
         // `f[g0 x id -> g1] . (g0 . fst, snd) <=> g1 . f`
         Eqv(comp(path("f", ("g0", Id, "g1")), (comp("g0", Fst), Snd)), comp("g1", "f")),
+        // `f[g x g -> g] => f[g]`
+        Eqv(path("f", ("g", "g", "g")), path("f", "g")),
     ]
 }
