@@ -618,6 +618,8 @@ pub fn std() -> Vec<Knowledge> {
         concrete_op(Rpow),
 
         // Component-wise vector operations.
+        vec_op(And),
+        vec_op(Or),
         vec_op(Add),
         vec_op(Sub),
         vec_op(Mul),
