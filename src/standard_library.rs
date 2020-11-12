@@ -663,8 +663,6 @@ pub fn std() -> Vec<Knowledge> {
 
         // `if(a, b)[not -> id] => if(b, a)`.
         Red(path(_if("a", "b"), (Not, Id)), _if("b", "a")),
-        // `f[id x id -> g] => g . f`
-        Red(path("f", (Id, Id, "g")), comp("g", "f")),
         // `not . (not . x) => x`.
         Red(comp(Not, comp(Not, "x")), "x".into()),
         // `and . (le, ge) => eq`
@@ -1219,6 +1217,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(comp("h", path("f", ("g", Id))), path("f", ("g", "h"))),
         // `f[id -> g] <=> g . f`.
         Eqv(path("f", (Id, "g")), comp("g", "f")),
+        // `f[id x id -> g] => g . f`
+        Eqv(path("f", (Id, Id, "g")), comp("g", "f")),
         // `f:!{}(a)(a) <=> f{eq}(a)(a)`
         Eqv(app2(no_constr("f"), "a", "a"), app2(constr("f", Eq), "a", "a")),
         // `f[g][h] <=> f[h . g]`.
