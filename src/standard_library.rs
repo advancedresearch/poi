@@ -1033,6 +1033,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Rle, "x"), app(Ge, "x")),
         // `(< x) <=> gt(x)`
         Eqv(app(Rlt, "x"), app(Gt, "x")),
+        // `and . (f, g) <=> and . (g, f)`
+        Eqv(comp(And, ("f", "g")), comp(And, ("g", "f"))),
 
         // `range(0)(1) <=> prob`
         Eqv(app2(Range, 0.0, 1.0), Prob.into()),
