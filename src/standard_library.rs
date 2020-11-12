@@ -1035,6 +1035,8 @@ pub fn std() -> Vec<Knowledge> {
         Eqv(app(Rlt, "x"), app(Gt, "x")),
         // `and . (f, g) <=> and . (g, f)`
         Eqv(comp(And, ("f", "g")), comp(And, ("g", "f"))),
+        // `or . (f, g) <=> or . (g, f)`
+        Eqv(comp(Or, ("f", "g")), comp(Or, ("g", "f"))),
         // `(not . and) . (not . fst, not . snd) <=> or`
         Eqv(comp(comp(Not, And), (comp(Not, Fst), comp(Not, Snd))), Or.into()),
 
