@@ -31,5 +31,6 @@ Special commands:
 - help eps       more help about epsilon (dual numbers)
 - help d         more help about derivative
 - help integ     more help about integral
+- help list      more help about lists
 
 Type in an expression in path semantics, e.g. `and[not]`

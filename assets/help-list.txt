@@ -1,0 +1,10 @@
+=== List ===
+
+A list is written in the form:
+
+  [1, 2, 3, ...]
+
+Some common operations on lists:
+
+  concat(a, b)    a ++ b    concatenates two lists
+  item(i, a)                looks up item by index `i` in list `a`
