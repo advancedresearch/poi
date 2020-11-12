@@ -188,6 +188,10 @@ pub enum Symbol {
     Probm,
     /// `mul_mat`.
     MulMat,
+    /// `col` (index, matrix).
+    ///
+    /// Looks up column vector by index in a matrix.
+    Col,
     /// `det`.
     Det,
     /// `dim`.
@@ -360,6 +364,7 @@ impl fmt::Display for Symbol {
             Probr => write!(w, "probr")?,
             Probm => write!(w, "probm")?,
             MulMat => write!(w, "mul_mat")?,
+            Col => write!(w, "col")?,
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
             IsSquareMat => write!(w, "is_square_mat")?,
