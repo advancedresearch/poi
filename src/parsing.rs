@@ -88,6 +88,7 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 "concat" => Concat,
                 "sum" => Sum,
                 "mul_mat" => MulMat,
+                "col" => Col,
                 "det" => Det,
                 "dim" => Dim,
                 "is_square_mat" => IsSquareMat,
