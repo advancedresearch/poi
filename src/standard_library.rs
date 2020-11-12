@@ -844,6 +844,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr(Eq, Eq), true.into()),
         // `sub{eq} => \0`
         Red(constr(Sub, Eq), 0.0.into()),
+        // `div{and . (eq, (> 0) . fst)} => \1`
+        Red(constr(Div, comp(And, (Eq, comp(app(Rgt, 0.0), Fst)))), 1.0.into()),
         // `add{eq}(x, _) => mul(2)(x)`
         Red(app2(constr(Add, Eq), "x", Any), app2(Mul, 2.0, "x")),
         // `mul{eq}(x, _) => pow(x)(2)`
