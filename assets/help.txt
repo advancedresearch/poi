@@ -18,6 +18,9 @@ Special commands:
 - pick depth     user chooses equivalence toward goal
 - def <symbol>   lists definitions of symbol
 - std            lists all rules in standard library
+- open "<dir>"   add Poi directory
+- clear dir      clear Poi directories
+- <file>.poi     load Poi file as expression
 - help goal      more help about goal oriented theorem proving
 - help norm      more help about normal paths
 - help sym       more help about symmetric paths
