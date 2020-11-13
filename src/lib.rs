@@ -983,6 +983,28 @@ impl Context {
                     Some(List(a)) => {
                         Ok(match **f {
                             Len => Ret(F64(a.len() as f64)),
+                            Dim => {
+                                let n = a.len();
+                                let mut m: Option<usize> = None;
+                                for i in 0..n {
+                                    if let List(b) = &a[i] {
+                                        if let Some(m) = m {
+                                            if b.len() != m {
+                                                return Err(Error::InvalidComputation);
+                                            }
+                                        } else {
+                                            m = Some(b.len());
+                                        }
+                                    } else {
+                                        return Err(Error::InvalidComputation);
+                                    }
+                                }
+                                if let Some(m) = m {
+                                    List(vec![(n as f64).into(), (m as f64).into()])
+                                } else {
+                                    return Err(Error::InvalidComputation);
+                                }
+                            }
                             IsSquareMat => {
                                 let n = a.len();
                                 let mut sq = true;

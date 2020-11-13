@@ -482,6 +482,7 @@ impl fmt::Display for Symbol {
                     Acos => write!(w, "compute::acos({})", x)?,
                     Tan => write!(w, "compute::tan({})", x)?,
                     Atan => write!(w, "compute::atan({})", x)?,
+                    Dim => write!(w, "compute::dim({})", x)?,
                     IsSquareMat => write!(w, "compute::is_square_mat({})", x)?,
                     Arity => write!(w, "compute::arity({})", x)?,
                     TypeOf => write!(w, "compute::type_of({})", x)?,
