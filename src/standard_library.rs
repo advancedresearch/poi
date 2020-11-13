@@ -556,6 +556,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(constr(Dim, app(Rty, VecType)), "x"), unop_ret_var("x", Dim)),
         // `base(\x)(\y) => compute::base(x, y)`
         Red(app2(Base, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Base)),
+        // `mul_mat{(: vec)}(x){(: vec)}(y) => compute::mul_mat(x, y)`
+        Red(app(constr(app(constr(MulMat, app(Rty, VecType)), "x"), app(Rty, VecType)), "y"),
+            binop_ret_var("x", "y", MulMat)),
         // `arity(x) => compute::arity(x)`
         Red(app(Arity, "x"), unop_ret_var("x", Arity)),
 

@@ -438,6 +438,7 @@ impl fmt::Display for Symbol {
                     Rem => write!(w, "compute::rem({}, {})", x, y)?,
                     Eq => write!(w, "compute::eq({}, {})", x, y)?,
                     Concat => write!(w, "compute::concat({}, {})", x, y)?,
+                    MulMat => write!(w, "compute::mul_mat({}, {})", x, y)?,
                     Push => write!(w, "compute::push({}, {})", x, y)?,
                     PushFront => write!(w, "compute::push_front({}, {})", x, y)?,
                     Max2 => write!(w, "compute::max2({}, {})", x, y)?,
