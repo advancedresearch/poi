@@ -850,6 +850,9 @@ pub fn std() -> Vec<Knowledge> {
         Red(constr(Or, Eq), Fstb.into()),
         // `eq{eq} => \true`
         Red(constr(Eq, Eq), true.into()),
+        // `eq{(: vec)}(x){(: vec)}(x) => eq{eq}(x)(x)`
+        Red(app(constr(app(constr(Eq, app(Rty, VecType)), "x"), app(Rty, VecType)), "x"),
+            app2(constr(Eq, Eq), "x", "x")),
         // `sub{eq} => \0`
         Red(constr(Sub, Eq), 0.0.into()),
         // `div{and . (eq, (> 0) . fst)} => \1`
