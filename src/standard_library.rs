@@ -939,6 +939,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(Norm, Concat), comp(Sqrt, comp(Sqnorm, Concat))),
         // `len . base(x) => x`
         Red(comp(Len, app(Base, "x")), "x".into()),
+        // `item(0) . dim => len`
+        Red(comp(app(Item, 0.0), Dim), Len.into()),
         // `(f . fst){x}(a){_}(_) => f{x}(a)`
         Red(app(constr(app(constr(comp("f", Fst), "x"), "a"), Any), Any),
             app(constr("f", "x"), "a")),
