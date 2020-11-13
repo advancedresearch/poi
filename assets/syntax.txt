@@ -25,6 +25,7 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
 12 tup_path_expr = tup_path:"tup"
 11 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
 10 val = [?"\\" {
+  [.._seps!:"poi" ".poi"]
   ["true":"bool" !.$]
   ["false":!"bool" !.$]
   [.$_:"num_pi" .w? {"pi" "π"}]

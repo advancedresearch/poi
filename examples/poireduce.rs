@@ -11,6 +11,7 @@ fn main() {
     let mut goal: Option<Expr> = None;
     let mut goal_depth: u64 = DEFAULT_GOAL_DEPTH;
     let mut use_min_depth = true;
+    let mut dirs: Vec<String> = vec![];
     loop {
         use std::io::{self, Write};
 
@@ -88,10 +89,15 @@ fn main() {
                 println!("Poi: User chooses equivalence toward goal.");
                 continue;
             }
+            "clear dir" => {
+                dirs.clear();
+                println!("Poi: Directories cleared.");
+                continue;
+            }
             x => {
                 // Print definitions of symbol.
                 if x.starts_with("def ") {
-                    match parse_str(x[4..].trim()) {
+                    match parse_str(x[4..].trim(), &dirs) {
                         Ok(Expr::Sym(s)) => {
                             let mut found = false;
                             for k in std.iter() {
@@ -115,7 +121,7 @@ fn main() {
                         }
                     }
                 } else if x.starts_with("echo ") {
-                    match parse_str(x[5..].trim()) {
+                    match parse_str(x[5..].trim(), &dirs) {
                         Ok(x) => {
                             println!("{}", x);
                             println!("{:?}", x);
@@ -127,7 +133,7 @@ fn main() {
                         }
                     }
                 } else if x.starts_with("eval ") {
-                    match parse_str(x[5..].trim()) {
+                    match parse_str(x[5..].trim(), &dirs) {
                         Ok(x) => {
                             match x.eval(&std) {
                                 Ok(x) => {
@@ -146,7 +152,7 @@ fn main() {
                         }
                     }
                 } else if x.starts_with("goal ") {
-                    match parse_str(x[5..].trim()) {
+                    match parse_str(x[5..].trim(), &dirs) {
                         Ok(mut expr) => {
                             // Reduce expression first.
                             loop {
@@ -167,12 +173,18 @@ fn main() {
                             continue;
                         }
                     }
+                } else if x.starts_with("open ") {
+                    if let Some(s) = json_str(&x[5..]) {
+                        println!("Poi: Added directory `{}`.", s);
+                        dirs.push(s);
+                    }
+                    continue;
                 }
             }
         }
 
         let mut expr = if inlined {prev_expr.unwrap()} else {
-                match parse_str(&input) {
+                match parse_str(&input, &dirs) {
                     Ok(expr) => expr,
                     Err(err) => {
                         println!("ERROR:\n{}", err);
@@ -282,6 +294,23 @@ fn main() {
         }
 
         prev_expr = Some(expr);
+    }
+}
+
+// Parses a JSON string.
+fn json_str(txt: &str) -> Option<String> {
+    use read_token::ReadToken;
+    let r = ReadToken::new(txt, 0);
+    if let Some(range) = r.string() {
+        if let Ok(txt) = r.parse_string(range.length) {
+            Some(txt)
+        } else {
+            println!("ERROR:\nCould not parse string");
+            None
+        }
+    } else {
+        println!("ERROR:\nExpected string");
+        None
     }
 }
 

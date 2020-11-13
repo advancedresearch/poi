@@ -2,7 +2,7 @@ use super::*;
 
 use piston_meta::{Convert, Range};
 
-fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
     let start = convert;
     let start_range = convert.start_node(node)?;
     convert.update(start_range);
@@ -12,13 +12,13 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
             break;
-        } else if let Ok((range, val)) = parse_alg(convert, ignored) {
+        } else if let Ok((range, val)) = parse_alg(dirs, convert, ignored) {
             convert.update(range);
             expr = Some(val);
-        } else if let Ok((range, val)) = parse_seq(convert, ignored) {
+        } else if let Ok((range, val)) = parse_seq(dirs, convert, ignored) {
             convert.update(range);
             expr = Some(val);
-        } else if let Ok((range, val)) = parse_tup(convert, ignored) {
+        } else if let Ok((range, val)) = parse_tup(dirs, convert, ignored) {
             convert.update(range);
             if let Tup(val) = &val {
                 // Reduce tuple singleton.
@@ -28,10 +28,10 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
                 }
             }
             expr = Some(val);
-        } else if let Ok((range, val)) = parse_list(convert, ignored) {
+        } else if let Ok((range, val)) = parse_list(dirs, convert, ignored) {
             convert.update(range);
             expr = Some(val);
-        } else if let Ok((range, val)) = parse_rapp(convert, ignored) {
+        } else if let Ok((range, val)) = parse_rapp(dirs, convert, ignored) {
             convert.update(range);
             expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("var") {
@@ -173,6 +173,34 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
         } else if let Ok((range, val)) = convert.meta_f64("num_imag3") {
             convert.update(range);
             expr = Some(app2(Mul, val, Imag3));
+        } else if let Ok((range, val)) = convert.meta_string("poi") {
+            convert.update(range);
+            let mut found = false;
+            for dir in dirs.iter().rev() {
+                use std::fs::File;
+                use std::io::Read;
+                use std::path::PathBuf;
+
+                let path = PathBuf::from(dir).join(val.as_ref().to_owned() + ".poi");
+
+                let mut data_file = match File::open(path) {
+                    Ok(f) => f,
+                    Err(_) => continue,
+                };
+                let mut data = String::new();
+                data_file.read_to_string(&mut data).unwrap();
+
+                expr = Some(parse_str(&data, dirs).map_err(|err| {
+                    eprintln!("ERROR:\n{}", err);
+                    ()
+                })?);
+                found = true;
+                break;
+            }
+            if !found {
+                eprintln!("ERROR:\nPoi file `{}` not found", val);
+                return Err(())
+            };
         } else {
             let range = convert.ignore();
             convert.update(range);
@@ -184,7 +212,11 @@ fn parse_expr(node: &str, mut convert: Convert, ignored: &mut Vec<Range>) -> Res
     Ok((convert.subtract(start), expr))
 }
 
-fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+fn parse_alg(
+    dirs: &[String],
+    mut convert: Convert,
+    ignored: &mut Vec<Range>
+) -> Result<(Range, Expr), ()> {
     let start = convert;
     let node = "alg";
     let start_range = convert.start_node(node)?;
@@ -206,14 +238,14 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
             break;
-        } else if let Ok((range, val)) = parse_expr("alg_item", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("alg_item", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(expr), Some(op)) = (left, op.clone()) {
                 left = Some(un(app2(op, expr, val), &mut unop));
             } else {
                 left = Some(un(val, &mut unop));
             }
-        } else if let Ok((range, val)) = parse_alg(convert, ignored) {
+        } else if let Ok((range, val)) = parse_alg(dirs, convert, ignored) {
             convert.update(range);
             if let (Some(expr), Some(op)) = (left, op.clone()) {
                 left = Some(un(app2(op, expr, val), &mut unop));
@@ -279,7 +311,7 @@ fn parse_alg(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
     Ok((convert.subtract(start), left))
 }
 
-fn parse_tup(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+fn parse_tup(dirs: &[String], mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
     let start = convert;
     let node = "tup";
     let start_range = convert.start_node(node)?;
@@ -290,7 +322,7 @@ fn parse_tup(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
             break;
-        } else if let Ok((range, val)) = parse_expr("item", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("item", dirs, convert, ignored) {
             convert.update(range);
             items.push(val);
         } else {
@@ -303,7 +335,7 @@ fn parse_tup(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
     Ok((convert.subtract(start), Tup(items)))
 }
 
-fn parse_list(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+fn parse_list(dirs: &[String], mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
     let start = convert;
     let node = "list";
     let start_range = convert.start_node(node)?;
@@ -314,7 +346,7 @@ fn parse_list(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
             break;
-        } else if let Ok((range, val)) = parse_expr("item", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("item", dirs, convert, ignored) {
             convert.update(range);
             items.push(val);
         } else {
@@ -327,7 +359,7 @@ fn parse_list(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
     Ok((convert.subtract(start), List(items)))
 }
 
-fn parse_rapp(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+fn parse_rapp(dirs: &[String], mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
     let start = convert;
     let node = "rapp";
     let start_range = convert.start_node(node)?;
@@ -372,7 +404,7 @@ fn parse_rapp(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
         } else if let Ok((range, _)) = convert.meta_bool("rpow") {
             convert.update(range);
             sym = Some(Rpow);
-        } else if let Ok((range, val)) = parse_expr("arg", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("arg", dirs, convert, ignored) {
             convert.update(range);
             arg = Some(val);
         } else {
@@ -387,7 +419,11 @@ fn parse_rapp(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, 
     Ok((convert.subtract(start), app(sym, arg)))
 }
 
-fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, Expr), ()> {
+fn parse_seq(
+    dirs: &[String],
+    mut convert: Convert,
+    ignored: &mut Vec<Range>
+) -> Result<(Range, Expr), ()> {
     let start = convert;
     let node = "seq";
     let start_range = convert.start_node(node)?;
@@ -400,47 +436,47 @@ fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
             break;
-        } else if let Ok((range, val)) = parse_expr("left", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("left", dirs, convert, ignored) {
             convert.update(range);
             left = Some(val);
-        } else if let Ok((range, val)) = parse_rapp(convert, ignored) {
+        } else if let Ok((range, val)) = parse_rapp(dirs, convert, ignored) {
             convert.update(range);
             left = Some(val);
-        } else if let Ok((range, val)) = parse_alg(convert, ignored) {
+        } else if let Ok((range, val)) = parse_alg(dirs, convert, ignored) {
             convert.update(range);
             left = Some(val);
-        } else if let Ok((range, val)) = parse_list(convert, ignored) {
+        } else if let Ok((range, val)) = parse_list(dirs, convert, ignored) {
             convert.update(range);
             left = Some(val);
-        } else if let Ok((range, val)) = parse_expr("path", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("path", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
                 left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Path);
-        } else if let Ok((range, val)) = parse_expr("app", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("app", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
                 left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Apply);
-        } else if let Ok((range, val)) = parse_expr("constr", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("constr", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
                 left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Constrain);
-        } else if let Ok((range, val)) = parse_expr("comp", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("comp", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
                 left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Compose);
-        } else if let Ok((range, val)) = parse_expr("typ", convert, ignored) {
+        } else if let Ok((range, val)) = parse_expr("typ", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
                 left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
@@ -461,7 +497,7 @@ fn parse_seq(mut convert: Convert, ignored: &mut Vec<Range>) -> Result<(Range, E
 }
 
 /// Parses a string.
-pub fn parse_str(data: &str) -> Result<Expr, String> {
+pub fn parse_str(data: &str, dirs: &[String]) -> Result<Expr, String> {
     use piston_meta::{parse_errstr, syntax_errstr};
 
     let syntax_src = include_str!("../assets/syntax.txt");
@@ -474,14 +510,14 @@ pub fn parse_str(data: &str) -> Result<Expr, String> {
 
     let convert = Convert::new(&meta_data);
     let mut ignored = vec![];
-    match parse_expr("expr", convert, &mut ignored) {
+    match parse_expr("expr", dirs, convert, &mut ignored) {
         Err(()) => Err("Could not convert meta data".into()),
         Ok((_, expr)) => Ok(expr),
     }
 }
 
 /// Parses a source file.
-pub fn parse(source: &str) -> Result<Expr, String> {
+pub fn parse(source: &str, dirs: &[String]) -> Result<Expr, String> {
     use std::fs::File;
     use std::io::Read;
 
@@ -490,5 +526,5 @@ pub fn parse(source: &str) -> Result<Expr, String> {
     let mut data = String::new();
     data_file.read_to_string(&mut data).unwrap();
 
-    parse_str(&data)
+    parse_str(&data, dirs)
 }
