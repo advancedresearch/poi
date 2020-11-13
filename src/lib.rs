@@ -1062,6 +1062,21 @@ impl Context {
                         Ok(match **f {
                             Item if a >= 0.0 && a < b.len() as f64 =>
                                 b[a as usize].clone(),
+                            Col if a >= 0.0 => {
+                                let mut res = vec![];
+                                for bi in b {
+                                    if let List(bi) = bi {
+                                        if let Some(bi) = bi.get(a as usize) {
+                                            res.push(bi.clone());
+                                        } else {
+                                            return Err(Error::InvalidComputation);
+                                        }
+                                    } else {
+                                        return Err(Error::InvalidComputation);
+                                    }
+                                }
+                                List(res)
+                            }
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
