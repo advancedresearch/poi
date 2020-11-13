@@ -552,6 +552,8 @@ pub fn std() -> Vec<Knowledge> {
         // `col(\k){(: vec)}(x) => compute::col(k, x)`
         Red(app(constr(app(Col, ret_var("k")), app(Rty, VecType)), "x"),
             binop_ret_var("k", "x", Col)),
+        // `dim{(: vec)}(x) => compute::dim(x)`
+        Red(app(constr(Dim, app(Rty, VecType)), "x"), unop_ret_var("x", Dim)),
         // `base(\x)(\y) => compute::base(x, y)`
         Red(app2(Base, ret_var("x"), ret_var("y")), binop_ret_var("x", "y", Base)),
         // `arity(x) => compute::arity(x)`
