@@ -1109,6 +1109,29 @@ impl Context {
                                 a.extend(b.iter().map(|n| n.clone()));
                                 List(a)
                             }
+                            MulMat => {
+                                let mut res = vec![];
+                                let cols = if let Some(b) = b.get(0) {
+                                    if let List(b) = b {
+                                        b.len()
+                                    } else {
+                                        return Err(Error::InvalidComputation);
+                                    }
+                                } else {
+                                    return Err(Error::InvalidComputation);
+                                };
+                                for i in 0..a.len() {
+                                    let mut row = vec![];
+                                    for j in 0..cols {
+                                        row.push(app(Sum,
+                                            app2(Mul, app2(Item, i as f64, List(a.clone())),
+                                                      app2(Col, j as f64, List(b.clone()))
+                                        )));
+                                    }
+                                    res.push(List(row));
+                                }
+                                List(res)
+                            }
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
