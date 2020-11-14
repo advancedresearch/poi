@@ -20,7 +20,7 @@ fn main() {
             _ => {}
         }
 
-        let expr = match parse_str(&input) {
+        let expr = match parse_str(&input, &[]) {
             Ok(expr) => expr,
             Err(err) => {
                 println!("ERROR:\n{}", err);

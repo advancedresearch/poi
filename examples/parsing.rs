@@ -8,6 +8,6 @@ fn main() {
 }
 
 fn test(file: &str, e: Expr) {
-    let a: Expr = parse(file).map_err(|err| panic!("{}", err)).unwrap();
+    let a: Expr = parse(file, &[]).map_err(|err| panic!("{}", err)).unwrap();
     assert_eq!(a, e);
 }
