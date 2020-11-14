@@ -615,8 +615,6 @@ pub fn std() -> Vec<Knowledge> {
         // `tan(tau) => 0`
         Red(app(Tan, Tau), 0.0.into()),
 
-        // `add(x)(neg(y)) => sub(x)(y)`
-        Red(app2(Add, "x", app(Neg, "y")), app2(Sub, "x", "y")),
         // `mul(x)(neg(y)) => mul(neg(x))(y)`
         Red(app2(Mul, "x", app(Neg, "y")), app2(Mul, app(Neg, "x"), "y")),
 
@@ -1129,6 +1127,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `inc(x) <=> 1 + x`
         Eqv(app(Inc, "x"), app2(Add, 1.0, "x")),
+        // `(x + -y) <=> (x - y)`
+        Eqv(app2(Add, "x", app(Neg, "y")), app2(Sub, "x", "y")),
         // `neg(x + y) <=> neg(x) - y`
         Eqv(app(Neg, app2(Add, "x", "y")), app2(Sub, app(Neg, "x"), "y")),
         // `neg(x) <=> -1 * x`
