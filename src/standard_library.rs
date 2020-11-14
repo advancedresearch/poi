@@ -617,8 +617,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `add(x)(neg(y)) => sub(x)(y)`
         Red(app2(Add, "x", app(Neg, "y")), app2(Sub, "x", "y")),
-        // `mul(x)(neg(y)) => neg(mul(x)(y))`
-        Red(app2(Mul, "x", app(Neg, "y")), app(Neg, app2(Mul, "x", "y"))),
+        // `mul(x)(neg(y)) => mul(neg(x))(y)`
+        Red(app2(Mul, "x", app(Neg, "y")), app2(Mul, app(Neg, "x"), "y")),
 
         // `f(x : \)(y : \) => f(x)(y) : \`
         concrete_op(Add),
