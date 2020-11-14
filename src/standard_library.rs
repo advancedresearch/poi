@@ -977,8 +977,10 @@ pub fn std() -> Vec<Knowledge> {
         // `f:!{}([x..]) => f{(: vec)}(x)`
         Red(app(no_constr("f"), list_var("x")), app(constr("f", app(Rty, VecType)), "x")),
 
-        // `neg(x + y) => neg(x) + neg(y)`
+        // `(-(x + y)) => (-x + -y)`
         Red(app(Neg, app2(Add, "x", "y")), app2(Add, app(Neg, "x"), app(Neg, "y"))),
+        // `(-(x * y)) => (-x * y)`
+        Red(app(Neg, app2(Mul, "x", "y")), app2(Mul, app(Neg, "x"), "y")),
         // `add(!\a)(\b) => add(b)(a)`
         Red(app2(Add, not_ret_var("a"), ret_var("b")), app2(Add, "b", "a")),
         // `add(!\a)(add(\b)(c)) => add(b)(add(a)(c))`
