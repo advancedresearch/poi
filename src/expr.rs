@@ -77,6 +77,8 @@ impl fmt::Display for Expr {
             Op(Apply, a, b) => {
                 if let Sym(Neg) = **a {
                     write!(w, "-{}", b)?;
+                } else if let Sym(Not) = **a {
+                    write!(w, "!{}", b)?;
                 } else if let Sym(Rty) = **a {
                     if let Sym(_) = **b {
                         write!(w, "(: {})", b)?;
