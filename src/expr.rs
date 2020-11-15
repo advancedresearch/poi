@@ -162,11 +162,7 @@ impl Expr {
 
                         match **f {
                             Sym(Add) => {
-                                if parens {
-                                    write!(w, "({} + {})", a, b)?;
-                                } else {
-                                    write!(w, "{} + {}", a, b)?;
-                                }
+                                pr("+", &Add)?;
                                 return Ok(())
                             }
                             Sym(Sub) => {
@@ -317,6 +313,7 @@ impl Expr {
                 if let Op(Apply, f, _) = &**f {
                     match &**f {
                         Sym(Mul) => if let Mul = parent_op {false} else {true},
+                        Sym(Add) => if let Add = parent_op {false} else {true},
                         _ => true
                     }
                 } else {
@@ -352,5 +349,9 @@ mod tests {
         assert_eq!(format!("{}", expr), "a + b");
         let expr = app2(Mul, app2(Add, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "(a + b) * c");
+        let expr = app2(Add, app2(Add, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a + b + c");
+        let expr = app2(Add, "a", app2(Add, "b", "c"));
+        assert_eq!(format!("{}", expr), "a + (b + c)");
     }
 }
