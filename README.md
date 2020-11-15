@@ -306,3 +306,24 @@ reduces from left to right. This is used on e.g. `sin(τ / 8)`.
 You usually want the readability of `sin(τ / 8)` when doing theorem proving.
 For example, in Poi Reduce, the value of `sin(τ / 8)` is presented as a choice (equivalence).
 When evaluating an expression it is desirable to just replace it with the computed value.
+
+### What Poi is not
+
+Some people hoped that Poi might be used to solve problems
+where dependent types are used, but in a more convenient way.
+
+Although Poi uses ideas from dependent types, it is not suitable for other applications
+of dependent types, e.g. verifcation of programs by applying it to some immediate representation of machine code.
+
+
+Although normal paths might be used for such applications in the future,
+it might require a different architecture.
+
+This implementation is designed for algebraic problems:
+
+- The object model is restricted to dynamical types
+- Reductions are balanced with equivalences
+
+This means that not everything is provable,
+because this makes automated theorem proving harder,
+something that is required for the necessary depth of algebraic solving.
