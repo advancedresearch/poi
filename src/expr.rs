@@ -35,8 +35,13 @@ impl Mul for Expr {
     fn mul(self, other: Expr) -> Expr {app2(Mul, self, other)}
 }
 
-impl fmt::Display for Expr {
-    fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
+impl Expr {
+    /// Used to display format with additional options.
+    pub fn display(
+        &self,
+        w: &mut fmt::Formatter<'_>,
+        parens: bool,
+    ) -> std::result::Result<(), fmt::Error> {
         match self {
             Sym(s) => write!(w, "{}", s)?,
             Ret(v) => write!(w, "{}", v)?,
@@ -151,7 +156,19 @@ impl fmt::Display for Expr {
                                 return Ok(())
                             }
                             Sym(Mul) => {
-                                write!(w, "({} * {})", a, b)?;
+                                let needs_parens = if let Op(Apply, f, _) = &**b {
+                                    if let Op(Apply, f, _) = &**f {
+                                        if let Sym(Mul) = &**f {true} else {false}
+                                    } else {false}
+                                } else {false};
+                                if parens {
+                                    write!(w, "({} * ", a)?;
+                                    b.display(w, needs_parens)?;
+                                    write!(w, ")")?;
+                                } else {
+                                    write!(w, "{} * ", a)?;
+                                    b.display(w, needs_parens)?;
+                                }
                                 return Ok(())
                             }
                             Sym(Div) => {
@@ -163,7 +180,10 @@ impl fmt::Display for Expr {
                                 return Ok(())
                             }
                             Sym(Pow) => {
-                                write!(w, "({} ^ {})", a, b)?;
+                                write!(w, "({} ^ ", a)?;
+                                let parens = true;
+                                b.display(w, parens)?;
+                                write!(w, ")")?;
                                 return Ok(())
                             }
                             Sym(And) => {
@@ -282,5 +302,25 @@ impl fmt::Display for Expr {
             // _ => write!(w, "{:?}", self)?,
         }
         Ok(())
+    }
+}
+
+impl fmt::Display for Expr {
+    fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
+        let parens = false;
+        self.display(w, parens)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::*;
+
+    #[test]
+    fn parens() {
+        let expr = app2(Mul, app2(Mul, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a * b * c");
+        let expr = app2(Mul, "a", app2(Mul, "b", "c"));
+        assert_eq!(format!("{}", expr), "a * (b * c)");
     }
 }
