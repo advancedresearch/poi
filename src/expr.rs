@@ -146,9 +146,27 @@ impl Expr {
                         }
                     }
                     if let Op(Apply, f, a) = &**a {
+                        let mut pr = |
+                            op_txt: &str,
+                            op_sym: &Symbol
+                        | -> std::result::Result<(), fmt::Error> {
+                            if parens {write!(w, "(")?};
+                            let left = true;
+                            a.display(w, a.needs_parens(op_sym, left))?;
+                            write!(w, " {} ", op_txt)?;
+                            let right = false;
+                            b.display(w, b.needs_parens(op_sym, right))?;
+                            if parens {write!(w, ")")?};
+                            Ok(())
+                        };
+
                         match **f {
                             Sym(Add) => {
-                                write!(w, "({} + {})", a, b)?;
+                                if parens {
+                                    write!(w, "({} + {})", a, b)?;
+                                } else {
+                                    write!(w, "{} + {}", a, b)?;
+                                }
                                 return Ok(())
                             }
                             Sym(Sub) => {
@@ -156,19 +174,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Mul) => {
-                                let needs_parens = if let Op(Apply, f, _) = &**b {
-                                    if let Op(Apply, f, _) = &**f {
-                                        if let Sym(Mul) = &**f {true} else {false}
-                                    } else {false}
-                                } else {false};
-                                if parens {
-                                    write!(w, "({} * ", a)?;
-                                    b.display(w, needs_parens)?;
-                                    write!(w, ")")?;
-                                } else {
-                                    write!(w, "{} * ", a)?;
-                                    b.display(w, needs_parens)?;
-                                }
+                                pr("*", &Mul)?;
                                 return Ok(())
                             }
                             Sym(Div) => {
@@ -303,6 +309,26 @@ impl Expr {
         }
         Ok(())
     }
+
+    /// Returns `true` if the expression needs parentheses, given parent operation and side.
+    pub fn needs_parens(&self, parent_op: &Symbol, left: bool) -> bool {
+        if left {
+            if let Op(Apply, f, _) = self {
+                if let Op(Apply, f, _) = &**f {
+                    match &**f {
+                        Sym(Mul) => if let Mul = parent_op {false} else {true},
+                        _ => true
+                    }
+                } else {
+                    true
+                }
+            } else {
+                true
+            }
+        } else {
+            true
+        }
+    }
 }
 
 impl fmt::Display for Expr {
@@ -322,5 +348,9 @@ mod tests {
         assert_eq!(format!("{}", expr), "a * b * c");
         let expr = app2(Mul, "a", app2(Mul, "b", "c"));
         assert_eq!(format!("{}", expr), "a * (b * c)");
+        let expr = app2(Add, "a", "b");
+        assert_eq!(format!("{}", expr), "a + b");
+        let expr = app2(Mul, app2(Add, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "(a + b) * c");
     }
 }
