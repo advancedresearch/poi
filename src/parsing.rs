@@ -91,6 +91,7 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
                 "col" => Col,
                 "det" => Det,
                 "dim" => Dim,
+                "transpose" => Transpose,
                 "is_square_mat" => IsSquareMat,
                 "base" => Base,
                 "fst" => Fst,
