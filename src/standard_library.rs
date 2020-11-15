@@ -991,6 +991,8 @@ pub fn std() -> Vec<Knowledge> {
             app2(Add, "a", app2(Sub, "b", "c"))),
         // `mul(!\a)(\b) => mul(b)(a)`
         Red(app2(Mul, not_ret_var("a"), ret_var("b")), app2(Mul, "b", "a")),
+        // `(x + x) => (2 * x)`
+        Red(app2(Add, "x", "x"), app2(Mul, 2.0, "x")),
 
         // `sqrt(\x:(>= 0)) <=> compute::sqrt(x)`
         EqvEval(app(Sqrt, ret_pos_var("x")), unop_ret_var("x", Sqrt)),
