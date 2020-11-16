@@ -182,10 +182,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Pow) => {
-                                write!(w, "({} ^ ", a)?;
-                                let parens = true;
-                                b.display(w, parens)?;
-                                write!(w, ")")?;
+                                pr("^", &Pow)?;
                                 return Ok(())
                             }
                             Sym(And) => {
@@ -308,16 +305,16 @@ impl Expr {
 
     /// Returns `true` if the expression needs parentheses, given parent operation and side.
     pub fn needs_parens(&self, parent_op: &Symbol, left: bool) -> bool {
-        if left {
-            if let Op(Apply, f, _) = self {
-                if let Op(Apply, f, _) = &**f {
-                    match &**f {
-                        Sym(Mul) => if let Mul = parent_op {false} else {true},
-                        Sym(Add) => if let Add = parent_op {false} else {true},
-                        _ => true
-                    }
-                } else {
-                    true
+        if let Op(Apply, f, _) = self {
+            if let Op(Apply, f, _) = &**f {
+                match &**f {
+                    Sym(Mul) if left => if let Mul = parent_op {false}
+                                        else if let Add = parent_op {false}
+                                        else {true},
+                    Sym(Mul) => if let Add = parent_op {false} else {true},
+                    Sym(Add) if left => if let Add = parent_op {false} else {true},
+                    Sym(Pow) => if let Add = parent_op {false} else {true},
+                    _ => true
                 }
             } else {
                 true
@@ -353,5 +350,11 @@ mod tests {
         assert_eq!(format!("{}", expr), "a + b + c");
         let expr = app2(Add, "a", app2(Add, "b", "c"));
         assert_eq!(format!("{}", expr), "a + (b + c)");
+        let expr = app2(Pow, "a", 2.0);
+        assert_eq!(format!("{}", expr), "a ^ 2");
+        let expr = app2(Add, "a", app2(Pow, "b", 2.0));
+        assert_eq!(format!("{}", expr), "a + b ^ 2");
+        let expr = app2(Add, app2(Pow, "a", 2.0), "b");
+        assert_eq!(format!("{}", expr), "a ^ 2 + b");
     }
 }
