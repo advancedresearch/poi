@@ -549,6 +549,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(app(Norm, "x"), app(Sqrt, app(Sqnorm, "x"))),
         // `is_square_mat{(: vec)}(x) => compute::is_square_mat(x)`
         Red(app(constr(IsSquareMat, app(Rty, VecType)), "x"), unop_ret_var("x", IsSquareMat)),
+        // `transpose{(: vec)}(x) => compute::transpose(x)`
+        Red(app(constr(Transpose, app(Rty, VecType)), "x"), unop_ret_var("x", Transpose)),
         // `col(\k){(: vec)}(x) => compute::col(k, x)`
         Red(app(constr(app(Col, ret_var("k")), app(Rty, VecType)), "x"),
             binop_ret_var("k", "x", Col)),
