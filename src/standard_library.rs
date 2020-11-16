@@ -313,6 +313,8 @@ pub fn std() -> Vec<Knowledge> {
         Red(comp(app(Rpow, 2.0), Norm), Sqnorm.into()),
         // `sqrt . rpow(2) => abs`
         Red(comp(Sqrt, app(Rpow, 2.0)), Abs.into()),
+        // `transpose . transpose => id`
+        Red(comp(Transpose, Transpose), Id.into()),
 
         // `false1(_) => false`
         Red(app(False1, Any), false.into()),
