@@ -11,12 +11,21 @@ pub fn transpose(a: &Vec<Expr>) -> Result<Expr, Error> {
     } else {
         return Err(Error::InvalidComputation);
     };
+    if a.len() != cols {
+        return Err(Error::InvalidComputation);
+    }
     for i in 0..a.len() {
         let mut row = vec![];
         for j in 0..cols {
-            row.push(app2(Item, i as f64,
-                app2(Item, j as f64, List(a.clone())),
-            ));
+            if let Some(List(a)) = a.get(j) {
+                if let Some(el) = a.get(i) {
+                    row.push(el.clone());
+                } else {
+                    return Err(Error::InvalidComputation);
+                }
+            } else {
+                return Err(Error::InvalidComputation);
+            }
         }
         res.push(List(row));
     }
