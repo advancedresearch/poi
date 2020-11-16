@@ -102,10 +102,13 @@ pub fn mul_mat(a: &Vec<Expr>, b: &Vec<Expr>) -> Result<Expr, Error> {
     for i in 0..a.len() {
         let mut row = vec![];
         for j in 0..cols {
-            row.push(app(Sum,
-                app2(Mul, app2(Item, i as f64, List(a.clone())),
-                          app2(Col, j as f64, List(b.clone()))
-            )));
+            if let Some(a) = a.get(i) {
+                row.push(app(Sum,
+                    app2(Mul, a.clone(), col(j as f64, b)?)
+                ));
+            } else {
+                return Err(Error::InvalidComputation);
+            }
         }
         res.push(List(row));
     }
