@@ -353,6 +353,7 @@ mod knowledge;
 mod standard_library;
 mod parsing;
 mod arity;
+mod matrix;
 
 /// Used to global import enum variants.
 pub mod prelude {
@@ -1003,66 +1004,9 @@ impl Context {
                     Some(List(a)) => {
                         Ok(match **f {
                             Len => Ret(F64(a.len() as f64)),
-                            Dim => {
-                                let n = a.len();
-                                let mut m: Option<usize> = None;
-                                for i in 0..n {
-                                    if let List(b) = &a[i] {
-                                        if let Some(m) = m {
-                                            if b.len() != m {
-                                                return Err(Error::InvalidComputation);
-                                            }
-                                        } else {
-                                            m = Some(b.len());
-                                        }
-                                    } else {
-                                        return Err(Error::InvalidComputation);
-                                    }
-                                }
-                                if let Some(m) = m {
-                                    List(vec![(n as f64).into(), (m as f64).into()])
-                                } else {
-                                    return Err(Error::InvalidComputation);
-                                }
-                            }
-                            Transpose => {
-                                let mut res = vec![];
-                                let cols = if let Some(a) = a.get(0) {
-                                    if let List(a) = a {
-                                        a.len()
-                                    } else {
-                                        return Err(Error::InvalidComputation);
-                                    }
-                                } else {
-                                    return Err(Error::InvalidComputation);
-                                };
-                                for i in 0..a.len() {
-                                    let mut row = vec![];
-                                    for j in 0..cols {
-                                        row.push(app2(Item, i as f64,
-                                            app2(Item, j as f64, List(a.clone())),
-                                        ));
-                                    }
-                                    res.push(List(row));
-                                }
-                                List(res)
-                            }
-                            IsSquareMat => {
-                                let n = a.len();
-                                let mut sq = true;
-                                for i in 0..n {
-                                    if let List(b) = &a[i] {
-                                        if b.len() != n {
-                                            sq = false;
-                                            break;
-                                        }
-                                    } else {
-                                        sq = false;
-                                        break;
-                                    }
-                                }
-                                Ret(Bool(sq))
-                            }
+                            Dim => matrix::dim(&a)?,
+                            Transpose => matrix::transpose(&a)?,
+                            IsSquareMat => matrix::is_square_mat(&a)?,
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
@@ -1126,21 +1070,7 @@ impl Context {
                         Ok(match **f {
                             Item if a >= 0.0 && a < b.len() as f64 =>
                                 b[a as usize].clone(),
-                            Col if a >= 0.0 => {
-                                let mut res = vec![];
-                                for bi in b {
-                                    if let List(bi) = bi {
-                                        if let Some(bi) = bi.get(a as usize) {
-                                            res.push(bi.clone());
-                                        } else {
-                                            return Err(Error::InvalidComputation);
-                                        }
-                                    } else {
-                                        return Err(Error::InvalidComputation);
-                                    }
-                                }
-                                List(res)
-                            }
+                            Col if a >= 0.0 => matrix::col(a, &b)?,
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
@@ -1151,29 +1081,7 @@ impl Context {
                                 a.extend(b.iter().map(|n| n.clone()));
                                 List(a)
                             }
-                            MulMat => {
-                                let mut res = vec![];
-                                let cols = if let Some(b) = b.get(0) {
-                                    if let List(b) = b {
-                                        b.len()
-                                    } else {
-                                        return Err(Error::InvalidComputation);
-                                    }
-                                } else {
-                                    return Err(Error::InvalidComputation);
-                                };
-                                for i in 0..a.len() {
-                                    let mut row = vec![];
-                                    for j in 0..cols {
-                                        row.push(app(Sum,
-                                            app2(Mul, app2(Item, i as f64, List(a.clone())),
-                                                      app2(Col, j as f64, List(b.clone()))
-                                        )));
-                                    }
-                                    res.push(List(row));
-                                }
-                                List(res)
-                            }
+                            MulMat => matrix::mul_mat(&a, &b)?,
                             _ => return Err(Error::InvalidComputation),
                         })
                     }
