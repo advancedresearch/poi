@@ -196,6 +196,8 @@ pub enum Symbol {
     Det,
     /// `dim`.
     Dim,
+    /// `transpose`.
+    Transpose,
     /// `is_square_mat`,
     IsSquareMat,
     /// `base` (len, index).
@@ -367,6 +369,7 @@ impl fmt::Display for Symbol {
             Col => write!(w, "col")?,
             Det => write!(w, "det")?,
             Dim => write!(w, "dim")?,
+            Transpose => write!(w, "transpose")?,
             IsSquareMat => write!(w, "is_square_mat")?,
             Base => write!(w, "base")?,
             Fst => write!(w, "fst")?,

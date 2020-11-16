@@ -1025,6 +1025,28 @@ impl Context {
                                     return Err(Error::InvalidComputation);
                                 }
                             }
+                            Transpose => {
+                                let mut res = vec![];
+                                let cols = if let Some(a) = a.get(0) {
+                                    if let List(a) = a {
+                                        a.len()
+                                    } else {
+                                        return Err(Error::InvalidComputation);
+                                    }
+                                } else {
+                                    return Err(Error::InvalidComputation);
+                                };
+                                for i in 0..a.len() {
+                                    let mut row = vec![];
+                                    for j in 0..cols {
+                                        row.push(app2(Item, i as f64,
+                                            app2(Item, j as f64, List(a.clone())),
+                                        ));
+                                    }
+                                    res.push(List(row));
+                                }
+                                List(res)
+                            }
                             IsSquareMat => {
                                 let n = a.len();
                                 let mut sq = true;
