@@ -878,6 +878,8 @@ pub fn std() -> Vec<Knowledge> {
         // `(x^\a * x^\b) => x^(\a + \b)`
         Red(app2(Mul, app2(Pow, "x", ret_var("a")), app2(Pow, "x", ret_var("b"))),
             app2(Pow, "x", binop_ret_var("a", "b", Add))),
+        // `(x * x) => x^2`
+        Red(app2(Mul, "x", "x"), app2(Pow, "x", 2.0)),
 
         // `∃(false1) => not`
         Red(app(Ex, False1), Not.into()),
