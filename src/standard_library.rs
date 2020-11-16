@@ -670,8 +670,8 @@ pub fn std() -> Vec<Knowledge> {
 
         // `mul_mat[det] => mul`
         Red(path(MulMat, Det), Mul.into()),
-        // `mul_mat[fst . dim x snd . dim -> dim] => id`
-        Red(path(MulMat, (comp(Fst, Dim), comp(Snd, Dim), Dim)), Id.into()),
+        // `mul_mat[len x item(1) . dim -> dim] => id`
+        Red(path(MulMat, (Len, comp(app(Item, 1.0), Dim), Dim)), Id.into()),
 
         // `if(a, b)[not -> id] => if(b, a)`.
         Red(path(_if("a", "b"), (Not, Id)), _if("b", "a")),
