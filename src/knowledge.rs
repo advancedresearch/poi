@@ -27,3 +27,13 @@ impl fmt::Display for Knowledge {
         Ok(())
     }
 }
+
+impl<'a> From<&'a str> for Knowledge {
+    fn from(val: &'a str) -> Knowledge {
+        match parse_data_str(val, &[]) {
+            Ok(ParseData::Knowledge(k)) => k,
+            Ok(ParseData::Expr(_)) => panic!("Expected knowledge, found expression"),
+            Err(err) => panic!("ERROR:\n{}", err),
+        }
+    }
+}
