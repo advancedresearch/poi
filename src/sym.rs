@@ -306,6 +306,7 @@ impl Symbol {
             Pow => 3,
             Mul | Div | Rem => 4,
             Add | Sub => 5,
+            Eq => 6,
             _ => return None,
         })
     }
