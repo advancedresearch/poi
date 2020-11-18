@@ -86,10 +86,7 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = convert.meta_string("not_ret_var") {
             convert.update(range);
             expr = Some(Sym(Symbol::NotRetVar(val)));
-        } else if let Ok((range, val)) = parse_compute_binop(convert, ignored) {
-            convert.update(range);
-            expr = Some(val);
-        } else if let Ok((range, val)) = parse_compute_unop(convert, ignored) {
+        } else if let Ok((range, val)) = parse_compute(convert, ignored) {
             convert.update(range);
             expr = Some(val);
         } else if let Ok((range, val)) = parse_no_constr(convert, ignored) {
@@ -198,17 +195,17 @@ fn parse_no_constr(
     Ok((convert.subtract(start), Sym(Symbol::NoConstrVar(fun))))
 }
 
-fn parse_compute_unop(
+fn parse_compute(
     mut convert: Convert,
     ignored: &mut Vec<Range>,
 ) -> Result<(Range, Expr), ()> {
     let start = convert;
-    let node = "compute_unop";
+    let node = "compute";
     let start_range = convert.start_node(node)?;
     convert.update(start_range);
 
     let mut fun: Option<Symbol> = None;
-    let mut arg: Option<Arc<String>> = None;
+    let mut arg: Vec<Arc<String>> = vec![];
     loop {
         if let Ok(range) = convert.end_node(node) {
             convert.update(range);
@@ -218,7 +215,7 @@ fn parse_compute_unop(
             fun = Some(val.into());
         } else if let Ok((range, val)) = convert.meta_string("arg") {
             convert.update(range);
-            arg = Some(val);
+            arg.push(val);
         } else {
             let range = convert.ignore();
             convert.update(range);
@@ -227,46 +224,12 @@ fn parse_compute_unop(
     }
 
     let fun = fun.ok_or(())?;
-    let arg = arg.ok_or(())?;
-    Ok((convert.subtract(start), Sym(UnopRetVar(arg, Box::new(fun)))))
-}
-
-fn parse_compute_binop(
-    mut convert: Convert,
-    ignored: &mut Vec<Range>,
-) -> Result<(Range, Expr), ()> {
-    let start = convert;
-    let node = "compute_binop";
-    let start_range = convert.start_node(node)?;
-    convert.update(start_range);
-
-    let mut fun: Option<Symbol> = None;
-    let mut left: Option<Arc<String>> = None;
-    let mut right: Option<Arc<String>> = None;
-    loop {
-        if let Ok(range) = convert.end_node(node) {
-            convert.update(range);
-            break;
-        } else if let Ok((range, val)) = convert.meta_string("fun") {
-            convert.update(range);
-            fun = Some(val.into());
-        } else if let Ok((range, val)) = convert.meta_string("left") {
-            convert.update(range);
-            left = Some(val);
-        } else if let Ok((range, val)) = convert.meta_string("right") {
-            convert.update(range);
-            right = Some(val);
-        } else {
-            let range = convert.ignore();
-            convert.update(range);
-            ignored.push(range);
-        }
-    }
-
-    let fun = fun.ok_or(())?;
-    let left = left.ok_or(())?;
-    let right = right.ok_or(())?;
-    Ok((convert.subtract(start), Sym(BinopRetVar(left, right, Box::new(fun)))))
+    Ok((convert.subtract(start), match arg.len() {
+        1 => Sym(UnopRetVar(arg[0].clone(), Box::new(fun))),
+        2 => Sym(BinopRetVar(arg[0].clone(), arg[1].clone(), Box::new(fun))),
+        3 => Sym(TernopRetVar(arg[0].clone(), arg[1].clone(), arg[2].clone(), Box::new(fun))),
+        _ => return Err(())
+    }))
 }
 
 fn parse_alg(
