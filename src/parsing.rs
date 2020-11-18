@@ -528,6 +528,7 @@ fn parse_knowledge(
         Eqv,
         EqvEval,
         Red,
+        Def,
     }
 
     let start = convert;
@@ -557,6 +558,9 @@ fn parse_knowledge(
         } else if let Ok((range, _)) = convert.meta_bool("red") {
             convert.update(range);
             op = Some(KnowledgeOp::Red);
+        } else if let Ok((range, _)) = convert.meta_bool("def") {
+            convert.update(range);
+            op = Some(KnowledgeOp::Def);
         } else {
             let range = convert.ignore();
             convert.update(range);
@@ -571,6 +575,7 @@ fn parse_knowledge(
         KnowledgeOp::EqvEval => Knowledge::EqvEval(left, right),
         KnowledgeOp::Eqv => Knowledge::Eqv(left, right),
         KnowledgeOp::Red => Knowledge::Red(left, right),
+        KnowledgeOp::Def => if let Sym(x) = left {Knowledge::Def(x, right)} else {return Err(())},
     };
     Ok((convert.subtract(start), knowledge))
 }
