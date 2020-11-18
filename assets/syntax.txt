@@ -55,6 +55,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
     [.$_:"num_imag" {[.w? "imag"] [.w? "𝐢"]}]
     .$_:"num"
   }]
+  ["\\[" .._seps!:"singleton" "]"]
   ["[" .._seps!:"list_var" "..]"]
   ["!\\" .._seps!:"not_ret_var"]
   ["\\" .._seps!:"ret_pos_var" ":(>= 0)"]
