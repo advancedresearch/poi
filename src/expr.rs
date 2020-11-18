@@ -232,7 +232,9 @@ impl Expr {
                     if let Tup(_) = &**b {
                         b.display(w, parens, rule)?;
                     } else {
-                        write!(w, "({})", b)?;
+                        write!(w, "(")?;
+                        b.display(w, false, rule)?;
+                        write!(w, ")")?;
                     }
                 }
             }
@@ -245,11 +247,13 @@ impl Expr {
                     write!(w, "{{")?;
                     for i in 0..b.len() {
                         if i > 0 {write!(w, ", ")?}
-                        write!(w, "{}", &b[i])?;
+                        b[i].display(w, false, rule)?;
                     }
                     write!(w, "}}")?;
                 } else {
-                    write!(w, "{{{}}}", b)?;
+                    write!(w, "{{")?;
+                    b.display(w, false, rule)?;
+                    write!(w, "}}")?;
                 }
             }
             Op(Compose, a, b) => {
@@ -435,5 +439,7 @@ mod tests {
         assert_eq!(format!("{}", rule), "(: f:[arity]1)");
         let rule = Rule(app(Rlt, arity_var("f", 1)));
         assert_eq!(format!("{}", rule), "(< f:[arity]1)");
+        let rule = Rule(app(Triv, constr(arity_var("f", 1), "g")));
+        assert_eq!(format!("{}", rule), "∀(f:[arity]1{g})");
     }
 }
