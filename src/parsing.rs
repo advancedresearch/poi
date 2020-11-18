@@ -497,7 +497,87 @@ fn parse_seq(
     Ok((convert.subtract(start), Op(op, Box::new(left), Box::new(right))))
 }
 
-/// Parses a string.
+fn parse_knowledge(
+    dirs: &[String],
+    mut convert: Convert,
+    ignored: &mut Vec<Range>
+) -> Result<(Range, Knowledge), ()> {
+    enum KnowledgeOp {
+        Eqv,
+        Red,
+    }
+
+    let start = convert;
+    let node = "knowledge";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut op: Option<KnowledgeOp> = None;
+    let mut left: Option<Expr> = None;
+    let mut right: Option<Expr> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = parse_expr("left", dirs, convert, ignored) {
+            convert.update(range);
+            left = Some(val);
+        } else if let Ok((range, val)) = parse_expr("right", dirs, convert, ignored) {
+            convert.update(range);
+            right = Some(val);
+        } else if let Ok((range, _)) = convert.meta_bool("<=>") {
+            convert.update(range);
+            op = Some(KnowledgeOp::Eqv);
+        } else if let Ok((range, _)) = convert.meta_bool("=>") {
+            convert.update(range);
+            op = Some(KnowledgeOp::Red);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let op = op.ok_or(())?;
+    let left = left.ok_or(())?;
+    let right = right.ok_or(())?;
+    let knowledge = match op {
+        KnowledgeOp::Eqv => Knowledge::Eqv(left, right),
+        KnowledgeOp::Red => Knowledge::Red(left, right),
+    };
+    Ok((convert.subtract(start), knowledge))
+}
+
+/// Stores result of parsing.
+pub enum ParseData {
+    /// Parsed an expression.
+    Expr(Expr),
+    /// Parsed some knowledge.
+    Knowledge(Knowledge),
+}
+
+impl ParseData {
+    fn parse(
+        dirs: &[String],
+        mut convert: Convert,
+        ignored: &mut Vec<Range>
+    ) -> Result<(Range, ParseData), ()> {
+        let start = convert;
+
+        let mut data: Option<ParseData> = None;
+        if let Ok((range, val)) = parse_knowledge(dirs, convert, ignored) {
+            convert.update(range);
+            data = Some(ParseData::Knowledge(val));
+        } else if let Ok((range, val)) = parse_expr("expr", dirs, convert, ignored) {
+            convert.update(range);
+            data = Some(ParseData::Expr(val));
+        }
+
+        Ok((convert.subtract(start), data.ok_or(())?))
+    }
+}
+
+/// Parses an expression string.
 pub fn parse_str(data: &str, dirs: &[String]) -> Result<Expr, String> {
     use piston_meta::{parse_errstr, syntax_errstr};
 
@@ -517,7 +597,7 @@ pub fn parse_str(data: &str, dirs: &[String]) -> Result<Expr, String> {
     }
 }
 
-/// Parses a source file.
+/// Parses an expression source file.
 pub fn parse(source: &str, dirs: &[String]) -> Result<Expr, String> {
     use std::fs::File;
     use std::io::Read;
@@ -528,4 +608,38 @@ pub fn parse(source: &str, dirs: &[String]) -> Result<Expr, String> {
     data_file.read_to_string(&mut data).unwrap();
 
     parse_str(&data, dirs)
+}
+
+
+/// Parses a data string (expression or knowledge).
+pub fn parse_data_str(data: &str, dirs: &[String]) -> Result<ParseData, String> {
+    use piston_meta::{parse_errstr, syntax_errstr};
+
+    let syntax_src = include_str!("../assets/syntax.txt");
+    let syntax = syntax_errstr(syntax_src)?;
+
+    let mut meta_data = vec![];
+    parse_errstr(&syntax, &data, &mut meta_data)?;
+
+    // piston_meta::json::print(&meta_data);
+
+    let convert = Convert::new(&meta_data);
+    let mut ignored = vec![];
+    match ParseData::parse(dirs, convert, &mut ignored) {
+        Err(()) => Err("Could not convert meta data".into()),
+        Ok((_, expr)) => Ok(expr),
+    }
+}
+
+/// Parses a data source file (expression or knowledge).
+pub fn parse_data(source: &str, dirs: &[String]) -> Result<ParseData, String> {
+    use std::fs::File;
+    use std::io::Read;
+
+    let mut data_file = File::open(source).map_err(|err|
+        format!("Could not open `{}`, {}", source, err))?;
+    let mut data = String::new();
+    data_file.read_to_string(&mut data).unwrap();
+
+    parse_data_str(&data, dirs)
 }
