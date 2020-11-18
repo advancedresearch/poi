@@ -18,11 +18,25 @@ impl fmt::Display for Knowledge {
     fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
         use Knowledge::*;
 
+        let mut display = |op: &str, a: &Expr, b: &Expr| -> std::result::Result<(), fmt::Error> {
+            let rule = true;
+            let parens = false;
+            a.display(w, parens, rule)?;
+            write!(w, " {} ", op)?;
+            b.display(w, parens, rule)?;
+            Ok(())
+        };
         match self {
-            Def(a, b) => write!(w, "{} := {}", a, b)?,
-            Red(a, b) => write!(w, "{} => {}", a, b)?,
-            Eqv(a, b) => write!(w, "{} <=> {}", a, b)?,
-            EqvEval(a, b) => write!(w, "{} <=>> {}", a, b)?,
+            Def(a, b) => {
+                let rule = true;
+                let parens = false;
+                a.display(w, rule)?;
+                write!(w, " := ")?;
+                b.display(w, parens, rule)?;
+            }
+            Red(a, b) => display("=>", a, b)?,
+            Eqv(a, b) => display("<=>", a, b)?,
+            EqvEval(a, b) => display("<=>>", a, b)?,
         }
         Ok(())
     }
