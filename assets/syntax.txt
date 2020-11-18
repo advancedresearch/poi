@@ -1,5 +1,10 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+27 seq_left = {
+  no_constr:"no_constr"
+  var
+  val
+}
 26 no_constr = [.._seps!:"fun" ":!{}"]
 25 compute_unop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"arg" .w? ")"]
 24 compute_binop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"left"
@@ -61,8 +66,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   ["(" .w? tup_items_expr:"left" .w? ")"]
   alg:"alg"
   list:"list"
-  val:"left"
-  var:"left"
+  seq_left:"left"
 } .r!({
   path_right:"path"
   app_right:"app"
