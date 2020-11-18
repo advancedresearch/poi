@@ -504,6 +504,7 @@ fn parse_knowledge(
 ) -> Result<(Range, Knowledge), ()> {
     enum KnowledgeOp {
         Eqv,
+        EqvEval,
         Red,
     }
 
@@ -525,6 +526,9 @@ fn parse_knowledge(
         } else if let Ok((range, val)) = parse_expr("right", dirs, convert, ignored) {
             convert.update(range);
             right = Some(val);
+        } else if let Ok((range, _)) = convert.meta_bool("eqveval") {
+            convert.update(range);
+            op = Some(KnowledgeOp::EqvEval);
         } else if let Ok((range, _)) = convert.meta_bool("eqv") {
             convert.update(range);
             op = Some(KnowledgeOp::Eqv);
@@ -542,6 +546,7 @@ fn parse_knowledge(
     let left = left.ok_or(())?;
     let right = right.ok_or(())?;
     let knowledge = match op {
+        KnowledgeOp::EqvEval => Knowledge::EqvEval(left, right),
         KnowledgeOp::Eqv => Knowledge::Eqv(left, right),
         KnowledgeOp::Red => Knowledge::Red(left, right),
     };
