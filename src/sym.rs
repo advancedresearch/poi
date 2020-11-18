@@ -562,7 +562,11 @@ impl Symbol {
             } else {
                 write!(w, "{}", x)?
             },
-            ArityVar(x, _) => write!(w, "{}", x)?,
+            ArityVar(x, arg) => if rule {
+                write!(w, "{}:[arity]{}", x, arg)?
+            } else {
+                write!(w, "{}", x)?
+            },
             RetVar(x) => write!(w, "\\{}", x)?,
             RetIntVar(x) => write!(w, "\\{}:int", x)?,
             RetPosVar(x) => write!(w, "\\{}:(>= 0)", x)?,

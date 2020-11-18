@@ -51,13 +51,17 @@ impl Expr {
                     if let Op(Compose, _, _) = **a {
                         write!(w, "({})[{}]", a, b)?;
                     } else {
-                        write!(w, "{}[{}]", a, b)?;
+                        let parens = true;
+                        a.display(w, parens, rule)?;
+                        write!(w, "[{}]", b)?;
                     }
                 } else if let Tup(b) = &**b {
                     if let Op(Compose, _, _) = **a {
                         write!(w, "({})[", a)?;
                     } else {
-                        write!(w, "{}[", a)?;
+                        let parens = true;
+                        a.display(w, parens, rule)?;
+                        write!(w, "[")?;
                     }
                     for i in 0..b.len() {
                         if i > 0 {
