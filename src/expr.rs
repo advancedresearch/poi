@@ -186,7 +186,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(And) => {
-                                write!(w, "({} & {})", a, b)?;
+                                pr("&", &And)?;
                                 return Ok(())
                             }
                             Sym(Or) => {
@@ -385,5 +385,7 @@ mod tests {
         assert_eq!(format!("{}", expr), "a + b = c");
         let expr = app2(Or, "a", "b");
         assert_eq!(format!("{}", expr), "a | b");
+        let expr = app2(And, "a", "b");
+        assert_eq!(format!("{}", expr), "a & b");
     }
 }
