@@ -31,18 +31,21 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 13 tup_items = [.s!([.w? "," .w?] {raw_expr:"item" expr:"item"})]
 12 tup_path_expr = tup_path:"tup"
 11 tup_path = [.s!([.w? {"x" "⨯"} .w?] expr:"item") .w? {"->" "→"} .w? expr:"item"]
-10 val = [?"\\" {
+10 val = {
   [.._seps!:"poi" ".poi"]
-  ["true":"bool" !.$]
-  ["false":!"bool" !.$]
-  [.$_:"num_pi" .w? {"pi" "π"}]
-  [.$_:"num_tau" .w? {"tau" "τ"}]
-  [.$_:"num_eps" {[.w! "eps"] [.w? "ε"]}]
-  [.$_:"num_imag3" {[.w? "imag3"] [.w? "𝐢₃"]}]
-  [.$_:"num_imag2" {[.w? "imag2"] [.w? "𝐢₂"]}]
-  [.$_:"num_imag" {[.w? "imag"] [.w? "𝐢"]}]
-  .$_:"num"
-}]
+  [?"\\" {
+    ["true":"bool" !.$]
+    ["false":!"bool" !.$]
+    [.$_:"num_pi" .w? {"pi" "π"}]
+    [.$_:"num_tau" .w? {"tau" "τ"}]
+    [.$_:"num_eps" {[.w! "eps"] [.w? "ε"]}]
+    [.$_:"num_imag3" {[.w? "imag3"] [.w? "𝐢₃"]}]
+    [.$_:"num_imag2" {[.w? "imag2"] [.w? "𝐢₂"]}]
+    [.$_:"num_imag" {[.w? "imag"] [.w? "𝐢"]}]
+    .$_:"num"
+  }]
+  ["\\" .._seps!:"ret_var"]
+}
 9 var = [!.$ .._seps!:"var"]
 8 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
 7 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
