@@ -41,6 +41,8 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
             convert.update(range);
             if let Some(Sym(x)) = expr {
                 expr = Some(typ(Var(Arc::new(format!("{}", x))), RetType));
+            } else {
+                expr = Some(Sym(RetType));
             }
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
             convert.update(range);
