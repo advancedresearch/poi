@@ -76,8 +76,14 @@ impl Expr {
                     write!(w, ")")
                 };
                 if let Sym(Neg) = **a {
+                    if parens {
+                        write!(w, "(")?;
+                    }
                     write!(w, "-")?;
                     b.display(w, true, rule)?;
+                    if parens {
+                        write!(w, ")")?;
+                    }
                 } else if let Sym(Not) = **a {
                     write!(w, "!")?;
                     b.display(w, true, rule)?;
@@ -395,6 +401,8 @@ mod tests {
         assert_eq!(format!("{}", expr), "(a : b) : c");
         let expr = typ("a", typ("b", "c"));
         assert_eq!(format!("{}", expr), "a : (b : c)");
+        let expr = app(Neg, app(Neg, "a"));
+        assert_eq!(format!("{}", expr), "-(-a)");
     }
 
     struct Rule(Expr);
