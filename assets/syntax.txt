@@ -1,5 +1,6 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+26 no_constr = [.._seps!:"fun" ":!{}"]
 25 compute_unop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"arg" .w? ")"]
 24 compute_binop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"left"
                     .w? "," .w? .._seps!:"right" .w? ")"]
@@ -77,6 +78,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   list:"list"
   compute_binop:"compute_binop"
   compute_unop:"compute_unop"
+  no_constr:"no_constr"
   val
   var
 }
