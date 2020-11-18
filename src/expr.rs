@@ -190,7 +190,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Or) => {
-                                write!(w, "({} | {})", a, b)?;
+                                pr("|", &Or)?;
                                 return Ok(())
                             }
                             Sym(Concat) => {
@@ -383,5 +383,7 @@ mod tests {
         assert_eq!(format!("{}", expr), "a / b / c");
         let expr = app2(Eq, app2(Add, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "a + b = c");
+        let expr = app2(Or, "a", "b");
+        assert_eq!(format!("{}", expr), "a | b");
     }
 }
