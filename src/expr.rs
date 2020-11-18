@@ -248,7 +248,10 @@ impl Expr {
             }
             Op(Constrain, a, b) => {
                 if let Op(Compose, _, _) = **a {
-                    write!(w, "({})", a)?;
+                    write!(w, "(")?;
+                    let parens = true;
+                    a.display(w, parens, rule)?;
+                    write!(w, ")")?;
                 } else {
                     if let Ret(_) = **a {
                         write!(w, "\\")?;
@@ -276,7 +279,8 @@ impl Expr {
                 if let Op(Compose, _, _) = **b {
                     write!(w, "({})", b)?;
                 } else {
-                    write!(w, "{}", b)?;
+                    let parens = true;
+                    b.display(w, parens, rule)?;
                 }
             }
             Op(Type, a, b) => {
@@ -341,6 +345,7 @@ impl fmt::Display for Expr {
 #[cfg(test)]
 mod tests {
     use crate::*;
+    use std::fmt;
 
     #[test]
     fn parens() {
@@ -398,5 +403,25 @@ mod tests {
         assert_eq!(format!("{}", expr), "a & b | c");
         let expr = app2(And, app2(Or, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "(a | b) & c");
+    }
+
+    struct Rule(Expr);
+
+    impl fmt::Display for Rule {
+        fn fmt(&self, w: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+            let parens = false;
+            let rule = true;
+            self.0.display(w, parens, rule)
+        }
+    }
+
+    #[test]
+    fn constraints() {
+        let rule = Rule(arity_var("f", 1));
+        assert_eq!(format!("{}", rule), "f:[arity]1");
+        let rule = Rule(comp("f", arity_var("g", 1)));
+        assert_eq!(format!("{}", rule), "f · g:[arity]1");
+        let rule = Rule(constr(comp("f", arity_var("g", 1)), "x"));
+        assert_eq!(format!("{}", rule), "(f · g:[arity]1){x}");
     }
 }
