@@ -226,7 +226,10 @@ impl Expr {
                         }
                     }
                     if let Op(Compose, _, _) = **a {
-                        write!(w, "({})", a)?;
+                        write!(w, "(")?;
+                        let parens = false;
+                        a.display(w, parens, rule)?;
+                        write!(w, ")")?;
                     } else {
                         if let Ret(_) = **a {
                             write!(w, "\\")?;
@@ -423,5 +426,7 @@ mod tests {
         assert_eq!(format!("{}", rule), "f · g:[arity]1");
         let rule = Rule(constr(comp("f", arity_var("g", 1)), "x"));
         assert_eq!(format!("{}", rule), "(f · g:[arity]1){x}");
+        let rule = Rule(app(comp("f", arity_var("g", 1)), "a"));
+        assert_eq!(format!("{}", rule), "(f · g:[arity]1)(a)");
     }
 }
