@@ -174,7 +174,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Div) => {
-                                write!(w, "({} / {})", a, b)?;
+                                pr("/", &Div)?;
                                 return Ok(())
                             }
                             Sym(Rem) => {
@@ -356,5 +356,7 @@ mod tests {
         assert_eq!(format!("{}", expr), "a + b ^ 2");
         let expr = app2(Add, app2(Pow, "a", 2.0), "b");
         assert_eq!(format!("{}", expr), "a ^ 2 + b");
+        let expr = app2(Div, app2(Add, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "(a + b) / c");
     }
 }
