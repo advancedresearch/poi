@@ -101,6 +101,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = parse_head_tail_tup(convert, ignored) {
             convert.update(range);
             expr = Some(val);
+        } else if let Ok((range, val)) = parse_head_tail_list(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("poi") {
             convert.update(range);
             let mut found = false;
@@ -138,6 +141,40 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
 
     let expr = expr.ok_or(())?;
     Ok((convert.subtract(start), expr))
+}
+
+fn parse_head_tail_list(
+    mut convert: Convert,
+    ignored: &mut Vec<Range>,
+) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "head_tail_list";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut head: Option<Arc<String>> = None;
+    let mut tail: Option<Arc<String>> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = convert.meta_string("head") {
+            convert.update(range);
+            head = Some(val);
+        } else if let Ok((range, val)) = convert.meta_string("tail") {
+            convert.update(range);
+            tail = Some(val);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let head = head.ok_or(())?;
+    let tail = tail.ok_or(())?;
+    Ok((convert.subtract(start),
+        Sym(Symbol::HeadTailList(Box::new(Sym(Var(head))), Box::new(Sym(Var(tail)))))))
 }
 
 fn parse_head_tail_tup(
@@ -622,7 +659,7 @@ pub enum ParseData {
     /// Parsed an expression.
     Expr(Expr),
     /// Parsed some knowledge.
-    Knowledge(Knowledge),
+    Knowledge(Vec<Knowledge>),
 }
 
 impl ParseData {
@@ -633,16 +670,19 @@ impl ParseData {
     ) -> Result<(Range, ParseData), ()> {
         let start = convert;
 
-        let mut data: Option<ParseData> = None;
-        if let Ok((range, val)) = parse_knowledge(dirs, convert, ignored) {
+        let data = if let Ok((range, val)) = parse_expr("expr", dirs, convert, ignored) {
             convert.update(range);
-            data = Some(ParseData::Knowledge(val));
-        } else if let Ok((range, val)) = parse_expr("expr", dirs, convert, ignored) {
-            convert.update(range);
-            data = Some(ParseData::Expr(val));
-        }
+            ParseData::Expr(val)
+        } else {
+            let mut res = vec![];
+            while let Ok((range, val)) = parse_knowledge(dirs, convert, ignored) {
+                convert.update(range);
+                res.push(val);
+            }
+            ParseData::Knowledge(res)
+        };
 
-        Ok((convert.subtract(start), data.ok_or(())?))
+        Ok((convert.subtract(start), data))
     }
 }
 

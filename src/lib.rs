@@ -1422,14 +1422,6 @@ mod tests {
     }
 
     #[test]
-    fn red_singleton() {
-        let ref std = std();
-        let a = Tup(vec![true.into()]);
-        let a = a.reduce(std).unwrap().0;
-        assert_eq!(a, true.into());
-    }
-
-    #[test]
     fn constraints() {
         let f: Expr = "f".into();
         assert_eq!(f.has_constraint(0), false);
