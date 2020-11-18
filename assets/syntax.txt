@@ -1,5 +1,7 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+24 compute_binop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"left"
+                    .w? "," .w? .._seps!:"right" .w? ")"]
 23 knowledge = [top_expr:"left" {"<=>>":"eqveval" "<=>":"eqv" "=>":"red"}
                 top_expr:"right"]
 22 top_expr = {
@@ -72,6 +74,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   ["(" .w? tup_items_expr .w? ")"]
   alg:"alg"
   list:"list"
+  compute_binop:"compute_binop"
   val
   var
 }

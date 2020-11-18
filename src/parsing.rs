@@ -36,120 +36,7 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
             expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("var") {
             convert.update(range);
-            expr = Some(Sym(match &**val {
-                "triv" | "∀" | "dom" => Triv,
-                "ex" | "∃" | "codom" => Ex,
-                "false1" => False1,
-                "idb" => Idb,
-                "not" => Not,
-                "true1" => True1,
-                "false2" => False2,
-                "true2" => True2,
-                "and" => And,
-                "or" => Or,
-                "eqb" => Eqb,
-                "xor" => Xor,
-                "nand" => Nand,
-                "nor" => Nor,
-                "exc" => Exc,
-                "imply" => Imply,
-                "fstb" => Fstb,
-                "sndb" => Sndb,
-                "neqb" => Xor,
-                "id" => Id,
-                "inv" => Inv,
-                "lt" => Lt,
-                "rlt" => Rlt,
-                "le" => Le,
-                "rle" => Rle,
-                "gt" => Gt,
-                "rgt" => Rgt,
-                "ge" => Ge,
-                "rge" => Rge,
-                "mul" => Mul,
-                "mulc" => Mulc,
-                "div" => Div,
-                "rem" => Rem,
-                "pow" => Pow,
-                "rpow" => Rpow,
-                "sqrt" => Sqrt,
-                "even" => Even,
-                "odd" => Odd,
-                "abs" => Abs,
-                "neg" => Neg,
-                "inc" => Inc,
-                "reci" => Reci,
-                "conj" => Conj,
-                "norm" => Norm,
-                "sqnorm" => Sqnorm,
-                "add" => Add,
-                "sub" => Sub,
-                "len" => Len,
-                "concat" => Concat,
-                "sum" => Sum,
-                "mul_mat" => MulMat,
-                "col" => Col,
-                "det" => Det,
-                "dim" => Dim,
-                "transpose" => Transpose,
-                "is_square_mat" => IsSquareMat,
-                "base" => Base,
-                "fst" => Fst,
-                "snd" => Snd,
-                "ln" => Ln,
-                "log2" => Log2,
-                "log10" => Log10,
-                "exp" => Exp,
-                "min2" => Min2,
-                "max2" => Max2,
-                "min" => Min,
-                "max" => Max,
-                "range" => Range,
-                "rangel" => Rangel,
-                "ranger" => Ranger,
-                "rangem" => Rangem,
-                "prob" => Prob,
-                "probl" => Probl,
-                "probr" => Probr,
-                "probm" => Probm,
-                "eq" => Eq,
-                "neq" => Neq,
-                "if" => If,
-                "sin" => Sin,
-                "asin" => Asin,
-                "cos" => Cos,
-                "acos" => Acos,
-                "tan" => Tan,
-                "atan" => Atan,
-                "atan2" => Atan2,
-                "dot" => Dot,
-                "item" => Item,
-                "el" => El,
-                "re" => Re,
-                "im" => Im,
-                "push" => Push,
-                "push_front" => PushFront,
-                "\\" => RetType,
-                "vec" => VecType,
-                "rty" => Rty,
-                "vec_op" => VecOp,
-                "vec_uop" => VecUop,
-                "arity" => Arity,
-                "d" => D,
-                "integ" | "∫" => Integ,
-                "pi" | "π" => Pi,
-                "tau" | "τ" => Tau,
-                "eps" | "ε" => Eps,
-                "imag" | "𝐢" => Imag,
-                "imag2" | "𝐢₂" => Imag2,
-                "imag3" | "𝐢₃" => Imag3,
-                "type_of" => TypeOf,
-                "bool" => BoolType,
-                "f64" => F64Type,
-                "quat" => QuatType,
-                "inf" | "∞" => Inf,
-                _ => Var(val),
-            }));
+            expr = Some(Sym(val.into()));
         } else if let Ok((range, val)) = convert.meta_bool("bool") {
             convert.update(range);
             expr = Some(val.into());
@@ -177,6 +64,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = convert.meta_string("ret_var") {
             convert.update(range);
             expr = Some(Sym(Symbol::RetVar(val)));
+        } else if let Ok((range, val)) = parse_compute_binop(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("poi") {
             convert.update(range);
             let mut found = false;
@@ -214,6 +104,44 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
 
     let expr = expr.ok_or(())?;
     Ok((convert.subtract(start), expr))
+}
+
+fn parse_compute_binop(
+    mut convert: Convert,
+    ignored: &mut Vec<Range>,
+) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "compute_binop";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut fun: Option<Symbol> = None;
+    let mut left: Option<Arc<String>> = None;
+    let mut right: Option<Arc<String>> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = convert.meta_string("fun") {
+            convert.update(range);
+            fun = Some(val.into());
+        } else if let Ok((range, val)) = convert.meta_string("left") {
+            convert.update(range);
+            left = Some(val);
+        } else if let Ok((range, val)) = convert.meta_string("right") {
+            convert.update(range);
+            right = Some(val);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let fun = fun.ok_or(())?;
+    let left = left.ok_or(())?;
+    let right = right.ok_or(())?;
+    Ok((convert.subtract(start), Sym(BinopRetVar(left, right, Box::new(fun)))))
 }
 
 fn parse_alg(
