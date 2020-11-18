@@ -166,7 +166,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Sub) => {
-                                write!(w, "({} - {})", a, b)?;
+                                pr("-", &Sub)?;
                                 return Ok(())
                             }
                             Sym(Mul) => {
@@ -312,7 +312,12 @@ impl Expr {
                                         else if let Add = parent_op {false}
                                         else {true},
                     Sym(Mul) => if let Add = parent_op {false} else {true},
-                    Sym(Add) if left => if let Add = parent_op {false} else {true},
+                    Sym(Add) if left => if let Add = parent_op {false}
+                                        else if let Sub = parent_op {false}
+                                        else {true},
+                    Sym(Sub) if left => if let Sub = parent_op {false}
+                                        else if let Add = parent_op {false}
+                                        else {true},
                     Sym(Pow) => if let Add = parent_op {false} else {true},
                     _ => true
                 }
@@ -358,5 +363,13 @@ mod tests {
         assert_eq!(format!("{}", expr), "a ^ 2 + b");
         let expr = app2(Div, app2(Add, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "(a + b) / c");
+        let expr = app2(Sub, "a", "b");
+        assert_eq!(format!("{}", expr), "a - b");
+        let expr = app2(Sub, app2(Sub, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a - b - c");
+        let expr = app2(Add, app2(Sub, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a - b + c");
+        let expr = app2(Sub, app2(Add, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a + b - c");
     }
 }
