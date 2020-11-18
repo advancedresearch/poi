@@ -310,6 +310,7 @@ impl Expr {
                 match &**f {
                     Sym(Mul) if left => if let Mul = parent_op {false}
                                         else if let Add = parent_op {false}
+                                        else if let Sub = parent_op {false}
                                         else {true},
                     Sym(Mul) => if let Add = parent_op {false} else {true},
                     Sym(Add) if left => if let Add = parent_op {false}
@@ -371,5 +372,9 @@ mod tests {
         assert_eq!(format!("{}", expr), "a - b + c");
         let expr = app2(Sub, app2(Add, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "a + b - c");
+        let expr = app2(Mul, app2(Sub, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "(a - b) * c");
+        let expr = app2(Sub, app2(Mul, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a * b - c");
     }
 }
