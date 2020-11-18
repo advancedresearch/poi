@@ -387,5 +387,9 @@ mod tests {
         assert_eq!(format!("{}", expr), "a | b");
         let expr = app2(And, "a", "b");
         assert_eq!(format!("{}", expr), "a & b");
+        let expr = app2(Or, app2(And, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a & b | c");
+        let expr = app2(And, app2(Or, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "(a | b) & c");
     }
 }

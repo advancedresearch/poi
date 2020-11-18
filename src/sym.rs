@@ -304,8 +304,8 @@ impl Symbol {
 
         Some(match self {
             Pow => 3,
-            Mul | Div | Rem => 4,
-            Add | Sub => 5,
+            Mul | Div | Rem | And => 4,
+            Add | Sub | Or => 5,
             Eq => 6,
             _ => return None,
         })
