@@ -433,8 +433,13 @@ impl From<Arc<String>> for Symbol {
     }
 }
 
-impl fmt::Display for Symbol {
-    fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
+impl Symbol {
+    /// Used to display format with additional options.
+    pub fn display(
+        &self,
+        w: &mut fmt::Formatter<'_>,
+        rule: bool,
+    ) -> std::result::Result<(), fmt::Error> {
         use Symbol::*;
 
         match self {
@@ -552,7 +557,11 @@ impl fmt::Display for Symbol {
             QuatType => write!(w, "quat")?,
             Inf => write!(w, "∞")?,
             Var(x) => write!(w, "{}", x)?,
-            NoConstrVar(x) => write!(w, "{}!{{}}", x)?,
+            NoConstrVar(x) => if rule {
+                write!(w, "{}!{{}}", x)?
+            } else {
+                write!(w, "{}", x)?
+            },
             ArityVar(x, _) => write!(w, "{}", x)?,
             RetVar(x) => write!(w, "\\{}", x)?,
             RetIntVar(x) => write!(w, "\\{}:int", x)?,
@@ -633,5 +642,12 @@ impl fmt::Display for Symbol {
             // _ => write!(w, "{:?}", self)?,
         }
         Ok(())
+    }
+}
+
+impl fmt::Display for Symbol {
+    fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
+        let rule = false;
+        self.display(w, rule)
     }
 }

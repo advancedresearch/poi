@@ -41,9 +41,10 @@ impl Expr {
         &self,
         w: &mut fmt::Formatter<'_>,
         parens: bool,
+        rule: bool,
     ) -> std::result::Result<(), fmt::Error> {
         match self {
-            Sym(s) => write!(w, "{}", s)?,
+            Sym(s) => s.display(w, rule)?,
             Ret(v) => write!(w, "{}", v)?,
             Op(Path, a, b) => {
                 if let Sym(b) = &**b {
@@ -152,10 +153,10 @@ impl Expr {
                         | -> std::result::Result<(), fmt::Error> {
                             if parens {write!(w, "(")?};
                             let left = true;
-                            a.display(w, a.needs_parens(op_sym, left))?;
+                            a.display(w, a.needs_parens(op_sym, left), rule)?;
                             write!(w, " {} ", op_txt)?;
                             let right = false;
-                            b.display(w, b.needs_parens(op_sym, right))?;
+                            b.display(w, b.needs_parens(op_sym, right), rule)?;
                             if parens {write!(w, ")")?};
                             Ok(())
                         };
@@ -226,7 +227,8 @@ impl Expr {
                         if let Ret(_) = **a {
                             write!(w, "\\")?;
                         }
-                        write!(w, "{}", a)?;
+                        let parens = true;
+                        a.display(w, parens, rule)?;
                     }
                     if let Tup(b) = &**b {
                         write!(w, "(")?;
@@ -327,7 +329,8 @@ impl Expr {
 impl fmt::Display for Expr {
     fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
         let parens = false;
-        self.display(w, parens)
+        let rule = false;
+        self.display(w, parens, rule)
     }
 }
 
