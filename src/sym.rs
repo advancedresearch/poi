@@ -317,6 +317,7 @@ impl From<Arc<String>> for Symbol {
         use Symbol::*;
 
         match &**val {
+            "_" => Any,
             "triv" | "∀" | "dom" => Triv,
             "ex" | "∃" | "codom" => Ex,
             "false1" => False1,
