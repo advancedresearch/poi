@@ -22,7 +22,7 @@ impl fmt::Display for Knowledge {
             Def(a, b) => write!(w, "{} := {}", a, b)?,
             Red(a, b) => write!(w, "{} => {}", a, b)?,
             Eqv(a, b) => write!(w, "{} <=> {}", a, b)?,
-            EqvEval(a, b) => write!(w, "{} <=> {}", a, b)?,
+            EqvEval(a, b) => write!(w, "{} <=>> {}", a, b)?,
         }
         Ok(())
     }
