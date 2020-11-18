@@ -1,4 +1,4 @@
-_seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
+_seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
 23 knowledge = [top_expr:"left" {"<=>>":"eqveval" "<=>":"eqv" "=>":"red"}
                 top_expr:"right"]
