@@ -1,5 +1,6 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+30 head_tail_tup = ["(" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? ")"]
 29 compute = ["compute::" .._seps!:"fun" "(" .w?
               .s!([.w? "," .w?] .._seps!:"arg") .w? ")"]
 28 arity = [.._seps!:"fun" ":[arity]" .$:"arg"]
@@ -84,6 +85,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 2 expr = {
   seq:"seq"
   rapp:"rapp"
+  head_tail_tup:"head_tail_tup"
   ["(" .w? tup_items_expr .w? ")"]
   alg:"alg"
   list:"list"
