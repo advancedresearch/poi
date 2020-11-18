@@ -61,6 +61,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = convert.meta_f64("num_imag3") {
             convert.update(range);
             expr = Some(app2(Mul, val, Imag3));
+        } else if let Ok((range, val)) = convert.meta_string("singleton") {
+            convert.update(range);
+            expr = Some(Sym(Symbol::Singleton(val)));
         } else if let Ok((range, val)) = convert.meta_string("list_var") {
             convert.update(range);
             expr = Some(Sym(Symbol::ListVar(val)));

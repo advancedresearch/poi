@@ -575,7 +575,7 @@ impl Symbol {
             RetNegVar(x) => write!(w, "\\{}:(< 0)", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
-            Singleton(x) => write!(w, "[{}]", x)?,
+            Singleton(x) => write!(w, "\\[{}]", x)?,
             HeadTailTup(x, y) => write!(w, "({}, {}..)", x, y)?,
             HeadTailList(x, y) => write!(w, "[{}, {}..]", x, y)?,
             BinopRetVar(x, y, f) => {
