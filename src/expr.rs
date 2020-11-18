@@ -223,13 +223,8 @@ impl Expr {
                     }
                     let parens = true;
                     a.display(w, parens, rule)?;
-                    if let Tup(b) = &**b {
-                        write!(w, "(")?;
-                        for i in 0..b.len() {
-                            if i > 0 {write!(w, ", ")?}
-                            write!(w, "{}", &b[i])?;
-                        }
-                        write!(w, ")")?;
+                    if let Tup(_) = &**b {
+                        b.display(w, parens, rule)?;
                     } else {
                         write!(w, "({})", b)?;
                     }
@@ -263,19 +258,21 @@ impl Expr {
                 }
             }
             Op(Type, a, b) => {
-                if let Op(Type, _, _) = **a {
-                    write!(w, "({}) : {}", a, b)?
-                } else if let Op(Type, _, _) = **b {
-                    write!(w, "{} : ({})", a, b)?
-                } else {
-                    write!(w, "{} : {}", a, b)?
+                if parens {
+                    write!(w, "(")?;
+                }
+                a.display(w, true, rule)?;
+                write!(w, " : ")?;
+                b.display(w, true, rule)?;
+                if parens {
+                    write!(w, ")")?;
                 }
             }
             Tup(b) => {
                 write!(w, "(")?;
                 for i in 0..b.len() {
                     if i > 0 {write!(w, ", ")?}
-                    write!(w, "{}", &b[i])?;
+                    &b[i].display(w, false, rule)?;
                 }
                 write!(w, ")")?;
             }
@@ -283,7 +280,7 @@ impl Expr {
                 write!(w, "[")?;
                 for i in 0..b.len() {
                     if i > 0 {write!(w, ", ")?}
-                    write!(w, "{}", &b[i])?;
+                    &b[i].display(w, false, rule)?;
                 }
                 write!(w, "]")?;
             }
@@ -392,6 +389,12 @@ mod tests {
         assert_eq!(format!("{}", expr), "f · (g · h)");
         let expr = comp(comp("f", "g"), "h");
         assert_eq!(format!("{}", expr), "(f · g) · h");
+        let expr = typ("a", "b");
+        assert_eq!(format!("{}", expr), "a : b");
+        let expr = typ(typ("a", "b"), "c");
+        assert_eq!(format!("{}", expr), "(a : b) : c");
+        let expr = typ("a", typ("b", "c"));
+        assert_eq!(format!("{}", expr), "a : (b : c)");
     }
 
     struct Rule(Expr);
