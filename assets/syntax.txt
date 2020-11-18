@@ -1,5 +1,6 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+25 compute_unop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"arg" .w? ")"]
 24 compute_binop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"left"
                     .w? "," .w? .._seps!:"right" .w? ")"]
 23 knowledge = [top_expr:"left" {"<=>>":"eqveval" "<=>":"eqv" "=>":"red"}
@@ -75,6 +76,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   alg:"alg"
   list:"list"
   compute_binop:"compute_binop"
+  compute_unop:"compute_unop"
   val
   var
 }
