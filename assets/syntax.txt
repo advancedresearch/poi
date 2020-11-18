@@ -1,5 +1,7 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+29 compute = ["compute::" .._seps!:"fun" "(" .w?
+              .s!([.w? "," .w?] .._seps!:"arg") .w? ")"]
 28 arity = [.._seps!:"fun" ":[arity]" .$:"arg"]
 27 seq_left = {
   arity:"arity"
@@ -8,9 +10,6 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   val
 }
 26 no_constr = [.._seps!:"fun" ":!{}"]
-25 compute_unop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"arg" .w? ")"]
-24 compute_binop = ["compute::" .._seps!:"fun" "(" .w? .._seps!:"left"
-                    .w? "," .w? .._seps!:"right" .w? ")"]
 23 knowledge = [top_expr:"left" {"<=>>":"eqveval" "<=>":"eqv" "=>":"red"}
                 top_expr:"right"]
 22 top_expr = {
@@ -87,8 +86,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   ["(" .w? tup_items_expr .w? ")"]
   alg:"alg"
   list:"list"
-  compute_binop:"compute_binop"
-  compute_unop:"compute_unop"
+  compute:"compute"
   arity:"arity"
   no_constr:"no_constr"
   val
