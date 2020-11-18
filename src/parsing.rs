@@ -70,6 +70,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = convert.meta_string("ret_var") {
             convert.update(range);
             expr = Some(Sym(Symbol::RetVar(val)));
+        } else if let Ok((range, val)) = convert.meta_string("not_ret_var") {
+            convert.update(range);
+            expr = Some(Sym(Symbol::NotRetVar(val)));
         } else if let Ok((range, val)) = parse_compute_binop(convert, ignored) {
             convert.update(range);
             expr = Some(val);
