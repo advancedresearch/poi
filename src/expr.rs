@@ -47,22 +47,10 @@ impl Expr {
             Sym(s) => s.display(w, rule)?,
             Ret(v) => write!(w, "{}", v)?,
             Op(Path, a, b) => {
-                if let Sym(b) = &**b {
-                    if let Op(Compose, _, _) = **a {
-                        write!(w, "({})[{}]", a, b)?;
-                    } else {
-                        let parens = true;
-                        a.display(w, parens, rule)?;
-                        write!(w, "[{}]", b)?;
-                    }
-                } else if let Tup(b) = &**b {
-                    if let Op(Compose, _, _) = **a {
-                        write!(w, "({})[", a)?;
-                    } else {
-                        let parens = true;
-                        a.display(w, parens, rule)?;
-                        write!(w, "[")?;
-                    }
+                if let Tup(b) = &**b {
+                    let parens = true;
+                    a.display(w, parens, rule)?;
+                    write!(w, "[")?;
                     for i in 0..b.len() {
                         if i > 0 {
                             if i + 1 < b.len() {
@@ -71,48 +59,52 @@ impl Expr {
                                 write!(w, " → ")?
                             }
                         }
-                        if let Op(Compose, _, _) = b[i] {
-                            write!(w, "(")?;
-                        }
-                        write!(w, "{}", &b[i])?;
-                        if let Op(Compose, _, _) = b[i] {
-                            write!(w, ")")?;
-                        }
+                        b[i].display(w, true, rule)?;
                     }
                     write!(w, "]")?
                 } else {
-                    write!(w, "{}[{}]", a, b)?
+                    a.display(w, true, rule)?;
+                    write!(w, "[")?;
+                    b.display(w, false, rule)?;
+                    write!(w, "]")?;
                 }
             }
             Op(Apply, a, b) => {
+                let mut r = |op: &str| -> std::result::Result<(), fmt::Error> {
+                    write!(w, "({} ", op)?;
+                    b.display(w, false, rule)?;
+                    write!(w, ")")
+                };
                 if let Sym(Neg) = **a {
-                    write!(w, "-{}", b)?;
+                    write!(w, "-")?;
+                    b.display(w, true, rule)?;
                 } else if let Sym(Not) = **a {
-                    write!(w, "!{}", b)?;
+                    write!(w, "!")?;
+                    b.display(w, true, rule)?;
                 } else if let Sym(Rty) = **a {
                     if let Sym(_) = **b {
-                        write!(w, "(: {})", b)?;
+                        r(":")?;
                     }
                 } else if let Sym(Rlt) = **a {
-                    write!(w, "(< {})", b)?;
+                    r("<")?;
                 } else if let Sym(Rle) = **a {
-                    write!(w, "(<= {})", b)?;
+                    r("<=")?;
                 } else if let Sym(Eq) = **a {
-                    write!(w, "(= {})", b)?;
+                    r("=")?;
                 } else if let Sym(Rgt) = **a {
-                    write!(w, "(> {})", b)?;
+                    r(">")?;
                 } else if let Sym(Rge) = **a {
-                    write!(w, "(>= {})", b)?;
+                    r(">=")?;
                 } else if let Sym(Mul) = **a {
-                    write!(w, "(* {})", b)?;
+                    r("*")?;
                 } else if let Sym(Add) = **a {
-                    write!(w, "(+ {})", b)?;
+                    r("+")?;
                 } else if let Sym(Rsub) = **a {
-                    write!(w, "(- {})", b)?;
+                    r("-")?;
                 } else if let Sym(Rdiv) = **a {
-                    write!(w, "(/ {})", b)?;
+                    r("/")?;
                 } else if let Sym(Rpow) = **a {
-                    write!(w, "(^ {})", b)?;
+                    r("^")?;
                 } else {
                     if let (Op(Apply, f, a), Sym(Pi)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
@@ -225,18 +217,12 @@ impl Expr {
                             _ => {}
                         }
                     }
-                    if let Op(Compose, _, _) = **a {
-                        write!(w, "(")?;
-                        let parens = false;
-                        a.display(w, parens, rule)?;
-                        write!(w, ")")?;
-                    } else {
-                        if let Ret(_) = **a {
-                            write!(w, "\\")?;
-                        }
-                        let parens = true;
-                        a.display(w, parens, rule)?;
+
+                    if let Ret(_) = **a {
+                        write!(w, "\\")?;
                     }
+                    let parens = true;
+                    a.display(w, parens, rule)?;
                     if let Tup(b) = &**b {
                         write!(w, "(")?;
                         for i in 0..b.len() {
@@ -250,17 +236,10 @@ impl Expr {
                 }
             }
             Op(Constrain, a, b) => {
-                if let Op(Compose, _, _) = **a {
-                    write!(w, "(")?;
-                    let parens = true;
-                    a.display(w, parens, rule)?;
-                    write!(w, ")")?;
-                } else {
-                    if let Ret(_) = **a {
-                        write!(w, "\\")?;
-                    }
-                    write!(w, "{}", a)?;
+                if let Ret(_) = **a {
+                    write!(w, "\\")?;
                 }
+                a.display(w, true, rule)?;
                 if let Tup(b) = &**b {
                     write!(w, "{{")?;
                     for i in 0..b.len() {
@@ -273,17 +252,14 @@ impl Expr {
                 }
             }
             Op(Compose, a, b) => {
-                if let Op(Compose, _, _) = **a {
-                    write!(w, "({})", a)?;
-                } else {
-                    write!(w, "{}", a)?;
+                if parens {
+                    write!(w, "(")?;
                 }
+                a.display(w, true, rule)?;
                 write!(w, " · ")?;
-                if let Op(Compose, _, _) = **b {
-                    write!(w, "({})", b)?;
-                } else {
-                    let parens = true;
-                    b.display(w, parens, rule)?;
+                b.display(w, true, rule)?;
+                if parens {
+                    write!(w, ")")?;
                 }
             }
             Op(Type, a, b) => {
@@ -406,6 +382,16 @@ mod tests {
         assert_eq!(format!("{}", expr), "a & b | c");
         let expr = app2(And, app2(Or, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "(a | b) & c");
+        let expr = comp("f", "g");
+        assert_eq!(format!("{}", expr), "f · g");
+        let expr = constr("f", "x");
+        assert_eq!(format!("{}", expr), "f{x}");
+        let expr = constr(comp("f", "g"), "x");
+        assert_eq!(format!("{}", expr), "(f · g){x}");
+        let expr = comp("f", comp("g", "h"));
+        assert_eq!(format!("{}", expr), "f · (g · h)");
+        let expr = comp(comp("f", "g"), "h");
+        assert_eq!(format!("{}", expr), "(f · g) · h");
     }
 
     struct Rule(Expr);
@@ -428,5 +414,15 @@ mod tests {
         assert_eq!(format!("{}", rule), "(f · g:[arity]1){x}");
         let rule = Rule(app(comp("f", arity_var("g", 1)), "a"));
         assert_eq!(format!("{}", rule), "(f · g:[arity]1)(a)");
+        let rule = Rule(path("f", arity_var("g", 1)));
+        assert_eq!(format!("{}", rule), "f[g:[arity]1]");
+        let rule = Rule(app(Neg, arity_var("f", 1)));
+        assert_eq!(format!("{}", rule), "-f:[arity]1");
+        let rule = Rule(app(Not, arity_var("f", 1)));
+        assert_eq!(format!("{}", rule), "!f:[arity]1");
+        let rule = Rule(app(Rty, arity_var("f", 1)));
+        assert_eq!(format!("{}", rule), "(: f:[arity]1)");
+        let rule = Rule(app(Rlt, arity_var("f", 1)));
+        assert_eq!(format!("{}", rule), "(< f:[arity]1)");
     }
 }
