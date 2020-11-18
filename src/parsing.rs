@@ -525,10 +525,10 @@ fn parse_knowledge(
         } else if let Ok((range, val)) = parse_expr("right", dirs, convert, ignored) {
             convert.update(range);
             right = Some(val);
-        } else if let Ok((range, _)) = convert.meta_bool("<=>") {
+        } else if let Ok((range, _)) = convert.meta_bool("eqv") {
             convert.update(range);
             op = Some(KnowledgeOp::Eqv);
-        } else if let Ok((range, _)) = convert.meta_bool("=>") {
+        } else if let Ok((range, _)) = convert.meta_bool("red") {
             convert.update(range);
             op = Some(KnowledgeOp::Red);
         } else {
