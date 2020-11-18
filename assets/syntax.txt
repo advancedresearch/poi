@@ -1,6 +1,7 @@
 _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
 
-23 knowledge = [top_expr:"left" {"<=>":"eqv" "=>":"red"} top_expr:"right"]
+23 knowledge = [top_expr:"left" {"<=>>":"eqveval" "<=>":"eqv" "=>":"red"}
+                top_expr:"right"]
 22 top_expr = {
   [.w? raw_expr .w?]
   [.w? expr .w?]
