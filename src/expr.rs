@@ -175,7 +175,7 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Rem) => {
-                                write!(w, "({} % {})", a, b)?;
+                                pr("%", &Rem)?;
                                 return Ok(())
                             }
                             Sym(Pow) => {
@@ -191,15 +191,15 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Concat) => {
-                                write!(w, "({} ++ {})", a, b)?;
+                                pr("++", &Concat)?;
                                 return Ok(())
                             }
                             Sym(Lt) => {
-                                write!(w, "({} < {})", a, b)?;
+                                pr("<", &Lt)?;
                                 return Ok(())
                             }
                             Sym(Le) => {
-                                write!(w, "({} <= {})", a, b)?;
+                                pr("<=", &Le)?;
                                 return Ok(())
                             }
                             Sym(Eq) => {
@@ -207,11 +207,11 @@ impl Expr {
                                 return Ok(())
                             }
                             Sym(Gt) => {
-                                write!(w, "({} > {})", a, b)?;
+                                pr(">", &Gt)?;
                                 return Ok(())
                             }
                             Sym(Ge) => {
-                                write!(w, "({} >= {})", a, b)?;
+                                pr(">=", &Ge)?;
                                 return Ok(())
                             }
                             _ => {}
