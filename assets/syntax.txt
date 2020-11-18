@@ -62,7 +62,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   ["\\" .._seps!:"ret_neg_var" ":(< 0)"]
   ["\\" .._seps!:"ret_var"]
 }
-9 var = [!.$ .._seps!:"var"]
+9 var = [!.$ .._seps!:"var" ?[.w? ":" .w? "\\":"ret_ty"]]
 8 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
 7 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
 6 comp_right = [.w? {"." "·"} !"." .w? expr]
