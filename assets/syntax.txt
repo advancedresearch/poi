@@ -36,7 +36,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   "+":"add"
   "-":"rsub"
   "^":"rpow"
-} .w! expr:"arg" .w? ")"]
+} .w! {raw_expr:"arg" expr:"arg"} .w? ")"]
 15 list = ["[" .w? .s?([.w? "," .w?] {raw_expr:"item" expr:"item"}) .w? "]"]
 14 tup_items_expr = tup_items:"tup"
 13 tup_items = [.s!([.w? "," .w?] {raw_expr:"item" expr:"item"})]
