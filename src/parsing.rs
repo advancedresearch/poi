@@ -74,6 +74,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = convert.meta_string("list_var") {
             convert.update(range);
             expr = Some(Sym(Symbol::ListVar(val)));
+        } else if let Ok((range, val)) = convert.meta_string("ret_int_var") {
+            convert.update(range);
+            expr = Some(Sym(Symbol::RetIntVar(val)));
         } else if let Ok((range, val)) = convert.meta_string("ret_pos_var") {
             convert.update(range);
             expr = Some(Sym(Symbol::RetPosVar(val)));

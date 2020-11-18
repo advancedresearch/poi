@@ -57,6 +57,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   ["\\[" .._seps!:"singleton" "]"]
   ["[" .._seps!:"list_var" "..]"]
   ["!\\" .._seps!:"not_ret_var"]
+  ["\\" .._seps!:"ret_int_var" ":int"]
   ["\\" .._seps!:"ret_pos_var" ":(>= 0)"]
   ["\\" .._seps!:"ret_neg_var" ":(< 0)"]
   ["\\" .._seps!:"ret_var"]
