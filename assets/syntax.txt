@@ -1,6 +1,8 @@
 _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 
+28 arity = [.._seps!:"fun" ":[arity]" .$:"arg"]
 27 seq_left = {
+  arity:"arity"
   no_constr:"no_constr"
   var
   val
