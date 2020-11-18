@@ -297,6 +297,20 @@ pub enum Symbol {
     Inf,
 }
 
+impl Symbol {
+    /// Returns the operator presedence of symbol.
+    pub fn precedence(&self) -> Option<u8> {
+        use Symbol::*;
+
+        Some(match self {
+            Pow => 3,
+            Mul | Div | Rem => 4,
+            Add | Sub => 5,
+            _ => return None,
+        })
+    }
+}
+
 impl fmt::Display for Symbol {
     fn fmt(&self, w: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
         use Symbol::*;
