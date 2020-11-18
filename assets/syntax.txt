@@ -2,8 +2,8 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
 
 23 knowledge = [top_expr:"left" {"<=>":"eqv" "=>":"red"} top_expr:"right"]
 22 top_expr = {
-  [.w? raw_expr:"expr" .w?]
-  [.w? expr:"expr" .w?]
+  [.w? raw_expr .w?]
+  [.w? expr .w?]
 }
 21 alg3 = .s!([.w? "^":"^" .w?] [?[{"-":"neg" "!":"not" "¬":"not"} !.w!] expr:"alg_item"])
 20 alg2 = .s!([.w? {"*":"*" "/":"/" "%":"%" "&":"&" "∧":"&"} .w?] alg3:"alg")
@@ -71,4 +71,4 @@ _seps: "[]():,.·⨯-→{}<>=!+-*/%^&|"
   var
 }
 1 raw_expr = alg_inner:"alg"
-0 doc = {knowledge:"knowledge" top_expr}
+0 doc = {knowledge:"knowledge" top_expr:"expr"}
