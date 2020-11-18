@@ -639,6 +639,7 @@ impl Symbol {
                     Atan => write!(w, "compute::atan({})", x)?,
                     Dim => write!(w, "compute::dim({})", x)?,
                     IsSquareMat => write!(w, "compute::is_square_mat({})", x)?,
+                    Transpose => write!(w, "compute::transpose({})", x)?,
                     Arity => write!(w, "compute::arity({})", x)?,
                     TypeOf => write!(w, "compute::type_of({})", x)?,
                     _ => write!(w, "{:?}", self)?,
