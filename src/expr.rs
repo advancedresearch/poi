@@ -308,18 +308,11 @@ impl Expr {
         if let Op(Apply, f, _) = self {
             if let Op(Apply, f, _) = &**f {
                 match &**f {
-                    Sym(Mul) if left => if let Mul = parent_op {false}
-                                        else if let Add = parent_op {false}
-                                        else if let Sub = parent_op {false}
-                                        else {true},
-                    Sym(Mul) => if let Add = parent_op {false} else {true},
-                    Sym(Add) if left => if let Add = parent_op {false}
-                                        else if let Sub = parent_op {false}
-                                        else {true},
-                    Sym(Sub) if left => if let Sub = parent_op {false}
-                                        else if let Add = parent_op {false}
-                                        else {true},
-                    Sym(Pow) => if let Add = parent_op {false} else {true},
+                    Sym(x) => {
+                        if let (Some(x), Some(y)) = (x.precedence(), parent_op.precedence()) {
+                            if left {x > y} else {x >= y}
+                        } else {true}
+                    }
                     _ => true
                 }
             } else {
@@ -376,5 +369,17 @@ mod tests {
         assert_eq!(format!("{}", expr), "(a - b) * c");
         let expr = app2(Sub, app2(Mul, "a", "b"), "c");
         assert_eq!(format!("{}", expr), "a * b - c");
+        let expr = app2(Sub, "a", app2(Mul, "b", "c"));
+        assert_eq!(format!("{}", expr), "a - b * c");
+        let expr = app2(Div, app2(Sub, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "(a - b) / c");
+        let expr = app2(Sub, app2(Div, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a / b - c");
+        let expr = app2(Sub, "a", app2(Div, "b", "c"));
+        assert_eq!(format!("{}", expr), "a - b / c");
+        let expr = app2(Div, "a", "b");
+        assert_eq!(format!("{}", expr), "a / b");
+        let expr = app2(Div, app2(Div, "a", "b"), "c");
+        assert_eq!(format!("{}", expr), "a / b / c");
     }
 }
