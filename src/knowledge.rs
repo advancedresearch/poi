@@ -3,6 +3,7 @@ use std::fmt;
 use super::*;
 
 /// Represents knowledge about symbols.
+#[derive(Clone)]
 pub enum Knowledge {
     /// A symbol has some definition.
     Def(Symbol, Expr),
@@ -45,7 +46,7 @@ impl fmt::Display for Knowledge {
 impl<'a> From<&'a str> for Knowledge {
     fn from(val: &'a str) -> Knowledge {
         match parse_data_str(val, &[]) {
-            Ok(ParseData::Knowledge(k)) => k,
+            Ok(ParseData::Knowledge(k)) => k[0].clone(),
             Ok(ParseData::Expr(_)) => panic!("Expected knowledge, found expression"),
             Err(err) => panic!("ERROR:\n{}", err),
         }

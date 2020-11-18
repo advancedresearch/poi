@@ -1,5 +1,6 @@
-_seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
+_seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 
+31 head_tail_list = ["[" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? "]"]
 30 head_tail_tup = ["(" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? ")"]
 29 compute = ["compute::" .._seps!:"fun" "(" .w?
               .s!([.w? "," .w?] .._seps!:"arg") .w? ")"]
@@ -66,7 +67,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
 9 var = [!.$ .._seps!:"var" ?[.w? ":" .w? "\\":"ret_ty"]]
 8 path_right = [.w? "[" .w? {tup_path_expr expr} .w? "]"]
 7 app_right = [.w? "(" .w? {tup_items_expr expr} .w? ")"]
-6 comp_right = [.w? {"." "·"} !"." .w? expr]
+6 comp_right = [.w? {"." "·"} .w! expr]
 5 typ_right = [.w? ":" .w? {"\\":"ret_ty" expr}]
 4 constr_right = [.w? "{" .w? {tup_items_expr expr} .w? "}"]
 3 seq = [{
@@ -86,6 +87,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   seq:"seq"
   rapp:"rapp"
   head_tail_tup:"head_tail_tup"
+  head_tail_list:"head_tail_list"
   ["(" .w? tup_items_expr .w? ")"]
   alg:"alg"
   list:"list"
@@ -96,4 +98,7 @@ _seps: "[]()\\:,.·⨯-→{}<>=!+-*/%^&|"
   var
 }
 1 raw_expr = alg_inner:"alg"
-0 doc = {knowledge:"knowledge" top_expr:"expr"}
+0 doc = {
+  ["#" .l([.l([!"```poi" ..."\n"?]) "```poi" .w? .s!.([.w? ";" .w?] knowledge:"knowledge") .w? "```"])]
+  top_expr:"expr"
+}
