@@ -714,15 +714,6 @@ nor · (f, g) <=> nor · (g, f);
 
 el(x)(y) <=> item(x) · item(y);
 
-a & b <=> b & a;
-a | b <=> b | a;
-nand(a)(b) <=> nand(b)(a);
-nor(a)(b) <=> nor(b)(a);
-xor(a)(b) <=> xor(b)(a);
-(a = b) <=> (b = a);
-a + b <=> b + a;
-x0 + x1 + x2 + x3 <=> x3 + x0 + x1 + x2;
-a * b <=> b * a;
 a + (b + c) <=> a + b + c;
 a - (b - c) <=> a - b + c;
 a - b - c <=> a - (b + c);
@@ -738,6 +729,25 @@ a * (b - c) <=> a * b - a * c;
 ((a + b) * (a - b)) <=> (a^2 - b^2);
 ((a * b)^2) <=> (a^2 * b^2);
 (^ a)(b) <=> (a ^ b);
+```
+
+### Commutativity
+
+```poi
+a & b <=> b & a;
+a | b <=> b | a;
+(a = b) <=> (b = a);
+a + b <=> b + a;
+a * b <=> b * a;
+nand(a)(b) <=> nand(b)(a);
+nor(a)(b) <=> nor(b)(a);
+xor(a)(b) <=> xor(b)(a);
+```
+
+Commutativity utilities:
+
+```poi
+x0 + x1 + x2 + x3 <=> x3 + x0 + x1 + x2;
 ```
 
 #### Function inverses
