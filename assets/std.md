@@ -373,6 +373,7 @@ transpose{(: vec)}(x) => compute::transpose(x);
 ```
 
 Computation utilities:
+
 ```poi
 \x + (\y + z) => compute::add(x, y) + z;
 \x * (\y * z) => compute::mul(x, y) * z;

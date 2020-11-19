@@ -752,3 +752,25 @@ pub fn parse_data(source: &str, dirs: &[String]) -> Result<ParseData, String> {
 
     parse_data_str(&data, dirs)
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::*;
+
+    #[test]
+    fn test_not_ret_var() {
+        let a: Expr = parse_str(r#"!\a"#, &[]).unwrap();
+        assert_eq!(a, not_ret_var("a"));
+    }
+
+    #[test]
+    fn test_ret_bool() {
+        let a: Expr = parse_str(r#"!\true"#, &[]).unwrap();
+        let b: Expr = app(Not, true);
+        assert_eq!(a, b);
+
+        let a: Expr = parse_str(r#"!\false"#, &[]).unwrap();
+        let b: Expr = app(Not, false);
+        assert_eq!(a, b);
+    }
+}
