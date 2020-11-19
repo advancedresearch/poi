@@ -165,6 +165,7 @@ rpow[type_of](f64)(f64) => f64;
 List operators:
 
 ```poi
+base[type_of](f64)(f64) => vec;
 len[type_of](vec) => f64;
 concat[type_of](vec)(vec) => vec;
 push[type_of](vec)(f64) => vec;
