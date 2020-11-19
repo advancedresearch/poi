@@ -67,23 +67,23 @@ Quaternions are lifted to a type vector,
 in order to avoid combinatorial explosion in rules.
 
 ```poi
-imag2 => [0, 0, 1, 0] : quat;
-imag3 => [0, 0, 0, 1] : quat;
-(imag * (x : quat)) => ([0, 1, 0, 0] * x) : quat;
-((x : quat) * imag) => (x * [0, 1, 0, 0]) : quat;
-((x * imag) * (y : quat)) => (x * (imag * (y : quat)));
+𝐢₂ => [0, 0, 1, 0] : quat;
+𝐢₃ => [0, 0, 0, 1] : quat;
+(𝐢 * (x : quat)) => ([0, 1, 0, 0] * x) : quat;
+((x : quat) * 𝐢) => (x * [0, 1, 0, 0]) : quat;
+((x * 𝐢) * (y : quat)) => (x * (𝐢 * (y : quat)));
 
 neg([x, y, z, w] : quat) => [neg(x), neg(y), neg(z), neg(w)] : quat;
-((x : quat) * imag) => ((x : quat) * (imag : quat));
-(imag + (x : quat)) => ([0, 1, 0, 0] + x) : quat;
-((x : quat) + imag) => (x + [0, 1, 0, 0]) : quat;
-((x : quat) * imag2) => (x * [0, 0, 1, 0]) : quat;
-((x : quat) * imag3) => (x * [0, 0, 0, 1]) : quat;
+((x : quat) * 𝐢) => ((x : quat) * (𝐢 : quat));
+(𝐢 + (x : quat)) => ([0, 1, 0, 0] + x) : quat;
+((x : quat) + 𝐢) => (x + [0, 1, 0, 0]) : quat;
+((x : quat) * 𝐢₂) => (x * [0, 0, 1, 0]) : quat;
+((x : quat) * 𝐢₃) => (x * [0, 0, 0, 1]) : quat;
 s + ([x, y, z, w] : quat) => [s + x, s + y, s + z, s + w] : quat;
 s * ([x, y, z, w] : quat) => [s * x, s * y, s * z, s * w] : quat;
 ([x, y, z, w] : quat) * s => [x * s, y * s, z * s, w * s] : quat;
-((x : quat) + (y * imag)) => (x + [0, y, 0, 0]) : quat;
-(x * imag + (y : quat)) => ([0, x, 0, 0] + y) : quat;
+((x : quat) + (y * 𝐢)) => (x + [0, y, 0, 0]) : quat;
+(x * 𝐢 + (y : quat)) => ([0, x, 0, 0] + y) : quat;
 ((x : quat) * (y : quat)) => (x * y) : quat;
 ((x : quat) + (y : quat)) => (x + y) : quat;
 x + (y : quat) => (x + y) : quat;
@@ -290,7 +290,7 @@ sin(\x:int * τ) => sin(τ);
 cos(\x:int * τ) => cos(τ);
 tan(\x:int * τ) => tan(τ);
 -(\a + \b * x) => (-a) + (-b) * x;
-reci((\x + \y * imag)) => x / (x^2 + y^2) + (neg(y) / (x^2 + y^2)) * imag;
+reci((\x + \y * 𝐢)) => x / (x^2 + y^2) + (neg(y) / (x^2 + y^2)) * 𝐢;
 \a - \b * x => a + (-b) * x;
 (\a + \b * x) - (\c + \d * x) => (a - c) + (b - d) * x;
 (\a + \b * x) + (\c * x) => a + (b + c) * x;
@@ -651,7 +651,7 @@ which means they can only be used from left to right.
 
 ```poi
 sqrt(\x:(>= 0)) <=> compute::sqrt(x);
-sqrt(\x:(< 0)) <=>> mul(sqrt(x))(imag);
+sqrt(\x:(< 0)) <=>> mul(sqrt(x))(𝐢);
 ln(\x) <=>> compute::ln(x);
 log2(\x) <=>> compute::log2(x);
 log10(\x) <=>> compute::log10(x);
