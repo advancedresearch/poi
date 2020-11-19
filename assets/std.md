@@ -166,6 +166,7 @@ List operators:
 
 ```poi
 base[type_of](f64)(f64) => vec;
+item[type_of](f64)(vec) => any;
 len[type_of](vec) => f64;
 concat[type_of](vec)(vec) => vec;
 push[type_of](vec)(f64) => vec;
@@ -187,6 +188,7 @@ add[exp] => mul;
 add[neg] => add;
 add[odd] => xor;
 and[not] => or;
+add[sqrt] => sqrt · (add · ((^ 2) · fst, (^ 2) · snd));
 concat[len] => add;
 concat[max] => max2;
 concat[min] => min2;
@@ -210,7 +212,6 @@ xor[not] => eqb;
 #### Asymmetric normal paths
 
 ```poi
-add[sqrt] => sqrt · (add · ((^ 2) · fst, (^ 2) · snd));
 if(a)(b)[not → id] => if(b)(a);
 nand[not x not -> id] => and[not];
 mul_mat[len ⨯ (item(1) · dim) → dim] => id;
