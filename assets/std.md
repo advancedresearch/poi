@@ -48,10 +48,6 @@ x((y, z..)) => x(y)(z);
 x{(y, z..)} => x{y}{z};
 x{y}{z}(a)(b) => x{y}(a){z}(b);
 (g, f)((y, z..)) => (g(y)(z), f(y)(z));
-if(x)(_)(true) => x;
-if(_)(x)(false) => x;
-if(x)(_){_}(true) => x;
-if(_)(x){_}(false) => x;
 \x(_) => x;
 \x · _ => x;
 ∃(\x) => eq(x);
@@ -59,6 +55,19 @@ if(_)(x){_}(false) => x;
 ∀(f:[arity]2{g0}{g1}) => (g0, g1);
 ∀(f:[arity]1{g}) => g;
 ∀(f:!{}) => true;
+```
+
+#### If
+
+The `if` in Poi takes two arguments `if(a, b)`.
+It returns `a` when condition is `true`,
+and returns `b` when condition is `false`.
+
+```poi
+if(x)(_)(true) => x;
+if(_)(x)(false) => x;
+if(x)(_){_}(true) => x;
+if(_)(x){_}(false) => x;
 ```
 
 #### Quaterions
