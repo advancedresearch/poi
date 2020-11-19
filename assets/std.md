@@ -53,7 +53,7 @@ if(_)(x)(false) => x;
 if(x)(_){_}(true) => x;
 if(_)(x){_}(false) => x;
 \x(_) => x;
-\x . _ => x;
+\x · _ => x;
 ∃(\x) => eq(x);
 ∃(f{f}) => idb;
 ∀(f:[arity]2{g0}{g1}) => (g0, g1);
@@ -227,26 +227,26 @@ id[x] => id;
 #### Misc
 
 ```poi
-inv(f) . f => id;
-f . inv(f) => id;
+inv(f) · f => id;
+f · inv(f) => id;
 inv(inv(f)) => f;
-not . not => idb;
-x . id => x;
-id . x => x;
+not · not => idb;
+x · id => x;
+id · x => x;
 (fst, snd) => id;
 
-not . even => odd;
-not . odd => even;
+not · even => odd;
+not · odd => even;
 mul{(>= 0)}{(>= 0)}[rpow{(>= 0)}(_)] => mul;
 
-exp . ln => id;
-ln . exp => id;
-neg . neg => id;
-conj . conj => id;
-sqrt . sqnorm => norm;
+exp · ln => id;
+ln · exp => id;
+neg · neg => id;
+conj · conj => id;
+sqrt · sqnorm => norm;
 (^ 2) · norm => sqnorm;
 sqrt · (^ 2) => abs;
-transpose . transpose => id;
+transpose · transpose => id;
 
 false1(_) => false;
 true1(_) => true;
@@ -561,7 +561,7 @@ eq{(: vec)}(x){(: vec)}(x) => eq{eq}(x)(x);
 #### Misc
 
 ```poi
-div{and . (eq, (> 0) . fst)} => 1;
+div{and · (eq, (> 0) · fst)} => 1;
 f{true2} => f;
 f{true1} => f;
 (x^\k * x) => x^(k + 1);
@@ -595,31 +595,32 @@ f{true1} => f;
 ```
 
 #### Misc
+
 ```poi
 idb => id;
 fstb => fst;
 sndb => snd;
 eqb => eq;
 
-len . concat => concat[len] . (len . fst, len . snd);
-sum . concat => concat[sum] . (sum . fst, sum . snd);
-max . concat => concat[max] . (max . fst, max . snd);
-min . concat => concat[min] . (min . fst, min . snd);
-sqnorm . concat => concat[sqnorm] . (sqnorm . fst, sqnorm . snd);
-norm . concat => sqrt . (sqnorm . concat);
-len . base(x) => x;
-item(0) . dim => len;
-(f . fst){x}(a){_}(_) => f{x}(a);
-(f . fst)(a)(_) => f(a);
-(f . snd){_}(_){x}(a) => f{x}(a);
-(f . snd)(_)(a) => f(a);
-(f . fst){_}(a)(_) => f(a);
-(f . snd){_}(_)(a) => f(a);
-(f . fst) . (x, _) => f . x;
-(f . snd) . (_, x) => f . x;
+len · concat => concat[len] · (len · fst, len · snd);
+sum · concat => concat[sum] · (sum · fst, sum · snd);
+max · concat => concat[max] · (max · fst, max · snd);
+min · concat => concat[min] · (min · fst, min · snd);
+sqnorm · concat => concat[sqnorm] · (sqnorm · fst, sqnorm · snd);
+norm · concat => sqrt · (sqnorm · concat);
+len · base(x) => x;
+item(0) · dim => len;
+(f · fst){x}(a){_}(_) => f{x}(a);
+(f · fst)(a)(_) => f(a);
+(f · snd){_}(_){x}(a) => f{x}(a);
+(f · snd)(_)(a) => f(a);
+(f · fst){_}(a)(_) => f(a);
+(f · snd){_}(_)(a) => f(a);
+(f · fst) · (x, _) => f · x;
+(f · snd) · (_, x) => f · x;
 
-(x, y) . (a, b) => (x . (a, b), y . (a, b));
-(x, y, z) . (a, b, c) => (x . (a, b, c), y . (a, b, c), z . (a, b, c));
+(x, y) · (a, b) => (x · (a, b), y · (a, b));
+(x, y, z) · (a, b, c) => (x · (a, b, c), y · (a, b, c), z · (a, b, c));
 
 cos(x) ^ 2 + sin(x) ^ 2 => 1;
 
@@ -694,23 +695,23 @@ rangem(0)(1) <=> probm;
 ```poi
 x ^ 2 <=> x * x;
 
-not . nand <=> and;
-not . nor <=> or;
-not . and <=> nand;
-not . or <=> nor;
-not . eqb <=> xor;
-not . xor <=> eqb;
+not · nand <=> and;
+not · nor <=> or;
+not · and <=> nand;
+not · or <=> nor;
+not · eqb <=> xor;
+not · xor <=> eqb;
 (>= x) <=> le(x);
 (> x) <=> lt(x);
 (<= x) <=> ge(x);
 (< x) <=> gt(x);
-and . (f, g) <=> and . (g, f);
-or . (f, g) <=> or . (g, f);
-nand . (f, g) <=> nand . (g, f);
-nor . (f, g) <=> nor . (g, f);
-(not . and) . (not . fst, not . snd) <=> or;
+and · (f, g) <=> and · (g, f);
+or · (f, g) <=> or · (g, f);
+nand · (f, g) <=> nand · (g, f);
+nor · (f, g) <=> nor · (g, f);
+(not · and) · (not · fst, not · snd) <=> or;
 
-el(x)(y) <=> item(x) . item(y);
+el(x)(y) <=> item(x) · item(y);
 
 a & b <=> b & a;
 a | b <=> b | a;
@@ -784,58 +785,58 @@ exp(x * ln(y)) <=> y^x;
 
 #### Generic transformations
 ```poi
-(f . g) <=> f[inv(g) -> id];
-(f . (g0 . fst, g1 . snd)) <=> f[inv(g0) x inv(g1) -> id];
-(f . inv(g)) <=> f[g -> id];
-(f . (inv(g0) . fst, inv(g1) . snd)) <=> f[g0 x g1 -> id];
-f[id -> g2] . inv(g1) <=> f[g1 -> g2];
-f[id -> g2] . g1 <=> f[inv(g1) -> g2];
+(f · g) <=> f[inv(g) -> id];
+(f · (g0 · fst, g1 · snd)) <=> f[inv(g0) x inv(g1) -> id];
+(f · inv(g)) <=> f[g -> id];
+(f · (inv(g0) · fst, inv(g1) · snd)) <=> f[g0 x g1 -> id];
+f[id -> g2] · inv(g1) <=> f[g1 -> g2];
+f[id -> g2] · g1 <=> f[inv(g1) -> g2];
 inv(f) <=> id[f -> id];
-inv(f . g) <=> inv(g) . inv(f);
-id[(f . g) -> id] <=> id[f -> id[g -> id]];
-((g2 . f . g1) = h) <=> (f = (inv(g2) . h . inv(g1)));
-((f . g) = h) <=> (((inv(f) . f) . g) = (inv(f) . h));
-((f . g) = h) <=> ((f . (g . inv(g))) = (h . inv(g)));
+inv(f · g) <=> inv(g) · inv(f);
+id[(f · g) -> id] <=> id[f -> id[g -> id]];
+((g2 · f · g1) = h) <=> (f = (inv(g2) · h · inv(g1)));
+((f · g) = h) <=> (((inv(f) · f) · g) = (inv(f) · h));
+((f · g) = h) <=> ((f · (g · inv(g))) = (h · inv(g)));
 (f[g] = h) <=> (f = h[inv(g)]);
 (f[g1 -> g2] = h) <=> (f = h[inv(g1) -> inv(g2)]);
 (f[g0 x g1 -> g2] = h) <=> (f = h[inv(g0) x inv(g1) -> inv(g2)]);
 (f[g1 -> id] = h[id -> inv(g2)]) <=> (f[g1 -> g2] = h);
-h . f[g -> id] <=> f[g -> h];
-f[id -> g] <=> g . f;
-f[id x id -> g] <=> g . f;
+h · f[g -> id] <=> f[g -> h];
+f[id -> g] <=> g · f;
+f[id x id -> g] <=> g · f;
 f:!{}(a)(a) <=> f{eq}(a)(a);
-f:!{} . (g, g) <=> f{eq} . (g, g);
-f[g][h] <=> f[h . g];
-f[g0 -> g1][g2 -> g3] <=> f[(g2 . g0) -> (g3 . g1)];
-f[g0 x g1 -> g2][h0 x h1 -> h2] <=> f[(h0 . g0) x (h1 . g1) -> (h2 . g2)];
-f . (g . (h0, h1)) <=> (f . g) . (h0, h1);
-(f . (g0, g1)) . (h0, h1) <=> f . ((g0, g1) . (h0, h1));
-f . (g . h) <=> (f . g) . h;
+f:!{} · (g, g) <=> f{eq} · (g, g);
+f[g][h] <=> f[h · g];
+f[g0 -> g1][g2 -> g3] <=> f[(g2 · g0) -> (g3 · g1)];
+f[g0 x g1 -> g2][h0 x h1 -> h2] <=> f[(h0 · g0) x (h1 · g1) -> (h2 · g2)];
+f · (g · (h0, h1)) <=> (f · g) · (h0, h1);
+(f · (g0, g1)) · (h0, h1) <=> f · ((g0, g1) · (h0, h1));
+f · (g · h) <=> (f · g) · h;
 f:[arity]1[g] <=> f:[arity]1[g -> id][id -> g];
-(f . (g0, g1)){x}(a){y}(b) <=> f(g0{x}(a){y}(b))(g1{x}(a){y}(b));
-(f . (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b));
-(f . (g0, g1))(a) <=> f(g0(a))(g1(a));
-(f . (g0(a), g1(b)))(c) <=> (f . (g0 . fst, g1 . snd))(a)(b)(c);
-(f . g)(a)(b) <=> f(g(a)(b));
-(f . g){x}(a){y}(b) <=> f(g{x}(a){y}(b));
-(f . g)(a) <=> f(g(a));
-(f . g){x}(a){y}(b) <=> (f . g{x}{y})(a)(b);
-(f . g:[arity]1){x}(a) <=> f(g{x}(a));
-(g . f:[arity]2){_}(a){_}(b) <=> f:[arity]2[g](g(a))(g(b));
-(g . f:[arity]1){_}(a) <=> f:[arity]1[g](g(a));
-(g . f:[arity]2)(a)(b) <=> f:[arity]2[g](g(a))(g(b));
-g . f:[arity]2 <=> f:[arity]2[g] . (g . fst, g . snd);
-(g . f:[arity]1)(a) <=> f:[arity]1[g](g(a));
+(f · (g0, g1)){x}(a){y}(b) <=> f(g0{x}(a){y}(b))(g1{x}(a){y}(b));
+(f · (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b));
+(f · (g0, g1))(a) <=> f(g0(a))(g1(a));
+(f · (g0(a), g1(b)))(c) <=> (f · (g0 · fst, g1 · snd))(a)(b)(c);
+(f · g)(a)(b) <=> f(g(a)(b));
+(f · g){x}(a){y}(b) <=> f(g{x}(a){y}(b));
+(f · g)(a) <=> f(g(a));
+(f · g){x}(a){y}(b) <=> (f · g{x}{y})(a)(b);
+(f · g:[arity]1){x}(a) <=> f(g{x}(a));
+(g · f:[arity]2){_}(a){_}(b) <=> f:[arity]2[g](g(a))(g(b));
+(g · f:[arity]1){_}(a) <=> f:[arity]1[g](g(a));
+(g · f:[arity]2)(a)(b) <=> f:[arity]2[g](g(a))(g(b));
+g · f:[arity]2 <=> f:[arity]2[g] · (g · fst, g · snd);
+(g · f:[arity]1)(a) <=> f:[arity]1[g](g(a));
 (g, f)(a) <=> (g(a), f(a));
-f . (g0, g1)(a) <=> (f . (g0, g1))(a);
-(g . f){h} <=> g . f{h};
-f[g0 x g1 -> g2] . (g0 . fst, g1 . snd) <=> g2 . f;
-f[g0 -> g1] . g0 <=> g1 . f;
-f[id x g0 -> g1] . (fst, g0 . snd) <=> g1 . f;
-f[g0 x id -> g1] . (g0 . fst, snd) <=> g1 . f;
+f · (g0, g1)(a) <=> (f · (g0, g1))(a);
+(g · f){h} <=> g · f{h};
+f[g0 x g1 -> g2] · (g0 · fst, g1 · snd) <=> g2 · f;
+f[g0 -> g1] · g0 <=> g1 · f;
+f[id x g0 -> g1] · (fst, g0 · snd) <=> g1 · f;
+f[g0 x id -> g1] · (g0 · fst, snd) <=> g1 · f;
 f[g -> g] <=> f[g];
 f[g x g -> g] <=> f[g];
 (f(x) = g(x)) <=> (f = g);
-g2 . f[g0 x g1 -> id] <=> (g2 . f)[g0 x g1 -> id];
-h . f[g0 x g1 -> id] <=> f[g0 x g1 -> h];
+g2 · f[g0 x g1 -> id] <=> (g2 · f)[g0 x g1 -> id];
+h · f[g0 x g1 -> id] <=> f[g0 x g1 -> h];
 ```
