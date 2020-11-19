@@ -716,8 +716,6 @@ el(x)(y) <=> item(x) · item(y);
 
 a - (b - c) <=> a - b + c;
 a - b - c <=> a - (b + c);
-a * (b + c) <=> a * b + a * c;
-a * (b - c) <=> a * b - a * c;
 ((a - b) * c) <=> (a * c - b * c);
 ((a + b) * c) <=> (a * c + b * c);
 ((a + b) - c) <=> (a + (b - c));
@@ -727,6 +725,13 @@ a * (b - c) <=> a * b - a * c;
 ((a + b) * (a - b)) <=> (a^2 - b^2);
 ((a * b)^2) <=> (a^2 * b^2);
 (^ a)(b) <=> (a ^ b);
+```
+
+#### Distributivity
+
+```poi
+a * (b + c) <=> a * b + a * c;
+a * (b - c) <=> a * b - a * c;
 ```
 
 #### Associativity
