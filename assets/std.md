@@ -50,11 +50,6 @@ x{y}{z}(a)(b) => x{y}(a){z}(b);
 (g, f)((y, z..)) => (g(y)(z), f(y)(z));
 \x(_) => x;
 \x · _ => x;
-∃(\x) => eq(x);
-∃(f{f}) => idb;
-∀(f:[arity]2{g0}{g1}) => (g0, g1);
-∀(f:[arity]1{g}) => g;
-∀(f:!{}) => true;
 ```
 
 #### If
@@ -515,6 +510,7 @@ not · (> x) => (<= x);
 ```
 
 #### Derivatives
+
 ```poi
 𝐝(!\x)(x) => 1;
 𝐝(!\x)(\y) => 0;
@@ -580,7 +576,29 @@ f{true1} => f;
 (x * x) => x^2;
 ```
 
+#### Trivial paths (domains)
+
+You can type `triv` instead of `∀`.
+For more information, see `help triv`.
+
+```poi
+∀(f:[arity]2{g0}{g1}) => (g0, g1);
+∀(f:[arity]1{g}) => g;
+∀(f:!{}) => true;
+```
+
 #### Existential paths (codomains)
+
+You can type `ex` instead of `∃`.
+For more information, see `help ex`.
+
+Generic laws:
+
+```poi
+∃(\x) => eq(x);
+∃(f{f}) => idb;
+```
+
 ```poi
 ∃(false1) => not;
 ∃(not) => true1;
