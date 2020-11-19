@@ -67,8 +67,10 @@ if(_)(x){_}(false) => x;
 
 #### Quaterions
 
-Quaternions are lifted to a type vector,
+Quaternions are lifted to a typed vector,
 in order to avoid combinatorial explosion in rules.
+
+Conversion/lifting rules:
 
 ```poi
 𝐢₂ => [0, 0, 1, 0] : quat;
@@ -77,15 +79,11 @@ in order to avoid combinatorial explosion in rules.
 ((x : quat) * 𝐢) => (x * [0, 1, 0, 0]) : quat;
 ((x * 𝐢) * (y : quat)) => (x * (𝐢 * (y : quat)));
 
-neg([x, y, z, w] : quat) => [neg(x), neg(y), neg(z), neg(w)] : quat;
 ((x : quat) * 𝐢) => ((x : quat) * (𝐢 : quat));
 (𝐢 + (x : quat)) => ([0, 1, 0, 0] + x) : quat;
 ((x : quat) + 𝐢) => (x + [0, 1, 0, 0]) : quat;
 ((x : quat) * 𝐢₂) => (x * [0, 0, 1, 0]) : quat;
 ((x : quat) * 𝐢₃) => (x * [0, 0, 0, 1]) : quat;
-s + ([x, y, z, w] : quat) => [s + x, s + y, s + z, s + w] : quat;
-s * ([x, y, z, w] : quat) => [s * x, s * y, s * z, s * w] : quat;
-([x, y, z, w] : quat) * s => [x * s, y * s, z * s, w * s] : quat;
 ((x : quat) + (y * 𝐢)) => (x + [0, y, 0, 0]) : quat;
 (x * 𝐢 + (y : quat)) => ([0, x, 0, 0] + y) : quat;
 ((x : quat) * (y : quat)) => (x * y) : quat;
@@ -98,8 +96,14 @@ x + (y : quat) => (x + y) : quat;
 Quaternion algebra:
 
 ```poi
+-([x, y, z, w] : quat) => [-x, -y, -z, -w] : quat;
+s + ([x, y, z, w] : quat) => [s + x, s + y, s + z, s + w] : quat;
+s * ([x, y, z, w] : quat) => [s * x, s * y, s * z, s * w] : quat;
+([x, y, z, w] : quat) * s => [x * s, y * s, z * s, w * s] : quat;
+
 ([x0, y0, z0, w0] + [x1, y1, z1, w1]) : quat =>
  [x0+x1,y0+y1,z0+z1,w0+w1] : quat;
+
 ([x0, y0, z0, w0] * [x1, y1, z1, w1]) : quat => [
     x0*x1-y0*y1-z0*z1-w0*w1,
     x0*y1+y0*x1+z0*w1-w0*z1,
