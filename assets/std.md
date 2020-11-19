@@ -41,6 +41,8 @@ The pattern binds variables on the left side and synthesizes the expression on t
 There is a trade-off between reductions and equivalences.
 Reductions are used to simplify automated theorem proving.
 
+#### Misc
+
 ```poi
 x((y, z..)) => x(y)(z);
 x{(y, z..)} => x{y}{z};
@@ -60,6 +62,7 @@ if(_)(x){_}(false) => x;
 ```
 
 #### Quaterions
+
 ```poi
 imag2 => [0, 0, 1, 0] : quat;
 imag3 => [0, 0, 0, 1] : quat;
@@ -93,7 +96,8 @@ x + (y : quat) => (x + y) : quat;
 [x, y, z, 𝐢] : quat => 𝐢 * 𝐢₃ + ([x, y, z, 0] : quat);
 ```
 
-### Types
+#### Types
+
 ```poi
 type_of(true) => bool;
 type_of(false) => bool;
@@ -137,7 +141,8 @@ len[type_of](vec) => f64;
 concat[type_of](vec)(vec) => vec;
 ```
 
-### Symmetric normal paths
+#### Symmetric normal paths
+
 ```poi
 add[even] => eqb;
 add[exp] => mul;
@@ -164,20 +169,24 @@ or[not] => and;
 xor[not] => eqb;
 ```
 
-### Asymmetric normal paths
+#### Asymmetric normal paths
+
 ```poi
 add[sqrt] => sqrt · (add · ((^ 2) · fst, (^ 2) · snd));
 nand[not x not -> id] => and[not];
 mul_mat[len ⨯ (item(1) · dim) → dim] => id;
+if(a)(b)[not → id] => if(b)(a);
 ```
 
-### Identity normal paths
+#### Identity normal paths
+
 ```poi
 x[id] => x;
 id[x] => id;
 ```
 
 #### Misc
+
 ```poi
 inv(f) . f => id;
 f . inv(f) => id;
@@ -186,10 +195,6 @@ not . not => idb;
 x . id => x;
 id . x => x;
 (fst, snd) => id;
-not . (>= x) => (< x);
-not . (> x) => (<= x);
-not . (<= x) => (> x);
-not . (< x) => (>= x);
 
 not . even => odd;
 not . odd => even;
@@ -222,6 +227,7 @@ eqb(true) => idb;
 ```
 
 #### Complex numbers
+
 ```poi
 ε ^ 2 => 0;
 𝐢 ^ 2 => -1;
@@ -235,6 +241,7 @@ Complex number utilities:
 𝐢 + 𝐢 => 2𝐢;
 x * 𝐢 + 𝐢 => (x + 1) * 𝐢;
 𝐢 + x * 𝐢 => (1 + x) * 𝐢;
+sqrt(-1) => 𝐢;
 ```
 
 #### Misc
@@ -280,6 +287,7 @@ conj(a + b * 𝐢) => a + (-b) * 𝐢;
 ```
 
 #### Computations
+
 ```poi
 -\x => compute::neg(x);
 \x < \y => compute::lt(x, y);
@@ -331,14 +339,13 @@ Computation utilities:
 ```
 
 #### Misc
+
 ```poi
 (* x) · (mul · (g, (* y) · snd)) => (* x) · ((* y) · (mul · (g, snd)));
 (* x) · (mul · ((* y) · fst, g)) => (* x) · ((* y) · (mul · (fst, g)));
 (* x) · (* y) => (* x * y);
 
 -(-x) => x;
-sqrt(1) => 1;
-sqrt(-1) => 𝐢;
 0 + x => x;
 x + 0 => x;
 0 - x => -x;
@@ -350,10 +357,6 @@ _ * 0 => 0;
 \x / ∞ => 0;
 x ^ 1 => x;
 x ^ 0 => 1;
-sqrt(x) ^ 2 => x;
-sin(τ) => 0;
-cos(τ) => 1;
-tan(τ) => 0;
 
 x * (-y) => (-x) * y;
 ```
@@ -396,12 +399,17 @@ vec_uop(f)(\[x]) => [f(x)];
 #### Misc
 ```poi
 dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => x0 * x1 + y0 * y1;
-
-if(a)(b)[not → id] => if(b)(a);
 not · (not · x) => x;
 ```
 
 #### Ranges
+
+```poi
+not . (< x) => (>= x);
+not . (<= x) => (> x);
+not . (>= x) => (< x);
+not . (> x) => (<= x);
+```
 
 ```poi
 and · (le, ge) => eq;
@@ -468,7 +476,8 @@ d(!\x)(exp(x)) => exp(x);
 d(!\x)(exp(\k * x)) => k * exp(k * x);
 ```
 
-#### Integrals
+#### Indefinite integrals
+
 ```poi
 ∫(!\x)(c)(x) => c + 0.5 * x ^ 2;
 ∫(!\x)(c)(\k) => c + k * x;
@@ -483,23 +492,32 @@ d(!\x)(exp(\k * x)) => k * exp(k * x);
 ∫(!\x)(c)(ln(x)) => c + (-x + x * ln(x));
 ```
 
-Integral utilities:
+Indefinite integral utilities:
 ```poi
 (\k * ((c / \k) + y)) => c + k * y;
 ```
 
-#### Misc
+#### Equality domain constraints
 
 ```poi
 and{eq} => fstb;
 or{eq} => fstb;
 eq{eq} => true;
-eq{(: vec)}(x){(: vec)}(x) => eq{eq}(x)(x);
-sub{eq} => 0;
-div{and . (eq, (> 0) . fst)} => 1;
 add{eq}(x)(_) => 2 * x;
 mul{eq}(x)(_) => x ^ 2;
+sub{eq} => 0;
+```
+
+Equality constraint utilities:
+```poi
 \x{eq}(_) => x;
+eq{(: vec)}(x){(: vec)}(x) => eq{eq}(x)(x);
+```
+
+#### Misc
+
+```poi
+div{and . (eq, (> 0) . fst)} => 1;
 f{true2} => f;
 f{true1} => f;
 (x^\k * x) => x^(k + 1);
@@ -611,6 +629,11 @@ tau <=>> 6.283185307179586;
 Trigonometry utilities:
 ```poi
 2π <=> τ;
+cos(τ) => 1;
+sin(τ) => 0;
+sqrt(1) => 1;
+sqrt(x) ^ 2 => x;
+tan(τ) => 0;
 ```
 
 #### Ranges to probabilities
@@ -670,7 +693,7 @@ a * (b - c) <=> a * b - a * c;
 (^ a)(b) <=> (a ^ b);
 ```
 
-#### Function inverse
+#### Function inverses
 
 ```poi
 inv(id) <=> id;
