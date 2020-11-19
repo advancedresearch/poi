@@ -721,6 +721,7 @@ nor(a)(b) <=> nor(b)(a);
 xor(a)(b) <=> xor(b)(a);
 (a = b) <=> (b = a);
 a + b <=> b + a;
+x0 + x1 + x2 + x3 <=> x3 + x0 + x1 + x2;
 a * b <=> b * a;
 a + (b + c) <=> a + b + c;
 a - (b - c) <=> a - b + c;
