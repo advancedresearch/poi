@@ -246,7 +246,7 @@ pub enum Symbol {
     /// Function inverse `inv`.
     Inv,
     /// Derivative.
-    D,
+    Deriv,
     /// Integral.
     Integ,
     /// `if`.
@@ -416,7 +416,7 @@ impl From<Arc<String>> for Symbol {
             "vec_op" => VecOp,
             "vec_uop" => VecUop,
             "arity" => Arity,
-            "d" => D,
+            "deriv" | "𝐝" => Deriv,
             "integ" | "∫" => Integ,
             "pi" | "π" => Pi,
             "tau" | "τ" => Tau,
@@ -544,7 +544,7 @@ impl Symbol {
             VecOp => write!(w, "vec_op")?,
             VecUop => write!(w, "vec_uop")?,
             Arity => write!(w, "arity")?,
-            D => write!(w, "d")?,
+            Deriv => write!(w, "𝐝")?,
             Integ => write!(w, "∫")?,
             Pi => write!(w, "π")?,
             Tau => write!(w, "τ")?,
