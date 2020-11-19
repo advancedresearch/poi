@@ -221,40 +221,35 @@ eqb(false) => not;
 eqb(true) => idb;
 ```
 
+#### Complex numbers
+```poi
+ε ^ 2 => 0;
+𝐢 ^ 2 => -1;
+```
+
+Complex number utilities:
+```poi
+ε * ε => ε ^ 2;
+
+𝐢 * 𝐢 => 𝐢 ^ 2;
+𝐢 + 𝐢 => 2𝐢;
+x * 𝐢 + 𝐢 => (x + 1) * 𝐢;
+𝐢 + x * 𝐢 => (1 + x) * 𝐢;
+```
+
+#### Misc
 ```poi
 sin(\x:int * τ) => sin(τ);
 cos(\x:int * τ) => cos(τ);
 tan(\x:int * τ) => tan(τ);
-ε ^ 2 => 0;
-𝐢 + 𝐢 => 2𝐢;
-x * 𝐢 + 𝐢 => (x + 1) * 𝐢;
-𝐢 + x * 𝐢 => (1 + x) * 𝐢;
-𝐢 * 𝐢 => 𝐢 ^ 2;
-ε * ε => ε ^ 2;
-𝐢 ^ 2 => -1;
-\x < \y => compute::lt(x, y);
-\x <= \y => compute::le(x, y);
-\x > \y => compute::gt(x, y);
-\x >= \y => compute::ge(x, y);
-even(\x) => compute::even(x);
-inc(\x) => compute::inc(x);
-odd(\x) => compute::odd(x);
--\x => compute::neg(x);
 -(\a + \b * x) => (-a) + (-b) * x;
-reci(\x) => compute::reci(x);
 reci((\x + \y * imag)) => x / (x^2 + y^2) + (neg(y) / (x^2 + y^2)) * imag;
-abs(\x) => compute::abs(x);
-\x + \y => compute::add(x, y);
-\x + (\y + z) => compute::add(x, y) + z;
 \a - \b * x => a + (-b) * x;
 (\a + \b * x) - (\c + \d * x) => (a - c) + (b - d) * x;
 (\a + \b * x) + (\c * x) => a + (b + c) * x;
 (\a * x) + (\b * x) => (a + b) * x;
 \a * x + x => (a + 1) * x;
 \a * x - x => (a - 1) * x;
-\x - \y => compute::sub(x, y);
-\x * \y => compute::mul(x, y);
-\x * (\y * z) => compute::mul(x, y) * z;
 \a * (\b + \c * x) => (a * \b) + (a * c) * x;
 ((\a + \b * x) * (\c * x)) => ((c * x) * (a + b * x));
 (\a * x) * (\b + \c * x) => ((a * c) * x^2 + (a * b) * x);
@@ -263,14 +258,6 @@ abs(\x) => compute::abs(x);
 \x / \y => compute::div(x, y);
 (\a + \b * ε) / (\c + \d * ε) => a / c + (b * c - a * d) / c ^ 2 * ε;
 x / (\a + \b * 𝐢) => x * reci(a + b * 𝐢);
-\x % \y => compute::rem(x, y);
-\x ^ \y => compute::pow(x, y);
-(^ \x)(\y) => compute::pow(y, x);
-\x = \y => compute::eq(x, y);
-push([x..])(y) => compute::push(x, y);
-push_front([x..])(y) => compute::push_front(x, y);
-concat{(: vec)}(x){(: vec)}(y) => compute::concat(x, y);
-len{(: vec)}(x) => compute::len(x);
 not{(: vec)}([x]) => [!x];
 not{(: vec)}([x, y..]) => [not(x)] ++ not{(: vec)}(y);
 neg{(: vec)}(\[x]) => [-x];
@@ -281,17 +268,6 @@ max{(: vec)}([x, y..]) => max2(x)(max{(: vec)}(y));
 max{(: vec)}(\[x]) => x;
 min{(: vec)}([x, y..]) => min2(x)(min{(: vec)}(y));
 min{(: vec)}(\[x]) => x;
-max2(\x)(\y) => compute::max2(x, y);
-min2(\x)(\y) => compute::min2(x, y);
-range(\x)(\y)(\z) => compute::range(x, y, z);
-rangel(\x)(\y)(\z) => compute::rangel(x, y, z);
-ranger(\x)(\y)(\z) => compute::ranger(x, y, z);
-rangem(\x)(\y)(\z) => compute::rangem(x, y, z);
-prob(\x) => compute::prob(x);
-probl(\x) => compute::probl(x);
-probr(\x) => compute::probr(x);
-probm(\x) => compute::probm(x);
-item(\x)([y..]) => compute::item(x, y);
 el(x)(y)(z) => item(y)(item(x)(z));
 re{(: vec)}(x) => item(0)(x);
 re(a + _ * 𝐢) => a;
@@ -301,16 +277,61 @@ a * 𝐢 * 𝐢 => a * (𝐢 * 𝐢);
 mulc([x0, y0])([x1, y1]) => [x0 * x1 - y0 * y1, x0 * y1 + x1 * y0];
 conj([x, y]) => [x, -y];
 conj(a + b * 𝐢) => a + (-b) * 𝐢;
-sqnorm{(: vec)}(x) => sum(vec_op(mul)(x)(x));
-norm(x) => sqrt(sqnorm(x));
-is_square_mat{(: vec)}(x) => compute::is_square_mat(x);
-transpose{(: vec)}(x) => compute::transpose(x);
-col(\k){(: vec)}(x) => compute::col(k, x);
-dim{(: vec)}(x) => compute::dim(x);
-base(\x)(\y) => compute::base(x, y);
-mul_mat{(: vec)}(x){(: vec)}(y) => compute::mul_mat(x, y);
-arity(x) => compute::arity(x);
+```
 
+#### Computations
+```poi
+-\x => compute::neg(x);
+\x < \y => compute::lt(x, y);
+\x <= \y => compute::le(x, y);
+\x = \y => compute::eq(x, y);
+\x >= \y => compute::ge(x, y);
+\x > \y => compute::gt(x, y);
+\x + \y => compute::add(x, y);
+\x - \y => compute::sub(x, y);
+\x * \y => compute::mul(x, y);
+\x % \y => compute::rem(x, y);
+\x ^ \y => compute::pow(x, y);
+(^ \x)(\y) => compute::pow(y, x);
+abs(\x) => compute::abs(x);
+arity(x) => compute::arity(x);
+base(\x)(\y) => compute::base(x, y);
+col(\k){(: vec)}(x) => compute::col(k, x);
+concat{(: vec)}(x){(: vec)}(y) => compute::concat(x, y);
+dim{(: vec)}(x) => compute::dim(x);
+even(\x) => compute::even(x);
+inc(\x) => compute::inc(x);
+item(\x)([y..]) => compute::item(x, y);
+is_square_mat{(: vec)}(x) => compute::is_square_mat(x);
+len{(: vec)}(x) => compute::len(x);
+max2(\x)(\y) => compute::max2(x, y);
+min2(\x)(\y) => compute::min2(x, y);
+mul_mat{(: vec)}(x){(: vec)}(y) => compute::mul_mat(x, y);
+norm(x) => sqrt(sqnorm(x));
+odd(\x) => compute::odd(x);
+prob(\x) => compute::prob(x);
+probl(\x) => compute::probl(x);
+probm(\x) => compute::probm(x);
+probr(\x) => compute::probr(x);
+push([x..])(y) => compute::push(x, y);
+push_front([x..])(y) => compute::push_front(x, y);
+range(\x)(\y)(\z) => compute::range(x, y, z);
+rangel(\x)(\y)(\z) => compute::rangel(x, y, z);
+rangem(\x)(\y)(\z) => compute::rangem(x, y, z);
+ranger(\x)(\y)(\z) => compute::ranger(x, y, z);
+reci(\x) => compute::reci(x);
+sqnorm{(: vec)}(x) => sum(vec_op(mul)(x)(x));
+transpose{(: vec)}(x) => compute::transpose(x);
+```
+
+Computation utilities:
+```poi
+\x + (\y + z) => compute::add(x, y) + z;
+\x * (\y * z) => compute::mul(x, y) * z;
+```
+
+#### Misc
+```poi
 (* x) · (mul · (g, (* y) · snd)) => (* x) · ((* y) · (mul · (g, snd)));
 (* x) · (mul · ((* y) · fst, g)) => (* x) · ((* y) · (mul · (fst, g)));
 (* x) · (* y) => (* x * y);
@@ -335,7 +356,14 @@ cos(τ) => 1;
 tan(τ) => 0;
 
 x * (-y) => (-x) * y;
+```
 
+#### Concreteness
+
+Concreteness is used to in meta-reasoning about whether an expression
+will return a concrete value.
+
+```poi
 (x : \) + (y : \) => (x + y) : \;
 (x : \) - (y : \) => (x - y) : \;
 (x : \) * (y : \) => (x * y) : \;
@@ -343,7 +371,10 @@ x * (-y) => (-x) * y;
 (x : \) % (y : \) => (x % y) : \;
 (x : \) ^ (y : \) => (x ^ y) : \;
 (^ x : \)(y : \) => (^ x)(y) : \;
+```
 
+#### Vector operations
+```poi
 and{(: vec)}(x){(: vec)}(y) => vec_op(and)(x)(y);
 or{(: vec)}(x){(: vec)}(y) => vec_op(or)(x)(y);
 add{(: vec)}(x){(: vec)}(y) => vec_op(add)(x)(y);
@@ -353,18 +384,28 @@ div{(: vec)}(x){(: vec)}(y) => vec_op(div)(x)(y);
 rem{(: vec)}(x){(: vec)}(y) => vec_op(rem)(x)(y);
 pow{(: vec)}(x){(: vec)}(y) => vec_op(pow)(x)(y);
 rpow{(: vec)}(x){(: vec)}(y) => vec_op(rpow)(x)(y);
+```
 
+```poi
 vec_op(f)([x0, y0..])([x1, y1..]) => concat([f(x0)(x1)])(vec_op(f)(y0)(y1));
 vec_op(f)(\[x])(\[y]) => [f(x)(y)];
 vec_uop(f)([x, y..]) => concat([f(x)])(vec_uop(f)(y));
 vec_uop(f)(\[x]) => [f(x)];
+```
 
+### Misc
+```poi
 dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => x0 * x1 + y0 * y1;
 
 if(a)(b)[not → id] => if(b)(a);
-not . (not . x) => x;
-and . (le, ge) => eq;
-and . (f, f) => f;
+not · (not · x) => x;
+```
+
+#### Ranges
+
+```poi
+and · (le, ge) => eq;
+and · (f, f) => f;
 and · ((>= \x), (>= \y)) => (>= max2(x)(y));
 and · ((> \x), (> \y)) => (> max2(x)(y));
 and · ((<= \x), (<= \y)) => (<= min2(x)(y));
@@ -385,6 +426,9 @@ and · ((<= \x), (> \y)) => if(false)(ranger(min2(x)(y))(max2(x)(y)))(x <= y);
 and · ((<= \x), (>= \y)) => if(false)(range(min2(x)(y))(max2(x)(y)))(x < y);
 and · ((< \x), (<= \y)) => if((< x))((<= y))(x <= y);
 and · ((> \x), (>= \y)) => if((> x))((>= y))(x >= y);
+```
+
+```poi
 or · ((< x), (<= x)) => (<= x);
 or · ((<= x), (< y)) => or · ((< y), (<= x));
 or · ((< x), (= x)) => (<= x);
@@ -405,8 +449,11 @@ or · ((> x), (>= x)) => (>= x);
 or · ((>= x), (> y)) => or · ((> y), (>= x));
 or · ((< \x), (<= \y)) => if((<= y))((< x))(x <= y);
 or · ((> \x), (>= \y)) => if((>= y))(gt(x))(x >= y);
-or . (f, f) => f;
+or · (f, f) => f;
+```
 
+#### Derivatives
+```poi
 d(!\x)(x) => 1;
 d(!\x)(\y) => 0;
 d(!\x)(\k * y) => k * d(x)(y);
@@ -419,6 +466,10 @@ d(!\x)(sin(\k * x)) => k * cos(k * x);
 d(!\x)(cos(\k * x)) => -k * sin(k * x);
 d(!\x)(exp(x)) => exp(x);
 d(!\x)(exp(\k * x)) => k * exp(k * x);
+```
+
+#### Integrals
+```poi
 ∫(!\x)(c)(x) => c + 0.5 * x ^ 2;
 ∫(!\x)(c)(\k) => c + k * x;
 ∫(!\x)(c)(\k * y) => k * ∫(x)(c / k)(y);
@@ -430,8 +481,15 @@ d(!\x)(exp(\k * x)) => k * exp(k * x);
 ∫(!\x)(c)(d(x)(y) * exp(y)) => c + exp(y);
 ∫(!\x)(c)(\k ^ x) => c + k ^ x / ln(k);
 ∫(!\x)(c)(ln(x)) => c + (-x + x * ln(x));
-(\k * ((c / \k) + y)) => c + k * y;
+```
 
+Integral utilities:
+```poi
+(\k * ((c / \k) + y)) => c + k * y;
+```
+
+#### Misc
+```
 and{eq} => fstb;
 or{eq} => fstb;
 eq{eq} => true;
@@ -447,7 +505,10 @@ f{true1} => f;
 (x * x^\k) => x^(k + 1);
 (x^\a * x^\b) => x^(a + b);
 (x * x) => x^2;
+```
 
+#### Existential paths (codomains)
+```poi
 ∃(false1) => not;
 ∃(not) => true1;
 ∃(idb) => true1;
@@ -468,7 +529,10 @@ f{true1} => f;
 ∃(add{(> x)}{(> y)}) => (> x + y);
 ∃(add{(<= x)}{(<= y)}) => (<= x + y);
 ∃(add{(< x)}{(< y)}) => (< x + y);
+```
 
+#### Misc
+```poi
 idb => id;
 fstb => fst;
 sndb => snd;
