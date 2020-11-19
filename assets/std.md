@@ -106,36 +106,52 @@ Quaternion algebra:
 
 #### Types
 
-```poi
-type_of(true) => bool;
-type_of(false) => bool;
-type_of(\x) => compute::type_of(x);
-type_of([x..]) => vec;
+Constants in Boolean algebra:
 
+```poi
+type_of(false) => bool;
+type_of(true) => bool;
+```
+
+Unary operators in Boolean algebra (`bool -> bool`):
+
+```poi
 false1[type_of](bool) => bool;
 not[type_of](bool) => bool;
 idb[type_of](bool) => bool;
 true1[type_of](bool) => bool;
+```
 
-false2[type_of](bool)(bool) => bool;
-true2[type_of](bool)(bool) => bool;
+Binary operators in Boolean algebra (`bool x bool -> bool`):
+
+```poi
 and[type_of](bool)(bool) => bool;
-or[type_of](bool)(bool) => bool;
 eqb[type_of](bool)(bool) => bool;
-xor[type_of](bool)(bool) => bool;
+exc[type_of](bool)(bool) => bool;
+false2[type_of](bool)(bool) => bool;
+fstb[type_of](bool)(bool) => bool;
+imply[type_of](bool)(bool) => bool;
+or[type_of](bool)(bool) => bool;
 nand[type_of](bool)(bool) => bool;
 nor[type_of](bool)(bool) => bool;
-exc[type_of](bool)(bool) => bool;
-imply[type_of](bool)(bool) => bool;
-fstb[type_of](bool)(bool) => bool;
 sndb[type_of](bool)(bool) => bool;
+xor[type_of](bool)(bool) => bool;
+true2[type_of](bool)(bool) => bool;
+```
 
+Trigonometric operators:
+
+```poi
 sqrt[type_of](f64) => f64;
 ln[type_of](f64) => f64;
 log2[type_of](f64) => f64;
 log10[type_of](f64) => f64;
 exp[type_of](f64) => f64;
+```
 
+Arithmetic operators:
+
+```poi
 eq[type_of](bool)(bool) => bool;
 add[type_of](f64)(f64) => f64;
 sub[type_of](f64)(f64) => f64;
@@ -144,9 +160,20 @@ div[type_of](f64)(f64) => f64;
 rem[type_of](f64)(f64) => f64;
 pow[type_of](f64)(f64) => f64;
 rpow[type_of](f64)(f64) => f64;
+```
 
+List operators:
+
+```poi
 len[type_of](vec) => f64;
 concat[type_of](vec)(vec) => vec;
+```
+
+Type utilities:
+
+```poi
+type_of(\x) => compute::type_of(x);
+type_of([x..]) => vec;
 ```
 
 #### Symmetric normal paths
@@ -181,9 +208,9 @@ xor[not] => eqb;
 
 ```poi
 add[sqrt] => sqrt · (add · ((^ 2) · fst, (^ 2) · snd));
+if(a)(b)[not → id] => if(b)(a);
 nand[not x not -> id] => and[not];
 mul_mat[len ⨯ (item(1) · dim) → dim] => id;
-if(a)(b)[not → id] => if(b)(a);
 ```
 
 #### Identity normal paths
