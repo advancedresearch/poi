@@ -714,10 +714,8 @@ nor · (f, g) <=> nor · (g, f);
 
 el(x)(y) <=> item(x) · item(y);
 
-a + (b + c) <=> a + b + c;
 a - (b - c) <=> a - b + c;
 a - b - c <=> a - (b + c);
-a * (b * c) <=> a * b * c;
 a * (b + c) <=> a * b + a * c;
 a * (b - c) <=> a * b - a * c;
 ((a - b) * c) <=> (a * c - b * c);
@@ -731,7 +729,14 @@ a * (b - c) <=> a * b - a * c;
 (^ a)(b) <=> (a ^ b);
 ```
 
-### Commutativity
+#### Associativity
+
+```poi
+a + (b + c) <=> a + b + c;
+a * (b * c) <=> a * b * c;
+```
+
+#### Commutativity
 
 ```poi
 a & b <=> b & a;
