@@ -41,13 +41,31 @@ The pattern binds variables on the left side and synthesizes the expression on t
 There is a trade-off between reductions and equivalences.
 Reductions are used to simplify automated theorem proving.
 
-#### Misc
+#### Generic normalization
+
+Poi uses maximum function currying as standard form,
+because there are many ways of calling functions.
+This makes it easier to design rules that work in general.
+
+Algebraic expressions, e.g. `2 + 3`, uses standard form behind the scenes.
+
+Normalization of tuple arguments and domain constraints:
 
 ```poi
 x((y, z..)) => x(y)(z);
 x{(y, z..)} => x{y}{z};
+```
+
+Redistribution:
+
+```poi
 x{y}{z}(a)(b) => x{y}(a){z}(b);
 (g, f)((y, z..)) => (g(y)(z), f(y)(z));
+```
+
+Concrete application and composition:
+
+```poi
 \x(_) => x;
 \x · _ => x;
 ```
