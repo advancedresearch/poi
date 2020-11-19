@@ -63,6 +63,9 @@ if(_)(x){_}(false) => x;
 
 #### Quaterions
 
+Quaternions are lifted to a type vector,
+in order to avoid combinatorial explosion in rules.
+
 ```poi
 imag2 => [0, 0, 1, 0] : quat;
 imag3 => [0, 0, 0, 1] : quat;
