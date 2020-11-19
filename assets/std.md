@@ -280,6 +280,7 @@ sqrt(-1) => 𝐢;
 ```
 
 #### Misc
+
 ```poi
 sin(\x:int * τ) => sin(τ);
 cos(\x:int * τ) => cos(τ);
@@ -412,6 +413,7 @@ will return a concrete value.
 ```
 
 #### Vector operations
+
 ```poi
 and{(: vec)}(x){(: vec)}(y) => vec_op(and)(x)(y);
 or{(: vec)}(x){(: vec)}(y) => vec_op(or)(x)(y);
@@ -424,6 +426,8 @@ pow{(: vec)}(x){(: vec)}(y) => vec_op(pow)(x)(y);
 rpow{(: vec)}(x){(: vec)}(y) => vec_op(rpow)(x)(y);
 ```
 
+Vector operation reductions:
+
 ```poi
 vec_op(f)([x0, y0..])([x1, y1..]) => concat([f(x0)(x1)])(vec_op(f)(y0)(y1));
 vec_op(f)(\[x])(\[y]) => [f(x)(y)];
@@ -432,6 +436,7 @@ vec_uop(f)(\[x]) => [f(x)];
 ```
 
 #### Misc
+
 ```poi
 dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => x0 * x1 + y0 * y1;
 not · (not · x) => x;
