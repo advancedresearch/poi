@@ -445,13 +445,6 @@ not · (not · x) => x;
 #### Ranges
 
 ```poi
-not . (< x) => (>= x);
-not . (<= x) => (> x);
-not . (>= x) => (< x);
-not . (> x) => (<= x);
-```
-
-```poi
 and · (le, ge) => eq;
 and · (f, f) => f;
 and · ((>= \x), (>= \y)) => (>= max2(x)(y));
@@ -498,6 +491,13 @@ or · ((>= x), (> y)) => or · ((> y), (>= x));
 or · ((< \x), (<= \y)) => if((<= y))((< x))(x <= y);
 or · ((> \x), (>= \y)) => if((>= y))(gt(x))(x >= y);
 or · (f, f) => f;
+```
+
+```poi
+not · (< x) => (>= x);
+not · (<= x) => (> x);
+not · (>= x) => (< x);
+not · (> x) => (<= x);
 ```
 
 #### Derivatives
