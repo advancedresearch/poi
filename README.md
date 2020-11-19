@@ -1,6 +1,8 @@
 # Poi
 a pragmatic point-free theorem prover assistant
 
+[Standard Library](./assets/std.md)
+
 ```text
 === Poi Reduce 0.17 ===
 Type `help` for more information.
@@ -315,9 +317,8 @@ where dependent types are used, but in a more convenient way.
 Although Poi uses ideas from dependent types, it is not suitable for other applications
 of dependent types, e.g. verifcation of programs by applying it to some immediate representation of machine code.
 
-
-Although normal paths might be used for such applications in the future,
-it might require a different architecture.
+Normal paths might be used for such applications in the future,
+but this might require a different architecture.
 
 This implementation is designed for algebraic problems:
 
