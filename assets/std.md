@@ -168,11 +168,18 @@ true2[type_of](bool)(bool) => bool;
 Trigonometric operators:
 
 ```poi
-sqrt[type_of](f64) => f64;
+acos[type_of](f64) => f64;
+asin[type_of](f64) => f64;
+atan[type_of](f64) => f64;
+atan2[type_of](f64)(f64) => f64;
+cos[type_of](f64) => f64;
+exp[type_of](f64) => f64;
 ln[type_of](f64) => f64;
 log2[type_of](f64) => f64;
 log10[type_of](f64) => f64;
-exp[type_of](f64) => f64;
+sin[type_of](f64) => f64;
+sqrt[type_of](f64) => f64;
+tan[type_of](f64) => f64;
 ```
 
 Arithmetic operators:
@@ -700,19 +707,19 @@ which means they can only be used from left to right.
 #### Trigonometry
 
 ```poi
-sqrt(\x:(>= 0)) <=> compute::sqrt(x);
-sqrt(\x:(< 0)) <=>> mul(sqrt(x))(𝐢);
+acos(\x) <=>> compute::acos(x);
+asin(\x) <=>> compute::asin(x);
+atan(\x) <=>> compute::atan(x);
+atan2(\x)(\y) <=>> compute::atan2(x, y);
+cos(\x) <=>> compute::cos(x);
+exp(\x) <=>> compute::exp(x);
 ln(\x) <=>> compute::ln(x);
 log2(\x) <=>> compute::log2(x);
 log10(\x) <=>> compute::log10(x);
-exp(\x) <=>> compute::exp(x);
 sin(\x) <=>> compute::sin(x);
-asin(\x) <=>> compute::asin(x);
-cos(\x) <=>> compute::cos(x);
-acos(\x) <=>> compute::acos(x);
+sqrt(\x:(< 0)) <=>> mul(sqrt(x))(𝐢);
+sqrt(\x:(>= 0)) <=> compute::sqrt(x);
 tan(\x) <=>> compute::tan(x);
-atan(\x) <=>> compute::atan(x);
-atan2(\x)(\y) <=>> compute::atan2(x, y);
 ```
 
 Constants:
