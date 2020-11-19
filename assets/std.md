@@ -167,6 +167,8 @@ List operators:
 ```poi
 len[type_of](vec) => f64;
 concat[type_of](vec)(vec) => vec;
+push[type_of](vec)(f64) => vec;
+push_front[type_of](vec)(f64) => vec;
 ```
 
 Type utilities:
