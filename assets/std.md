@@ -82,18 +82,23 @@ s * ([x, y, z, w] : quat) => [s * x, s * y, s * z, s * w] : quat;
 ((x : quat) + (y * imag)) => (x + [0, y, 0, 0]) : quat;
 (x * imag + (y : quat)) => ([0, x, 0, 0] + y) : quat;
 ((x : quat) * (y : quat)) => (x * y) : quat;
-([x0, y0, z0, w0] * [x1, y1, z1, w1]) : quat => [
-x0*x1-y0*y1-z0*z1-w0*w1,
-x0*y1+y0*x1+z0*w1-w0*z1,
-x0*z1+z0*x1-y0*w1+w0*y1,
-x0*w1+w0*x1+y0*z1-z0*y1,
-] : quat;
 ((x : quat) + (y : quat)) => (x + y) : quat;
-([x0, y0, z0, w0] + [x1, y1, z1, w1]) : quat =>
- [x0+x1,y0+y1,z0+z1,w0+w1] : quat;
 x + (y : quat) => (x + y) : quat;
 [x, y, 𝐢, z] : quat => 𝐢 * 𝐢₂ + ([x, y, 0, z] : quat);
 [x, y, z, 𝐢] : quat => 𝐢 * 𝐢₃ + ([x, y, z, 0] : quat);
+```
+
+Quaternion algebra:
+
+```poi
+([x0, y0, z0, w0] + [x1, y1, z1, w1]) : quat =>
+ [x0+x1,y0+y1,z0+z1,w0+w1] : quat;
+([x0, y0, z0, w0] * [x1, y1, z1, w1]) : quat => [
+    x0*x1-y0*y1-z0*z1-w0*w1,
+    x0*y1+y0*x1+z0*w1-w0*z1,
+    x0*z1+z0*x1-y0*w1+w0*y1,
+    x0*w1+w0*x1+y0*z1-z0*y1,
+] : quat;
 ```
 
 #### Types
