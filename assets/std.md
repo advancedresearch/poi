@@ -507,18 +507,18 @@ not · (> x) => (<= x);
 
 #### Derivatives
 ```poi
-d(!\x)(x) => 1;
-d(!\x)(\y) => 0;
-d(!\x)(\k * y) => k * d(x)(y);
-d(!\x)(π * y) => π * d(x)(y);
-d(!\x)(τ * y) => τ * d(x)(y);
-d(!\x)(x ^ \k) => k * x ^ (k - 1);
-d(!\x)(sin(x)) => cos(x);
-d(!\x)(cos(x)) => -sin(x);
-d(!\x)(sin(\k * x)) => k * cos(k * x);
-d(!\x)(cos(\k * x)) => -k * sin(k * x);
-d(!\x)(exp(x)) => exp(x);
-d(!\x)(exp(\k * x)) => k * exp(k * x);
+𝐝(!\x)(x) => 1;
+𝐝(!\x)(\y) => 0;
+𝐝(!\x)(\k * y) => k * 𝐝(x)(y);
+𝐝(!\x)(π * y) => π * 𝐝(x)(y);
+𝐝(!\x)(τ * y) => τ * 𝐝(x)(y);
+𝐝(!\x)(x ^ \k) => k * x ^ (k - 1);
+𝐝(!\x)(sin(x)) => cos(x);
+𝐝(!\x)(cos(x)) => -sin(x);
+𝐝(!\x)(sin(\k * x)) => k * cos(k * x);
+𝐝(!\x)(cos(\k * x)) => -k * sin(k * x);
+𝐝(!\x)(exp(x)) => exp(x);
+𝐝(!\x)(exp(\k * x)) => k * exp(k * x);
 ```
 
 #### Indefinite integrals
