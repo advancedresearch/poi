@@ -177,7 +177,7 @@ x[id] => x;
 id[x] => id;
 ```
 
-### Misc
+#### Misc
 ```poi
 inv(f) . f => id;
 f . inv(f) => id;
@@ -393,7 +393,7 @@ vec_uop(f)([x, y..]) => concat([f(x)])(vec_uop(f)(y));
 vec_uop(f)(\[x]) => [f(x)];
 ```
 
-### Misc
+#### Misc
 ```poi
 dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => x0 * x1 + y0 * y1;
 
@@ -489,7 +489,8 @@ Integral utilities:
 ```
 
 #### Misc
-```
+
+```poi
 and{eq} => fstb;
 or{eq} => fstb;
 eq{eq} => true;
@@ -583,6 +584,8 @@ that they might work both ways.
 Some equivalences have fewer variables or uses `compute::` on one side,
 which means they can only be used from left to right.
 
+#### Trigonometry
+
 ```poi
 sqrt(\x:(>= 0)) <=> compute::sqrt(x);
 sqrt(\x:(< 0)) <=>> mul(sqrt(x))(imag);
@@ -597,10 +600,31 @@ acos(\x) <=>> compute::acos(x);
 tan(\x) <=>> compute::tan(x);
 atan(\x) <=>> compute::atan(x);
 atan2(\x)(\y) <=>> compute::atan2(x, y);
-2π <=> τ;
+```
+
+Constants:
+```poi
 pi <=>> 3.141592653589793;
 tau <=>> 6.283185307179586;
+```
 
+Trigonometry utilities:
+```poi
+2π <=> τ;
+```
+
+#### Ranges to probabilities
+
+```poi
+range(0)(1) <=> prob;
+rangel(0)(1) <=> probl;
+ranger(0)(1) <=> probr;
+rangem(0)(1) <=> probm;
+```
+
+#### Misc
+
+```poi
 x ^ 2 <=> x * x;
 
 not . nand <=> and;
@@ -618,11 +642,6 @@ or . (f, g) <=> or . (g, f);
 nand . (f, g) <=> nand . (g, f);
 nor . (f, g) <=> nor . (g, f);
 (not . and) . (not . fst, not . snd) <=> or;
-
-range(0)(1) <=> prob;
-rangel(0)(1) <=> probl;
-ranger(0)(1) <=> probr;
-rangem(0)(1) <=> probm;
 
 el(x)(y) <=> item(x) . item(y);
 
@@ -649,10 +668,18 @@ a * (b - c) <=> a * b - a * c;
 ((a + b) * (a - b)) <=> (a^2 - b^2);
 ((a * b)^2) <=> (a^2 * b^2);
 (^ a)(b) <=> (a ^ b);
+```
 
+#### Function inverse
+
+```poi
 inv(id) <=> id;
 inv(not) <=> not;
+```
 
+#### Algebra misc
+
+```poi
 inc(x) <=> 1 + x;
 (x + -y) <=> (x - y);
 neg(x + y) <=> neg(x) - y;
@@ -671,6 +698,11 @@ mul(-1) <=> neg;
 (- y)(x) <=> (x - y);
 (x / y) <=> x * reci(y);
 (/ y)(x) <=> (x / y);
+```
+
+#### Logarithms and exponentials
+
+```poi
 log10(x) <=> ln(x) / ln(10);
 log2(x) <=> ln(x) / ln(2);
 ln(y ^ x) <=> x * ln(y);
@@ -681,7 +713,10 @@ log10(x * y) <=> log10(x) + log10(y);
 log2(x * y) <=> log2(x) + log2(y);
 exp(x + y) <=> exp(x) * exp(y);
 exp(x * ln(y)) <=> y^x;
+```
 
+#### Generic transformations
+```poi
 (f . g) <=> f[inv(g) -> id];
 (f . (g0 . fst, g1 . snd)) <=> f[inv(g0) x inv(g1) -> id];
 (f . inv(g)) <=> f[g -> id];
