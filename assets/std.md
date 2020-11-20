@@ -863,7 +863,7 @@ exp(x * ln(y)) <=> y^x;
 
 #### Generic transformations
 ```poi
-(f · g) <=> f[inv(g) -> id];
+(f:[arity]1 · g) <=> f:[arity]1[inv(g) -> id];
 (f · (g0 · fst, g1 · snd)) <=> f[inv(g0) x inv(g1) -> id];
 (f · inv(g)) <=> f[g -> id];
 (f · (inv(g0) · fst, inv(g1) · snd)) <=> f[g0 x g1 -> id];
@@ -895,11 +895,11 @@ f:[arity]1[g] <=> f:[arity]1[g -> id][id -> g];
 (f · (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b));
 (f · (g0, g1))(a) <=> f(g0(a))(g1(a));
 (f · (g0(a), g1(b)))(c) <=> (f · (g0 · fst, g1 · snd))(a)(b)(c);
-(f · g)(a)(b) <=> f(g(a)(b));
-(f · g){x}(a){y}(b) <=> f(g{x}(a){y}(b));
-(f · g)(a) <=> f(g(a));
-(f · g){x}(a){y}(b) <=> (f · g{x}{y})(a)(b);
-(f · g:[arity]1){x}(a) <=> f(g{x}(a));
+(f · g:[arity]2)(a)(b) <=> f(g:[arity]2(a)(b));
+(f · g:[arity]2){x}(a){y}(b) <=> f(g:[arity]2{x}(a){y}(b));
+(f · g:[arity]1)(a) <=> f(g:[arity]1(a));
+(f · g:[arity]2){x}(a){y}(b) <=> (f · g:[arity]2{x}{y})(a)(b);
+(f · g:[arity]1){x}(a) <=> f(g:[arity]1{x}(a));
 (g · f:[arity]2){_}(a){_}(b) <=> f:[arity]2[g](g(a))(g(b));
 (g · f:[arity]1){_}(a) <=> f:[arity]1[g](g(a));
 (g · f:[arity]2)(a)(b) <=> f:[arity]2[g](g(a))(g(b));
