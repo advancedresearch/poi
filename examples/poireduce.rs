@@ -1,5 +1,6 @@
 use poi::*;
 use levenshtein::levenshtein;
+use std::collections::HashSet;
 
 const DEFAULT_GOAL_DEPTH: u64 = 2;
 
@@ -13,6 +14,9 @@ fn main() {
     let mut goal_depth: u64 = DEFAULT_GOAL_DEPTH;
     let mut use_min_depth = true;
     let mut dirs: Vec<String> = vec![];
+    let mut levs: HashSet<String> = HashSet::new();
+    let mut min_lev: Option<(Expr, usize)> = None;
+
     loop {
         use std::io::{self, Write};
 
@@ -95,6 +99,19 @@ fn main() {
                 println!("Poi: Directories cleared.");
                 continue;
             }
+            "lev" => {
+                if let Some((e, lev)) = min_lev {
+                    println!("Poi: Found minimum {} lev.", lev);
+                    input = format!("{}", e);
+                    levs.insert(input.clone());
+                    min_lev = None;
+                } else {
+                    print!("Poi: No minimum lev found.");
+                    if goal.is_none() {print!(" Goal is not set (use `goal <expr>`).")};
+                    println!("");
+                    continue;
+                }
+            }
             x => {
                 // Print definitions of symbol.
                 if x.starts_with("def ") {
@@ -167,6 +184,8 @@ fn main() {
                             }
                             println!("new goal: {}", expr);
                             goal = Some(expr);
+                            levs.clear();
+                            min_lev = None;
                             continue;
                         }
                         Err(err) => {
@@ -284,9 +303,14 @@ fn main() {
                 }
 
                 if found_count == 0 && goal.is_some() {
+                    min_lev = None;
                     for i in 0..equivalences.len() {
                         let txt = format!("{}", equivalences[i].0);
                         let edit_dist = levenshtein(&txt, &goal_txt);
+                        if min_lev.as_ref().map(|m| m.1 > edit_dist).unwrap_or(true) &&
+                           !levs.contains(&txt) {
+                            min_lev = Some((equivalences[i].0.clone(), edit_dist));
+                        }
                         let j = equivalences[i].1;
                         println!("<=>  {}\n     ∵ {}\n     {} lev",
                                 equivalences[i].0, std[j], edit_dist);
