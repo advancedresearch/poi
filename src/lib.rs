@@ -955,6 +955,8 @@ impl Context {
     /// This is used on the right side in a reduction rule.
     pub fn substitute(&self, x: &Expr) -> Result<Expr, Error> {
         match x {
+            // Don't synthesize `_`.
+            Sym(Any) => Err(Error::InvalidComputation),
             Sym(RetNegVar(_)) => Err(Error::InvalidComputation),
             Sym(Var(name)) | Sym(ArityVar(name, _)) => {
                 for i in (0..self.vars.len()).rev() {
