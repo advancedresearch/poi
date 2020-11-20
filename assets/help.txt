@@ -13,6 +13,7 @@ Special commands:
 - echo <expr>    prints out debug format of expression
 - goal <expr>    set expression as new goal
 - reset goal     reset goal
+- lev            pick minimum Levenshtein distance
 - inc depth      increase search depth for goal
 - reset depth    reset search depth
 - min depth      automated minimum depth toward goal
