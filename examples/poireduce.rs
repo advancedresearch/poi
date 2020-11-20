@@ -16,20 +16,25 @@ fn main() {
     let mut dirs: Vec<String> = vec![];
     let mut levs: HashSet<String> = HashSet::new();
     let mut min_lev: Option<(Expr, usize)> = None;
+    let mut auto_lev = false;
 
     loop {
         use std::io::{self, Write};
 
-        print!("> ");
         let mut input = String::new();
-        io::stdout().flush().unwrap();
-        match io::stdin().read_line(&mut input) {
-            Ok(_) => {}
-            Err(_) => {
-                println!("ERROR: Could not read input");
-                continue;
-            }
-        };
+        if auto_lev {
+            input = "lev".into();
+        } else {
+            print!("> ");
+            io::stdout().flush().unwrap();
+            match io::stdin().read_line(&mut input) {
+                Ok(_) => {}
+                Err(_) => {
+                    println!("ERROR: Could not read input");
+                    continue;
+                }
+            };
+        }
 
         let mut repeat = input.starts_with(" ") && input.trim() == "";
         if !repeat {match input.trim() {
@@ -106,11 +111,16 @@ fn main() {
                     levs.insert(input.clone());
                     min_lev = None;
                 } else {
+                    auto_lev = false;
                     print!("Poi: No minimum lev found.");
                     if goal.is_none() {print!(" Goal is not set (use `goal <expr>`).")};
                     println!("");
                     continue;
                 }
+            }
+            "auto lev" => {
+                auto_lev = true;
+                continue;
             }
             x => {
                 // Print definitions of symbol.
@@ -320,6 +330,7 @@ fn main() {
 
             println!("∴ {}", expr);
             if goal_reached {
+                auto_lev = false;
                 println!("Q.E.D.");
             } else {
                 if goal.is_some() {

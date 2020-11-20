@@ -14,6 +14,7 @@ Special commands:
 - goal <expr>    set expression as new goal
 - reset goal     reset goal
 - lev            pick minimum Levenshtein distance
+- auto lev       automated minimum Levenshtein distance
 - inc depth      increase search depth for goal
 - reset depth    reset search depth
 - min depth      automated minimum depth toward goal
