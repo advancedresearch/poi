@@ -13,6 +13,7 @@ Special commands:
 - echo <expr>    prints out debug format of expression
 - goal <expr>    set expression as new goal
 - reset goal     reset goal
+- auto <expr>    prove with automated minimum Levenshtein distance
 - lev            pick minimum Levenshtein distance
 - auto lev       automated minimum Levenshtein distance
 - inc depth      increase search depth for goal

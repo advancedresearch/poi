@@ -206,6 +206,9 @@ fn main() {
                             continue;
                         }
                     }
+                } else if x.starts_with("auto ") {
+                    input = x[5..].trim().into();
+                    auto_lev = true;
                 } else if x.starts_with("open ") {
                     if let Some(s) = json_str(&x[5..]) {
                         println!("Poi: Added directory `{}`.", s);
