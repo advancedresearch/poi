@@ -4,7 +4,7 @@ use std::ops::{Add, Sub, Mul};
 use super::*;
 
 /// Function expression.
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, PartialOrd, Debug)]
 pub enum Expr {
     /// A symbol that is used together with symbolic knowledge.
     Sym(Symbol),
