@@ -4,7 +4,7 @@ a pragmatic point-free theorem prover assistant
 [Standard Library](./assets/std.md)
 
 ```text
-=== Poi Reduce 0.17 ===
+=== Poi Reduce 0.18 ===
 Type `help` for more information.
 > and[not]
 and[not]
@@ -62,6 +62,22 @@ The notation `concat[len]` is a "normal path",
 which lets you transform into a more efficient program.
 Normal paths are composable and point-free,
 unlike their equational representations.
+
+### Example: Levenshtein proof search
+
+For deep automated theorem proving, Poi uses Levenshtein distance heuristic.
+This is simply the minimum single-character edit distance in text representation.
+
+Try the following:
+
+```text
+> goal a + b + c + d
+> d + c + b + a
+> auto lev
+```
+
+The command `auto lev` tells Poi to automatically pick the equivalence with
+smallest Levenshtein distance found in any sub-proof.
 
 ### Introduction to Poi and Path Semantics
 

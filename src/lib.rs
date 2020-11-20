@@ -6,7 +6,7 @@
 //! [Standard Library](./assets/std.md)
 //!
 //! ```text
-//! === Poi Reduce 0.17 ===
+//! === Poi Reduce 0.18 ===
 //! Type `help` for more information.
 //! > and[not]
 //! and[not]
