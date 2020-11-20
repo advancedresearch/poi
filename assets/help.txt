@@ -8,6 +8,7 @@ Special commands:
 - bye            quits the program
 - inline all     inlines all definitions from previous expression
 - ``             prints separator for readability
+- ` `            try again with last expression
 - eval <expr>    evaluates expression
 - echo <expr>    prints out debug format of expression
 - goal <expr>    set expression as new goal

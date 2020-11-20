@@ -26,8 +26,8 @@ fn main() {
             }
         };
 
-        let mut inlined = false;
-        match input.trim() {
+        let mut repeat = input.starts_with(" ") && input.trim() == "";
+        if !repeat {match input.trim() {
             "" => {
                 // Print separator for readability.
                 print!("\n------------------------------------<o=o");
@@ -54,7 +54,7 @@ fn main() {
                 if let Some(expr) = &prev_expr {
                     prev_expr = Some(match expr.inline_all(std) {
                         Ok(x) => {
-                            inlined = true;
+                            repeat = true;
                             x
                         }
                         Err(err) => {
@@ -181,9 +181,11 @@ fn main() {
                     continue;
                 }
             }
-        }
+        }}
 
-        let mut expr = if inlined {prev_expr.unwrap()} else {
+        let mut expr = if repeat {
+            if let Some(expr) = prev_expr {expr} else {continue}
+        } else {
                 match parse_str(&input, &dirs) {
                     Ok(expr) => expr,
                     Err(err) => {
