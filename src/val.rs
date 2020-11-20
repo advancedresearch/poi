@@ -1,7 +1,7 @@
 use std::fmt;
 
 /// Value.
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, PartialOrd, Debug)]
 pub enum Value {
     /// A boolean value.
     Bool(bool),

@@ -3,7 +3,7 @@ use std::fmt;
 use super::Expr;
 
 /// Contains symbols and operators on symbols.
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, PartialOrd, Debug)]
 pub enum Symbol {
     /// The wildcard symbol `_`.
     Any,

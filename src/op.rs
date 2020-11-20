@@ -1,5 +1,5 @@
 /// Binary operation on functions.
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, PartialOrd, Eq, Debug)]
 pub enum Op {
     /// Function composition `f . g`
     Compose,
