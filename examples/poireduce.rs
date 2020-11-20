@@ -1,6 +1,6 @@
 use poi::*;
 use levenshtein::levenshtein;
-use std::collections::HashSet;
+use std::collections::{BinaryHeap, HashSet};
 
 const DEFAULT_GOAL_DEPTH: u64 = 2;
 
@@ -14,8 +14,13 @@ fn main() {
     let mut goal_depth: u64 = DEFAULT_GOAL_DEPTH;
     let mut use_min_depth = true;
     let mut dirs: Vec<String> = vec![];
+
+    // Levenshtein data.
+    //
+    // Detects whether an equivalence has already been tried.
     let mut levs: HashSet<String> = HashSet::new();
-    let mut min_lev: Option<(Expr, usize)> = None;
+    // Picks minimum Levenshtein distance.
+    let mut min_lev: BinaryHeap<MinLev> = BinaryHeap::new();
     let mut auto_lev = false;
 
     loop {
@@ -105,11 +110,9 @@ fn main() {
                 continue;
             }
             "lev" => {
-                if let Some((e, lev)) = min_lev {
+                if let Some(MinLev(lev, e)) = min_lev.pop() {
                     println!("Poi: Found minimum {} lev.", lev);
                     input = format!("{}", e);
-                    levs.insert(input.clone());
-                    min_lev = None;
                 } else {
                     auto_lev = false;
                     print!("Poi: No minimum lev found.");
@@ -195,7 +198,7 @@ fn main() {
                             println!("new goal: {}", expr);
                             goal = Some(expr);
                             levs.clear();
-                            min_lev = None;
+                            min_lev.clear();
                             continue;
                         }
                         Err(err) => {
@@ -209,6 +212,10 @@ fn main() {
                         dirs.push(s);
                     }
                     continue;
+                } else {
+                    // Reset Levenshtein data.
+                    levs.clear();
+                    min_lev.clear();
                 }
             }
         }}
@@ -254,6 +261,7 @@ fn main() {
                 let mut first_found: Option<usize> = None;
                 let mut min_found: Option<(usize, u64)> = None;
                 let equivalences = expr.equivalences(std);
+                let mut equiv_levs: Vec<Option<usize>> = vec![None; equivalences.len()];
                 loop {
                     let mut line = false;
                     for i in 0..equivalences.len() {
@@ -264,25 +272,29 @@ fn main() {
                             let eqv_expr = equivalences[i].0.reduce_all(std);
                             let mut history = vec![expr.clone(), eqv_expr.clone()];
                             let depth = min.unwrap_or(goal_depth);
-                            if let Some(d) = find_goal(g, &eqv_expr, std, depth, &mut history) {
-                                found_count += 1;
-                                if first_found.is_none() {
-                                    first_found = Some(i);
+                            match find_goal(g, &goal_txt, &eqv_expr, std, depth, &mut history) {
+                                Ok(d) => {
+                                    found_count += 1;
+                                    if first_found.is_none() {
+                                        first_found = Some(i);
+                                    }
+                                    if min_found.is_none() || min_found.unwrap().1 > d {
+                                        min_found = Some((i, d));
+                                    }
+                                    if line {line = false; println!("")};
+                                    print!("depth: {} ", d);
+                                    if d == 0 {
+                                        expr = equivalences[i].0.clone();
+                                        cont = true;
+                                    } else if min == Some(d) {
+                                        br = true;
+                                    }
+                                    true
                                 }
-                                if min_found.is_none() || min_found.unwrap().1 > d {
-                                    min_found = Some((i, d));
+                                Err(lev) => {
+                                    equiv_levs[i] = lev;
+                                    false
                                 }
-                                if line {line = false; println!("")};
-                                print!("depth: {} ", d);
-                                if d == 0 {
-                                    expr = equivalences[i].0.clone();
-                                    cont = true;
-                                } else if min == Some(d) {
-                                    br = true;
-                                }
-                                true
-                            } else {
-                                false
                             }
                         } else {true};
                         if display {
@@ -313,13 +325,17 @@ fn main() {
                 }
 
                 if found_count == 0 && goal.is_some() {
-                    min_lev = None;
                     for i in 0..equivalences.len() {
                         let txt = format!("{}", equivalences[i].0);
-                        let edit_dist = levenshtein(&txt, &goal_txt);
-                        if min_lev.as_ref().map(|m| m.1 > edit_dist).unwrap_or(true) &&
-                           !levs.contains(&txt) {
-                            min_lev = Some((equivalences[i].0.clone(), edit_dist));
+                        let edit_dist = if let Some(x) = equiv_levs[i] {
+                            x
+                        } else {
+                            // Use Levenshtein distance of unreduced equivalence.
+                            levenshtein(&txt, &goal_txt)
+                        };
+                        if !levs.contains(&txt) {
+                            levs.insert(txt.clone());
+                            min_lev.push(MinLev(edit_dist, equivalences[i].0.clone()));
                         }
                         let j = equivalences[i].1;
                         println!("<=>  {}\n     ∵ {}\n     {} lev",
@@ -363,15 +379,18 @@ fn json_str(txt: &str) -> Option<String> {
     }
 }
 
+// Returns `Err(Some(lev))` for minimum Levenhstein distance found.
 fn find_goal(
     goal: &Expr,
+    goal_txt: &str,
     expr: &Expr,
     std: &[Knowledge],
     depth: u64,
     history: &mut Vec<Expr>
-) -> Option<u64> {
-    if goal == expr {return Some(0)};
+) -> Result<u64, Option<usize>> {
+    if goal == expr {return Ok(0)};
 
+    let mut min_lev: Option<usize> = None;
     if depth > 0 {
         let equivalences = expr.equivalences(std);
         let n = history.len();
@@ -383,19 +402,50 @@ fn find_goal(
                 if &history[i] == &expr {continue};
             }
 
-            if goal == &expr {return Some(1)};
+            if goal == &expr {return Ok(1)};
+
+            let txt = format!("{}", expr);
+            let edit_dist = levenshtein(&txt, goal_txt);
+            if min_lev.map(|n| n > edit_dist).unwrap_or(true) {
+                min_lev = Some(edit_dist);
+            }
             history.push(expr);
         }
         for i in n..history.len() {
             // Add depth to the output.
             let expr = history[i].clone();
-            if let Some(d) = find_goal(goal, &expr, std, depth - 1, history) {
-                return Some(d+1);
+            match find_goal(goal, goal_txt, &expr, std, depth - 1, history) {
+                Ok(d) => {
+                    return Ok(d+1);
+                }
+                Err(None) => {}
+                Err(Some(lev)) => {
+                    if min_lev.map(|n| n > lev).unwrap_or(true) {
+                        min_lev = Some(lev);
+                    }
+                }
             }
         }
     }
 
-    None
+    Err(min_lev)
+}
+
+#[derive(PartialEq)]
+struct MinLev(usize, Expr);
+
+impl Eq for MinLev {}
+
+impl PartialOrd for MinLev {
+    fn partial_cmp(&self, b: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.0.cmp(&b.0).reverse())
+    }
+}
+
+impl Ord for MinLev {
+    fn cmp(&self, b: &Self) -> std::cmp::Ordering {
+        self.0.cmp(&b.0).reverse()
+    }
 }
 
 fn print_help() {print!("{}", include_str!("../assets/help.txt"))}
