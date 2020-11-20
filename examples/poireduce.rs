@@ -1,4 +1,5 @@
 use poi::*;
+use levenshtein::levenshtein;
 
 const DEFAULT_GOAL_DEPTH: u64 = 2;
 
@@ -210,7 +211,9 @@ fn main() {
                 }
             }
 
+            let mut goal_txt = String::new();
             let goal_reached = if let Some(g) = &goal {
+                goal_txt = format!("{}", g);
                 if &expr == g {
                     goal = None;
                     true
@@ -282,8 +285,11 @@ fn main() {
 
                 if found_count == 0 && goal.is_some() {
                     for i in 0..equivalences.len() {
+                        let txt = format!("{}", equivalences[i].0);
+                        let edit_dist = levenshtein(&txt, &goal_txt);
                         let j = equivalences[i].1;
-                        println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
+                        println!("<=>  {}\n     ∵ {}\n     {} lev",
+                                equivalences[i].0, std[j], edit_dist);
                     }
                 }
             }
@@ -291,6 +297,12 @@ fn main() {
             println!("∴ {}", expr);
             if goal_reached {
                 println!("Q.E.D.");
+            } else {
+                if goal.is_some() {
+                    let txt = format!("{}", expr);
+                    let edit_dist = levenshtein(&txt, &goal_txt);
+                    println!("{} lev", edit_dist);
+                }
             }
             break;
         }

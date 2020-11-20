@@ -16,3 +16,4 @@ piston_meta = "1.0.0"
 
 [dev-dependencies]
 read_token = "1.0.0"
+levenshtein = "1.0.4"
