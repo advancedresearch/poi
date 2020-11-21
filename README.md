@@ -253,9 +253,10 @@ The simplicity of the `Expr` structure is important and heavily based on
 advanced path semantical knowledge.
 
 A symbol contains every domain-specific symbol and "avatar extensions"
-of symbols. An "avatar extension" is a technique of integrating information
-processing from building blocks that have no relations for introspection.
-This means, that even some variants of `Symbol` are not symbols in a direct sense,
+of symbols. An [avatar extension](https://github.com/advancedresearch/path_semantics/blob/master/sequences.md#avatar-extensions)
+is a technique of integrating information processing from building blocks that
+have no relations for introspection.
+This means, even some variants of `Symbol` are not symbols in a direct sense,
 they are put there because they "integrate information" of symbols.
 For example, a variable is classified as a `1-avatar` since it "integrates information" of a single symbol or expression. "Avatar extensions" occur
 frequently in Path Semantics for very sophisticated mathematical relations, but usually do not need to be represented explicitly.
@@ -331,7 +332,7 @@ Some people hoped that Poi might be used to solve problems
 where dependent types are used, but in a more convenient way.
 
 Although Poi uses ideas from dependent types, it is not suitable for other applications
-of dependent types, e.g. verifcation of programs by applying it to some immediate representation of machine code.
+of dependent types, e.g. verification of programs by applying it to some immediate representation of machine code.
 
 Normal paths might be used for such applications in the future,
 but this might require a different architecture.
