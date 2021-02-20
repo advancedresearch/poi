@@ -664,6 +664,7 @@ Generic laws:
 
 ```poi
 !\a + \b => b + a;
+!\a + b:\ => b:\ + a;
 !\a * \b => b * a;
 !\a + (\b + c) => b + (a + c);
 \a + !\b - !\c => a + (b - c);
