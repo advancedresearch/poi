@@ -564,6 +564,12 @@ You can use `deriv` or `𝐝` (unicode).
 𝐝(!\x)(y - z) => 𝐝(x)(y) - 𝐝(x)(z);
 ```
 
+Constant derivative simplification:
+
+```poi
+𝐝(x)((a : \) ^ \b) => 0;
+```
+
 Derivatives utilities:
 
 ```poi
