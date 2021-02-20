@@ -708,6 +708,12 @@ Generic laws:
 a:\ + !\b - !\c => a:\ + (b - c);
 ```
 
+Constants utilities:
+
+```poi
+\a * b * (\c * d) => (a * c) * b * d;
+```
+
 #### Misc
 
 ```poi
