@@ -670,6 +670,7 @@ Generic laws:
 !\a + (\b + c) => b + (a + c);
 !\a + (b:\ + c) => b:\ + (a + c);
 \a + !\b - !\c => a + (b - c);
+a:\ + !\b - !\c => a:\ + (b - c);
 ```
 
 #### Misc
