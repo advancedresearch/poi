@@ -796,6 +796,35 @@ impl Context {
                 self.vars.push((name.clone(), Sym(x.clone())));
                 true
             }
+            // `x!>y` means `x` does not occur in expression `y`.
+            // This is used by rules for partial derivatives.
+            (Sym(NotInVarName(name, y)), Sym(Var(x))) => {
+                // Returns `true` if expression contains some variable `x`.
+                fn contains(expr: &Expr, x: &Arc<String>) -> bool {
+                    match expr {
+                        Sym(Var(y)) => return x == y,
+                        Sym(y) if y.arity().is_some() => return false,
+                        Ret(_) => return false,
+                        Tup(list) | List(list) => return list.iter().any(|expr| contains(expr, x)),
+                        Op(Apply, a, b) => return contains(a, x) || contains(b, x),
+                        // TODO: Handle other cases.
+                        _ => {}
+                        // x => panic!("not-in-var: {:?}", x),
+                    }
+                    true
+                }
+                for i in (0..self.vars.len()).rev() {
+                    if &self.vars[i].0 == y {
+                        if !contains(&self.vars[i].1, x) {break}
+                        else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    }
+                }
+                self.vars.push((name.clone(), Sym(Var(x.clone()))));
+                true
+            }
             (Sym(NotRetVar(_)), Ret(_)) | (Sym(NotRetVar(_)), Tup(_)) => {
                 self.vars.clear();
                 false
