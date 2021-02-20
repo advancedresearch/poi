@@ -98,6 +98,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = parse_arity(convert, ignored) {
             convert.update(range);
             expr = Some(val);
+        } else if let Ok((range, val)) = parse_not_in_var_name(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = parse_head_tail_tup(convert, ignored) {
             convert.update(range);
             expr = Some(val);
@@ -242,6 +245,39 @@ fn parse_arity(
     let fun = fun.ok_or(())?;
     let arg = arg.ok_or(())?;
     Ok((convert.subtract(start), Sym(Symbol::ArityVar(fun, arg))))
+}
+
+fn parse_not_in_var_name(
+    mut convert: Convert,
+    ignored: &mut Vec<Range>,
+) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "not_in_var_name";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut x: Option<Arc<String>> = None;
+    let mut y: Option<Arc<String>> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = convert.meta_string("x") {
+            convert.update(range);
+            x = Some(val);
+        } else if let Ok((range, val)) = convert.meta_string("y") {
+            convert.update(range);
+            y = Some(val);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let x = x.ok_or(())?;
+    let y = y.ok_or(())?;
+    Ok((convert.subtract(start), Sym(Symbol::NotInVarName(x, y))))
 }
 
 fn parse_no_constr(

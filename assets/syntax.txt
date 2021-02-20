@@ -1,5 +1,6 @@
 _seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 
+32 not_in_var_name = [.._seps!:"x" "!>" .._seps!:"y"]
 31 head_tail_list = ["[" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? "]"]
 30 head_tail_tup = ["(" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? ")"]
 29 compute = ["compute::" .._seps!:"fun" "(" .w?
@@ -8,6 +9,7 @@ _seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 27 seq_left = {
   arity:"arity"
   no_constr:"no_constr"
+  not_in_var_name:"not_in_var_name"
   var
   val
 }
@@ -95,6 +97,7 @@ _seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
   compute:"compute"
   arity:"arity"
   no_constr:"no_constr"
+  not_in_var_name:"not_in_var_name"
   val
   var
 }
