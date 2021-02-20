@@ -728,9 +728,10 @@ impl Expr {
         }
     }
 
-    /// Returns `true` if expression has type judgement.
-    pub fn has_type_judgement(&self) -> bool {
+    /// Returns `true` if expression has non-constant type judgement.
+    pub fn has_non_constant_type_judgement(&self) -> bool {
         match self {
+            Op(Type, _, b) if **b == Sym(RetType) => false,
             Op(Type, _, _) => true,
             _ => false
         }
@@ -757,7 +758,8 @@ impl Context {
             }
             // Do not pattern match variables to type judgements,
             // since the type judgements might imply exceptions to default rules.
-            (Sym(Var(_)), v) if v.has_type_judgement() => {
+            // Constant type judgements are treated as normal.
+            (Sym(Var(_)), v) if v.has_non_constant_type_judgement() => {
                 self.vars.clear();
                 false
             }
