@@ -600,6 +600,19 @@ Indefinite integral utilities:
 (\k * ((c / \k) + y)) => c + k * y;
 ```
 
+### Partial derivatives
+
+You can use `pariv * x` or `∂x` (unicode).
+
+```poi
+∂ * (a + b) / ∂c => ∂a / ∂c + ∂b / ∂c;
+∂ * (a - b) / ∂c => ∂a / ∂c - ∂b / ∂c;
+∂x / ∂x => 𝐝(x)(x);
+∂ * (x^\k) / ∂x => 𝐝(x)(x^k);
+∂ * (a * b) / (∂ * x!>a) => a * (∂b / ∂x);
+∂x / (∂ * y!>x) => 𝐝(y)(x:\);
+```
+
 #### Equality domain constraints
 
 ```poi
