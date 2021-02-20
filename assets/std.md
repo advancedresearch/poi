@@ -540,6 +540,8 @@ not · (> x) => (<= x);
 
 #### Derivatives
 
+You can use `deriv` or `𝐝` (unicode).
+
 ```poi
 𝐝(!\x)(x) => 1;
 𝐝(!\x)(\y) => 0;
@@ -556,6 +558,8 @@ not · (> x) => (<= x);
 ```
 
 #### Indefinite integrals
+
+You can use `integ` or `∫` (unicode).
 
 ```poi
 ∫(!\x)(c)(x) => c + 0.5 * x ^ 2;
