@@ -323,7 +323,10 @@ fn parse_alg(
     let mut left: Option<Expr> = None;
     let mut unop: Option<Symbol> = None;
     let un = |expr: Expr, unop: &mut Option<Symbol>| {
-        if let Some(f) = unop {
+        if let Some(Pariv) = unop {
+            *unop = None;
+            app2(Mul, Pariv, expr)
+        } else if let Some(f) = unop {
             let f = f.clone();
             *unop = None;
             app(f, expr)
@@ -397,6 +400,9 @@ fn parse_alg(
         } else if let Ok((range, _)) = convert.meta_bool("not") {
             convert.update(range);
             unop = Some(Not);
+        } else if let Ok((range, _)) = convert.meta_bool("pariv") {
+            convert.update(range);
+            unop = Some(Pariv);
         } else {
             let range = convert.ignore();
             convert.update(range);
