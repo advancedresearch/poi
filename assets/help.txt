@@ -36,7 +36,7 @@ Special commands:
 - help rad       more help about radians (trigonometry)
 - help imag      more help about imaginary number (complex numbers)
 - help eps       more help about epsilon (dual numbers)
-- help d         more help about derivative
+- help deriv     more help about derivative
 - help integ     more help about integral
 - help list      more help about lists
 
