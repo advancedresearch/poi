@@ -819,6 +819,13 @@ a + (b + c) <=> a + b + c;
 a * (b * c) <=> a * b * c;
 ```
 
+Associativity with constants:
+
+```poi
+a + (b:\ + c) <=> a + b:\ + c;
+a * (b:\ * c) <=> a * b:\ * c;
+```
+
 #### Commutativity
 
 ```poi
