@@ -574,6 +574,7 @@ Derivatives utilities:
 
 ```poi
 𝐝(!\x)(\k * m:\ * y) => k * m:\ * 𝐝(x)(y);
+𝐝(!\x)((x - s:\)^2) => 2 * (x - s:\);
 ```
 
 #### Indefinite integrals
