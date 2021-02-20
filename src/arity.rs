@@ -12,7 +12,7 @@ impl Symbol {
             Norm | Sqnorm | Sqrt | Ln | Log2 | Log10 | Exp | Len |
             Sum | Min | Max | Prob | Probl | Probr | Probm | Det | Transpose |
             Dim | IsSquareMat | Sin | Asin | Cos | Acos | Tan | Atan |
-            Re | Im | Ex | Triv | TypeOf => Some(1),
+            Re | Im | Ex | Triv | TypeOf | Pariv => Some(1),
 
             Eq | Eqb | And | Or | Nand | Nor | Xor | Exc |
             Add | Mul | Div | Rdiv | Sub | Rsub | Rem | False2 | True2 |

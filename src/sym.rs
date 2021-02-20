@@ -249,6 +249,8 @@ pub enum Symbol {
     Deriv,
     /// Integral.
     Integ,
+    /// Partial derivative.
+    Pariv,
     /// `if`.
     ///
     /// This is used in Boolean functions.
@@ -418,6 +420,7 @@ impl From<Arc<String>> for Symbol {
             "arity" => Arity,
             "deriv" | "𝐝" => Deriv,
             "integ" | "∫" => Integ,
+            "pariv" | "∂" => Pariv,
             "pi" | "π" => Pi,
             "tau" | "τ" => Tau,
             "eps" | "ε" => Eps,
@@ -546,6 +549,7 @@ impl Symbol {
             Arity => write!(w, "arity")?,
             Deriv => write!(w, "𝐝")?,
             Integ => write!(w, "∫")?,
+            Pariv => write!(w, "∂")?,
             Pi => write!(w, "π")?,
             Tau => write!(w, "τ")?,
             Eps => write!(w, "ε")?,
