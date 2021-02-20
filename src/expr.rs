@@ -148,6 +148,12 @@ impl Expr {
                             return Ok(())
                         }
                     }
+                    if let (Op(Apply, f, b), Sym(Var(ref a))) = (&**a, &**b) {
+                        if let (Sym(Mul), Sym(Pariv)) = (&**f, &**b) {
+                            write!(w, "∂{}", a)?;
+                            return Ok(())
+                        }
+                    }
                     if let Op(Apply, f, a) = &**a {
                         let mut pr = |
                             op_txt: &str,
