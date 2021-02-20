@@ -5,7 +5,7 @@ output value with respect to its argument input value.
 
 For example:
 
-  d(x, 2 * x)
+  deriv(x, 2 * x)
 
 The function here is `2 * x` and the argument input value
 measuring the sensitivity for is `x`.

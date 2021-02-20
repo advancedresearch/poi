@@ -61,7 +61,7 @@ fn main() {
             "help rad" => {print_help_rad(); continue}
             "help imag" => {print_help_imag(); continue}
             "help eps" => {print_help_eps(); continue}
-            "help d" => {print_help_d(); continue}
+            "help deriv" => {print_help_deriv(); continue}
             "help integ" => {print_help_integ(); continue}
             "help list" => {print_help_list(); continue}
             "std" => {for k in std {println!("{}", k)}; continue}
@@ -463,6 +463,6 @@ fn print_help_ex() {print!("{}", include_str!("../assets/help-ex.txt"))}
 fn print_help_rad() {print!("{}", include_str!("../assets/help-rad.txt"))}
 fn print_help_imag() {print!("{}", include_str!("../assets/help-imag.txt"))}
 fn print_help_eps() {print!("{}", include_str!("../assets/help-eps.txt"))}
-fn print_help_d() {print!("{}", include_str!("../assets/help-d.txt"))}
+fn print_help_deriv() {print!("{}", include_str!("../assets/help-deriv.txt"))}
 fn print_help_integ() {print!("{}", include_str!("../assets/help-integ.txt"))}
 fn print_help_list() {print!("{}", include_str!("../assets/help-list.txt"))}
