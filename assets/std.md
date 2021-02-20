@@ -555,6 +555,7 @@ You can use `deriv` or `𝐝` (unicode).
 𝐝(!\x)(cos(\k * x)) => -k * sin(k * x);
 𝐝(!\x)(exp(x)) => exp(x);
 𝐝(!\x)(exp(\k * x)) => k * exp(k * x);
+𝐝(!\x)(y + z) => 𝐝(x)(y) + 𝐝(x)(z);
 ```
 
 #### Indefinite integrals
