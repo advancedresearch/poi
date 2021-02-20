@@ -813,9 +813,18 @@ impl Context {
                     }
                     true
                 }
+                let x_expr = Sym(Var(x.clone()));
                 for i in (0..self.vars.len()).rev() {
-                    if &self.vars[i].0 == y {
-                        if !contains(&self.vars[i].1, x) {break}
+                    // Match against previous occurences of same variable.
+                    if &self.vars[i].0 == name {
+                        if &self.vars[i].1 == &x_expr {continue}
+                        else {
+                            self.vars.clear();
+                            return false;
+                        }
+                    } else if &self.vars[i].0 == y {
+                        // Search the other expression for occurences of variable name.
+                        if !contains(&self.vars[i].1, x) {continue}
                         else {
                             self.vars.clear();
                             return false;
