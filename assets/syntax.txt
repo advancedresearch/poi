@@ -1,4 +1,4 @@
-_seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|∂"
+_seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 
 31 head_tail_list = ["[" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? "]"]
 30 head_tail_tup = ["(" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? ")"]
