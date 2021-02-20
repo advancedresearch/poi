@@ -566,6 +566,12 @@ You can use `deriv` or `𝐝` (unicode).
 𝐝(!\x)(y - z) => 𝐝(x)(y) - 𝐝(x)(z);
 ```
 
+Derivatives utilities:
+
+```poi
+𝐝(!\x)(\k * m:\ * y) => k * m:\ * 𝐝(x)(y);
+```
+
 #### Indefinite integrals
 
 You can use `integ` or `∫` (unicode).
