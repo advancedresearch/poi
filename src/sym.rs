@@ -46,6 +46,9 @@ pub enum Symbol {
     RetNegVar(Arc<String>),
     /// A variable that is not a value variable.
     NotRetVar(Arc<String>),
+    /// Binds to left variable name that does not occur in expression
+    /// bound to the right variable.
+    NotInVarName(Arc<String>, Arc<String>),
     /// Compute a binary function.
     ///
     /// This is used when the right side of the rule computes something from two left side expressions.
@@ -578,6 +581,7 @@ impl Symbol {
             RetStrictPosVar(x) => write!(w, "\\{}:(> 0)", x)?,
             RetNegVar(x) => write!(w, "\\{}:(< 0)", x)?,
             NotRetVar(x) => write!(w, "!\\{}", x)?,
+            NotInVarName(x, y) => write!(w, "{}!>{}", x, y)?,
             ListVar(x) => write!(w, "[{}..]", x)?,
             Singleton(x) => write!(w, "\\[{}]", x)?,
             HeadTailTup(x, y) => write!(w, "({}, {}..)", x, y)?,
