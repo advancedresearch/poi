@@ -611,8 +611,8 @@ which is fixed by using the following notation:
 - `∂y / ∂x` means the change of `y` with respect to `x`
 
 ```poi
-∂(a + b) / ∂c => ∂a / ∂c + ∂b / ∂c;
-∂(a - b) / ∂c => ∂a / ∂c - ∂b / ∂c;
+∂(a + b) / ∂c => ∂(a) / ∂c + ∂(b) / ∂c;
+∂(a - b) / ∂c => ∂(a) / ∂c - ∂(b) / ∂c;
 ∂(x) / ∂x => 𝐝(x)(x);
 ∂(x^\k) / ∂x => 𝐝(x)(x^k);
 ∂((x - s)^\k) / (∂ * x!>s) => 𝐝(x)((x - s:\)^k);
