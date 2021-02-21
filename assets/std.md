@@ -618,6 +618,7 @@ which is fixed by using the following notation:
 ∂((x - s)^\k) / (∂ * x!>s) => k * (x - s) ^ (k - 1);
 ∂(a * b) / (∂ * x!>a) => a * (∂(b) / ∂x);
 ∂(x) / (∂ * y!>x) => 𝐝(y)(x:\);
+∂((∂x / ∂t) ^ 2) / (∂ * x!>t) => 0;
 ```
 
 #### Equality domain constraints
