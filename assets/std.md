@@ -621,6 +621,11 @@ which is fixed by using the following notation:
 ∂((∂x / ∂t) ^ 2) / (∂ * x!>t) => 0;
 ```
 
+Partial derivatives utilities:
+```poi
+∂^2 * x / ∂t^2 <=> ∂ / ∂t * (∂x / ∂t);
+```
+
 #### Equality domain constraints
 
 ```poi
