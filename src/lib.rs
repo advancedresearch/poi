@@ -798,7 +798,27 @@ impl Context {
             }
             // `x!>y` means `x` does not occur in expression `y`.
             // This is used by rules for partial derivatives.
-            (Sym(NotInVarName(name, y)), Sym(Var(x))) => {
+            (Sym(NotInVarName(name, y)), x) => {
+                // Returns a list of names in expression.
+                fn get_names(expr: &Expr, ret: &mut Vec<Arc<String>>) {
+                    match expr {
+                        Sym(Var(y)) => ret.push(y.clone()),
+                        Sym(y) if y.arity().is_some() => {}
+                        Ret(_) => {}
+                        Tup(list) | List(list) => {
+                            for x in list {
+                                get_names(x, ret);
+                            }
+                        }
+                        Op(Apply, a, b) => {
+                            get_names(a, ret);
+                            get_names(b, ret);
+                        }
+                        // TODO: Handle other cases.
+                        _ => {}
+                        // x => panic!("not-in-var: {:?}", x),
+                    }
+                }
                 // Returns `true` if expression contains some variable `x`.
                 fn contains(expr: &Expr, x: &Arc<String>) -> bool {
                     match expr {
@@ -813,25 +833,30 @@ impl Context {
                     }
                     true
                 }
-                let x_expr = Sym(Var(x.clone()));
+
+                let mut names = vec![];
+                get_names(x, &mut names);
                 for i in (0..self.vars.len()).rev() {
                     // Match against previous occurences of same variable.
                     if &self.vars[i].0 == name {
-                        if &self.vars[i].1 == &x_expr {continue}
+                        if &self.vars[i].1 == x {continue}
                         else {
                             self.vars.clear();
                             return false;
                         }
                     } else if &self.vars[i].0 == y {
-                        // Search the other expression for occurences of variable name.
-                        if !contains(&self.vars[i].1, x) {continue}
+                        // It is sufficient that at least one name is missing,
+                        // to prove that no term can be constructed that matches the derivative.
+                        if names.iter().any(|name| {
+                            !contains(&self.vars[i].1, name)
+                        }) {continue}
                         else {
                             self.vars.clear();
                             return false;
                         }
                     }
                 }
-                self.vars.push((name.clone(), Sym(Var(x.clone()))));
+                self.vars.push((name.clone(), x.clone()));
                 true
             }
             (Sym(NotRetVar(_)), Ret(_)) | (Sym(NotRetVar(_)), Tup(_)) => {
