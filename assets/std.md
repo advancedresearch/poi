@@ -615,7 +615,7 @@ which is fixed by using the following notation:
 ∂(a - b) / ∂c => ∂(a) / ∂c - ∂(b) / ∂c;
 ∂(x) / ∂x => 𝐝(x)(x);
 ∂(x^\k) / ∂x => 𝐝(x)(x^k);
-∂((x - s)^\k) / (∂ * x!>s) => 𝐝(x)((x - s:\)^k);
+∂((x - s)^\k) / (∂ * x!>s) => k * (x - s) ^ (k - 1);
 ∂(a * b) / (∂ * x!>a) => a * (∂(b) / ∂x);
 ∂(x) / (∂ * y!>x) => 𝐝(y)(x:\);
 ```
