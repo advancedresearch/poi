@@ -1,0 +1,1 @@
+(∂ / ∂t) * (∂(spring.poi) / (∂ * (∂x/∂t))) = ∂(spring.poi) / ∂x
