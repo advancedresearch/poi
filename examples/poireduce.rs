@@ -267,49 +267,60 @@ fn main() {
                 let mut equiv_levs: Vec<Option<usize>> = vec![None; equivalences.len()];
                 loop {
                     let mut line = false;
-                    for i in 0..equivalences.len() {
-                        let mut cont = false;
-                        let mut br = false;
-                        let j = equivalences[i].1;
-                        let display = if let Some(g) = &goal {
-                            let eqv_expr = equivalences[i].0.reduce_all(std);
-                            let mut history = vec![expr.clone(), eqv_expr.clone()];
-                            let depth = min.unwrap_or(goal_depth);
-                            match find_goal(g, &goal_txt, &eqv_expr, std, depth, &mut history) {
-                                Ok(d) => {
-                                    found_count += 1;
-                                    if first_found.is_none() {
-                                        first_found = Some(i);
+                    let default_depth = min.unwrap_or(goal_depth);
+                    let depths = if use_min_depth && default_depth != 0 {
+                            // Perform a quick depth 0 scan before diving into proof depths.
+                            vec![0, default_depth]
+                        } else {
+                            vec![min.unwrap_or(goal_depth)]
+                        };
+                    'depths: for &depth in &depths {
+                        for i in 0..equivalences.len() {
+                            let mut cont = false;
+                            let mut br = false;
+                            let j = equivalences[i].1;
+                            let display = if let Some(g) = &goal {
+                                let eqv_expr = equivalences[i].0.reduce_all(std);
+                                let mut history = vec![expr.clone(), eqv_expr.clone()];
+                                match find_goal(g, &goal_txt, &eqv_expr, std, depth, &mut history) {
+                                    Ok(d) => {
+                                        found_count += 1;
+                                        if first_found.is_none() {
+                                            first_found = Some(i);
+                                        }
+                                        if min_found.is_none() || min_found.unwrap().1 > d {
+                                            min_found = Some((i, d));
+                                        }
+                                        if line {line = false; println!("")};
+                                        print!("depth: {} ", d);
+                                        if d == 0 {
+                                            expr = equivalences[i].0.clone();
+                                            cont = true;
+                                        } else if min == Some(d) {
+                                            br = true;
+                                        }
+                                        true
                                     }
-                                    if min_found.is_none() || min_found.unwrap().1 > d {
-                                        min_found = Some((i, d));
+                                    Err(lev) => {
+                                        equiv_levs[i] = lev;
+                                        false
                                     }
-                                    if line {line = false; println!("")};
-                                    print!("depth: {} ", d);
-                                    if d == 0 {
-                                        expr = equivalences[i].0.clone();
-                                        cont = true;
-                                    } else if min == Some(d) {
-                                        br = true;
-                                    }
-                                    true
                                 }
-                                Err(lev) => {
-                                    equiv_levs[i] = lev;
-                                    false
+                            } else {true};
+                            if display {
+                                println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
+                            } else {
+                                if depth != 0 {
+                                    line = true;
+                                    print!(".");
+                                    io::stdout().flush().unwrap();
                                 }
                             }
-                        } else {true};
-                        if display {
-                            println!("<=>  {}\n     ∵ {}", equivalences[i].0, std[j]);
-                        } else {
-                            line = true;
-                            print!(".");
-                            io::stdout().flush().unwrap();
+                            if cont {continue 'process_expr};
+                            if br {break 'depths};
                         }
-                        if cont {continue 'process_expr};
-                        if br {break};
                     }
+
                     if line {println!("")};
 
                     if use_min_depth && min_found.is_some() {
