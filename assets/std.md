@@ -895,6 +895,14 @@ x0 * x1 * x2 <=> x0 * x2 * x1;
 x0 * x1 * x2 * x3 <=> x0 * x2 * x1 * x3;
 ```
 
+### Algebra utilities
+
+```poi
+a + -1 * b <=> a - b;
+(a + b * ε) * (c + d * ε) <=> a * c + (a * d + c * b) * ε;
+(a + b * 𝐢) * (c + d * 𝐢) <=> a * c - b * d + (a * d + c * b) * 𝐢;
+```
+
 #### Function inverses
 
 ```poi
