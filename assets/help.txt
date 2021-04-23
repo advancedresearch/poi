@@ -39,5 +39,6 @@ Special commands:
 - help deriv     more help about derivative
 - help integ     more help about integral
 - help list      more help about lists
+- help symbol    more help about symbols vs variables
 
 Type in an expression in path semantics, e.g. `and[not]`

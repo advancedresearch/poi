@@ -1,0 +1,17 @@
+=== Symbols vs Variables ===
+
+A symbol only matches against itself in a rule.
+A variable matches against any sub-expression in a rule.
+
+Standard symbols are recognized automatically.
+Custom symbols must start with two lowercase alphabetic letters.
+
+Examples:
+
+  x     variable
+  x0    variable
+  X     variable
+  xF    variable
+  Foo   variable
+  sin   standard symbol
+  foo   custom symbol

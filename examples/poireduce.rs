@@ -64,6 +64,7 @@ fn main() {
             "help deriv" => {print_help_deriv(); continue}
             "help integ" => {print_help_integ(); continue}
             "help list" => {print_help_list(); continue}
+            "help symbol" => {print_help_symbol(); continue}
             "std" => {for k in std {println!("{}", k)}; continue}
             "inline all" => {
                 if let Some(expr) = &prev_expr {
@@ -477,3 +478,4 @@ fn print_help_eps() {print!("{}", include_str!("../assets/help-eps.txt"))}
 fn print_help_deriv() {print!("{}", include_str!("../assets/help-deriv.txt"))}
 fn print_help_integ() {print!("{}", include_str!("../assets/help-integ.txt"))}
 fn print_help_list() {print!("{}", include_str!("../assets/help-list.txt"))}
+fn print_help_symbol() {println!("{}", include_str!("../assets/help-symbol.txt"))}
