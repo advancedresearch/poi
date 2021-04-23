@@ -1275,11 +1275,11 @@ impl Into<Expr> for Symbol {
 }
 
 impl Into<Expr> for &'static str {
-    fn into(self) -> Expr {Sym(Var(Arc::new(self.into())))}
+    fn into(self) -> Expr {Sym(self.into())}
 }
 
 impl Into<Symbol> for &'static str {
-    fn into(self) -> Symbol {Var(Arc::new(self.into()))}
+    fn into(self) -> Symbol {Symbol::from(Arc::new(self.into()))}
 }
 
 /// A function applied to one argument.
@@ -1561,7 +1561,7 @@ mod tests {
 
         let mut def = std();
         def.push(Def("x".into(), 0.0.into()));
-        let f: Expr = app(Sin, "x");
+        let f: Expr = app("sin", "x");
         assert_eq!(f.eval(&def).unwrap(), Ret(F64(0.0)));
     }
 }
