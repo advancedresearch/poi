@@ -437,7 +437,23 @@ impl From<Arc<String>> for Symbol {
             "f64" => F64Type,
             "quat" => QuatType,
             "inf" | "∞" => Inf,
-            _ => Var(val),
+            _ => {
+                // Custom symbols start with two lowercase alphabetic letters.
+                let custom_symbol = {
+                    let mut chars = val.chars();
+                    if let Some(ch) = chars.next() {
+                        ch.is_lowercase() && ch.is_alphabetic() &&
+                        if let Some(ch) = chars.next() {
+                            ch.is_lowercase() && ch.is_alphabetic()
+                        } else {false}
+                    } else {false}
+                };
+                if custom_symbol {
+                    Custom(val)
+                } else {
+                    Var(val)
+                }
+            }
         }
     }
 }
