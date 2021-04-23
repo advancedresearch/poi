@@ -30,6 +30,8 @@ impl Symbol {
             BinopRetVar(_, _, _) | TernopRetVar(_, _, _, _) | UnopRetVar(_, _) |
             NoConstrVar(_) => None,
 
+            Custom(_) => None,
+
             // _ => None
         }
     }
