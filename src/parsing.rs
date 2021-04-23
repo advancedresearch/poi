@@ -36,7 +36,21 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
             expr = Some(val);
         } else if let Ok((range, val)) = convert.meta_string("var") {
             convert.update(range);
-            expr = Some(Sym(val.into()));
+            // Custom symbols start with two lowercase alphabetic letters.
+            let custom_symbol = {
+                let mut chars = val.chars();
+                if let Some(ch) = chars.next() {
+                    ch.is_lowercase() && ch.is_alphabetic() &&
+                    if let Some(ch) = chars.next() {
+                        ch.is_lowercase() && ch.is_alphabetic()
+                    } else {false}
+                } else {false}
+            };
+            if custom_symbol {
+                expr = Some(Sym(Symbol::Custom(val)));
+            } else {
+                expr = Some(Sym(val.into()));
+            }
         } else if let Ok((range, _)) = convert.meta_bool("ret_ty") {
             convert.update(range);
             if let Some(Sym(x)) = expr {

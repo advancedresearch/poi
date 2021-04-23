@@ -5,6 +5,8 @@ use super::Expr;
 /// Contains symbols and operators on symbols.
 #[derive(Clone, PartialEq, PartialOrd, Debug)]
 pub enum Symbol {
+    /// A custom symbol.
+    Custom(Arc<String>),
     /// The wildcard symbol `_`.
     Any,
     /// A variable bound from context.
@@ -450,6 +452,7 @@ impl Symbol {
         use Symbol::*;
 
         match self {
+            Custom(sym) => write!(w, "{}", sym)?,
             False1 => write!(w, "false1")?,
             Not => write!(w, "not")?,
             Idb => write!(w, "idb")?,
