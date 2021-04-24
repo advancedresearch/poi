@@ -463,19 +463,19 @@ impl Ord for MinLev {
     }
 }
 
-fn print_help() {print!("{}", include_str!("../assets/help.txt"))}
-fn print_help_goal() {print!("{}", include_str!("../assets/help-goal.txt"))}
-fn print_help_norm() {print!("{}", include_str!("../assets/help-norm.txt"))}
-fn print_help_eqv() {print!("{}", include_str!("../assets/help-eqv.txt"))}
-fn print_help_sym() {print!("{}", include_str!("../assets/help-sym.txt"))}
-fn print_help_asym() {print!("{}", include_str!("../assets/help-asym.txt"))}
-fn print_help_dom() {print!("{}", include_str!("../assets/help-dom.txt"))}
-fn print_help_triv() {print!("{}", include_str!("../assets/help-triv.txt"))}
-fn print_help_ex() {print!("{}", include_str!("../assets/help-ex.txt"))}
-fn print_help_rad() {print!("{}", include_str!("../assets/help-rad.txt"))}
-fn print_help_imag() {print!("{}", include_str!("../assets/help-imag.txt"))}
-fn print_help_eps() {print!("{}", include_str!("../assets/help-eps.txt"))}
-fn print_help_deriv() {print!("{}", include_str!("../assets/help-deriv.txt"))}
-fn print_help_integ() {print!("{}", include_str!("../assets/help-integ.txt"))}
-fn print_help_list() {print!("{}", include_str!("../assets/help-list.txt"))}
-fn print_help_symbol() {println!("{}", include_str!("../assets/help-symbol.txt"))}
+fn print_help() {print!("{}", include_str!("../assets/help/help.txt"))}
+fn print_help_goal() {print!("{}", include_str!("../assets/help/goal.txt"))}
+fn print_help_norm() {print!("{}", include_str!("../assets/help/norm.txt"))}
+fn print_help_eqv() {print!("{}", include_str!("../assets/help/eqv.txt"))}
+fn print_help_sym() {print!("{}", include_str!("../assets/help/sym.txt"))}
+fn print_help_asym() {print!("{}", include_str!("../assets/help/asym.txt"))}
+fn print_help_dom() {print!("{}", include_str!("../assets/help/dom.txt"))}
+fn print_help_triv() {print!("{}", include_str!("../assets/help/triv.txt"))}
+fn print_help_ex() {print!("{}", include_str!("../assets/help/ex.txt"))}
+fn print_help_rad() {print!("{}", include_str!("../assets/help/rad.txt"))}
+fn print_help_imag() {print!("{}", include_str!("../assets/help/imag.txt"))}
+fn print_help_eps() {print!("{}", include_str!("../assets/help/eps.txt"))}
+fn print_help_deriv() {print!("{}", include_str!("../assets/help/deriv.txt"))}
+fn print_help_integ() {print!("{}", include_str!("../assets/help/integ.txt"))}
+fn print_help_list() {print!("{}", include_str!("../assets/help/list.txt"))}
+fn print_help_symbol() {println!("{}", include_str!("../assets/help/symbol.txt"))}
