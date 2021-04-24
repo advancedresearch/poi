@@ -10,8 +10,8 @@ impl Symbol {
             Not | Idb | Id | Inv | Neg | Inc | Reci | Arity |
             False1 | True1 | Even | Odd | Abs | Conj |
             Norm | Sqnorm | Sqrt | Ln | Log2 | Log10 | Exp | Len |
-            Sum | Min | Max | SoftMax | SoftMin | Prob | Probl | Probr | Probm | Det | Transpose |
-            Dim | IsSquareMat | Sin | Asin | Cos | Acos | Tan | Atan |
+            Sum | Min | Max | ArgMax | SoftMax | SoftMin | Prob | Probl | Probr | Probm |
+            Det | Transpose | Dim | IsSquareMat | Sin | Asin | Cos | Acos | Tan | Atan |
             Re | Im | Ex | Triv | TypeOf | Pariv => Some(1),
 
             Eq | Eqb | And | Or | Nand | Nor | Xor | Exc |
