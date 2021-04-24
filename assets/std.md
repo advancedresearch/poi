@@ -341,16 +341,6 @@ x - \a * x => (1 - a) * x;
 \x / \y => compute::div(x, y);
 (\a + \b * ε) / (\c + \d * ε) => a / c + (b * c - a * d) / c ^ 2 * ε;
 x / (\a + \b * 𝐢) => x * reci(a + b * 𝐢);
-not{(: vec)}([x]) => [!x];
-not{(: vec)}([x, y..]) => [not(x)] ++ not{(: vec)}(y);
-neg{(: vec)}(\[x]) => [-x];
-neg{(: vec)}([x, y..]) => [neg(x)] ++ neg{(: vec)}(y);
-sum{(: vec)}([x, y..]) => add(x)(sum{(: vec)}(y));
-sum{(: vec)}(\[x]) => x;
-max{(: vec)}([x, y..]) => max2(x)(max{(: vec)}(y));
-max{(: vec)}(\[x]) => x;
-min{(: vec)}([x, y..]) => min2(x)(min{(: vec)}(y));
-min{(: vec)}(\[x]) => x;
 el(x)(y)(z) => item(y)(item(x)(z));
 re{(: vec)}(x) => item(0)(x);
 re(a + _ * 𝐢) => a;
@@ -454,6 +444,23 @@ will return a concrete value.
 ```
 
 #### Vector operations
+
+Unary operators:
+
+```poi
+not{(: vec)}([x]) => [!x];
+not{(: vec)}([x, y..]) => [not(x)] ++ not{(: vec)}(y);
+neg{(: vec)}(\[x]) => [-x];
+neg{(: vec)}([x, y..]) => [neg(x)] ++ neg{(: vec)}(y);
+sum{(: vec)}([x, y..]) => add(x)(sum{(: vec)}(y));
+sum{(: vec)}(\[x]) => x;
+max{(: vec)}([x, y..]) => max2(x)(max{(: vec)}(y));
+max{(: vec)}(\[x]) => x;
+min{(: vec)}([x, y..]) => min2(x)(min{(: vec)}(y));
+min{(: vec)}(\[x]) => x;
+```
+
+Binary operators:
 
 ```poi
 and{(: vec)}(x){(: vec)}(y) => vec_op(and)(x)(y);
