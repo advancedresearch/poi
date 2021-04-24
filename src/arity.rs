@@ -19,7 +19,7 @@ impl Symbol {
             Imply | Fstb | Sndb | Lt | Rlt | Le | Rle | Gt | Rgt |
             Ge | Rge | Mulc | Pow | Rpow | Concat | Min2 | Max2 |
             MulMat | Base | Fst | Snd | Atan2 | Dot | Push | PushFront |
-            Item | Col | Neq | Deriv | Rty | VecUop => Some(2),
+            Item | Col | Neq | Deriv | Rty | VecUop | SoftArgMax | SoftArgMin => Some(2),
 
             Range | Rangel | Ranger | Rangem | El | If | VecOp | Integ => Some(3),
 
