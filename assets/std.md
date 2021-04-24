@@ -467,6 +467,7 @@ arg_min{(: vec)}([x]) => 0;
 soft_max{(: vec)}(x) => ln(sum{(: vec)}(exp{(: vec)}(x)));
 soft_min{(: vec)}(x) => -ln(sum{(: vec)}(exp{(: vec)}(-x)));
 soft_arg_max(x){(: vec)}(y) => exp(x) / sum(exp{(: vec)}(y));
+soft_arg_min(x){(: vec)}(y) => exp(-x) / sum(exp{(: vec)}(-y));
 ln{(: vec)}([x]) => [ln(x)];
 ln{(: vec)}([x, y..]) => [ln(x)] ++ ln{(: vec)}(y);
 exp{(: vec)}([x]) => [exp(x)];
