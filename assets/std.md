@@ -458,6 +458,7 @@ max{(: vec)}([x, y..]) => max2(x)(max{(: vec)}(y));
 max{(: vec)}(\[x]) => x;
 min{(: vec)}([x, y..]) => min2(x)(min{(: vec)}(y));
 min{(: vec)}(\[x]) => x;
+soft_max{(: vec)}(x) => ln(sum{(: vec)}(exp{(: vec)}(x)));
 ln{(: vec)}([x]) => [ln(x)];
 ln{(: vec)}([x, y..]) => [ln(x)] ++ ln{(: vec)}(y);
 exp{(: vec)}([x]) => [exp(x)];
