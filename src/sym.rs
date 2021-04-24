@@ -183,6 +183,8 @@ pub enum Symbol {
     SoftMax,
     /// `soft_min`.
     SoftMin,
+    /// `soft_arg_max`.
+    SoftArgMax,
     /// `range` [a, b].
     Range,
     /// `rangel` [a, b).
@@ -406,6 +408,7 @@ impl From<Arc<String>> for Symbol {
             "arg_min" => ArgMin,
             "soft_max" => SoftMax,
             "soft_min" => SoftMin,
+            "soft_arg_max" => SoftArgMax,
             "range" => Range,
             "rangel" => Rangel,
             "ranger" => Ranger,
@@ -543,6 +546,7 @@ impl Symbol {
             ArgMin => write!(w, "arg_min")?,
             SoftMax => write!(w, "soft_max")?,
             SoftMin => write!(w, "soft_min")?,
+            SoftArgMax => write!(w, "soft_arg_max")?,
             Range => write!(w, "range")?,
             Rangel => write!(w, "rangel")?,
             Ranger => write!(w, "ranger")?,
