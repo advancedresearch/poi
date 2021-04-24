@@ -458,6 +458,10 @@ max{(: vec)}([x, y..]) => max2(x)(max{(: vec)}(y));
 max{(: vec)}(\[x]) => x;
 min{(: vec)}([x, y..]) => min2(x)(min{(: vec)}(y));
 min{(: vec)}(\[x]) => x;
+ln{(: vec)}([x]) => [ln(x)];
+ln{(: vec)}([x, y..]) => [ln(x)] ++ ln{(: vec)}(y);
+exp{(: vec)}([x]) => [exp(x)];
+exp{(: vec)}([x, y..]) => [exp(x)] ++ exp{(: vec)}(y);
 ```
 
 Binary operators:
