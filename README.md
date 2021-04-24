@@ -4,7 +4,7 @@ a pragmatic point-free theorem prover assistant
 [Standard Library](./assets/std.md)
 
 ```text
-=== Poi Reduce 0.21 ===
+=== Poi Reduce 0.22 ===
 Type `help` for more information.
 > and[not]
 and[not]

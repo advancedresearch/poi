@@ -5,7 +5,7 @@ use std::collections::{BinaryHeap, HashSet};
 const DEFAULT_GOAL_DEPTH: u64 = 2;
 
 fn main() {
-    println!("=== Poi Reduce 0.21 ===");
+    println!("=== Poi Reduce 0.22 ===");
     println!("Type `help` for more information.");
     let ref std = std();
 
