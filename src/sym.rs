@@ -177,6 +177,8 @@ pub enum Symbol {
     Max,
     /// `arg_max`.
     ArgMax,
+    /// `arg_min`.
+    ArgMin,
     /// `soft_max`.
     SoftMax,
     /// `soft_min`.
@@ -401,6 +403,7 @@ impl From<Arc<String>> for Symbol {
             "min" => Min,
             "max" => Max,
             "arg_max" => ArgMax,
+            "arg_min" => ArgMin,
             "soft_max" => SoftMax,
             "soft_min" => SoftMin,
             "range" => Range,
@@ -537,6 +540,7 @@ impl Symbol {
             Min => write!(w, "min")?,
             Max => write!(w, "max")?,
             ArgMax => write!(w, "arg_max")?,
+            ArgMin => write!(w, "arg_min")?,
             SoftMax => write!(w, "soft_max")?,
             SoftMin => write!(w, "soft_min")?,
             Range => write!(w, "range")?,
