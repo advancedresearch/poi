@@ -264,6 +264,8 @@ pub enum Symbol {
     Ex,
     /// Trivial path `∀`.
     Triv,
+    /// `any`, any type.
+    AnyType,
     /// `\`, the type of `\x`.
     RetType,
     /// The type of lists.
@@ -417,6 +419,7 @@ impl From<Arc<String>> for Symbol {
             "im" => Im,
             "push" => Push,
             "push_front" => PushFront,
+            "any" => AnyType,
             "\\" => RetType,
             "vec" => VecType,
             "rty" => Rty,
@@ -563,6 +566,7 @@ impl Symbol {
             Any => write!(w, "_")?,
             Ex => write!(w, "∃")?,
             Triv => write!(w, "∀")?,
+            AnyType => write!(w, "any")?,
             RetType => write!(w, "\\")?,
             VecType => write!(w, "vec")?,
             Rty => write!(w, "rty")?,
