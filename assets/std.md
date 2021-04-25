@@ -662,6 +662,8 @@ eq{eq} => true;
 add{eq}(x)(_) => 2 * x;
 mul{eq}(x)(_) => x ^ 2;
 sub{eq} => 0;
+max2{eq} => fst;
+min2{eq} => fst;
 ```
 
 Equality constraint utilities:
