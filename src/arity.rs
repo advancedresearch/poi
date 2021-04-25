@@ -31,8 +31,8 @@ impl Symbol {
             NoConstrVar(_) => None,
 
             Custom(_) => None,
-            
-            Both => None,
+
+            Both | Neither => None,
 
             // _ => None
         }

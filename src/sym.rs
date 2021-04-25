@@ -318,6 +318,8 @@ pub enum Symbol {
     Inf,
     /// `both` (indeterminate).
     Both,
+    /// `neither` (uninhabited).
+    Neither,
 }
 
 impl Symbol {
@@ -461,6 +463,7 @@ impl From<Arc<String>> for Symbol {
             "quat" => QuatType,
             "inf" | "∞" => Inf,
             "both" => Both,
+            "neither" => Neither,
             _ => {
                 // Custom symbols start with two lowercase alphabetic letters.
                 let custom_symbol = {
@@ -615,6 +618,7 @@ impl Symbol {
             QuatType => write!(w, "quat")?,
             Inf => write!(w, "∞")?,
             Both => write!(w, "both")?,
+            Neither => write!(w, "neither")?,
             Var(x) => write!(w, "{}", x)?,
             NoConstrVar(x) => if rule {
                 write!(w, "{}!{{}}", x)?
