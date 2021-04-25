@@ -228,6 +228,10 @@ concat[min] => min2;
 concat[sqnorm] => add;
 concat[sum] => add;
 eqb[not] => xor;
+max[neg] => min;
+max2[neg] => min2;
+min[neg] => max;
+min2[neg] => max2;
 mul[even] => or;
 mul[ln] => add;
 mul[log10] => add;
@@ -239,6 +243,8 @@ nand[not] => nor;
 nor[not] => nand;
 not[not] => not;
 or[not] => and;
+soft_max[neg] => soft_min;
+soft_min[neg] => soft_max;
 xor[not] => eqb;
 ```
 
