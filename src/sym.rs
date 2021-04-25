@@ -316,6 +316,8 @@ pub enum Symbol {
     QuatType,
     /// `inf` (infinity).
     Inf,
+    /// `both` (indeterminate).
+    Both,
 }
 
 impl Symbol {
@@ -458,6 +460,7 @@ impl From<Arc<String>> for Symbol {
             "f64" => F64Type,
             "quat" => QuatType,
             "inf" | "∞" => Inf,
+            "both" => Both,
             _ => {
                 // Custom symbols start with two lowercase alphabetic letters.
                 let custom_symbol = {
@@ -611,6 +614,7 @@ impl Symbol {
             F64Type => write!(w, "f64")?,
             QuatType => write!(w, "quat")?,
             Inf => write!(w, "∞")?,
+            Both => write!(w, "both")?,
             Var(x) => write!(w, "{}", x)?,
             NoConstrVar(x) => if rule {
                 write!(w, "{}!{{}}", x)?
