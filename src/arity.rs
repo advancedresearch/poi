@@ -32,6 +32,8 @@ impl Symbol {
 
             Custom(_) => None,
 
+            Both | Neither => None,
+
             // _ => None
         }
     }
