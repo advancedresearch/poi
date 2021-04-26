@@ -1,0 +1,66 @@
+// # Collatz
+//
+// To run, type `cat source/collatz/script.poi | poireduce` in the Terminal.
+
+collatz := (if((/ 2))(inc · (* 3)) · even) · dup
+
+goal true
+collatz[even](true) = both
+inline collatz
+
+goal false
+collatz[even](true) = neither
+inline collatz
+
+goal false
+collatz[even](true) = true
+inline collatz
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{(= true)}) = idb
+repeat
+
+goal false
+collatz[even](true) = false
+inline collatz
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{(= true)}) = not
+repeat
+
+goal false
+collatz[even](false) = both
+inline collatz
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{(= false)}) = true
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{not}) = true
+subgoal ∃(even · (inc · (* 3)){not · even}) = true
+subgoal ∃(even · (inc · (* 3){odd})) = true
+subgoal ∃((even · inc) · (* 3){odd}) = true
+repeat
+
+goal false
+collatz[even](false) = neither
+inline collatz
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{(= false)}) = false
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{not}) = false
+subgoal ∃(even · (inc · (* 3)){not · even}) = false
+subgoal ∃(even · (inc · (* 3){odd})) = false
+subgoal ∃((even · inc) · (* 3){odd}) = false
+repeat
+
+goal true
+collatz[even](false) = true
+inline collatz
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{(= false)}) = idb
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{not}) = id
+subgoal ∃(even · (inc · (* 3)){not · even}) = id
+subgoal ∃(even · (inc · (* 3){odd})) = id
+subgoal ∃((even · inc) · (* 3){odd}) = id
+subgoal ∃((inc[even] · even) · (* 3){odd}) = id
+repeat
+
+goal false
+collatz[even](false) = false
+inline collatz
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{(= false)}) = not
+subgoal ∃(((if((/ 2))(inc · (* 3)) · even) · dup)[even]{not}) = not
+subgoal ∃(even · (inc · (* 3)){not · even}) = not
+subgoal ∃(even · (inc · (* 3){odd})) = not
+subgoal ∃((even · inc) · (* 3){odd}) = not
+repeat
