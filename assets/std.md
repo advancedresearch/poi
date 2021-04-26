@@ -233,6 +233,7 @@ concat[min] => min2;
 concat[sqnorm] => add;
 concat[sum] => add;
 eqb[not] => xor;
+inc[even] => not;
 max[neg] => min;
 max2[neg] => min2;
 min[neg] => max;
