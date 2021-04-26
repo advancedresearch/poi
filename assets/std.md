@@ -70,6 +70,11 @@ Concrete application and composition:
 \x · _ => x;
 ```
 
+Duplication:
+```poi
+dup(x) => (x, x);
+```
+
 #### If
 
 The `if` in Poi takes two arguments `if(a, b)`.
