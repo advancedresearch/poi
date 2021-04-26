@@ -733,6 +733,8 @@ Generic laws:
 ∃(add{(> x)}{(> y)}) => (> x + y);
 ∃(add{(<= x)}{(<= y)}) => (<= x + y);
 ∃(add{(< x)}{(< y)}) => (< x + y);
+
+∃(even · (/ \k){even}) => true;
 ```
 
 #### Constants
