@@ -1,5 +1,10 @@
 _seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 
+200 multi_line_comment = ["/*" ..."*/"? .r?({
+    [!"*/" "*" ..."*/"?] [multi_line_comment ..."*/"?] ["/" ..."*/"?]
+}) "*/"]
+201 comment = {multi_line_comment ["//" ..."\n"?]}
+
 32 not_in_var_name = [.._seps!:"x" "!>" .._seps!:"y"]
 31 head_tail_list = ["[" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? "]"]
 30 head_tail_tup = ["(" .w? .._seps!:"head" .w? "," .w? .._seps!:"tail" ".." .w? ")"]
@@ -103,7 +108,8 @@ _seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 }
 1 raw_expr = alg_inner:"alg"
 0 doc = {
-  ["#" .l([.l([!"```poi" ..."\n"?]) "```poi" .w? .s!.([.w? ";" .w?] knowledge:"knowledge") .w? "```"])]
-  .s!.([.w? ";" .w?] knowledge:"knowledge")
+  ["#" .l([.l([!"```poi" ..."\n"?]) "```poi" .w?
+    .s!.([.w? ";" .w?] {comment knowledge:"knowledge"}) .w? "```"])]
+  .s!.([.w? ";" .w?] {comment knowledge:"knowledge"})
   top_expr:"expr"
 }

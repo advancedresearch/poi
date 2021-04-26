@@ -43,6 +43,9 @@ fn main() {
             };
         }
 
+        // Ignore comments.
+        if input.starts_with("// ") {continue};
+
         let mut repeat = input.starts_with(" ") && input.trim() == "" ||
             input.trim() == "repeat";
         if !repeat {match input.trim() {
