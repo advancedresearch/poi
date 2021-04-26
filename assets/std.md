@@ -307,6 +307,9 @@ sndb(x)(y) => y;
 snd(x)(y) => y;
 eqb(false) => not;
 eqb(true) => idb;
+
+(= true) => idb;
+(= false) => not;
 ```
 
 #### Complex numbers
