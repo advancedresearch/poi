@@ -43,5 +43,6 @@ Special commands:
 - help list      more help about lists
 - help symbol    more help about symbols vs variables
 - help script    more help about scripts
+- help catus     more help about Catuṣkoṭi existential lift
 
 Type in an expression in path semantics, e.g. `and[not]`
