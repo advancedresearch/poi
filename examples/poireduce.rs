@@ -319,8 +319,9 @@ fn main() {
                             }
                             if cont {continue 'process_expr};
                             if br {break 'depths};
-                            if goal.is_none() {break 'depths};
                         }
+
+                        if goal.is_none() {break 'depths};
                     }
 
                     if line {println!("")};
