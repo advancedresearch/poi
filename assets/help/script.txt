@@ -1,0 +1,10 @@
+=== Scripts ===
+
+Poi-Reduce is designed to be used with Unix pipes.
+This means that commands to Poi-Reduce can be executed as a script.
+
+To run a file as a script, type the following in the Terminal/shell:
+
+  cat <file> | poireduce
+
+Comments start with `//` in Poi-Reduce scripts.
