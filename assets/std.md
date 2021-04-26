@@ -258,6 +258,8 @@ Symmetric path utilities:
 
 ```poi
 f:[arity]2(x){g}[g] . g => f[g](true)(g(x));
+((if(f:[arity]1)(_) · g) · dup)[g]{id} => f[g]{id};
+((if(_)(f:[arity]1) · g) · dup)[g]{not} => f[g]{not};
 ```
 
 #### Asymmetric normal paths
