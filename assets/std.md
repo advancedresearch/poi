@@ -254,6 +254,12 @@ soft_min[neg] => soft_max;
 xor[not] => eqb;
 ```
 
+Symmetric path utilities:
+
+```poi
+f:[arity]2(x){g}[g] . g => f[g](true)(g(x));
+```
+
 #### Asymmetric normal paths
 
 ```poi
