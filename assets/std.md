@@ -759,6 +759,14 @@ not = true => false;
 id = not => false;
 ```
 
+Function inequality utilities:
+
+```poi
+false = x => x = false;
+true = x => x = true;
+not = id => false;
+```
+
 #### Constants
 
 ```poi
