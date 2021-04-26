@@ -9,7 +9,7 @@ Special commands:
 - inline <def>   inlines definition from previous expression
 - inline all     inlines all definitions from previous expression
 - ``             prints separator for readability
-- ` `            try again with last expression
+- ` `            try again with last expression (alternative: `repeat`)
 - eval <expr>    evaluates expression
 - echo <expr>    prints out debug format of expression
 - goal <expr>    set expression as new goal
