@@ -23,6 +23,7 @@ fn main() {
     // Picks minimum Levenshtein distance.
     let mut min_lev: BinaryHeap<MinLev> = BinaryHeap::new();
     let mut auto_lev = false;
+    let mut last_input_empty = false;
 
     loop {
         use std::io::{self, Write};
@@ -46,6 +47,10 @@ fn main() {
             input.trim() == "repeat";
         if !repeat {match input.trim() {
             "" => {
+                // Exit program when empty strings are read.
+                if last_input_empty {break};
+                last_input_empty = true;
+
                 // Print separator for readability.
                 print!("\n------------------------------------<o=o");
                 println!("o=o>------------------------------------\n");
@@ -282,13 +287,19 @@ fn main() {
             }
         }}
 
+        last_input_empty = false;
+
         let mut expr = if repeat {
             if let Some(expr) = prev_expr {expr} else {continue}
         } else {
                 match parse_data_str(&input, &dirs) {
                     Ok(ParseData::Expr(expr)) => expr,
                     Ok(ParseData::Knowledge(knowledge)) => {
+                        for k in &knowledge {
+                            println!("{};", k);
+                        }
                         std.extend(knowledge.into_iter());
+                        println!("Poi: Rules added.");
                         continue;
                     }
                     Err(err) => {
