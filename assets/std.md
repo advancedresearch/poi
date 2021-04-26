@@ -805,6 +805,20 @@ that they might work both ways.
 Some equivalences have fewer variables or uses `compute::` on one side,
 which means they can only be used from left to right.
 
+#### Catuṣkoṭi existential lift
+
+Catuṣkoṭi existential lift is used to reason about indeterminacy.
+The equation of the form `f(x) = y` where `y` is
+`true/false/both/neither` (a 4-value logic) is translated into an equation using the existential path `∃(f{(= x)})`.
+
+```poi
+f(x) = both <=> ∃(f{(= x)}) = true;
+f(x) = neither <=> ∃(f{(= x)}) = false;
+f(x) = true <=> ∃(f{(= x)}) = idb;
+f(x) = false <=> ∃(f{(= x)}) = not;
+∃(f:[arity]1[g]{h}) <=> ∃(g · f{h · g});
+```
+
 #### Trigonometry
 
 ```poi
