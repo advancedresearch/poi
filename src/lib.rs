@@ -777,23 +777,18 @@ impl Context {
                 self.vars.push((name.clone(), x.clone()));
                 true
             }
-            (Sym(ArityVar(name, n)), Sym(x)) if x.arity() == Some(*n) => {
+            (Sym(ArityVar(name, n)), x) if x.arity() == Some(*n) => {
                 for i in (0..self.vars.len()).rev() {
                     if &self.vars[i].0 == name {
-                        if let Sym(y) = &self.vars[i].1 {
-                            if y == x {
-                                break
-                            } else {
-                                self.vars.clear();
-                                return false;
-                            }
+                        if &self.vars[i].1 == x {
+                            break
                         } else {
                             self.vars.clear();
                             return false;
                         }
                     }
                 }
-                self.vars.push((name.clone(), Sym(x.clone())));
+                self.vars.push((name.clone(), x.clone()));
                 true
             }
             // `x!>y` means `x` does not occur in expression `y`.
