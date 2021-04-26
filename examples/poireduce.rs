@@ -7,7 +7,7 @@ const DEFAULT_GOAL_DEPTH: u64 = 2;
 fn main() {
     println!("=== Poi Reduce 0.22 ===");
     println!("Type `help` for more information.");
-    let ref std = std();
+    let ref mut std = std();
 
     let mut prev_expr: Option<Expr> = None;
     let mut goal: Option<Expr> = None;
@@ -65,10 +65,10 @@ fn main() {
             "help integ" => {print_help_integ(); continue}
             "help list" => {print_help_list(); continue}
             "help symbol" => {print_help_symbol(); continue}
-            "std" => {for k in std {println!("{}", k)}; continue}
+            "std" => {for k in &*std {println!("{}", k)}; continue}
             "inline all" => {
                 if let Some(expr) = &prev_expr {
-                    prev_expr = Some(match expr.inline_all(std) {
+                    prev_expr = Some(match expr.inline_all(&std) {
                         Ok(x) => {
                             repeat = true;
                             x
@@ -132,7 +132,7 @@ fn main() {
                     match parse_str(x[4..].trim(), &dirs) {
                         Ok(Expr::Sym(s)) => {
                             let mut found = false;
-                            for k in std.iter() {
+                            for k in &*std {
                                 if let Knowledge::Def(a, b) = k {
                                     if a == &s {
                                         found = true;
@@ -227,8 +227,12 @@ fn main() {
         let mut expr = if repeat {
             if let Some(expr) = prev_expr {expr} else {continue}
         } else {
-                match parse_str(&input, &dirs) {
-                    Ok(expr) => expr,
+                match parse_data_str(&input, &dirs) {
+                    Ok(ParseData::Expr(expr)) => expr,
+                    Ok(ParseData::Knowledge(knowledge)) => {
+                        std.extend(knowledge.into_iter());
+                        continue;
+                    }
                     Err(err) => {
                         println!("ERROR:\n{}", err);
                         continue;

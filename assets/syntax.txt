@@ -104,5 +104,6 @@ _seps: "[]()\\;:,.·⨯-→{}<>=!+-*/%^&|"
 1 raw_expr = alg_inner:"alg"
 0 doc = {
   ["#" .l([.l([!"```poi" ..."\n"?]) "```poi" .w? .s!.([.w? ";" .w?] knowledge:"knowledge") .w? "```"])]
+  knowledge:"knowledge"
   top_expr:"expr"
 }
