@@ -1,0 +1,34 @@
+=== Catuṣkoṭi Existential Lift ===
+
+Link to paper: https://github.com/advancedresearch/path_semantics/blob/master/papers-wip2/catuskoti-existential-lift.pdf
+
+Catuṣkoṭi is 4-value logic that was developed in traditional Indian logic.
+
+                    lifted existential path
+  - true        =>  idb
+  - false       =>  not
+  - both        =>  true
+  - neither     =>  false
+
+A "truth value" in Catuṣkoṭi is 1 of these four statements.
+Each truth value maps to an existential path of type `bool -> bool`.
+
+Catuṣkoṭi Existential Lift means that equations of the form:
+
+  f(x) = <Catuṣkoṭi truth>
+
+Is lifted to the following form:
+
+  ∃(f{(= x)}) = <Catuṣkoṭi truth lifted to existential path>
+
+Since existential paths might be hard to wrap your head around,
+one can use Catuṣkoṭi existential lift to simplify theorem proving
+when reasoning about indeterminacy.
+
+Indeterminacy happens under non-determinism,
+but also over normal paths that depends on the input, e.g.:
+
+  collatz[even](true) = both
+
+It means that the normal path `collatz[even]` is not inhabited by
+the type `type -> type`. However, the existential path is still meaningful!

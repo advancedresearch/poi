@@ -832,6 +832,7 @@ which means they can only be used from left to right.
 Catuṣkoṭi existential lift is used to reason about indeterminacy.
 The equation of the form `f(x) = y` where `y` is
 `true/false/both/neither` (a 4-value logic) is translated into an equation using the existential path `∃(f{(= x)})`.
+For more information, see `help catus`.
 
 ```poi
 f(x) = both <=> ∃(f{(= x)}) = true;
