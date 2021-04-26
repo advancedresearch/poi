@@ -6,6 +6,7 @@ https://github.com/advancedresearch/path_semantics
 
 Special commands:
 - bye            quits the program
+- inline <def>   inlines definition from previous expression
 - inline all     inlines all definitions from previous expression
 - ``             prints separator for readability
 - ` `            try again with last expression

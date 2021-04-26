@@ -152,6 +152,34 @@ fn main() {
                             continue;
                         }
                     }
+                } else if x.starts_with("inline ") {
+                    match parse_str(x[7..].trim(), &dirs) {
+                        Ok(Expr::Sym(s)) => {
+                            if let Some(expr) = &prev_expr {
+                                prev_expr = Some(match expr.inline(&s, &std) {
+                                    Ok(x) => {
+                                        repeat = true;
+                                        x
+                                    }
+                                    Err(err) => {
+                                        println!("ERROR: {:?}", err);
+                                        continue;
+                                    }
+                                });
+                            } else {
+                                println!("ERROR: No previous expression");
+                                continue;
+                            }
+                        }
+                        Err(err) => {
+                            println!("ERROR:\n{}", err);
+                            continue;
+                        }
+                        _ => {
+                            println!("ERROR:\nExpected symbol");
+                            continue;
+                        }
+                    }
                 } else if x.starts_with("echo ") {
                     match parse_str(x[5..].trim(), &dirs) {
                         Ok(x) => {
