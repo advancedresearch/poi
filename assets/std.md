@@ -316,9 +316,6 @@ sndb(x)(y) => y;
 snd(x)(y) => y;
 eqb(false) => not;
 eqb(true) => idb;
-
-(= true) => idb;
-(= false) => not;
 ```
 
 #### Complex numbers
@@ -889,6 +886,9 @@ rangem(0)(1) <=> probm;
 #### Misc
 
 ```poi
+(= true) <=> idb;
+(= false) <=> not;
+
 x ^ 2 <=> x * x;
 
 not · nand <=> and;
