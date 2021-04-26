@@ -691,6 +691,7 @@ f{true1} => f;
 (x * x^\k) => x^(k + 1);
 (x^\a * x^\b) => x^(a + b);
 (x * x) => x^2;
+(g . (* x))(y) => g(x * y);
 ```
 
 #### Trivial paths (domains)
