@@ -1031,6 +1031,7 @@ f[g0 x g1 -> g2][h0 x h1 -> h2] <=> f[(h0 · g0) x (h1 · g1) -> (h2 · g2)];
 f · (g · (h0, h1)) <=> (f · g) · (h0, h1);
 (f · (g0, g1)) · (h0, h1) <=> f · ((g0, g1) · (h0, h1));
 f · (g · h) <=> (f · g) · h;
+g · f:[arity]1 <=> f[g] · g;
 f:[arity]1[g] <=> f:[arity]1[g -> id][id -> g];
 (f · (g0, g1)){x}(a){y}(b) <=> f(g0{x}(a){y}(b))(g1{x}(a){y}(b));
 (f · (g0, g1))(a)(b) <=> f(g0(a)(b))(g1(a)(b));
