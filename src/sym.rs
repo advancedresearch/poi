@@ -65,6 +65,8 @@ pub enum Symbol {
     UnopRetVar(Arc<String>, Box<Symbol>),
     /// A function without domain constraints.
     NoConstrVar(Arc<String>),
+    /// `dup` duplicate argument `\(x) = (x, x)`.
+    Dup,
     /// `\false` for one argument.
     False1,
     /// `not`.
@@ -343,6 +345,7 @@ impl From<Arc<String>> for Symbol {
 
         match &**val {
             "_" => Any,
+            "dup" => Dup,
             "triv" | "∀" | "dom" => Triv,
             "ex" | "∃" | "codom" => Ex,
             "false1" => False1,
@@ -496,6 +499,7 @@ impl Symbol {
 
         match self {
             Custom(sym) => write!(w, "{}", sym)?,
+            Dup => write!(w, "dup")?,
             False1 => write!(w, "false1")?,
             Not => write!(w, "not")?,
             Idb => write!(w, "idb")?,
