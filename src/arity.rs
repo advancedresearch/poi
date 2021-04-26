@@ -60,6 +60,7 @@ impl Expr {
                     _ => None
                 }
             }
+            Op(Compose, _, y) => y.arity(),
             _ => None,
         }
     }
