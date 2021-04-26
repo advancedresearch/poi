@@ -14,6 +14,7 @@ Special commands:
 - echo <expr>    prints out debug format of expression
 - goal <expr>    set expression as new goal
 - reset goal     reset goal
+- subgoal <expr> set expression as new subgoal
 - auto <expr>    prove with automated minimum Levenshtein distance
 - lev            pick minimum Levenshtein distance
 - auto lev       automated minimum Levenshtein distance

@@ -11,6 +11,7 @@ fn main() {
 
     let mut prev_expr: Option<Expr> = None;
     let mut goal: Option<Expr> = None;
+    let mut real_goal: Option<Expr> = None;
     let mut goal_depth: u64 = DEFAULT_GOAL_DEPTH;
     let mut use_min_depth = true;
     let mut dirs: Vec<String> = vec![];
@@ -85,7 +86,12 @@ fn main() {
                 }
             }
             "bye" => break,
-            "reset goal" => {goal = None; println!("Poi: Goal is reset."); continue}
+            "reset goal" => {
+                goal = None;
+                real_goal = None;
+                println!("Poi: Goal is reset.");
+                continue
+            }
             "reset depth" => {
                 goal_depth = DEFAULT_GOAL_DEPTH;
                 println!("Poi: Goal depth is reset to {}.", goal_depth);
@@ -236,6 +242,29 @@ fn main() {
                             continue;
                         }
                     }
+                } else if x.starts_with("subgoal ") {
+                    match parse_str(x[8..].trim(), &dirs) {
+                        Ok(mut expr) => {
+                            // Reduce expression first.
+                            loop {
+                                if let Ok((nexpr, i)) = expr.reduce(std) {
+                                    if nexpr == expr {break};
+                                    expr = nexpr;
+                                    println!("{}\n∵ {}", expr, std[i]);
+                                } else {
+                                    break;
+                                }
+                            }
+                            println!("new subgoal: {}", expr);
+                            real_goal = goal.clone();
+                            goal = Some(expr);
+                            repeat = true;
+                        }
+                        Err(err) => {
+                            println!("ERROR:\n{}", err);
+                            continue;
+                        }
+                    }
                 } else if x.starts_with("auto ") {
                     input = x[5..].trim().into();
                     auto_lev = true;
@@ -289,6 +318,10 @@ fn main() {
                 goal_txt = format!("{}", g);
                 if &expr == g {
                     goal = None;
+                    if real_goal.is_some() {
+                        goal = real_goal.clone();
+                        real_goal = None;
+                    }
                     true
                 } else {false}
             } else {false};
@@ -397,7 +430,11 @@ fn main() {
             println!("∴ {}", expr);
             if goal_reached {
                 auto_lev = false;
-                println!("Q.E.D.");
+                if goal.is_some() {
+                    println!("Poi: Subgoal achieved.");
+                } else {
+                    println!("Q.E.D.");
+                }
             } else {
                 if goal.is_some() {
                     let txt = format!("{}", expr);
