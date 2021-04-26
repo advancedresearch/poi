@@ -1005,7 +1005,7 @@ mul(-1) <=> neg;
 (a * b - a) <=> (a * (b - 1));
 (- y)(x) <=> (x - y);
 (x / y) <=> x * reci(y);
-(/ y)(x) <=> (x / y);
+(/ y)(x) <=>> (x / y);
 ```
 
 #### Logarithms and exponentials
@@ -1061,12 +1061,12 @@ f:[arity]1[g] <=> f:[arity]1[g -> id][id -> g];
 (f · (g0(a), g1(b)))(c) <=> (f · (g0 · fst, g1 · snd))(a)(b)(c);
 (f · g:[arity]2)(a)(b) <=> f(g:[arity]2(a)(b));
 (f · g:[arity]2){x}(a){y}(b) <=> f(g:[arity]2{x}(a){y}(b));
-(f · g:[arity]1)(a) <=> f(g:[arity]1(a));
+(f · g:[arity]1)(a) <=>> f(g:[arity]1(a));
 (f · g:[arity]2){x}(a){y}(b) <=> (f · g:[arity]2{x}{y})(a)(b);
-(f · g:[arity]1){x}(a) <=> f(g:[arity]1{x}(a));
-(g · f:[arity]2){_}(a){_}(b) <=> f:[arity]2[g](g(a))(g(b));
-(g · f:[arity]1){_}(a) <=> f:[arity]1[g](g(a));
-(g · f:[arity]2)(a)(b) <=> f:[arity]2[g](g(a))(g(b));
+(f · g:[arity]1){x}(a) <=>> f(g:[arity]1{x}(a));
+(g · f:[arity]2){_}(a){_}(b) <=>> f:[arity]2[g](g(a))(g(b));
+(g · f:[arity]1){_}(a) <=>> f:[arity]1[g](g(a));
+(g · f:[arity]2)(a)(b) <=>> f:[arity]2[g](g(a))(g(b));
 g · f:[arity]2 <=> f:[arity]2[g] · (g · fst, g · snd);
 (g · f:[arity]1)(a) <=> f:[arity]1[g](g(a));
 (g, f)(a) <=> (g(a), f(a));
