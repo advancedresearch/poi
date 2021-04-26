@@ -756,6 +756,7 @@ id = false => false;
 id = true => false;
 not = false => false;
 not = true => false;
+id = not => false;
 ```
 
 #### Constants
