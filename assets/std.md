@@ -1033,6 +1033,12 @@ exp(x + y) <=> exp(x) * exp(y);
 exp(x * ln(y)) <=> y^x;
 ```
 
+#### Boolean algebra
+
+```poi
+imply(a)(b) <=> or(not(a))(b);
+```
+
 #### Generic transformations
 ```poi
 (f:[arity]1 · g) <=> f:[arity]1[inv(g) -> id];
