@@ -528,6 +528,13 @@ Modus ponens (constructive):
 a & imply(a)(b) => b;
 ```
 
+Bound negative and positive (constructive):
+
+```poi
+!a & b | a => b | a;
+a & b | !a => b | !a;
+```
+
 Double negation utilities (decidable):
 
 ```poi
