@@ -1031,6 +1031,7 @@ exp(x * ln(y)) <=> y^x;
 
 ```poi
 imply <=> or · not;
+imply · and <=> imply · (id, imply · snd);
 not · nand <=> and;
 not · nor <=> or;
 not · and <=> nand;
@@ -1097,4 +1098,6 @@ f[g x g -> g] <=> f[g];
 (f(x) = g(x)) <=> (f = g);
 g2 · f[g0 x g1 -> id] <=> (g2 · f)[g0 x g1 -> id];
 h · f[g0 x g1 -> id] <=> f[g0 x g1 -> h];
+(f:[arity]2 · (id, g:[arity]2 · snd))(a)(b)(c) <=>
+  f:[arity]2(a)(g:[arity]2(b)(c));
 ```
