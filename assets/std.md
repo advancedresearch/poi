@@ -1005,6 +1005,20 @@ x0 + x11 + x10 + x9 + x8 + x7 + x6 + x5 + x4 + x3 + x2 + x1;
 
 x0 * x1 * x2 <=> x0 * x2 * x1;
 x0 * x1 * x2 * x3 <=> x0 * x2 * x1 * x3;
+
+x0 | x1 | x2 | x3 <=> x3 | x0 | x1 | x2;
+x0 | x1 | x2 | x3 <=> x0 | x3 | x2 | x1;
+x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 <=>
+x7 | x0 | x1 | x2 | x3 | x4 | x5 | x6;
+x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 <=>
+x0 | x7 | x6 | x5 | x4 | x3 | x2 | x1;
+x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | x10 | x11 <=>
+x11 | x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | x10;
+x0 | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | x10 | x11 <=>
+x0 | x11 | x10 | x9 | x8 | x7 | x6 | x5 | x4 | x3 | x2 | x1;
+
+x0 & x1 & x2 <=> x0 & x2 & x1;
+x0 & x1 & x2 & x3 <=> x0 & x2 & x1 & x3;
 ```
 
 #### Algebra utilities
