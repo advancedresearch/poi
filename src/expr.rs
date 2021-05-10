@@ -85,8 +85,14 @@ impl Expr {
                         write!(w, ")")?;
                     }
                 } else if let Sym(Not) = **a {
+                    if parens {
+                        write!(w, "(")?;
+                    }
                     write!(w, "!")?;
                     b.display(w, true, rule)?;
+                    if parens {
+                        write!(w, ")")?;
+                    }
                 } else if let Sym(Rty) = **a {
                     if let Sym(_) = **b {
                         r(":")?;
