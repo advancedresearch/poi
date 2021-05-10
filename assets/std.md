@@ -1066,6 +1066,13 @@ not · eqb <=> xor;
 not · xor <=> eqb;
 ```
 
+De Morgan's laws utility (decidable):
+
+```poi
+!(a & b) <=> !a | !b;
+!(a | b) <=> !a & !b;
+```
+
 #### Generic transformations
 
 ```poi
