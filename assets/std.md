@@ -535,6 +535,12 @@ Double negation utilities (decidable):
 not · (not · x) => x;
 ```
 
+Reverse modus tollens utility (decidable):
+
+```poi
+!(!b) | !a => b | !a;
+```
+
 #### Misc
 
 ```poi
