@@ -901,12 +901,6 @@ rangem(0)(1) <=> probm;
 
 x ^ 2 <=> x * x;
 
-not · nand <=> and;
-not · nor <=> or;
-not · and <=> nand;
-not · or <=> nor;
-not · eqb <=> xor;
-not · xor <=> eqb;
 (>= x) <=> le(x);
 (> x) <=> lt(x);
 (<= x) <=> ge(x);
@@ -1037,6 +1031,12 @@ exp(x * ln(y)) <=> y^x;
 
 ```poi
 imply <=> or · not;
+not · nand <=> and;
+not · nor <=> or;
+not · and <=> nand;
+not · or <=> nor;
+not · eqb <=> xor;
+not · xor <=> eqb;
 ```
 
 #### Generic transformations
