@@ -934,6 +934,7 @@ a - b - c <=> a - (b + c);
 ```poi
 a * (b + c) <=> a * b + a * c;
 a * (b - c) <=> a * b - a * c;
+a & (b | c) <=> a & b | a & c;
 ```
 
 #### Associativity
