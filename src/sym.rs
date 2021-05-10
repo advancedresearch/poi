@@ -330,7 +330,7 @@ impl Symbol {
         use Symbol::*;
 
         Some(match self {
-            Pow => 3,
+            Pow | Not => 3,
             Mul | Div | Rem | And => 4,
             Add | Sub | Or => 5,
             Eq => 6,
