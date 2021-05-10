@@ -528,9 +528,10 @@ Modus ponens (constructive):
 a & imply(a)(b) => b;
 ```
 
-Double negation (decidable):
+Double negation utilities (decidable):
 
 ```poi
+!(!x) => x;
 not · (not · x) => x;
 ```
 
