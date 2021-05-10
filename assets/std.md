@@ -1101,4 +1101,6 @@ g2 · f[g0 x g1 -> id] <=> (g2 · f)[g0 x g1 -> id];
 h · f[g0 x g1 -> id] <=> f[g0 x g1 -> h];
 (f:[arity]2 · (fst, g:[arity]2 · snd))(a)(b)(c) <=>
   f:[arity]2(a)(g:[arity]2(b)(c));
+f:[arity]2(a)(g:[arity]1(b)) <=> (f:[arity]2 · (fst, g:[arity]1 · snd))(a)(b);
+f:[arity]2(g:[arity]1(a))(b) <=> (f:[arity]2 · (g:[arity]1 · fst, snd))(a)(b);
 ```
