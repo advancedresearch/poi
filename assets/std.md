@@ -1041,6 +1041,7 @@ not · xor <=> eqb;
 ```
 
 #### Generic transformations
+
 ```poi
 (f:[arity]1 · g) <=> f:[arity]1[inv(g) -> id];
 (f · (g0 · fst, g1 · snd)) <=> f[inv(g0) x inv(g1) -> id];
@@ -1098,6 +1099,6 @@ f[g x g -> g] <=> f[g];
 (f(x) = g(x)) <=> (f = g);
 g2 · f[g0 x g1 -> id] <=> (g2 · f)[g0 x g1 -> id];
 h · f[g0 x g1 -> id] <=> f[g0 x g1 -> h];
-(f:[arity]2 · (id, g:[arity]2 · snd))(a)(b)(c) <=>
+(f:[arity]2 · (fst, g:[arity]2 · snd))(a)(b)(c) <=>
   f:[arity]2(a)(g:[arity]2(b)(c));
 ```
