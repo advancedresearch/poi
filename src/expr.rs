@@ -324,7 +324,14 @@ impl Expr {
                     _ => true
                 }
             } else {
-                true
+                match &**f {
+                    Sym(x) => {
+                        if let (Some(x), Some(y)) = (x.precedence(), parent_op.precedence()) {
+                            if left {x > y} else {x >= y}
+                        } else {true}
+                    }
+                    _ => true
+                }
             }
         } else {
             true
@@ -419,6 +426,12 @@ mod tests {
         assert_eq!(format!("{}", expr), "a : (b : c)");
         let expr = app(Neg, app(Neg, "a"));
         assert_eq!(format!("{}", expr), "-(-a)");
+        let expr = app(Not, app2(Or, "a", "b"));
+        assert_eq!(format!("{}", expr), "!(a | b)");
+        let expr = app2(Or, app(Not, "a"), "b");
+        assert_eq!(format!("{}", expr), "!a | b");
+        let expr = app2(Or, "a", app(Not, "b"));
+        assert_eq!(format!("{}", expr), "a | !b");
     }
 
     struct Rule(Expr);
