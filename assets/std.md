@@ -965,6 +965,8 @@ a & (b | c) <=> a & b | a & c;
 ```poi
 a + (b + c) <=> a + b + c;
 a * (b * c) <=> a * b * c;
+a | (b | c) <=> a | b | c;
+a & (b & c) <=> a & b & c;
 ```
 
 #### Commutativity
