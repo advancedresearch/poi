@@ -517,11 +517,27 @@ vec_uop(f)([x, y..]) => concat([f(x)])(vec_uop(f)(y));
 vec_uop(f)(\[x]) => [f(x)];
 ```
 
+#### Boolean algebra
+
+- Decidable requires Law of Excluded Middle
+- Constructive is the same as undecidable
+
+Modus ponens (constructive):
+
+```poi
+a & imply(a)(b) => b;
+```
+
+Double negation (decidable):
+
+```poi
+not · (not · x) => x;
+```
+
 #### Misc
 
 ```poi
 dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => x0 * x1 + y0 * y1;
-not · (not · x) => x;
 ```
 
 #### Ranges
