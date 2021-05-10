@@ -1036,7 +1036,7 @@ exp(x * ln(y)) <=> y^x;
 #### Boolean algebra
 
 ```poi
-imply(a)(b) <=> or(not(a))(b);
+imply <=> or · not;
 ```
 
 #### Generic transformations
