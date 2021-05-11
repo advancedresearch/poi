@@ -1075,6 +1075,9 @@ exp(x * ln(y)) <=> y^x;
 
 #### Boolean algebra
 
+- Decidable requires Law of Excluded Middle
+- Constructive is the same as undecidable
+
 ```poi
 imply <=> or · not;
 imply · and <=> imply · (id, imply · snd);
