@@ -822,7 +822,6 @@ Constants utilities:
 idb => id;
 fstb => fst;
 sndb => snd;
-eqb => eq;
 
 len · concat => concat[len] · (len · fst, len · snd);
 sum · concat => concat[sum] · (sum · fst, sum · snd);
