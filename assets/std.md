@@ -548,6 +548,12 @@ Reverse modus tollens utility (decidable):
 !(!b) | !a => b | !a;
 ```
 
+Tautology:
+
+```poi
+a | !a => true;
+```
+
 #### Misc
 
 ```poi
