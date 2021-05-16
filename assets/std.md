@@ -1102,6 +1102,12 @@ De Morgan's laws utility (decidable):
 !(a | b) <=> !a & !b;
 ```
 
+Xor:
+
+```poi
+xor(a)(b) <=> a & !b | !a & b;
+```
+
 #### Generic transformations
 
 ```poi
