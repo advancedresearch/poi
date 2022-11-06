@@ -31,6 +31,11 @@ You can use `help` to learn more about commands in Poi and the theory behind it.
 
 Download and check it out! (Think about it as a tool to learn by doing)
 
+Also, check out the FAQ on Path Semantics:
+
+- [What is the overall problem?](https://github.com/advancedresearch/path_semantics/blob/master/faq.md#what-is-the-overall-problem)
+- [Why normal paths?](https://github.com/advancedresearch/path_semantics/blob/master/faq.md#why-normal-paths)
+
 ### Example: Length of concatenated lists
 
 Poi lets you specify a goal and automatically prove it.
