@@ -160,51 +160,6 @@ If one imagines `computation = 2D`, then `computation + path-space = 3D`.
 Path Semantics can be thought of as "point-free style" sub-set of equations.
 This sub-set of equations is particularly helpful in programming.
 
-### The Problem of Complexity
-
-Efficient mathematical knowledge useful for programming depends on knowing
-the identity of functions. This means that the more knowledge you want to build,
-the more functions you need to name and refer to symbolically.
-
-This means that mathematical theories using a "birds-eye view" are not as
-useful to solve specific problems, except as a guide to find the solution.
-The more general and expressive a theory is, the harder it is to do proof search.
-
-As a consequence, theorem proving along both `computation + path-space` is
-much harder than just theorem proving for `computation`.
-
-For example, [Type Theory](https://en.wikipedia.org/wiki/Type_theory) is useful
-to check that programs are correct, but for higher categories, it becomes
-increasingly hard to ground the semantics while staying efficient and usable.
-
-[Path Semantics](https://github.com/advancedresearch/path_semantics) uses a
-different approach, which is based on symbols.
-When a symbol is created, the theory "commits" to preserving the "paths"
-from the symbol, which is known in [Homotopy Type Theory](https://homotopytypetheory.org/) to correspond to "proofs".
-Since the symbols themselves encode this relationship to proofs,
-it means that proofs can be arbitrarily complex without affecting complexity.
-
-This is different from a pure axiomatic system.
-In a pure axiomatic system, the symbols do not have meaning except
-the relationship to each other (the axioms).
-As a result, you get non-standard interpretations of the Peano axioms.
-In Path Semantics, if you say "the natural numbers", you *mean* the natural numbers, not the natural numbers as described by the Peano axioms.
-The symbol "the natural numbers" *is the proof* of what you mean,
-using the background of path semantical knowledge to interpret it.
-This is what the "semantics" in Path Semantics means.
-
-It is possible to express ideas in Path Semantics which are believed to be true,
-yet can not be proven to be true in any formal language. Someday, a formal
-language might be invented to prove the sentence true, but programmers do not
-wait for this to happen. Instead, they default to pragmatic strategies, such as
-testing extensively.
-For example, [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture)
-has been tested up to some limit, so it holds for all natural numbers below that limit.
-A pragmatic strategy is what you do when you can not idealize the problem away.
-
-Poi uses a pragmatic approach in its design because a lot of proofs in
-Path Semantics requires no or little type checking in the "point-free style".
-
 ### Design of Poi
 
 Poi is designed to be used as a Rust library.
@@ -256,16 +211,7 @@ pub enum Expr {
 The simplicity of the `Expr` structure is important and heavily based on
 advanced path semantical knowledge.
 
-A symbol contains every domain-specific symbol and "avatar extensions"
-of symbols. An [avatar extension](https://github.com/advancedresearch/path_semantics/blob/master/sequences.md#avatar-extensions)
-is a technique of integrating information processing from building blocks that
-have no relations for introspection.
-This means, even some variants of `Symbol` are not symbols in a direct sense,
-they are put there because they "integrate information" of symbols.
-For example, a variable is classified as a `1-avatar` since it "integrates information" of a single symbol or expression. "Avatar extensions" occur
-frequently in Path Semantics for very sophisticated mathematical relations, but usually do not need to be represented explicitly.
-Instead, they are used as a "guide" to design.
-See the paper [Avatar Graphs](https://github.com/advancedresearch/path_semantics/blob/master/papers-wip/avatar-graphs.pdf) for more information.
+A symbol contains every domain-specific symbol and generalisations of symbols.
 
 The `Ret` variant comes from the notation used in [Higher Order Operator Overloading](https://github.com/advancedresearch/path_semantics/blob/master/sequences.md#higher-order-operator-overloading). Instead of describing a value as value,
 it is thought of as a function of some unknown input type, which returns a known value. For example, if a function returns `2` for all inputs, this is written `\2`.
