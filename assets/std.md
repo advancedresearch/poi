@@ -949,6 +949,7 @@ nor · (f, g) <=> nor · (g, f);
 (not · and) · (not · fst, not · snd) <=> or;
 
 and(imply(a)(c))(imply(b)(c)) <=> imply(or(a)(b))(c);
+imply(a)(b) <=> imply(!b)(!a);
 
 el(x)(y) <=> item(x) · item(y);
 
