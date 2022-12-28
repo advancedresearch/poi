@@ -65,6 +65,8 @@ pub enum Symbol {
     UnopRetVar(Arc<String>, Box<Symbol>),
     /// A function without domain constraints.
     NoConstrVar(Arc<String>),
+    /// A variable that is not substitution.
+    NoSubstVar(Arc<String>),
     /// `dup` duplicate argument `\(x) = (x, x)`.
     Dup,
     /// `\false` for one argument.
@@ -322,6 +324,8 @@ pub enum Symbol {
     Both,
     /// `neither` (uninhabited).
     Neither,
+    /// `subst` (substitution).
+    Subst,
 }
 
 impl Symbol {
@@ -467,6 +471,7 @@ impl From<Arc<String>> for Symbol {
             "inf" | "∞" => Inf,
             "both" => Both,
             "neither" => Neither,
+            "subst" => Subst,
             _ => {
                 // Custom symbols start with two lowercase alphabetic letters.
                 let custom_symbol = {
@@ -623,9 +628,15 @@ impl Symbol {
             Inf => write!(w, "∞")?,
             Both => write!(w, "both")?,
             Neither => write!(w, "neither")?,
+            Subst => write!(w, "subst")?,
             Var(x) => write!(w, "{}", x)?,
             NoConstrVar(x) => if rule {
                 write!(w, "{}!{{}}", x)?
+            } else {
+                write!(w, "{}", x)?
+            },
+            NoSubstVar(x) => if rule {
+                write!(w, "{}:!subst", x)?
             } else {
                 write!(w, "{}", x)?
             },

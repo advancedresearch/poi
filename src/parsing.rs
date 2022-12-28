@@ -95,6 +95,9 @@ fn parse_expr(node: &str, dirs: &[String], mut convert: Convert, ignored: &mut V
         } else if let Ok((range, val)) = parse_no_constr(convert, ignored) {
             convert.update(range);
             expr = Some(val);
+        } else if let Ok((range, val)) = parse_no_subst(convert, ignored) {
+            convert.update(range);
+            expr = Some(val);
         } else if let Ok((range, val)) = parse_arity(convert, ignored) {
             convert.update(range);
             expr = Some(val);
@@ -306,6 +309,34 @@ fn parse_no_constr(
 
     let fun = fun.ok_or(())?;
     Ok((convert.subtract(start), Sym(Symbol::NoConstrVar(fun))))
+}
+
+fn parse_no_subst(
+    mut convert: Convert,
+    ignored: &mut Vec<Range>,
+) -> Result<(Range, Expr), ()> {
+    let start = convert;
+    let node = "no_subst";
+    let start_range = convert.start_node(node)?;
+    convert.update(start_range);
+
+    let mut fun: Option<Arc<String>> = None;
+    loop {
+        if let Ok(range) = convert.end_node(node) {
+            convert.update(range);
+            break;
+        } else if let Ok((range, val)) = convert.meta_string("fun") {
+            convert.update(range);
+            fun = Some(val);
+        } else {
+            let range = convert.ignore();
+            convert.update(range);
+            ignored.push(range);
+        }
+    }
+
+    let fun = fun.ok_or(())?;
+    Ok((convert.subtract(start), Sym(Symbol::NoSubstVar(fun))))
 }
 
 fn parse_compute(

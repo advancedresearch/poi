@@ -683,6 +683,19 @@ impl Expr {
         }
     }
 
+    /// Returns `true` if expression is substitution.
+    pub fn is_substitution(&self) -> bool {
+        self.sub_is_substitution(3)
+    }
+
+    fn sub_is_substitution(&self, args: usize) -> bool {
+        match self {
+            Op(Apply, f, _) if args > 0 => f.sub_is_substitution(args - 1),
+            Sym(Subst) if args == 0 => true,
+            _ => false,
+        }
+    }
+
     /// Returns `true` if expression has non-constant type judgement.
     pub fn has_non_constant_type_judgement(&self) -> bool {
         match self {
@@ -703,6 +716,10 @@ impl Context {
     /// Binds patterns of a `name` expression to a `value` expression.
     pub fn bind(&mut self, name: &Expr, value: &Expr) -> bool {
         match (name, value) {
+            (Sym(NoSubstVar(_)), v) if v.is_substitution() => {
+                self.vars.clear();
+                false
+            }
             (Sym(NoConstrVar(_)), v) if v.has_constraint(0) => {
                 self.vars.clear();
                 false
@@ -718,7 +735,9 @@ impl Context {
                 self.vars.clear();
                 false
             }
-            (Sym(Var(name)), x) | (Sym(NoConstrVar(name)), x) => {
+            (Sym(Var(name)), x) |
+            (Sym(NoConstrVar(name)), x) |
+            (Sym(NoSubstVar(name)), x) => {
                 for i in (0..self.vars.len()).rev() {
                     if &self.vars[i].0 == name {
                         if &self.vars[i].1 == x {
@@ -989,6 +1008,7 @@ impl Context {
         match x {
             // Don't synthesize `_`.
             Sym(Any) => Err(Error::InvalidComputation),
+            Sym(NoSubstVar(_)) => Err(Error::InvalidComputation),
             Sym(RetNegVar(_)) => Err(Error::InvalidComputation),
             Sym(Var(name)) | Sym(ArityVar(name, _)) => {
                 for i in (0..self.vars.len()).rev() {
