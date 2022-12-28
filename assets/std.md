@@ -948,9 +948,6 @@ nand · (f, g) <=> nand · (g, f);
 nor · (f, g) <=> nor · (g, f);
 (not · and) · (not · fst, not · snd) <=> or;
 
-and(imply(a)(c))(imply(b)(c)) <=> imply(or(a)(b))(c);
-imply(a)(b) <=> imply(!b)(!a);
-
 el(x)(y) <=> item(x) · item(y);
 
 a - (b - c) <=> a - b + c;
@@ -1105,6 +1102,13 @@ De Morgan's laws utility (decidable):
 ```poi
 !(a & b) <=> !a | !b;
 !(a | b) <=> !a & !b;
+```
+
+Imply:
+
+```poi
+imply(a)(c) & imply(b)(c) <=> imply(a | b)(c);
+imply(a)(b) <=> imply(!b)(!a);
 ```
 
 Xor:
