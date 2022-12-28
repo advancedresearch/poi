@@ -829,6 +829,8 @@ idb => id;
 fstb => fst;
 sndb => snd;
 
+imply(and(a)(b))(a) => true;
+
 len · concat => concat[len] · (len · fst, len · snd);
 sum · concat => concat[sum] · (sum · fst, sum · snd);
 max · concat => concat[max] · (max · fst, max · snd);
