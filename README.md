@@ -4,7 +4,7 @@ a pragmatic point-free theorem prover assistant
 [Standard Library](./assets/std.md)
 
 ```text
-=== Poi Reduce 0.23 ===
+=== Poi 0.23 ===
 Type `help` for more information.
 > and[not]
 and[not]
@@ -18,13 +18,13 @@ or
 To run Poi Reduce from your Terminal, type:
 
 ```text
-cargo install --example poireduce poi
+cargo install --example poi poi
 ```
 
 Then, to run:
 
 ```text
-poireduce
+poi
 ```
 
 You can use `help` to learn more about commands in Poi and the theory behind it.
