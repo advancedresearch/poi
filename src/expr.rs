@@ -294,7 +294,7 @@ impl Expr {
                 write!(w, "(")?;
                 for i in 0..b.len() {
                     if i > 0 {write!(w, ", ")?}
-                    &b[i].display(w, false, rule)?;
+                    b[i].display(w, false, rule)?;
                 }
                 write!(w, ")")?;
             }
@@ -302,7 +302,7 @@ impl Expr {
                 write!(w, "[")?;
                 for i in 0..b.len() {
                     if i > 0 {write!(w, ", ")?}
-                    &b[i].display(w, false, rule)?;
+                    b[i].display(w, false, rule)?;
                 }
                 write!(w, "]")?;
             }
