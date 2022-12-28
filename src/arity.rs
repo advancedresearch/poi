@@ -21,14 +21,14 @@ impl Symbol {
             MulMat | Base | Fst | Snd | Atan2 | Dot | Push | PushFront |
             Item | Col | Neq | Deriv | Rty | VecUop | SoftArgMax | SoftArgMin => Some(2),
 
-            Range | Rangel | Ranger | Rangem | El | If | VecOp | Integ => Some(3),
+            Range | Rangel | Ranger | Rangem | El | If | VecOp | Integ | Subst => Some(3),
 
             Any | Var(_) | ArityVar(_, _) | ListVar(_) |
             Singleton(_) | HeadTailTup(_, _) | HeadTailList(_, _) |
             RetVar(_) | RetIntVar(_) | RetPosVar(_) | RetStrictPosVar(_) | RetNegVar(_) |
             NotRetVar(_) | NotInVarName(_, _) |
             BinopRetVar(_, _, _) | TernopRetVar(_, _, _, _) | UnopRetVar(_, _) |
-            NoConstrVar(_) => None,
+            NoConstrVar(_) | NoSubstVar(_) => None,
 
             Custom(_) => None,
 

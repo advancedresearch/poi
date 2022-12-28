@@ -822,6 +822,12 @@ Constants utilities:
 \a * b * (\c * d) => (a * c) * b * d;
 ```
 
+#### Substitution
+
+```poi
+subst(a)(a)(b) => b;
+```
+
 #### Misc
 
 ```poi
@@ -871,6 +877,14 @@ Equivalences are similar to reductions, but with the difference
 that they might work both ways.
 Some equivalences have fewer variables or uses `compute::` on one side,
 which means they can only be used from left to right.
+
+#### Substitution
+
+```poi
+imply(a = b)(c:!subst) <=> imply(a = b)(subst(c)(a)(b));
+subst(f:!subst(a))(b)(c) <=> subst(f)(b)(c)(a);
+subst(f(a:!subst))(b)(c) <=> f(subst(a)(b)(c));
+```
 
 #### Catuṣkoṭi existential lift
 
