@@ -528,6 +528,12 @@ Modus ponens (constructive):
 a & imply(a)(b) => b;
 ```
 
+And fst (constructive):
+
+```poi
+imply(a & b)(a) => true;
+```
+
 Bound negative and positive (constructive):
 
 ```poi
@@ -840,8 +846,6 @@ subst(a)(a)(b) => b;
 idb => id;
 fstb => fst;
 sndb => snd;
-
-imply(and(a)(b))(a) => true;
 
 len · concat => concat[len] · (len · fst, len · snd);
 sum · concat => concat[sum] · (sum · fst, sum · snd);

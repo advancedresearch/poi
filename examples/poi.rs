@@ -347,7 +347,7 @@ fn main() {
                 let mut first_found: Option<usize> = None;
                 let mut min_found: Option<(usize, u64)> = None;
                 let equivalences = expr.equivalences(std);
-                let mut equiv_levs: Vec<Option<usize>> = vec![None; equivalences.len()];
+                let mut equiv_levs: Vec<Option<(usize, Expr)>> = vec![None; equivalences.len()];
                 loop {
                     let mut line = false;
                     let default_depth = min.unwrap_or(goal_depth);
@@ -365,7 +365,15 @@ fn main() {
                             let display = if let Some(g) = &goal {
                                 let eqv_expr = equivalences[i].0.reduce_all(std);
                                 let mut history = vec![expr.clone(), eqv_expr.clone()];
-                                match find_goal(g, &goal_txt, &eqv_expr, std, depth, &mut history) {
+                                match find_goal(
+                                    g,
+                                    &goal_txt,
+                                    &eqv_expr,
+                                    std,
+                                    depth,
+                                    &mut history,
+                                    &levs
+                                ) {
                                     Ok(d) => {
                                         found_count += 1;
                                         if first_found.is_none() {
@@ -384,8 +392,8 @@ fn main() {
                                         }
                                         true
                                     }
-                                    Err(lev) => {
-                                        equiv_levs[i] = lev;
+                                    Err(x) => {
+                                        equiv_levs[i] = x;
                                         false
                                     }
                                 }
@@ -426,8 +434,8 @@ fn main() {
                 if found_count == 0 && goal.is_some() {
                     for i in 0..equivalences.len() {
                         let txt = format!("{}", equivalences[i].0);
-                        let edit_dist = if let Some(x) = equiv_levs[i] {
-                            x
+                        let edit_dist = if let Some(x) = &equiv_levs[i] {
+                            x.0
                         } else {
                             // Use Levenshtein distance of unreduced equivalence.
                             levenshtein(&txt, &goal_txt)
@@ -437,8 +445,12 @@ fn main() {
                             min_lev.push(MinLev(edit_dist, equivalences[i].0.clone()));
                         }
                         let j = equivalences[i].1;
-                        println!("<=>  {}\n     ∵ {}\n     {} lev",
+                        print!("<=>  {}\n     ∵ {}\n     {} lev",
                                 equivalences[i].0, std[j], edit_dist);
+                        if let Some(expr) = equiv_levs[i].as_ref().map(|n| &n.1) {
+                            print!(" `{}`", expr);
+                        }
+                        println!("");
                     }
                 }
             }
@@ -489,11 +501,12 @@ fn find_goal(
     expr: &Expr,
     std: &[Knowledge],
     depth: u64,
-    history: &mut Vec<Expr>
-) -> Result<u64, Option<usize>> {
+    history: &mut Vec<Expr>,
+    levs: &HashSet<String>,
+) -> Result<u64, Option<(usize, Expr)>> {
     if goal == expr {return Ok(0)};
 
-    let mut min_lev: Option<usize> = None;
+    let mut min_lev: Option<(usize, Expr)> = None;
     if depth > 0 {
         let equivalences = expr.equivalences(std);
         let n = history.len();
@@ -508,23 +521,26 @@ fn find_goal(
             if goal == &expr {return Ok(1)};
 
             let txt = format!("{}", expr);
+
+            if levs.contains(&txt) {continue};
+
             let edit_dist = levenshtein(&txt, goal_txt);
-            if min_lev.map(|n| n > edit_dist).unwrap_or(true) {
-                min_lev = Some(edit_dist);
+            if min_lev.as_ref().map(|n| n.0 > edit_dist).unwrap_or(true) {
+                min_lev = Some((edit_dist, expr.clone()));
             }
             history.push(expr);
         }
         for i in n..history.len() {
             // Add depth to the output.
             let expr = history[i].clone();
-            match find_goal(goal, goal_txt, &expr, std, depth - 1, history) {
+            match find_goal(goal, goal_txt, &expr, std, depth - 1, history, levs) {
                 Ok(d) => {
                     return Ok(d+1);
                 }
                 Err(None) => {}
-                Err(Some(lev)) => {
-                    if min_lev.map(|n| n > lev).unwrap_or(true) {
-                        min_lev = Some(lev);
+                Err(Some((lev, expr))) => {
+                    if min_lev.as_ref().map(|n| n.0 > lev).unwrap_or(true) {
+                        min_lev = Some((lev, expr));
                     }
                 }
             }
