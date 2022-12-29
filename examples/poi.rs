@@ -128,7 +128,7 @@ fn main() {
                 continue;
             }
             "lev" => {
-                if let Some(MinLev(lev, e)) = min_lev.pop() {
+                if let Some(MinLev {lev, expr: e, ..}) = min_lev.pop() {
                     println!("Poi: Found minimum {} lev.", lev);
                     input = format!("{}", e);
                 } else {
@@ -426,7 +426,9 @@ fn main() {
                     } else if found_count > 0 || goal.is_none() {
                         break;
                     } else {
-                        println!("Poi: Could not find goal in {} steps (Tip: Use `inc depth`).", goal_depth);
+                        if !auto_lev {
+                            println!("Poi: Could not find goal in {} steps (Tip: Use `inc depth`).", goal_depth);
+                        }
                         break;
                     }
                 }
@@ -440,17 +442,30 @@ fn main() {
                             // Use Levenshtein distance of unreduced equivalence.
                             levenshtein(&txt, &goal_txt)
                         };
+                        let j = equivalences[i].1;
                         if !levs.contains(&txt) {
                             levs.insert(txt.clone());
-                            min_lev.push(MinLev(edit_dist, equivalences[i].0.clone()));
+                            let x = MinLev {
+                                lev: edit_dist,
+                                expr: equivalences[i].0.clone(),
+                                std_ind: j
+                            };
+                            if !auto_lev {
+                                x.print(std);
+                                if let Some(expr) = equiv_levs[i].as_ref().map(|n| &n.1) {
+                                    print!(" `{}`", expr);
+                                }
+                                println!("");
+                            }
+                            min_lev.push(x);
                         }
-                        let j = equivalences[i].1;
-                        print!("<=>  {}\n     ∵ {}\n     {} lev",
-                                equivalences[i].0, std[j], edit_dist);
-                        if let Some(expr) = equiv_levs[i].as_ref().map(|n| &n.1) {
-                            print!(" `{}`", expr);
+                    }
+
+                    if auto_lev {
+                        if let Some(min_lev) = min_lev.peek() {
+                            min_lev.print(std);
+                            println!("");
                         }
-                        println!("");
                     }
                 }
             }
@@ -551,19 +566,33 @@ fn find_goal(
 }
 
 #[derive(PartialEq)]
-struct MinLev(usize, Expr);
+struct MinLev {
+    /// Levenhstein distance.
+    pub lev: usize,
+    /// Expression.
+    pub expr: Expr,
+    /// Axiom index.
+    pub std_ind: usize,
+}
+
+impl MinLev {
+    pub fn print(&self, std: &[Knowledge]) {
+        print!("<=>  {}\n     ∵ {}\n     {} min lev",
+                self.expr, std[self.std_ind], self.lev);
+    }
+}
 
 impl Eq for MinLev {}
 
 impl PartialOrd for MinLev {
     fn partial_cmp(&self, b: &Self) -> Option<std::cmp::Ordering> {
-        Some(self.0.cmp(&b.0).reverse())
+        Some(self.lev.cmp(&b.lev).reverse())
     }
 }
 
 impl Ord for MinLev {
     fn cmp(&self, b: &Self) -> std::cmp::Ordering {
-        self.0.cmp(&b.0).reverse()
+        self.lev.cmp(&b.lev).reverse()
     }
 }
 
