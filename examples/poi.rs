@@ -198,10 +198,21 @@ fn main() {
                         }
                     }
                 } else if x.starts_with("echo ") {
-                    match parse_str(x[5..].trim(), &dirs) {
+                    match parse_data_str(x[5..].trim(), &dirs) {
                         Ok(x) => {
-                            println!("{}", x);
-                            println!("{:?}", x);
+                            match x {
+                                ParseData::Expr(x) => {
+                                    println!("{}", x);
+                                    println!("{:?}", x);
+                                }
+                                ParseData::Knowledge(xs) => {
+                                    for x in xs {
+                                        println!("{}", x);
+                                        println!("{:?}", x);
+                                        println!("");
+                                    }
+                                }
+                            }
                             continue;
                         }
                         Err(err) => {
