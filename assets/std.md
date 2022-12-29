@@ -1123,6 +1123,7 @@ Imply:
 ```poi
 imply(a)(c) & imply(b)(c) <=> imply(a | b)(c);
 imply(a)(b) <=> imply(!b)(!a);
+imply(a)(b) & imply(b)(a) <=> eqb(a)(b);
 ```
 
 Xor:
