@@ -3,7 +3,7 @@ use std::fmt;
 use super::*;
 
 /// Represents knowledge about symbols.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Knowledge {
     /// A symbol has some definition.
     Def(Symbol, Expr),
