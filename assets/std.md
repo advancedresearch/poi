@@ -554,6 +554,12 @@ Tautology:
 a | !a => true;
 ```
 
+Implication transitivity (constructive):
+
+```poi
+imply(a)(b) & imply(b)(c) => imply(a)(c);
+```
+
 #### Misc
 
 ```poi
