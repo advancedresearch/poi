@@ -13,7 +13,7 @@ pub enum Expr {
     /// This can also be used to store values, since zero arguments is a value.
     Ret(Value),
     /// A binary operation on functions.
-    Op(Op, Box<Expr>, Box<Expr>),
+    EOp(Op, Box<Expr>, Box<Expr>),
     /// A tuple for more than one argument.
     Tup(Vec<Expr>),
     /// A list.
@@ -46,7 +46,7 @@ impl Expr {
         match self {
             Sym(s) => s.display(w, rule)?,
             Ret(v) => write!(w, "{}", v)?,
-            Op(Path, a, b) => {
+            EOp(Path, a, b) => {
                 if let Tup(b) = &**b {
                     let parens = true;
                     a.display(w, parens, rule)?;
@@ -69,7 +69,7 @@ impl Expr {
                     write!(w, "]")?;
                 }
             }
-            Op(Apply, a, b) => {
+            EOp(Apply, a, b) => {
                 let mut r = |op: &str| -> std::result::Result<(), fmt::Error> {
                     write!(w, "({} ", op)?;
                     b.display(w, false, rule)?;
@@ -118,49 +118,49 @@ impl Expr {
                 } else if let Sym(Rpow) = **a {
                     r("^")?;
                 } else {
-                    if let (Op(Apply, f, a), Sym(Pi)) = (&**a, &**b) {
+                    if let (EOp(Apply, f, a), Sym(Pi)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
                             write!(w, "{}π", a)?;
                             return Ok(())
                         }
                     }
-                    if let (Op(Apply, f, a), Sym(Tau)) = (&**a, &**b) {
+                    if let (EOp(Apply, f, a), Sym(Tau)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
                             write!(w, "{}τ", a)?;
                             return Ok(())
                         }
                     }
-                    if let (Op(Apply, f, a), Sym(Eps)) = (&**a, &**b) {
+                    if let (EOp(Apply, f, a), Sym(Eps)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
                             write!(w, "{}ε", a)?;
                             return Ok(())
                         }
                     }
-                    if let (Op(Apply, f, a), Sym(Imag)) = (&**a, &**b) {
+                    if let (EOp(Apply, f, a), Sym(Imag)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
                             write!(w, "{}𝐢", a)?;
                             return Ok(())
                         }
                     }
-                    if let (Op(Apply, f, a), Sym(Imag2)) = (&**a, &**b) {
+                    if let (EOp(Apply, f, a), Sym(Imag2)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
                             write!(w, "{}𝐢₂", a)?;
                             return Ok(())
                         }
                     }
-                    if let (Op(Apply, f, a), Sym(Imag3)) = (&**a, &**b) {
+                    if let (EOp(Apply, f, a), Sym(Imag3)) = (&**a, &**b) {
                         if let (Sym(Mul), Ret(F64(a))) = (&**f, &**a) {
                             write!(w, "{}𝐢₃", a)?;
                             return Ok(())
                         }
                     }
-                    if let (Op(Apply, f, b), Sym(Var(ref a))) = (&**a, &**b) {
+                    if let (EOp(Apply, f, b), Sym(Var(ref a))) = (&**a, &**b) {
                         if let (Sym(Mul), Sym(Pariv)) = (&**f, &**b) {
                             write!(w, "∂{}", a)?;
                             return Ok(())
                         }
                     }
-                    if let Op(Apply, f, a) = &**a {
+                    if let EOp(Apply, f, a) = &**a {
                         let mut pr = |
                             op_txt: &str,
                             op_sym: &Symbol
@@ -250,7 +250,7 @@ impl Expr {
                     }
                 }
             }
-            Op(Constrain, a, b) => {
+            EOp(Constrain, a, b) => {
                 if let Ret(_) = **a {
                     write!(w, "\\")?;
                 }
@@ -268,7 +268,7 @@ impl Expr {
                     write!(w, "}}")?;
                 }
             }
-            Op(Compose, a, b) => {
+            EOp(Compose, a, b) => {
                 if parens {
                     write!(w, "(")?;
                 }
@@ -279,7 +279,7 @@ impl Expr {
                     write!(w, ")")?;
                 }
             }
-            Op(Type, a, b) => {
+            EOp(Type, a, b) => {
                 if parens {
                     write!(w, "(")?;
                 }
@@ -313,8 +313,8 @@ impl Expr {
 
     /// Returns `true` if the expression needs parentheses, given parent operation and side.
     pub fn needs_parens(&self, parent_op: &Symbol, left: bool) -> bool {
-        if let Op(Apply, f, _) = self {
-            if let Op(Apply, f, _) = &**f {
+        if let EOp(Apply, f, _) = self {
+            if let EOp(Apply, f, _) = &**f {
                 match &**f {
                     Sym(x) => {
                         if let (Some(x), Some(y)) = (x.precedence(), parent_op.precedence()) {

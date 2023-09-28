@@ -207,7 +207,7 @@
 //!     /// This can also be used to store values, since zero arguments is a value.
 //!     Ret(Value),
 //!     /// A binary operation on functions.
-//!     Op(Op, Box<Expr>, Box<Expr>),
+//!     EOp(Op, Box<Expr>, Box<Expr>),
 //!     /// A tuple for more than one argument.
 //!     Tup(Vec<Expr>),
 //!     /// A list.
@@ -225,7 +225,7 @@
 //! This means that point-free transformations on functions sometimes can compute stuff, without explicitly needing to reference the concrete value directly.
 //! See paper [Higher Order Operator Overloading and Existential Path Equations](https://github.com/advancedresearch/path_semantics/blob/master/papers-wip/higher-order-operator-overloading-and-existential-path-equations.pdf) for more information.
 //!
-//! The `Op` variant generalizes binary operators on functions,
+//! The `EOp` variant generalizes binary operators on functions,
 //! such as `Composition`, `Path` (normal path),
 //! `Apply` (call a function) and `Constrain` (partial functions).
 //!
@@ -396,12 +396,12 @@ impl Expr {
 
         match self {
             Sym(_) | Ret(_) => {}
-            Op(op, a, b) => {
+            EOp(op, a, b) => {
                 for (ea, i) in a.equivalences(knowledge).into_iter() {
-                    res.push((Op(*op, Box::new(ea), b.clone()), i));
+                    res.push((EOp(*op, Box::new(ea), b.clone()), i));
                 }
                 for (eb, i) in b.equivalences(knowledge).into_iter() {
-                    res.push((Op(*op, a.clone(), Box::new(eb)), i));
+                    res.push((EOp(*op, a.clone(), Box::new(eb)), i));
                 }
             }
             Tup(items) | List(items) => {
@@ -429,7 +429,7 @@ impl Expr {
             Sym(_) => false,
             Ret(F64(v)) => v.is_nan(),
             Ret(_) => false,
-            Op(_, a, b) => a.contains_nan() || b.contains_nan(),
+            EOp(_, a, b) => a.contains_nan() || b.contains_nan(),
             Tup(items) | List(items) => items.iter().any(|n| n.contains_nan()),
         }
     }
@@ -495,7 +495,7 @@ impl Expr {
         }
 
         match self {
-            Op(op, a, b) => {
+            EOp(op, a, b) => {
                 // Do not reduce sub-expressions containing type judgements in the parent,
                 // to avoid infinite expansion in rules introducing type judgements.
                 //
@@ -510,12 +510,12 @@ impl Expr {
                 if let Ok((a, i)) = a.reduce_eval(knowledge, eval) {
                     // Prefer the reduction that matches the first rule.
                     if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
-                    return Ok((Op(*op, Box::new(a), b.clone()), i));
+                    return Ok((EOp(*op, Box::new(a), b.clone()), i));
                 }
                 if let Ok((b, i)) = b.reduce_eval(knowledge, eval) {
                     // Prefer the reduction that matches the first rule.
                     if let Ok((expr, j)) = me {if j < i {return Ok((expr, j))}};
-                    return Ok((Op(*op, a.clone(), Box::new(b)), i));
+                    return Ok((EOp(*op, a.clone(), Box::new(b)), i));
                 }
             }
             Tup(a) | List(a) => {
@@ -560,7 +560,7 @@ impl Expr {
                 Err(Error::NoDefinition)
             }
             Ret(_) => Ok(self.clone()),
-            Op(op, a, b) => {
+            EOp(op, a, b) => {
                 if let Constrain = op {
                     let a = a.inline_all(knowledge)?;
                     match b.inline_all(knowledge) {
@@ -570,17 +570,17 @@ impl Expr {
                     }
                 } else {
                     match (a.inline_all(knowledge), b.inline_all(knowledge)) {
-                        (Ok(a), Ok(b)) => Ok(Op(
+                        (Ok(a), Ok(b)) => Ok(EOp(
                             *op,
                             Box::new(a),
                             Box::new(b)
                         )),
-                        (Ok(a), Err(_)) => Ok(Op(
+                        (Ok(a), Err(_)) => Ok(EOp(
                             *op,
                             Box::new(a),
                             b.clone()
                         )),
-                        (Err(_), Ok(b)) => Ok(Op(
+                        (Err(_), Ok(b)) => Ok(EOp(
                             *op,
                             a.clone(),
                             Box::new(b)
@@ -620,8 +620,8 @@ impl Expr {
                 Err(Error::NoDefinition)
             }
             Sym(_) | Ret(_) => Ok(self.clone()),
-            Op(op, a, b) => {
-                Ok(Op(
+            EOp(op, a, b) => {
+                Ok(EOp(
                     *op,
                     Box::new(a.inline(sym, knowledge)?),
                     Box::new(b.inline(sym, knowledge)?)
@@ -667,7 +667,7 @@ impl Expr {
     /// Unfinished: This function requires analysis and unit testing.
     pub fn has_constraint(&self, arity_args: usize) -> bool {
         match self {
-            Op(Constrain, f, a) => {
+            EOp(Constrain, f, a) => {
                 if let Some(arity) = a.arity() {
                     if arity > arity_args {true}
                     else {f.has_constraint(arity_args - arity)}
@@ -675,8 +675,8 @@ impl Expr {
                     true
                 }
             }
-            Op(Compose, a, b) => b.has_constraint(arity_args) || a.has_constraint(0),
-            Op(Apply, f, _) => f.has_constraint(arity_args + 1),
+            EOp(Compose, a, b) => b.has_constraint(arity_args) || a.has_constraint(0),
+            EOp(Apply, f, _) => f.has_constraint(arity_args + 1),
             Sym(_) => false,
             Ret(_) => false,
             _ => true
@@ -690,7 +690,7 @@ impl Expr {
 
     fn sub_is_substitution(&self, args: usize) -> bool {
         match self {
-            Op(Apply, f, _) if args > 0 => f.sub_is_substitution(args - 1),
+            EOp(Apply, f, _) if args > 0 => f.sub_is_substitution(args - 1),
             Sym(Subst) if args == 0 => true,
             _ => false,
         }
@@ -699,8 +699,8 @@ impl Expr {
     /// Returns `true` if expression has non-constant type judgement.
     pub fn has_non_constant_type_judgement(&self) -> bool {
         match self {
-            Op(Type, _, b) if **b == Sym(RetType) => false,
-            Op(Type, _, _) => true,
+            EOp(Type, _, b) if **b == Sym(RetType) => false,
+            EOp(Type, _, _) => true,
             _ => false
         }
     }
@@ -779,7 +779,7 @@ impl Context {
                                 get_names(x, ret);
                             }
                         }
-                        Op(Apply, a, b) => {
+                        EOp(Apply, a, b) => {
                             get_names(a, ret);
                             get_names(b, ret);
                         }
@@ -795,7 +795,7 @@ impl Context {
                         Sym(y) if y.arity().is_some() => return false,
                         Ret(_) => return false,
                         Tup(list) | List(list) => return list.iter().any(|expr| contains(expr, x)),
-                        Op(Apply, a, b) => return contains(a, x) || contains(b, x),
+                        EOp(Apply, a, b) => return contains(a, x) || contains(b, x),
                         // TODO: Handle other cases.
                         _ => {}
                         // x => panic!("not-in-var: {:?}", x),
@@ -965,7 +965,7 @@ impl Context {
             (Sym(Any), _) => true,
             (Sym(a), Sym(b)) if a == b => true,
             (Ret(a), Ret(b)) if a == b => true,
-            (Op(op1, a1, b1), Op(op2, a2, b2)) if op1 == op2 => {
+            (EOp(op1, a1, b1), EOp(op2, a2, b2)) if op1 == op2 => {
                 let r = self.bind(a1, a2) && self.bind(b1, b2);
                 if !r {self.vars.clear()};
                 r
@@ -1206,8 +1206,8 @@ impl Context {
                 }
             }
             Sym(_) | Ret(_) => Ok(x.clone()),
-            Op(op, a, b) => {
-                Ok(Op(*op, Box::new(self.substitute(a)?), Box::new(self.substitute(b)?)))
+            EOp(op, a, b) => {
+                Ok(EOp(*op, Box::new(self.substitute(a)?), Box::new(self.substitute(b)?)))
             }
             Tup(a) => {
                 let mut res = vec![];
@@ -1254,7 +1254,7 @@ impl Into<Symbol> for &'static str {
 
 /// A function applied to one argument.
 pub fn app<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    Op(Apply, Box::new(a.into()), Box::new(b.into()))
+    EOp(Apply, Box::new(a.into()), Box::new(b.into()))
 }
 
 /// A function applied to two arguments.
@@ -1271,17 +1271,17 @@ pub fn app3<A: Into<Expr>, B: Into<Expr>, C: Into<Expr>, D: Into<Expr>>(
 
 /// A function composition.
 pub fn comp<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    Op(Compose, Box::new(a.into()), Box::new(b.into()))
+    EOp(Compose, Box::new(a.into()), Box::new(b.into()))
 }
 
 /// A normal path expression.
 pub fn path<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    Op(Path, Box::new(a.into()), Box::new(b.into()))
+    EOp(Path, Box::new(a.into()), Box::new(b.into()))
 }
 
 /// A function domain constraint.
 pub fn constr<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    Op(Constrain, Box::new(a.into()), Box::new(b.into()))
+    EOp(Constrain, Box::new(a.into()), Box::new(b.into()))
 }
 
 /// A function domain constraint with two arguments.
@@ -1291,7 +1291,7 @@ pub fn constr2<A: Into<Expr>, B: Into<Expr>, C: Into<Expr>>(a: A, b: B, c: C) ->
 
 /// A type judgement.
 pub fn typ<A: Into<Expr>, B: Into<Expr>>(a: A, b: B) -> Expr {
-    Op(Type, Box::new(a.into()), Box::new(b.into()))
+    EOp(Type, Box::new(a.into()), Box::new(b.into()))
 }
 
 /// An `if` expression.
@@ -1338,7 +1338,7 @@ pub fn not_ret_var<A: Into<String>>(a: A) -> Expr {Sym(NotRetVar(Arc::new(a.into
 
 /// A variable of the type value `a : \`.
 pub fn ret_type_var<A: Into<String>>(a: A) -> Expr {
-    Op(Type, Box::new(Sym(Var(Arc::new(a.into())))), Box::new(Sym(RetType)))
+    EOp(Type, Box::new(Sym(Var(Arc::new(a.into())))), Box::new(Sym(RetType)))
 }
 
 /// Compute a binary function.

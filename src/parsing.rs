@@ -621,35 +621,35 @@ fn parse_seq(
         } else if let Ok((range, val)) = parse_expr("path", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
-                left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
+                left = Some(EOp(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Path);
         } else if let Ok((range, val)) = parse_expr("app", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
-                left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
+                left = Some(EOp(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Apply);
         } else if let Ok((range, val)) = parse_expr("constr", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
-                left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
+                left = Some(EOp(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Constrain);
         } else if let Ok((range, val)) = parse_expr("comp", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
-                left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
+                left = Some(EOp(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Compose);
         } else if let Ok((range, val)) = parse_expr("typ", dirs, convert, ignored) {
             convert.update(range);
             if let (Some(nleft), Some(nright), Some(nop)) = (&left, &right, op) {
-                left = Some(Op(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
+                left = Some(EOp(nop, Box::new(nleft.clone()), Box::new(nright.clone())));
             }
             right = Some(val);
             op = Some(Type);
@@ -663,7 +663,7 @@ fn parse_seq(
     let op = op.ok_or(())?;
     let left = left.ok_or(())?;
     let right = right.ok_or(())?;
-    Ok((convert.subtract(start), Op(op, Box::new(left), Box::new(right))))
+    Ok((convert.subtract(start), EOp(op, Box::new(left), Box::new(right))))
 }
 
 fn parse_knowledge(
