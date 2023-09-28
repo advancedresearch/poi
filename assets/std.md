@@ -289,6 +289,9 @@ id[x] => id;
 inv(f) · f => id;
 f · inv(f) => id;
 inv(inv(f)) => f;
+
+inv((+ a)) => (- a);
+inv((- a)) => (+ a);
 ```
 
 #### Identity
