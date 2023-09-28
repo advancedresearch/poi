@@ -1,6 +1,6 @@
 // # Collatz
 //
-// To run, type `cat source/collatz/script.poi | poireduce` in the Terminal.
+// To run, type `cat source/collatz/script.poi | poi` in the Terminal.
 
 collatz := (if((/ 2))(inc · (* 3)) · even) · dup
 
