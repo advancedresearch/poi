@@ -283,29 +283,39 @@ x[id] => x;
 id[x] => id;
 ```
 
-#### Misc
+#### Inverse
 
 ```poi
 inv(f) · f => id;
 f · inv(f) => id;
 inv(inv(f)) => f;
-not · not => idb;
+```
+
+#### Identity
+
+```poi
 x · id => x;
 id · x => x;
 (fst, snd) => id;
 
-not · even => odd;
-not · odd => even;
-mul{(>= 0)}{(>= 0)}[rpow{(>= 0)}(_)] => mul;
-
+not · not => idb;
 exp · ln => id;
 ln · exp => id;
 neg · neg => id;
 conj · conj => id;
+transpose · transpose => id;
+```
+
+#### Misc
+
+```poi
+not · even => odd;
+not · odd => even;
+mul{(>= 0)}{(>= 0)}[rpow{(>= 0)}(_)] => mul;
+
 sqrt · sqnorm => norm;
 (^ 2) · norm => sqnorm;
 sqrt · (^ 2) => abs;
-transpose · transpose => id;
 
 false1(_) => false;
 true1(_) => true;
