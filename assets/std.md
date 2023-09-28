@@ -211,6 +211,12 @@ push[type_of](vec)(f64) => vec;
 push_front[type_of](vec)(f64) => vec;
 ```
 
+Vector operators:
+```poi
+dot[type_of](vec)(vec) => f64;
+cross[type_of](vec)(vec) => vec;
+```
+
 Type utilities:
 
 ```poi
