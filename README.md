@@ -4,16 +4,25 @@ a pragmatic point-free theorem prover assistant
 [Standard Library](./assets/std.md)
 
 ```text
-=== Poi 0.23 ===
+=== Poi 0.24 ===
 Type `help` for more information.
 > and[not]
 and[not]
 or
 ∵ and[not] => or
+<=>  (not · and) · (not · fst, not · snd)
+     ∵ (not · and) · (not · fst, not · snd) <=> or
 <=>  not · nor
      ∵ not · nor <=> or
 ∴ or
 ```
+
+Poi uses a mathematical knowledge base to do theorem proving
+automatically, but also shows alternatives to you.
+
+- `∵` means "because"
+- `∴` means "therefore"
+- `<=>` an alternative
 
 To run Poi Reduce from your Terminal, type:
 
@@ -205,7 +214,7 @@ pub enum Expr {
     /// This can also be used to store values, since zero arguments is a value.
     Ret(Value),
     /// A binary operation on functions.
-    Op(Op, Box<Expr>, Box<Expr>),
+    EOp(Op, Box<Expr>, Box<Expr>),
     /// A tuple for more than one argument.
     Tup(Vec<Expr>),
     /// A list.
@@ -223,7 +232,7 @@ it is thought of as a function of some unknown input type, which returns a known
 This means that point-free transformations on functions sometimes can compute stuff, without explicitly needing to reference the concrete value directly.
 See paper [Higher Order Operator Overloading and Existential Path Equations](https://github.com/advancedresearch/path_semantics/blob/master/papers-wip/higher-order-operator-overloading-and-existential-path-equations.pdf) for more information.
 
-The `Op` variant generalizes binary operators on functions,
+The `EOp` variant generalizes binary operators on functions,
 such as `Composition`, `Path` (normal path),
 `Apply` (call a function) and `Constrain` (partial functions).
 
