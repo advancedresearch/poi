@@ -992,6 +992,8 @@ a - b - c <=> a - (b + c);
 (a * b + a * c) / d <=> (a / d) * (b + c);
 (a * b - a * c) / d <=> (a / d) * (b - c);
 0.5 * a <=> a / 2;
+a^2 + a <=> a * (a + 1);
+a^2 - a <=> a * (a - 1);
 ```
 
 #### Distributivity
