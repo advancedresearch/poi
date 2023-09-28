@@ -6,16 +6,25 @@
 //! [Standard Library](./assets/std.md)
 //!
 //! ```text
-//! === Poi 0.23 ===
+//! === Poi 0.24 ===
 //! Type `help` for more information.
 //! > and[not]
 //! and[not]
 //! or
 //! ∵ and[not] => or
+//! <=>  (not · and) · (not · fst, not · snd)
+//!      ∵ (not · and) · (not · fst, not · snd) <=> or
 //! <=>  not · nor
 //!      ∵ not · nor <=> or
 //! ∴ or
 //! ```
+//!
+//! Poi uses a mathematical knowledge base to do theorem proving
+//! automatically, but also shows alternatives to you.
+//!
+//! - `∵` means "because"
+//! - `∴` means "therefore"
+//! - `<=>` an alternative
 //!
 //! To run Poi Reduce from your Terminal, type:
 //!
