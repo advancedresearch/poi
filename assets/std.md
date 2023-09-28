@@ -570,6 +570,11 @@ imply(imply(a)(b) & imply(b)(c))(imply(a)(c)) => true;
 
 ```poi
 dot{(: vec)}([x0, y0]){(: vec)}([x1, y1]) => x0 * x1 + y0 * y1;
+cross{(: vec)}([a1, a2, a3]){(: vec)}([b1, b2, b3]) => [
+    a2 * b3 - a3 * b2,
+    a3 * b1 - a1 * b3,
+    a1 * b2 - a2 * b1,
+];
 ```
 
 #### Ranges
