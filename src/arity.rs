@@ -46,7 +46,7 @@ impl Expr {
     pub fn arity(&self) -> Option<usize> {
         match self {
             Sym(s) => s.arity(),
-            Op(Apply, x, y) => {
+            EOp(Apply, x, y) => {
                 match (&**x, &**y) {
                     (Sym(Rty), Sym(VecType)) => Some(1),
                     (Sym(s), Ret(_)) => {
@@ -60,7 +60,7 @@ impl Expr {
                     _ => None
                 }
             }
-            Op(Compose, _, y) => y.arity(),
+            EOp(Compose, _, y) => y.arity(),
             _ => None,
         }
     }
