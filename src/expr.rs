@@ -317,8 +317,12 @@ impl Expr {
             if let EOp(Apply, f, _) = &**f {
                 match &**f {
                     Sym(x) => {
-                        if let (Some(x), Some(y)) = (x.precedence(), parent_op.precedence()) {
-                            if left {x > y} else {x >= y}
+                        if let (Some(px), Some(py)) = (x.precedence(), parent_op.precedence()) {
+                            if left {
+                                (x == parent_op && parent_op == &Symbol::Pow) || px > py
+                            } else {
+                                px >= py
+                            }
                         } else {true}
                     }
                     _ => true
