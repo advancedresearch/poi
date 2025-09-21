@@ -1119,6 +1119,7 @@ mul(-1) <=> neg;
 (- y)(x) <=> (x - y);
 (x / y) <=> x * reci(y);
 (/ y)(x) <=>> (x / y);
+x^(a/b) <=> (x^a)^(1/b);
 ```
 
 #### Logarithms and exponentials
