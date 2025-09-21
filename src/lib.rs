@@ -206,6 +206,8 @@
 //! At the core of Poi, there is the `Expr` structure:
 //!
 //! ```rust(ignore)
+//! use poi::*;
+//!
 //! /// Function expression.
 //! #[derive(Clone, PartialEq, Debug)]
 //! pub enum Expr {
@@ -260,6 +262,8 @@
 //! The `Knowledge` struct represents mathematical knowledge in form of rules:
 //!
 //! ```rust(ignore)
+//! use poi::{Expr, Symbol};
+//!
 //! /// Represents knowledge about symbols.
 //! pub enum Knowledge {
 //!     /// A symbol has some definition.
