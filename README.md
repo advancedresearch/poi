@@ -1,3 +1,4 @@
+
 # Poi
 a pragmatic point-free theorem prover assistant
 
@@ -204,6 +205,8 @@ The old documents can then be transformed into new versions of Poi using synthes
 At the core of Poi, there is the `Expr` structure:
 
 ```rust(ignore)
+use poi::*;
+
 /// Function expression.
 #[derive(Clone, PartialEq, Debug)]
 pub enum Expr {
@@ -258,6 +261,8 @@ knowledge.
 The `Knowledge` struct represents mathematical knowledge in form of rules:
 
 ```rust(ignore)
+use poi::{Expr, Symbol};
+
 /// Represents knowledge about symbols.
 pub enum Knowledge {
     /// A symbol has some definition.
