@@ -410,7 +410,7 @@ fn parse_alg(
             if let (Some(expr), Some(op)) = (left, op.clone()) {
                 left = Some(un(app2(op, expr, val), &mut unop));
             } else {
-                left = Some(un(val, &mut unop));
+                left = Some(val);
             }
         } else if let Ok((range, val)) = parse_alg(dirs, convert, ignored) {
             convert.update(range);
@@ -475,6 +475,12 @@ fn parse_alg(
             convert.update(range);
             ignored.push(range);
         }
+    }
+
+    if unop.is_some() {
+        left = if let Some(left) = left {
+            Some(un(left, &mut unop))
+        } else {None};
     }
 
     let left = left.ok_or(())?;
@@ -844,6 +850,25 @@ mod tests {
 
         let a: Expr = parse_str(r#"!\false"#, &[]).unwrap();
         let b: Expr = app(Not, false);
+        assert_eq!(a, b);
+
+        let a: Expr = parse_str(r#"¬\true"#, &[]).unwrap();
+        let b: Expr = app(Not, true);
+        assert_eq!(a, b);
+
+        let a: Expr = parse_str(r#"¬\false"#, &[]).unwrap();
+        let b: Expr = app(Not, false);
+        assert_eq!(a, b);
+    }
+
+    #[test]
+    fn test_pow() {
+        let a: Expr = parse_str(r#"a^b"#, &[]).unwrap();
+        let b: Expr = app2(Pow, "a", "b");
+        assert_eq!(a, b);
+
+        let a: Expr = parse_str(r#"-a^b"#, &[]).unwrap();
+        let b: Expr = app(Neg, app2(Pow, "a", "b"));
         assert_eq!(a, b);
     }
 }
